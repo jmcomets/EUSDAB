@@ -34,6 +34,10 @@ class Entity
         // Move Entity
         void move(const Vector &);
 
+        // Get/Set the action
+        Action * action() const;
+        Action * action(Action *);
+
     private:
         // Absolute position
         Vector _pos;

@@ -6,10 +6,32 @@ class Entity;
 class Action
 {
     public:
-        Action(Entity &);
-        virtual ~Action();
+        // Default constructor
+        Action();
+
+        // Value constructor
+        Action(Entity &, View &&);
+
+        // Move constructor
+        Action(Action &&);
+
+        // Copy constructor
+        Action(const Action &);
+
+        // Destructor (non virtual)
+        /* virtual */ ~Action();
+
+        // Assignment operator
+        Action & operator=(const Action &);
+
+        // Get the view
+        View & view();
+
+        // Get the entity
+        Entity & entity();
 
     private:
+        View _view;
         Entity & _entity;
 };
 
