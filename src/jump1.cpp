@@ -5,38 +5,38 @@ static const int halfJump=50;//this const permit to to know the half of a jump
 static const int jumpSpeed=100;//this const permit to regulate the height of a jump
 
 
-Jump1(&Character c):
-	CharacterState(), 
+Jump1::Jump1(&Character c):
+	CharacterState(),
 {
     _motion.x=0;
     _motion.y=jumpSpeed;
 }
 
-~Jump1()
+Jump1::~Jump1()
 {
 }
 
 void Jump1::enter()
 {
 	CharacterState::enter();
-	float x=_character.JoystickState.axisPosition(X);
-	
+	float x=_character.joystickState.axisPosition(JoystickState::Axis::X);
+
 	_motion.x=x;
     _motion.y=jumpSpeed;
-	
-	
+
+
 }
 
-void Jump1::update(const JoystickState &);
+void Jump1::update(const JoystickState & j)
 {
-	CharacterState::update();
-	float x=_character.JoystickState.axisPosition(X);
-	float y=_character.JoystickState.axisPosition(Y);
-	bool frontY=isAxisFront(Y) ;
-	
+	CharacterState::update(j);
+	float x=_character.joystickState.axisPosition(JoystickState::Axis::X);
+	float y=_character.joystickState.axisPosition(JoystickState::Axis::Y);
+	bool frontY=isAxisFront(JoystickState::Axis::Y) ;
+
 	_motion.x=x;//set the x movement value
-	
-	// direction down to break a jump 
+
+	// direction down to break a jump
 	if ((frontY)&&(y<0))
 	{
 		if (isDirection(Left))
@@ -87,7 +87,7 @@ void Jump1::update(const JoystickState &);
 	}*/
 }
 
-void Walk::leave()
+void Jump1::leave()
 {
 
 }

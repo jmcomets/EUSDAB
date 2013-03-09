@@ -2,6 +2,7 @@
 
 namespace Graphics
 {
+    typedef sf::Texture Texture;
 
     Drawable::Drawable()
     {
