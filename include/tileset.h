@@ -11,18 +11,13 @@ namespace Graphics {
     class Tileset
     {
         public:
-            explicit Tileset(std::string const &);
+            explicit Tileset(std::vector<Sprite *> lsImage, std::vector<Hitbox *> lsHitbox, framePerImage);
             explicit Tileset(Tileset const &) = delete;
             virtual ~Tileset();
 
             std::vector<Sprite *> const & lsImage() const;
             std::vector<Hitbox *> const & lsHitbox() const;
             std::time_t framePerImage() const;
-
-        protected:
-            typedef map<std::string, Tileset *> pool_type;
-
-            static pool_type s_lsTileset;
 
         private:
             std::vector<Sprite *> _lsImage;
