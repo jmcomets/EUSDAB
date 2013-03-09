@@ -4,14 +4,18 @@
 #include <vector>
 #include <string>
 
+#include "graphics.h"
+
 class Sprite;
 class Hitbox;
 
 class Tileset
 {
     public:
-        Tileset(const std::string &);
-        ~Tileset();
+        explicit Tileset(std::string const &);
+        explicit Tileset(Tileset const &) = delete;
+        virtual ~Tileset();
+
         std::vector<Sprite *> const & lsImage() const;
         std::vector<Hitbox *> const & lsHitbox() const;
         std::time_t framePerImage() const;

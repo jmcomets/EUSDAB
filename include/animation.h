@@ -6,25 +6,22 @@
 
 namespace Graphics
 {
-    typedef sf::Sprite Sprite;
-    typedef sf::Texture Texture;
+    class Animation : public Drawable
+    {
+        public:
+            explicit Animation() = delete;
+            explicit Animation(Tileset const &);
+            explicit Animation(Animation const &) = delete;
+            explicit Animation(Animation &&);
+            virtual ~Animation();
 
-class Animation : public Drawable
-{
-    public:
-        Animation();
-        Animation(std::vector<Texture *> const &);
-        Animation(Animation &&);
-        virtual ~Animation();
+        protected:
+            virtual Sprite const & sprite() const;
 
-    protected:
-        virtual Sprite const & sprite() const;
-
-    private:
-        std::vector<Sprite *> _sprites;
-        int _currentSpriteId;
-
-};
+        private:
+            Tileset const & _tileset;
+            int _currentSpriteId;
+    };
 
 }
 
