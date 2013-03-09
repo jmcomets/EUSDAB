@@ -5,6 +5,10 @@
 #define CHARACTER_STATE_H_INCLUDED_
 
 //includes
+#include "view.h"
+
+//forward declaration
+class character;
 
 class CharacterState
 {
