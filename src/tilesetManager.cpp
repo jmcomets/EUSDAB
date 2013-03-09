@@ -61,7 +61,7 @@ namespace Graphics
                     f >> x >> y;
                     lsPoint.emplace_back(Geometry::Point<int>(x, y));
                 }
-                lsHitbox.emplace_back(new Geometry::Hitbox(Geometry::Polygone<int>(lsPoint)));
+                lsHitbox.emplace_back(new Geometry::Hitbox(Geometry::Polygone<int>(lsPoint.begin(), lsPoint.end())));
             }
 
             std::string imgRaw;
