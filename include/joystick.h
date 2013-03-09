@@ -1,6 +1,10 @@
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
 
+#include <vector>
+#include <utility>
+#include <unordered_map>
+
 namespace Joystick
 {
     enum Axis
@@ -11,7 +15,7 @@ namespace Joystick
     enum Button
     {
         ButtonA, ButtonB,
-        ButtonZ, ButtonY, //ButtonX,
+        ButtonZ, ButtonY, ButtonX,
         TriggerLeft, TriggerRight,
         Other
     };
@@ -21,7 +25,7 @@ namespace Joystick
         public:
             template <typename Iterator>
                 State(unsigned int id, Iterator begin, Iterator end):
-                    _id(id), _btnConfig(begin, end)
+                    _id(id), _btnConfig(begin, end), _btnsUp()
             {
                 _btnsUp[ButtonA] = false;
                 _btnsUp[ButtonB] = false;
@@ -33,9 +37,10 @@ namespace Joystick
             }
 
             State(unsigned int);
-            State(State &&);
-            State(const State &);
-            ~State();
+            State() = delete;
+            State(State &&) = delete;
+            State(const State &) = delete;
+            ~State() = default;
             State & operator=(const State &);
             bool isConnected() const;
             bool isAxisFront(Axis) const;
@@ -55,8 +60,8 @@ namespace Joystick
     {
         public:
             System();
-            System(System &&);
-            System(const System &);
+            System(System &&) = delete;
+            System(const System &) = delete;
             ~System();
             System & operator=(const System &);
             void init();
