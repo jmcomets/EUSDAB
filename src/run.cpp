@@ -27,10 +27,10 @@ void Run::enter()
 	CharacterState::enter();
 }
 
-void Run::update(j)
+void Run::update(const JoystickState j)
 {
 	CharacterState::update();
-	if (j.axisPosition(X) * _motion.x = 0)
+	if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x = 0)
 	{
 		if (isDirection(Right))
 		{
@@ -41,7 +41,7 @@ void Run::update(j)
 			_character.state(CharacterState::IdleLeft);
 		}
 	}
-	else if (j.axisPosition(X) * _motion.x < 0)
+	else if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x < 0)
 	{
 		if(isDirection(Left))
 		{

@@ -26,10 +26,10 @@ void Walk::enter()
 	CharacterState::enter();
 }
 
-void Walk::update(j)
+void Walk::update(const JoystickId j)
 {
 	CharacterState::update();
-	if (j.axisPosition(X) * _motion.x = 0)
+	if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x = 0)
 	{
 		if (isDirection(Right))
 		{
@@ -40,7 +40,7 @@ void Walk::update(j)
 			_character.state(CharacterState::IdleLeft);
 		}
 	}
-	else if (j.axisPosition(X) * _motion.x < 0)
+	else if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x < 0)
 	{
 		// joystick dans le sens contraire, il faut changer d'etat.
 		if (isDirection(Left))
