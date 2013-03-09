@@ -3,6 +3,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <graphics.h>
+#include <joystickState.h>
 
 class Entity
 {
@@ -35,7 +36,7 @@ class Entity
         void move(const sf::Vector2f &);
 
         // Update method
-        virtual void update() = 0;
+        virtual void update(JoystickState const &) = 0;
 
         // Render method
         virtual void render(Graphics::Target &, Graphics::RenderStates) = 0;
