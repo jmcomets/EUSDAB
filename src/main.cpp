@@ -3,7 +3,7 @@
 // TODO : finir le jeu
 int main()
 {
-    Application app = Application();
+    Application app;
     app.run();
     return 0;
 }
