@@ -2,7 +2,6 @@
 #define ENTITY_H_
 
 #include <vector.h>
-#include <action.h>
 
 class Entity
 {
@@ -34,16 +33,15 @@ class Entity
         // Move Entity
         void move(const Vector &);
 
-        // Get/Set the action
-        Action * action() const;
-        Action * action(Action *);
+        // Update method
+        virtual void update() = 0;
+
+        // Render method
+        virtual void render(Graphics::Target &, Graphics::Transformation) = 0;
 
     private:
         // Absolute position
         Vector _pos;
-        
-        // Entity's state
-        Action * _current;
 };
 
 #endif // ENTITY_H_
