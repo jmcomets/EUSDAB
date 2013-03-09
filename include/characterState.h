@@ -1,7 +1,6 @@
 #ifndef CHARACTER_STATE_H_
 #define CHARACTER_STATE_H_
 
-#include <SFML/Window/Input.hpp>
 #include <view.h>
 #include <hitbox.h>
 
@@ -33,21 +32,30 @@ class CharacterState
             AerialAttackDown, AerialAttackLeft, AerialAttackRight, AerialAttackUp
         };
 
-        CharacterState(Character &);
+        enum DirectionY { Up, Down };
+        enum DirectionX { Left, Right };
+
+        CharacterState(Character &, DirectionX = Right, DirectionY = Down);
         CharacterState(CharacterState &&);
         CharacterState(const CharacterState &);
         virtual ~CharacterState();
         CharacterState & operator=(const CharacterState &);
 
-        virtual void update(const sf::Input &);
+        virtual void update();
         virtual void enter();
         virtual void leave();
+
         View & view();
+        bool isDirection(DirectionX) const;
+        bool isDirection(DirectionY) const;
 
     protected:
         Character & _character;
         View * _view;
         Hitbox * _hitbox;
+
+    private:
+        std::pair<DirectionX, DirectionY> _direction;
 };
 
 #endif // CHARACTER_STATE_H_
