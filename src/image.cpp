@@ -6,7 +6,7 @@ Image::Image()
 {
 }
 
-Image::Image(Texture const & texture);
+Image::Image(Texture const & texture)
 {
     _sprite = new Sprite(texture);
 }

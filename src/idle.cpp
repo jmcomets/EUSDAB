@@ -1,5 +1,9 @@
 #include <idle.h>
 
+#define TRIGGER_L 0
+#define TRIGGER_R 0
+
+
 Idle::Idle(Character & c):
     CharacterState(c), _delay(false)
 {
@@ -20,9 +24,9 @@ void Idle::leave()
     CharacterState::leave();
 }
 
-void Idle::update()
+void Idle::update(const JoystickState & j)
 {
-    CharacterState::update();
+    CharacterState::update(j);
 
     if (_delay)
     {
@@ -43,7 +47,7 @@ void Idle::update()
                 _character.state(CharacterState::GuardRight);
             }
         }
-        else if (sf::Joystick::getAxisPosition(joystickId, sf::Joystick::X) 
+        else if (sf::Joystick::getAxisPosition(joystickId, sf::Joystick::X)
                 || sf::Joystick::getAxisPosition(joystickId, sf::Joystick::Y))
         {
             _delay = true;
@@ -53,5 +57,4 @@ void Idle::update()
 
 void Idle::updateDelay()
 {
-#warn "Idle::updateDelay hasn't been implemented, transitions fail"
 }
