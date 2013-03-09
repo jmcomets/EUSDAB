@@ -62,9 +62,21 @@ void Jump1::update(const JoystickState & j)
 	/*else
 	{
 		_character.move(_motion);
-		if (sf::Joystick::isButtonPressed (_character.joystickId(), BUTTON_A))
+		if ((_character.joystickState.isButtonDown(TriggerLeft))
+		        ||_character.joystickState.isButtonDown(TriggerRight)
 		{
-			if (_motion.x < 0)
+			if (isDirection(Left))
+			{
+				_character.state(CharacterState::AerialDodgeLeft);
+			}
+			else
+			{
+				_character.state(CharacterState::AerialDodgeRight);
+			}
+		}
+		else if (_character.joystickState.isButtonDown(ButtonA))
+		{
+			if (isDirection(Left))
 			{
 				_character.state(CharacterState::AerialAttackLeft);
 			}
@@ -73,9 +85,9 @@ void Jump1::update(const JoystickState & j)
 				_character.state(CharacterState::AerialAttackRight);
 			}
 		}
-		else if (sf::Joystick::isButtonPressed (_character.joystickId(), BUTTON_B))
+		else if (_character.joystickState.isButtonDown(ButtonB))
 		{
-			if (_motion.x < 0)
+			if (isDirection(Left))
 			{
 				_character.state(CharacterState::AerialSpecialLeft);
 			}
