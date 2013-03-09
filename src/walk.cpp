@@ -44,7 +44,7 @@ void Walk::update()
 	else if (x * _motion.x < 0)
 	{
 		// joystick dans le sens contraire, il faut changer d'etat.
-		if (isDirection(Right))
+		if (isDirection(Left))
 		{
 			_character.state(CharacterState::WalkRight);
 		}

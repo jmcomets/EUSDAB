@@ -43,7 +43,7 @@ void Run::update()
 	}
 	else if (x * _motion.x < 0)
 	{
-		if(isDirection(Right))
+		if(isDirection(Left))
 		{
 			_character.state(CharacterState::RunRight);
 		}
