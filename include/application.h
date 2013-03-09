@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "animation.h"
+
 class Application
 {
     public:
@@ -18,6 +20,8 @@ class Application
         virtual void render();
 
         sf::RenderWindow _window;
+
+        Graphics::Animation _animation;
 };
 
 #endif

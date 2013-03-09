@@ -4,6 +4,7 @@
 #include <map>
 #include <entity.h>
 #include <characterState.h>
+#include <joystickState.h>
 
 class Character: public Entity
 {
@@ -13,12 +14,12 @@ class Character: public Entity
         Character(Character &&);
         virtual ~Character();
         Character & operator=(const Character &);
-        void update(const Input &);
+        void update(const JoystickState &);
         void render(Graphics::Target &, Graphics::RenderStates);
         void addState(CharacterState::Id, CharacterState *);
         void state(CharacterState::Id id);
 
-        std::string const & _name();
+        std::string const & name();
         void name(std::string const &);
         int damage();
         void damage(int);

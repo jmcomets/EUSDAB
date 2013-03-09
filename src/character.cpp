@@ -1,18 +1,19 @@
 #include <character.h>
+#include <stdexcept>
 
 Character::Character():
-    _currentState()
+    _currentState(), _damage(0)
 {
 }
 
-Character::~Character() : _damage(0)
+Character::~Character()
 {
 }
 
-void Character::update(const Input & input)
+void Character::update(const JoystickState & joystickState)
 {
     CharacterState * oldState = _currentState;
-    _currentState->update(input);
+    _currentState->update(joystickState);
     if (oldState != _currentState)
     {
         if (oldState != nullptr)
@@ -69,7 +70,7 @@ void Character::damage(int damage)
 
 unsigned int Character::joystickId()
 {
-    return _ joystickId;
+    return _joystickId;
 }
 
 void Character::joystickId(unsigned int joystickId)
