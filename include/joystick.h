@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <unordered_map>
+#include <functional>
 
 namespace Joystick
 {
@@ -48,11 +49,12 @@ namespace Joystick
             bool isButtonFront(Button) const;
             bool isButtonUp(Button) const;
             bool isButtonDown(Button) const;
+            unsigned int id() const;
 
         private:
             std::vector<Button> _btnConfig;
             unsigned int _id;
-            std::unordered_map<Button, bool> _btnsUp;
+            std::unordered_map<Button, bool, std::hash<int>> _btnsUp;
             std::pair<bool, bool> _axesUp;
     };
 
