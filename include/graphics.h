@@ -3,30 +3,25 @@
 
 namespace Graphics
 {
+    class Drawable:
+    {
+        public:
+            Drawable();
+            virtual ~Drawable();
 
-class Drawable:
-{
-    public:
-        Drawable();
-        virtual ~Drawable();
+            void render(Graphics::Target &, Graphics::Transformation);
 
-        void render(Graphics::Target &, Graphics::Transformation);
+        protected:
+    };
 
-    protected:
-};
+    class Target:
+    {
+        public:
+            Target();
+            virtual ~Target();
 
-class Target:
-{
-    public:
-        Target();
-        virtual ~Target();
-
-    protected:
-};
-
-
-
-
+        protected:
+    };
 }
 
 #endif
