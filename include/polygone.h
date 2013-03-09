@@ -10,7 +10,7 @@ namespace Geometry
         class Polygone
     {
         public:
-            template typename Iterator>
+            template <typename Iterator>
                 Polygone(Iterator begin, Iterator end): _lsPoint(begin, end)
             {
             }
