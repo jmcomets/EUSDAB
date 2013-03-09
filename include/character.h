@@ -5,6 +5,7 @@
 #include <entity.h>
 #include <characterState.h>
 #include <joystickState.h>
+#include <joystick>
 
 class Character: public Entity
 {
@@ -25,6 +26,8 @@ class Character: public Entity
         void damage(int);
         unsigned int joystickId();
         void joystickId(unsigned int);
+
+        Joystick::State  joystickState;
 
     private:
         CharacterState * _currentState;
