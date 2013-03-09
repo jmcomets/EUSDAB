@@ -4,7 +4,7 @@ Map::Map(Map && m) : _view(std::move(m._view))
 {
 }
 
-View Map::view()
+View & Map::view()
 {
     return _view;
 }
@@ -29,7 +29,7 @@ void Map::removeCharacter(Character * character)
     std::remove(_characters.begin(), _characters.end(), character);
 }
 
-void Map::addPlatform(Plaform * platform)
+void Map::addPlatform(Platform * platform)
 {
     _platforms.push_back(platform);
 }
