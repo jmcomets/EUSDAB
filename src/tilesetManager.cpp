@@ -43,38 +43,38 @@ namespace Graphics
         std::ifstream f(filename.c_str(), std::ios::in);
         f >> nbrFrame >> width >> height >> framePerImage >> dx >> dy;
 
-        std::vector<Hitbox *> lsHitbox;
+        std::vector<Geometry::Hitbox *> lsHitbox;
         for (std::size_t i = 0 ; i < nbrFrame ; ++i)
         {
             size_t nbrPoint;
             f >> nbrPoint;
 
-            std::vector<Point> lsPoint;
+            std::vector<Geometry::Point> lsPoint;
             lsPoint.reserve(nbrPoint);
             for (std::size_t j = 0 ; j < nbrPoint ; j++)
             {
                 int x, y;
                 f >> x >> y;
-                lsPoint.emplace_back(Point(x, y));
+                lsPoint.emplace_back(Geometry::Point(x, y));
             }
 
-            lsHitbox.emplace_back(new Hitbox(lsPoint));
+            lsHitbox.emplace_back(new Geometry::Hitbox(lsPoint));
         }
 
         std::string imgRaw;
         while(f.get(imgRaw));
 
-        std::vector<Sprite *> lsImage;
+        std::vector<Graphics::Sprite *> lsImage;
         for(std::size_t i = 0 ; i < nbrFrame ; ++i)
         {
-            Texture const * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
+            Graphics::Texture const * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
             lsImage.emplace_back(new Sprite(*tex, dx, dy));
         }
 
         f.close();
 
-        Tileset * t = new Tileset(lsImage, lsHitbox, framePerImage);
-        s_pool.inser(std::make_pair(filename, t));
+        Graphics::Tileset * t = new Graphics::Tileset(lsImage, lsHitbox, framePerImage);
+        s_pool.insert(std::make_pair(filename, t));
         return t;
     }
 }
