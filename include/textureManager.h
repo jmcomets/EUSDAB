@@ -6,7 +6,7 @@
 namespace Graphics {
     class TextureManager {
         public:
-            static TextureManager * const instance();
+            static TextureManager * instance();
 
             static Texture const * get(char const * raw, int x, int y, std::size_t width, std::size_t height);
 
@@ -18,7 +18,7 @@ namespace Graphics {
 
             typedef std::vector<Texture const *> pool_type;
 
-            static TextureManager * const s_instance;
+            static TextureManager * s_instance;
             static pool_type s_pool;
     };
 }
