@@ -8,7 +8,7 @@
 
 namespace Graphics {
     Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _framePerImage(0)
-    Tileset(std::vector<Sprite *> lsImage, std::vector<Hitbox *> lsHitbox, framePerImage) : _lsImage(lsImage), _lsHitbox(lsHitbox), _framePerImage(framePerImage)
+    Tileset(std::vector<Sprite *> lsImage, std::vector<Hitbox *> lsHitbox, std::time_t framePerImage) : _lsImage(lsImage), _lsHitbox(lsHitbox), _framePerImage(framePerImage)
     {
     }
 

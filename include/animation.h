@@ -21,7 +21,7 @@ namespace Graphics
 
         private:
             Tileset const & _tileset;
-            int _currentSpriteId;
+            long unsigned int _currentSpriteId;
     };
 
 }
