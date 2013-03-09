@@ -11,7 +11,7 @@ class Map: public Entity
     public:
 
         Map(...);
-        Map(Map &&);
+        Map(Map &&) = delete;
         virtual ~Map() { }
 
         View & view();

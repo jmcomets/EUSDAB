@@ -18,16 +18,16 @@ class View
         //View(const Vector &);
 
         // Move constructor
-        View(View &&);
+        View(View &&) = delete;
 
         // Copy constructor
-        View(const View &);
+        View(const View &) = delete;
 
         // Destructor (non virtual)
         /* virtual */ ~View();
 
         // Assignment operator
-        View & operator=(const View &);
+        View & operator=(const View &) = delete;
 
         // Observer typedef for encapsulation
         typedef ViewObserver Observer;
