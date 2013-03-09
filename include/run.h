@@ -15,8 +15,8 @@ class Run: public CharacterState
         virtual void leave();
         virtual void update(const JoystickState &);
 
-	private:
-		sf::Vector2f _motion;
+    private:
+        sf::Vector2f _motion;
 };
 
 #endif
