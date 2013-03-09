@@ -13,7 +13,7 @@ class Run: public CharacterState
         Run & operator=(const Run &);
         virtual void enter();
         virtual void leave();
-        virtual void update();
+        virtual void update(const JoystickState &);
 
 	private:
 		sf::Vector2f _motion;

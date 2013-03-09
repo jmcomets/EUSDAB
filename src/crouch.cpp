@@ -16,12 +16,10 @@ void Crouch::enter()
 	CharacterState::enter();
 }
 
-void Walk::update()
+void Walk::update(j)
 {
 	CharacterState::update();
-	float y = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::Y);
-	float x = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::X);
-	if (y > 0) //get up
+	if (j.axisPosition(Y) > 0) //get up
 	{
 		if (isDirection(Right))
 		{
@@ -34,14 +32,14 @@ void Walk::update()
 	}
 	else if (isDirection(Right))
 	{
-		if (x < 0) //joystick to the left, change direction
+		if (j.axisPosition(X) < 0) //joystick to the left, change direction
 		{
 			_character.state(CharacterState::CrouchLeft);
 		}
 	}
 	else
 	{
-		if (x > 0) //joystick to the right, change direction
+		if (j.axisPosition(X) > 0) //joystick to the right, change direction
 		{
 			_character.state(CharacterState::CrouchRight);
 		}
