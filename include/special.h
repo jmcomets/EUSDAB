@@ -7,3 +7,5 @@ class Special : public CharacterState
 {
 
 }
+
+#endif

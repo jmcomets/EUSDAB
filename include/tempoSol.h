@@ -7,3 +7,5 @@ class Marcher : public CharacterState
 {
 
 }
+
+#endif
