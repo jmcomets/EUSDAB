@@ -53,7 +53,7 @@ class CharacterState
     protected:
         Character & _character;
         View * _view;
-        Hitbox * _hitbox;
+        Geometry::Hitbox * _hitbox;
 
     private:
         std::pair<DirectionX, DirectionY> _direction;
