@@ -8,5 +8,6 @@
 
 class CharacterState
 {
-
+	character myCharacter;
+	view myView;
 }
