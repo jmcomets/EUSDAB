@@ -2,6 +2,7 @@
 #define GRAPHICS
 
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics.hpp>
 
 namespace Graphics
 {
