@@ -26,18 +26,18 @@ Entity::~Entity()
 
 }
 
-Entity::position() const
+sf::Vector2f Entity::position() const 
 {
 	sf::Vector2f truc;
 	return truc;
 }
 
-Entity::position(const sf::Vector2f &)
+void Entity::position(const sf::Vector2f &)
 {
 
 }
 
-Entity::move(const sf::Vector2f &)
+void Entity::move(const sf::Vector2f &)
 {
 
 }

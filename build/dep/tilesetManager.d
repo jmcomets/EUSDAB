@@ -1,15 +1,29 @@
-build/obj/main.o: src/main.cpp include/application.h \
+build/obj/tilesetManager.o: src/tilesetManager.cpp \
+ include/tilesetManager.h include/graphics.h \
+ lib/SFML-2.0-rc/include/SFML/Graphics/RenderTarget.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/Export.hpp \
+ lib/SFML-2.0-rc/include/SFML/Config.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/Color.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/Rect.hpp \
+ lib/SFML-2.0-rc/include/SFML/System/Vector2.hpp \
+ lib/SFML-2.0-rc/include/SFML/System/Vector2.inl \
+ lib/SFML-2.0-rc/include/SFML/Graphics/Rect.inl \
+ lib/SFML-2.0-rc/include/SFML/Graphics/View.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/Transform.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/BlendMode.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/RenderStates.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/PrimitiveType.hpp \
+ lib/SFML-2.0-rc/include/SFML/Graphics/Vertex.hpp \
+ lib/SFML-2.0-rc/include/SFML/System/NonCopyable.hpp \
+ lib/SFML-2.0-rc/include/SFML/System/Export.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics.hpp \
  lib/SFML-2.0-rc/include/SFML/Window.hpp \
  lib/SFML-2.0-rc/include/SFML/System.hpp \
- lib/SFML-2.0-rc/include/SFML/Config.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Clock.hpp \
- lib/SFML-2.0-rc/include/SFML/System/Export.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Time.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Err.hpp \
  lib/SFML-2.0-rc/include/SFML/System/InputStream.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Lock.hpp \
- lib/SFML-2.0-rc/include/SFML/System/NonCopyable.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Mutex.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Sleep.hpp \
  lib/SFML-2.0-rc/include/SFML/System/String.hpp \
@@ -20,8 +34,6 @@ build/obj/main.o: src/main.cpp include/application.h \
  lib/SFML-2.0-rc/include/SFML/System/ThreadLocalPtr.inl \
  lib/SFML-2.0-rc/include/SFML/System/Utf.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Utf.inl \
- lib/SFML-2.0-rc/include/SFML/System/Vector2.hpp \
- lib/SFML-2.0-rc/include/SFML/System/Vector2.inl \
  lib/SFML-2.0-rc/include/SFML/System/Vector3.hpp \
  lib/SFML-2.0-rc/include/SFML/System/Vector3.inl \
  lib/SFML-2.0-rc/include/SFML/Window/Context.hpp \
@@ -36,22 +48,11 @@ build/obj/main.o: src/main.cpp include/application.h \
  lib/SFML-2.0-rc/include/SFML/Window/Window.hpp \
  lib/SFML-2.0-rc/include/SFML/Window/WindowHandle.hpp \
  lib/SFML-2.0-rc/include/SFML/Window/WindowStyle.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/BlendMode.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Color.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Export.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Font.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Glyph.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Rect.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Rect.inl \
  lib/SFML-2.0-rc/include/SFML/Graphics/Texture.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Image.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/RenderStates.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Transform.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/RenderTexture.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/RenderTarget.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/View.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/PrimitiveType.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Vertex.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/RenderWindow.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Shader.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Shape.hpp \
@@ -62,6 +63,6 @@ build/obj/main.o: src/main.cpp include/application.h \
  lib/SFML-2.0-rc/include/SFML/Graphics/RectangleShape.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/ConvexShape.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Sprite.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Text.hpp include/animation.h \
- include/graphics.h include/tileset.h include/graphics.h include/hitbox.h \
- include/polygone.h include/point.h
+ lib/SFML-2.0-rc/include/SFML/Graphics/Text.hpp include/textureManager.h \
+ include/tileset.h include/hitbox.h include/polygone.h include/point.h \
+ include/hitbox.h include/point.h

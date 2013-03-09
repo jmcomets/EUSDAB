@@ -1,4 +1,4 @@
-build/obj/main.o: src/main.cpp include/application.h \
+build/obj/animation.o: src/animation.cpp include/animation.h \
  lib/SFML-2.0-rc/include/SFML/Graphics.hpp \
  lib/SFML-2.0-rc/include/SFML/Window.hpp \
  lib/SFML-2.0-rc/include/SFML/System.hpp \
@@ -62,6 +62,6 @@ build/obj/main.o: src/main.cpp include/application.h \
  lib/SFML-2.0-rc/include/SFML/Graphics/RectangleShape.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/ConvexShape.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Sprite.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Text.hpp include/animation.h \
- include/graphics.h include/tileset.h include/graphics.h include/hitbox.h \
- include/polygone.h include/point.h
+ lib/SFML-2.0-rc/include/SFML/Graphics/Text.hpp include/graphics.h \
+ include/tileset.h include/graphics.h include/hitbox.h include/polygone.h \
+ include/point.h

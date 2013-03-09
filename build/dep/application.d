@@ -62,4 +62,6 @@ build/obj/application.o: src/application.cpp include/application.h \
  lib/SFML-2.0-rc/include/SFML/Graphics/RectangleShape.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/ConvexShape.hpp \
  lib/SFML-2.0-rc/include/SFML/Graphics/Sprite.hpp \
- lib/SFML-2.0-rc/include/SFML/Graphics/Text.hpp
+ lib/SFML-2.0-rc/include/SFML/Graphics/Text.hpp include/animation.h \
+ include/graphics.h include/tileset.h include/graphics.h include/hitbox.h \
+ include/polygone.h include/point.h include/tilesetManager.h
