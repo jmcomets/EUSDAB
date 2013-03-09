@@ -53,5 +53,5 @@ void Idle::update()
 
 void Idle::updateDelay()
 {
-    // TODO: implement the delay pseudo-state
+#warn "Idle::updateDelay hasn't been implemented, transitions fail"
 }
