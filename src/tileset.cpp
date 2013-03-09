@@ -4,18 +4,17 @@
 #include "hitbox.h"
 
 namespace Graphics {
-    Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _framePerImage(0)
-    Tileset(std::vector<Sprite *> lsImage, std::vector<Hitbox *> lsHitbox, std::time_t framePerImage) : _lsImage(lsImage), _lsHitbox(lsHitbox), _framePerImage(framePerImage)
+    Tileset::Tileset(std::vector<Graphics::Sprite *> lsImg, std::vector<Geometry::Hitbox *> lsHB, std::time_t fpi) : _lsImage(lsImg), _lsHitbox(lsHB), _framePerImage(fpi)
     {
     }
 
     Tileset::~Tileset()
     {
         for (auto it : _lsImage)
-            delete *it;
+            delete it;
 
         for (auto it : _lsHitbox)
-            delete *it;
+            delete it;
     }
 
     std::vector<Sprite *> const & Tileset::lsImage() const
