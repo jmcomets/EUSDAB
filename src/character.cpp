@@ -29,6 +29,7 @@ void Character::render(Graphics::Target & target, Graphics::Transformation trans
     _currentState->view().graphics.draw(target, trans);
 }
 
-bool Character::addState(CharacterState::Id id, CharacterState * state)
+void Character::addState(CharacterState::Id id, CharacterState * state)
 {
+    _states[id] = state;
 }
