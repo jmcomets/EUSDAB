@@ -10,7 +10,7 @@ OBJDIR=./build/obj
 DEPDIR=./build/dep
 BINDIR=./bin
 
-WRNFLAGS=-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wshadow -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -W -Wunused-parameter -ansi # -Weffc++
+WRNFLAGS=-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -W -Wunused-parameter -ansi # -Weffc++ -Wshadow
 
 CXXFLAGS.release=$(WRNFLAGS) -I$(INCDIR) -I./lib/SFML-2.0-rc/include -std=c++0x
 LDFLAGS.release=-L./lib/SFML-2.0-rc/lib
