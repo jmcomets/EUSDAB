@@ -13,7 +13,7 @@ class Helpless: public CharacterState
         Helpless & operator=(const Helpless &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 };
 
 #endif

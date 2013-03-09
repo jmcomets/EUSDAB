@@ -14,7 +14,7 @@ class Walk: public CharacterState
         Walk & operator=(const Walk &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 	
 		private:
 		sf::Vector2f _motion;

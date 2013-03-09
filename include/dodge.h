@@ -13,7 +13,7 @@ class Dodge: public CharacterState
         Dodge & operator=(const Dodge &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 };
 
 #endif

@@ -13,7 +13,7 @@ class Falling: public CharacterState
         Falling & operator=(const Falling &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 };
 
 #endif
