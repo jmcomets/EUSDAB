@@ -1,19 +1,21 @@
 #include <graphics.h>
 
-using namespace Graphics
-
-Drawable::Drawable()
+namespace Graphics
 {
-}
 
-Drawable::~Drawable()
-{
-}
+    Drawable::Drawable()
+    {
+    }
 
-void Drawable::render(Target & target, RenderStates const & renderStates)
-{
-    target.draw(sprite(), renderStates);
-}
+    Drawable::~Drawable()
+    {
+    }
 
+    void Drawable::render(Target & target, RenderStates const & renderStates) const
+    {
+        target.draw(sprite(), renderStates);
+    }
+
+}
 
 

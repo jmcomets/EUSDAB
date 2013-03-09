@@ -2,12 +2,12 @@
 #include <crouch.h>
 #include <character.h>
 
-Crouch(Character &c):
+Crouch::Crouch(Character &c, DirectionX dirX, DirectionY dirY) :
 	CharacterState(c)
 {
 }
 
-~Crouch()
+Crouch::~Crouch()
 {
 }
 
@@ -16,10 +16,10 @@ void Crouch::enter()
 	CharacterState::enter();
 }
 
-void Walk::update(j)
+void Crouch::update(const JoystickState & j)
 {
-	CharacterState::update();
-	if (j.axisPosition(Y) > 0) //get up
+	CharacterState::update(j);
+	if (j.axisPosition(_character.joystickId(), JoystickState::Axis::Y) > 0) //get up
 	{
 		if (isDirection(Right))
 		{
@@ -32,14 +32,14 @@ void Walk::update(j)
 	}
 	else if (isDirection(Right))
 	{
-		if (j.axisPosition(X) < 0) //joystick to the left, change direction
+		if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) < 0) //joystick to the left, change direction
 		{
 			_character.state(CharacterState::CrouchLeft);
 		}
 	}
 	else
 	{
-		if (j.axisPosition(X) > 0) //joystick to the right, change direction
+		if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) > 0) //joystick to the right, change direction
 		{
 			_character.state(CharacterState::CrouchRight);
 		}

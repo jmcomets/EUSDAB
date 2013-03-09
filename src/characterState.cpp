@@ -10,7 +10,7 @@ void CharacterState::enter()
 {
 }
 
-void CharacterState::update()
+void update(const JoystickState &)
 {
 }
 

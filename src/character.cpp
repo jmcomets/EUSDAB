@@ -30,9 +30,9 @@ void Character::render(Graphics::Target & target, Graphics::RenderStates renderS
     //_currentState->view().graphics.draw(target, trans);
 }
 
-void Character::addState(CharacterState::Id id, CharacterState * state)
+void Character::addState(CharacterState::Id id, CharacterState * charState)
 {
-    _states[id] = state;
+    _states[id] = charState;
 }
 
 void Character::state(CharacterState::Id id)
@@ -44,7 +44,9 @@ void Character::state(CharacterState::Id id)
     }
     else
     {
-        throw std::runtime_error("State id n°: " + id + "doesn't exist for " + _name);
+        std::string e = "State id n°: ";
+        e += id + "doesn't exist for " + _name;
+        throw std::runtime_error(e);
     }
 }
 
@@ -53,9 +55,9 @@ std::string const & Character::name()
     return _name;
 }
 
-void Character::name(std::string const & name)
+void Character::name(std::string const & n)
 {
-    _name = name;
+    _name = n;
 }
 
 int Character::damage()
@@ -63,9 +65,9 @@ int Character::damage()
     return _damage;
 }
 
-void Character::damage(int damage)
+void Character::damage(int d)
 {
-    _damage = damage;
+    _damage = d;
 }
 
 unsigned int Character::joystickId()
@@ -73,8 +75,8 @@ unsigned int Character::joystickId()
     return _joystickId;
 }
 
-void Character::joystickId(unsigned int joystickId)
+void Character::joystickId(unsigned int id)
 {
-    _joystickId = joystickId;
+    _joystickId = id;
 }
 

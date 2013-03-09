@@ -16,8 +16,10 @@ namespace Graphics
             explicit Animation(Animation &&);
             virtual ~Animation();
 
+            void nextFrame();
+
         protected:
-            virtual Sprite const & sprite();
+            virtual Sprite const & sprite() const;
 
         private:
             Tileset const & _tileset;
