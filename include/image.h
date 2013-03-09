@@ -9,20 +9,20 @@ namespace Graphics
     typedef sf::Sprite Sprite;
     typedef sf::Texture Texture;
 
-class Image : public Drawable
-{
-    public:
-        Image();
-        Image(Texture const &);
-        Image(Image &&);
-        virtual ~Image();
+    class Image : public Drawable
+    {
+        public:
+            Image();
+            Image(Texture const &);
+            Image(Image &&);
+            virtual ~Image();
 
-    protected:
-        virtual Sprite const & sprite() const;
+        protected:
+            virtual Sprite const & sprite() const;
 
-    private:
-        Sprite * _sprite;
-};
+        private:
+            Sprite * _sprite;
+    };
 
 }
 
