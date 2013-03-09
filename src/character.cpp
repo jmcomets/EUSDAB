@@ -47,12 +47,12 @@ void Character::state(CharacterState::Id id)
     }
 }
 
-string const & Character::name()
+std::string const & Character::name()
 {
     return _name;
 }
 
-void Character::name(string const & name)
+void Character::name(std::string const & name)
 {
     _name = name;
 }

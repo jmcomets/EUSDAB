@@ -1,32 +1,25 @@
 #ifndef GRAPHICS
 #define GRAPHICS
 
+#include <SFML/Graphics/RenderTarget.hpp>
+
 namespace Graphics
 {
+    typedef sf::Sprite Sprite;
+    typedef sf::RenderTarget Target;
+    typedef sf::RenderStates RenderStates;
 
-class Drawable:
-{
-    public:
-        Drawable();
-        virtual ~Drawable();
+    class Drawable
+    {
+        public:
+            Drawable();
+            virtual ~Drawable();
 
-        void render(Graphics::Target &, Graphics::Transformation);
+            void render(Graphics::Target &, Graphics::RenderStates const &);
 
-    protected:
-};
-
-class Target:
-{
-    public:
-        Target();
-        virtual ~Target();
-
-    protected:
-};
-
-
-
-
+        protected:
+            virtual Graphics::Sprite const & sprite() const = 0;
+    };
 }
 
 #endif

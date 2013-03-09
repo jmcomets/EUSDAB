@@ -18,8 +18,8 @@ class Character: public Entity
         void addState(CharacterState::Id, CharacterState *);
         void state(CharacterState::Id id);
 
-        string const & _name();
-        void name(string const &);
+        std::string const & _name();
+        void name(std::string const &);
         int damage();
         void damage(int);
         unsigned int joystickId();
@@ -28,7 +28,7 @@ class Character: public Entity
     private:
         CharacterState * _currentState;
         std::map<CharacterState::Id, CharacterState *> _states;
-        string _name;
+        std::string _name;
         int _damage;
         unsigned int _joystickId;
 };
