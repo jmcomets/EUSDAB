@@ -38,6 +38,7 @@ void Application::event(sf::Event const & e)
 
 void Application::update()
 {
+    _animation.nextFrame();
 }
 
 void Application::render()
