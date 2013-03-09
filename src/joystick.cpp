@@ -47,7 +47,7 @@ namespace Joystick
 
     // Joystick::State implementation
     State::State(unsigned int id):
-        _id(id), _btnConfig(defaultConfig, defaultConfig + nbButtons)
+        _btnConfig(defaultConfig, defaultConfig + nbButtons), _id(id), _btnsUp(), _axesUp()
     {
         init();
     }

@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 Character::Character():
-    _currentState(), _damage(0), joystickState(0)
+    joystickState(0), _currentState(nullptr), _states(), _name(""), _damage(0), _joystickId(0)
 {
 }
 
@@ -24,7 +24,7 @@ void Character::update(const JoystickState & joystickState)
     }
 }
 
-void Character::render(Graphics::Target & target, Graphics::RenderStates renderStates)
+void Character::render(Graphics::Target &, Graphics::RenderStates)
 {
     //trans.translate(_position);
     //_currentState->view().graphics.draw(target, trans);
