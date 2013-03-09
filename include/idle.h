@@ -2,6 +2,7 @@
 #define IDLE_H_
 
 #include <characterState.h>
+#include <character.h>
 
 class Idle: public CharacterState
 {
