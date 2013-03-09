@@ -67,13 +67,3 @@ void Character::damage(int damage)
     _damage = damage;
 }
 
-unsigned int Character::joystickId()
-{
-    return _ joystickId;
-}
-
-void Character::joystickId(unsigned int joystickId)
-{
-    _joystickId = joystickId;
-}
-
