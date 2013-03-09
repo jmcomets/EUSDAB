@@ -2,8 +2,8 @@
 #include <walk.h>
 #include <character.h>
 
-Walk::Walk(Character &c, float speed):
-    CharacterState(c)
+Walk::Walk(Character &c, float speed, DirectionX dirX, DirectionY):
+    CharacterState(c, dirX, dirY)
 {
     if(isDirection(Right))
     {
