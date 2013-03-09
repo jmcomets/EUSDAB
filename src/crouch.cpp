@@ -19,7 +19,7 @@ void Crouch::enter()
 void Crouch::update(const JoystickState & j)
 {
 	CharacterState::update(j);
-	if (j.axisPosition(Y) > 0) //get up
+	if (j.axisPosition(_character.joystickId(), JoystickState::Axis::Y) > 0) //get up
 	{
 		if (isDirection(Right))
 		{
@@ -32,14 +32,14 @@ void Crouch::update(const JoystickState & j)
 	}
 	else if (isDirection(Right))
 	{
-		if (j.axisPosition(X) < 0) //joystick to the left, change direction
+		if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) < 0) //joystick to the left, change direction
 		{
 			_character.state(CharacterState::CrouchLeft);
 		}
 	}
 	else
 	{
-		if (j.axisPosition(X) > 0) //joystick to the right, change direction
+		if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) > 0) //joystick to the right, change direction
 		{
 			_character.state(CharacterState::CrouchRight);
 		}
