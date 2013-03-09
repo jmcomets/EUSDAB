@@ -2,7 +2,7 @@
 #include <walk.h>
 #include <character.h>
 
-Walk::Walk(Character &c, float speed, DirectionX dirX, DirectionY):
+Walk::Walk(Character &c, float speed, DirectionX dirX, DirectionY dirY):
     CharacterState(c, dirX, dirY)
 {
     if(isDirection(Right))
@@ -26,10 +26,10 @@ void Walk::enter()
     CharacterState::enter();
 }
 
-void Walk::update(const JoystickId j)
+void Walk::update(const JoystickState & j)
 {
-    CharacterState::update();
-    if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x = 0)
+    CharacterState::update(j);
+    if (_character.joystickState.axisPosition(Joystick::Axis::X) * _motion.x == 0)
     {
         if (isDirection(Right))
         {
@@ -40,7 +40,7 @@ void Walk::update(const JoystickId j)
             _character.state(CharacterState::IdleLeft);
         }
     }
-    else if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x < 0)
+    else if (_character.joystickState.axisPosition(Joystick::Axis::X) * _motion.x < 0)
     {
         // joystick dans le sens contraire, il faut changer d'etat.
         if (isDirection(Left))
