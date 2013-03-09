@@ -6,14 +6,14 @@
 class Ejected: public CharacterState
 {
     public:
-        Ejected();
+        Ejected(Character &);
         Ejected(const Ejected &);
         Ejected(Ejected &&);
         virtual ~Ejected();
         Ejected & operator=(const Ejected &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

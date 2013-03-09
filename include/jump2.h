@@ -6,14 +6,14 @@
 class Jump2: public CharacterState
 {
     public:
-        Jump2();
+        Jump2(Character &);
         Jump2(const Jump2 &);
         Jump2(Jump2 &&);
         virtual ~Jump2();
         Jump2 & operator=(const Jump2 &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

@@ -6,14 +6,14 @@
 class Special: public CharacterState
 {
     public:
-        Special();
+        Special(Character &);
         Special(const Special &);
         Special(Special &&);
         virtual ~Special();
         Special & operator=(const Special &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

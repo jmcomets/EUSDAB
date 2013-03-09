@@ -6,14 +6,14 @@
 class Crouch: public CharacterState
 {
     public:
-        Crouch();
+        Crouch(Character &);
         Crouch(const Crouch &);
         Crouch(Crouch &&);
         virtual ~Crouch();
         Crouch & operator=(const Crouch &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

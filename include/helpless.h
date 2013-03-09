@@ -6,14 +6,14 @@
 class Helpless: public CharacterState
 {
     public:
-        Helpless();
+        Helpless(Character &);
         Helpless(const Helpless &);
         Helpless(Helpless &&);
         virtual ~Helpless();
         Helpless & operator=(const Helpless &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif
