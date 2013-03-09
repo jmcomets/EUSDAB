@@ -21,10 +21,10 @@ void View::detach(Observer * obs)
 
 void View::update()
 {
-    for(auto it: _observers)
-    {
+    //for(auto it: _observers)
+    //{
         //it->update(this);
-    }
+    //}
 }
 
 
