@@ -6,14 +6,14 @@
 class Attack: public CharacterState
 {
     public:
-        Attack();
+        Attack(Character &);
         Attack(const Attack &);
         Attack(Attack &&);
         virtual ~Attack();
         Attack & operator=(const Attack &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

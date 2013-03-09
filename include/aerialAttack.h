@@ -6,14 +6,14 @@
 class AerialAttack: public CharacterState
 {
     public:
-        AerialAttack();
+        AerialAttack(Character &);
         AerialAttack(const AerialAttack &);
         AerialAttack(AerialAttack &&);
         virtual ~AerialAttack();
         AerialAttack & operator=(const AerialAttack &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

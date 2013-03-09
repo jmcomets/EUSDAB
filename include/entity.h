@@ -1,7 +1,7 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
-#include <vector.h>
+#include <SFML/System/Vector2.hpp>
 
 class Entity
 {
@@ -10,7 +10,7 @@ class Entity
         Entity();
 
         // Value constructor
-        Entity(const Vector &);
+        Entity(const sf::Vector2f &);
 
         // Move constructor
         Entity(Entity &&);
@@ -25,13 +25,13 @@ class Entity
         Entity & operator=(const Entity &);
 
         // Get position
-        Vector position() const;
+        sf::Vector2f position() const;
 
         // Set position
-        void position(const Vector &);
+        void position(const sf::Vector2f &);
 
         // Move Entity
-        void move(const Vector &);
+        void move(const sf::Vector2f &);
 
         // Update method
         virtual void update() = 0;
@@ -41,7 +41,7 @@ class Entity
 
     private:
         // Absolute position
-        Vector _pos;
+        sf::Vector2f _pos;
 };
 
 #endif // ENTITY_H_
