@@ -8,7 +8,7 @@ class Walk: public CharacterState
 {
     public:
         Walk();
-		Walk(Character &);
+		Walk(Character &, float speed);
         Walk(const Walk &);
         Walk(Walk &&);
         virtual ~Walk();
