@@ -8,6 +8,14 @@
 
 class CharacterState
 {
+	protected:
 	character myCharacter;
 	view myView;
+
+	public:
+	enum Id {};
+	view();
+	enter();
+	leave();
+	update();
 }
