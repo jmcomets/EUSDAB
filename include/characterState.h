@@ -12,17 +12,25 @@ class CharacterState
     public:
         enum Id
         {
-            AerialAttack, AerialDodge,
-            AerialHit, AerialSpecial,
-            AttackDash, Attack,
-            Character, Crouch,
-            Dodge, Ejected,
-            Entity, Falling,
-            Guard, Helpless,
-            Idle, Item,
-            Jump1, Jump2,
-            Landing, Run, Walk
-            Smash, Special,
+            IdleRight, IdleLeft,
+            WalkLeft, WalkRight,
+            AerialDodgeLeft, AerialDodgeRight,
+            AerialHitLeft, AerialHitRight,
+            CrouchLeft, CrouchRight,
+            DodgeLeft, DodgeRight,
+            EjectedLeft, EjectedRight,
+            FallingLeft, FallingRight,
+            GuardLeft, GuardRight,
+            HelplessLeft, HelplessRight,
+            Jump1Left, Jump1Right,
+            Jump2Left, Jump2Right,
+            LandingLeft, LandingRight,
+            RunLeft, RunRight,
+            SmashDown, SmashLeft, SmashRight, SmashUp,
+            SpecialDown, SpecialLeft, SpecialRight, SpecialUp,
+            AttackDown, AttackLeft, AttackRight, AttackUp,
+            AerialSpecialDown, AerialSpecialLeft, AerialSpecialRight, AerialSpecialUp,
+            AerialAttackDown, AerialAttackLeft, AerialAttackRight, AerialAttackUp
         };
 
         CharacterState(Character &);

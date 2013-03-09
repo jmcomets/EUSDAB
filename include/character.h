@@ -22,12 +22,15 @@ class Character: public Entity
         void name(string const &);
         int damage();
         void damage(int);
+        unsigned int joystickId();
+        void joystickId(unsigned int);
 
     private:
         CharacterState * _currentState;
         std::map<CharacterState::Id, CharacterState *> _states;
         string _name;
         int _damage;
+        unsigned int _joystickId;
 };
 
 #endif // CHARACTER_H_
