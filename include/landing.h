@@ -13,7 +13,7 @@ class Landing: public CharacterState
         Landing & operator=(const Landing &);
         virtual void enter();
         virtual void leave();
-        virtual void update();
+        virtual void update(const JoystickState update());
 };
 
 #endif

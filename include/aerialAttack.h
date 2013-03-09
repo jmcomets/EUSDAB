@@ -13,7 +13,7 @@ class AerialAttack: public CharacterState
         AerialAttack & operator=(const AerialAttack &);
         virtual void enter();
         virtual void leave();
-        virtual void update();
+        virtual void update(const JoystickState update());
 };
 
 #endif
