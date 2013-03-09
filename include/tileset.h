@@ -4,14 +4,17 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <ctime>
 
 #include "graphics.h"
+
+class Hitbox;
 
 namespace Graphics {
     class Tileset
     {
         public:
-            explicit Tileset(std::vector<Sprite *> lsImage, std::vector<Hitbox *> lsHitbox, framePerImage);
+            explicit Tileset(std::vector<Sprite *> lsImage, std::vector<Hitbox *> lsHitbox, std::time_t framePerImage);
             explicit Tileset(Tileset const &) = delete;
             virtual ~Tileset();
 

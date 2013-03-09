@@ -2,7 +2,7 @@
 #define CHARACTER_STATE_H_
 
 #include <view.h>
-#include <hitbox.h>
+//#include <hitbox.h>
 
 class Character;
 

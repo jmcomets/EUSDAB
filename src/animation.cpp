@@ -12,7 +12,7 @@ namespace Graphics {
     Sprite const & Animation::sprite()
     {
         _currentSpriteId %= _tileset.lsImage().size();
-        return _tileset.lsImage()[_currentSpriteId++];
+        return *_tileset.lsImage()[_currentSpriteId++];
     }
 }
 
