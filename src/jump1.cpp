@@ -5,8 +5,8 @@ static const int halfJump=50;//this const permit to to know the half of a jump
 static const int jumpSpeed=100;//this const permit to regulate the height of a jump
 
 
-Jump1::Jump1(&Character c):
-	CharacterState(),
+Jump1::Jump1(Character & c, DirectionX dirX, DirectionY dirY):
+	CharacterState(c, dirX, dirY)
 {
     _motion.x=0;
     _motion.y=jumpSpeed;
@@ -19,7 +19,7 @@ Jump1::~Jump1()
 void Jump1::enter()
 {
 	CharacterState::enter();
-	float x=_character.joystickState.axisPosition(JoystickState::Axis::X);
+	float x=_character.joystickState.axisPosition(Joystick::Axis::X);
 
 	_motion.x=x;
     _motion.y=jumpSpeed;
@@ -30,9 +30,9 @@ void Jump1::enter()
 void Jump1::update(const JoystickState & j)
 {
 	CharacterState::update(j);
-	float x=_character.joystickState.axisPosition(JoystickState::Axis::X);
-	float y=_character.joystickState.axisPosition(JoystickState::Axis::Y);
-	bool frontY=isAxisFront(JoystickState::Axis::Y) ;
+	float x=_character.joystickState.axisPosition(Joystick::Axis::X);
+	float y=_character.joystickState.axisPosition(Joystick::Axis::Y);
+	bool frontY=_character.joystickState.isAxisFront(Joystick::Axis::Y);
 
 	_motion.x=x;//set the x movement value
 
