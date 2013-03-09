@@ -1,22 +1,15 @@
 //-------------jump1.cpp
 #include <jump1.h>
 
-static const halfjump;//this const permit to
+static const int halfJump=50;//this const permit to to know the half of a jump
+static const int jumpSpeed=100;//this const permit to regulate the height of a jump
 
 
-Jump1(&Character c, float speedx, float speedy):
+Jump1(&Character c):
 	CharacterState(), 
 {
-    if(isDirection(RIGHT))
-    {
-        _motion.x = speedx;
-		_motion.y = speedy;
-    }
-    else
-    {
-        _motion.x = -speedx;
-		_motion.y = speedy;
-    }
+    _motion.x=0;
+    _motion.y=jumpSpeed;
 }
 
 ~Jump1()
@@ -26,16 +19,26 @@ Jump1(&Character c, float speedx, float speedy):
 void Jump1::enter()
 {
 	CharacterState::enter();
+	float x=_character.JoystickState.axisPosition(X);
+	
+	_motion.x=x;
+    _motion.y=jumpSpeed;
+	
+	
 }
 
-void Jump1::update()
+void Jump1::update(const JoystickState &);
 {
 	CharacterState::update();
-	float x = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::X);
-	float y = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::Y);
-	if (y < 0)
+	float x=_character.JoystickState.axisPosition(X);
+	float y=_character.JoystickState.axisPosition(Y);
+	bool frontY=isAxisFront(Y) ;
+	
+	_motion.x=x;//set the x movement value
+	
+	// direction down to break a jump 
+	if ((frontY)&&(y<0))
 	{
-		// direction down to break a jump 
 		if (isDirection(Left))
 		{
 			_character.state(CharacterState::FallingLeft);
@@ -44,10 +47,9 @@ void Jump1::update()
 		{
 			_character.state(CharacterState::FallingRight);
 		}
-	}	
+	}	// joystick in the opposite direction, need to change the state to face the opposite direction
 	else if (x*_motion.x < 0)
 	{
-		// joystick in the opposite direction, need to change the state to face the opposite direction
 		if (isDirection(Left))
 		{
 			_character.state(CharacterState::Jump1Right);
