@@ -1,23 +1,25 @@
 #include <image.h>
 
-using namespace Graphics
-
-Image::Image()
+namespace Graphics
 {
-}
 
-Image::Image(Texture const & texture)
-{
-    _sprite = new Sprite(texture);
-}
+    Image::Image()
+    {
+    }
 
-Image::~Image()
-{
-    delete _sprite;
-}
+    Image::Image(Texture const & texture)
+    {
+        _sprite = new Sprite(texture);
+    }
 
-Sprite const & Image::sprite()
-{
-    return *_sprite;
+    Image::~Image()
+    {
+        delete _sprite;
+    }
+
+    Sprite const & Image::sprite() const
+    {
+        return *_sprite;
+    }
 }
 

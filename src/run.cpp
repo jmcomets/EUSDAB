@@ -55,7 +55,7 @@ void Run::update(const JoystickState j)
 	else
 	{
 		_character.move(_motion);
-		if (j.isButtonFront(_character.joystickId(),BUTTON_A)) 
+		/*if (j.isButtonFront(_character.joystickId(),BUTTON_A)) 
 		{
 			if (isDirection(Left))
 			{
@@ -76,7 +76,7 @@ void Run::update(const JoystickState j)
 			{
 				_character.state(CharacterState::SpecialRight);
 			}
-		}
+		}*/
 	}
 }
 
