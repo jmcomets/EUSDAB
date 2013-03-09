@@ -5,7 +5,7 @@
 Run(Character &c, float speed):
 	CharacterState(c)
 {
-	if(isDirection(RIGHT))
+	if(isDirection(Right))
 	{
 		_motion.x = speed;
 		_motion.y = 0.f;
@@ -32,7 +32,7 @@ void Run::update()
 	float x = sf::JoystickgetAxisposition(_character.joystickId(), sf::Joystick::X);
 	if (x * _motion.x = 0)
 	{
-		if (isDirection(RIGHT))
+		if (isDirection(Right))
 		{
 			_character.state(CharacterState::IdleRight);
 		}
@@ -43,7 +43,7 @@ void Run::update()
 	}
 	else if (x * _motion.x < 0)
 	{
-		if(isDirection(RIGHT))
+		if(isDirection(Right))
 		{
 			_character.state(CharacterState::RunRight);
 		}
@@ -57,7 +57,7 @@ void Run::update()
 		_character.move(_motion);
 		if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_A))
 		{
-			if (isDirection(LEFT))
+			if (isDirection(Left))
 			{
 				_character.state(CharacterState::AttackLeft);
 			}
@@ -68,7 +68,7 @@ void Run::update()
 		}
 		else if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_B))
 		{
-			if (isDirection(LEFT))
+			if (isDirection(Left))
 			{
 				_character.state(CharacterState::SpecialLeft);
 			}
