@@ -3,62 +3,66 @@
 #include <fstream>
 
 #include "textureManager.h"
-#include "sprite.h"
 #include "hitbox.h"
 #include "point.h"
 
-Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _framePerImage(0)
-{
-    size_t nbrFrame;
-    size_t width;
-    size_t height;
-    int dx;
-    int dy;
+namespace Graphics {
+    Tileset::pool_type s_lsTileset = Tileset::pool_type();
 
-    std::ifstream f(filename.c_str(), std::ios::in);
-    f >> nbrFrame >> width >> height >> _framePerImage >> dx >> dy;
-    for (std::size_t i = 0 ; i < nbrFrame ; ++i)
+    Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _framePerImage(0)
     {
-        size_t nbrPoint;
-        f >> nbrPoint;
+        size_t nbrFrame;
+        size_t width;
+        size_t height;
+        int dx;
+        int dy;
 
-        std::vector<Point> lsPoint;
-        lsPoint.reserve(nbrPoint);
-        for (std::size_t j = 0 ; j < nbrPoint ; j++)
+        std::ifstream f(filename.c_str(), std::ios::in);
+        f >> nbrFrame >> width >> height >> _framePerImage >> dx >> dy;
+        for (std::size_t i = 0 ; i < nbrFrame ; ++i)
         {
-            int x, y;
-            f >> x >> y;
-            lsPoint.emplace_back(Point(x, y));
+            size_t nbrPoint;
+            f >> nbrPoint;
+
+            std::vector<Point> lsPoint;
+            lsPoint.reserve(nbrPoint);
+            for (std::size_t j = 0 ; j < nbrPoint ; j++)
+            {
+                int x, y;
+                f >> x >> y;
+                lsPoint.emplace_back(Point(x, y));
+            }
         }
+
+        std::string imgRaw;
+        while(f.get(imgRaw));
+
+        for(std::size_t i = 0 ; i < nbrFrame ; ++i)
+        {
+            Texture const * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
+            _lsImage.emplace_back(new Sprite(*tex, dx, dy));
+        }
+
+        f.close();
     }
 
-    std::string imgRaw;
-    while(f.get(imgRaw));
-
-    for(std::size_t i = 0 ; i < nbrFrame ; ++i)
+    Tileset::~Tileset()
     {
-        const Texture * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
-        _lsImage.emplace_back(new Sprite(tex, dx, dy));
+        for (auto it : _lsImage)
+            delete *it;
+
+        for (auto it : _lsHitbox)
+            delete *it;
     }
 
-    f.close();
-}
-
-Tileset::~Tileset()
-{
-    for (auto it : _lsImage)
+    std::vector<Sprite *> const & Tileset::lsImage() const
     {
-        delete *it;
+        return _lsImage;
     }
-}
 
-std::vector<Sprite *> const & Tileset::lsImage() const
-{
-    return _lsImage;
-}
-
-std::time_t Tileset::framePerImage() const
-{
-    return _framePerImage;
+    std::time_t Tileset::framePerImage() const
+    {
+        return _framePerImage;
+    }
 }
 

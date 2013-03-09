@@ -1,8 +1,8 @@
-//-------------walk.cpp
-#include <walk.h>
+//-----------------run.cpp
+#include <run.h>
 #include <character.h>
 
-Walk(Character &c, float speed):
+Run(Character &c, float speed):
 	CharacterState(c)
 {
 	if(isDirection(Right))
@@ -17,19 +17,19 @@ Walk(Character &c, float speed):
 	}
 }
 
-~Walk()
+~Run()
 {
 }
 
-void Walk::enter()
+void Run::enter()
 {
 	CharacterState::enter();
 }
 
-void Walk::update()
+void Run::update()
 {
 	CharacterState::update();
-	float x = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::X);
+	float x = sf::JoystickgetAxisposition(_character.joystickId(), sf::Joystick::X);
 	if (x * _motion.x = 0)
 	{
 		if (isDirection(Right))
@@ -43,14 +43,13 @@ void Walk::update()
 	}
 	else if (x * _motion.x < 0)
 	{
-		// joystick dans le sens contraire, il faut changer d'etat.
-		if (isDirection(Right))
+		if(isDirection(Right))
 		{
-			_character.state(CharacterState::WalkRight);
+			_character.state(CharacterState::RunRight);
 		}
 		else
 		{
-			_character.state(CharacterState::WalkLeft);
+			_character.state(CharacterState::RunLeft);
 		}
 	}
 	else
@@ -81,7 +80,6 @@ void Walk::update()
 	}
 }
 
-void Walk::leave()
+void Run::leave()
 {
-
 }

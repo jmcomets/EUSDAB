@@ -6,7 +6,7 @@
 class Crouch: public CharacterState
 {
     public:
-        Crouch(Character &);
+        Crouch(Character &, directionX, directionY);
         Crouch(const Crouch &);
         Crouch(Crouch &&);
         virtual ~Crouch();
