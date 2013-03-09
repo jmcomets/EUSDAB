@@ -14,7 +14,7 @@ class Character: public Entity
         virtual ~Character();
         Character & operator=(const Character &);
         void update(const Input &);
-        void render(Graphics::Target &, Graphics::Transformation);
+        void render(Graphics::Target &, Graphics::RenderStates);
         void addState(CharacterState::Id, CharacterState *);
         void state(CharacterState::Id id);
 

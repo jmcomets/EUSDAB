@@ -2,6 +2,7 @@
 #define ENTITY_H_
 
 #include <SFML/System/Vector2.hpp>
+#include <graphics.h>
 
 class Entity
 {
@@ -37,7 +38,7 @@ class Entity
         virtual void update() = 0;
 
         // Render method
-        virtual void render(Graphics::Target &, Graphics::Transformation) = 0;
+        virtual void render(Graphics::Target &, Graphics::RenderStates) = 0;
 
     private:
         // Absolute position

@@ -23,10 +23,10 @@ void Character::update(const Input & input)
     }
 }
 
-void Character::render(Graphics::Target & target, Graphics::Transformation trans)
+void Character::render(Graphics::Target & target, Graphics::RenderStates renderStates)
 {
-    trans.translate(_position);
-    _currentState->view().graphics.draw(target, trans);
+    //trans.translate(_position);
+    //_currentState->view().graphics.draw(target, trans);
 }
 
 void Character::addState(CharacterState::Id id, CharacterState * state)
