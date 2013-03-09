@@ -14,9 +14,9 @@ namespace Graphics
         public:
             virtual ~TilesetManager();
 
-            TilesetManager * instance();
+            static TilesetManager * instance();
 
-            Tileset const * get(std::string const & filename);
+            static Tileset const * get(std::string const & filename);
 
         protected:
             static TilesetManager * s_instance;

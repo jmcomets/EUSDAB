@@ -16,7 +16,7 @@ namespace Graphics
             Drawable();
             virtual ~Drawable();
 
-            void render(Graphics::Target &, Graphics::RenderStates const &);
+            void render(Graphics::Target &, Graphics::RenderStates const & = RenderStates::Default);
 
         protected:
             virtual Graphics::Sprite const & sprite() = 0;
