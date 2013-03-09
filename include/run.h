@@ -6,7 +6,7 @@
 class Run: public CharacterState
 {
     public:
-        Run(Character &, float speed, directionX, directionY);
+        Run(Character &, float speed, DirectionX, DirectionY);
         Run(const Run &);
         Run(Run &&);
         virtual ~Run();

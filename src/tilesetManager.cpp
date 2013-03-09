@@ -68,7 +68,7 @@ namespace Graphics
         std::vector<Graphics::Sprite *> lsImage;
         for(std::size_t i = 0 ; i < nbrFrame ; ++i)
         {
-            Graphics::Texture const * tex = Graphics::TextureManager::get(imgRaw.c_str(), 0, static_cast<int>(i * height), width, height);
+            Graphics::Texture const * tex = Graphics::TextureManager::get(imgRaw.c_str(), imgRaw.size(), 0, static_cast<int>(i * height), width, height);
             lsImage.emplace_back(new Sprite(*tex));
             lsImage.back()->setPosition(static_cast<float>(dx), static_cast<float>(dy));
         }

@@ -8,7 +8,7 @@ namespace Graphics {
         public:
             static TextureManager * instance();
 
-            static Texture const * get(char const * raw, int x, int y, std::size_t width, std::size_t height);
+            static Texture const * get(char const * raw, std::size_t size, int x, int y, std::size_t width, std::size_t height);
 
             virtual ~TextureManager();
 
