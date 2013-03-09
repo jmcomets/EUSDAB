@@ -1,6 +1,9 @@
 #ifndef VIEW_H_
 #define VIEW_H_
 
+#include <set>
+#include <sound.h>
+
 // TODO: define this class' interface in a seperate file
 class ViewObserver {};
 
@@ -11,7 +14,7 @@ class View
         View();
 
         // Value constructor
-        View(const Vector &);
+        //View(const Vector &);
 
         // Move constructor
         View(View &&);
@@ -37,7 +40,7 @@ class View
 
         // View components
         Graphics::Drawable * graphics;
-        Sound::Playable * sound;
+        //Sound::Playable * sound;
 
     private:
         std::set<Observer *> _observers;

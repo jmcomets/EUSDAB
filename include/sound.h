@@ -1,0 +1,6 @@
+namespace Playable
+{
+    class Sound
+    {
+    };
+}
