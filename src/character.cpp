@@ -44,7 +44,9 @@ void Character::state(CharacterState::Id id)
     }
     else
     {
-        throw std::runtime_error("State id n°: " + id + "doesn't exist for " + _name);
+        std::string e = "State id n°: ";
+        e += id + "doesn't exist for " + _name;
+        throw std::runtime_error(e);
     }
 }
 

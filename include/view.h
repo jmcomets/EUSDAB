@@ -3,6 +3,7 @@
 
 #include <set>
 #include <sound.h>
+#include <graphics.h>
 
 // TODO: define this class' interface in a seperate file
 class ViewObserver {};
