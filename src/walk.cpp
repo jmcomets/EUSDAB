@@ -3,8 +3,18 @@
 #include <character.h>
 
 Walk(Character &c, float speed):
-	CharacterState(c),  _motion(speed, 0)
+	CharacterState(c)
 {
+	if(isDirection(RIGHT))
+	{
+		_motion.x = speed;
+		_motion.y = 0.f;
+	}
+	else
+	{
+		_motion.x = -speed;
+		_motion.y = 0.f;
+	}
 }
 
 ~Walk()
@@ -22,7 +32,7 @@ void Walk::update()
 	float x = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::X);
 	if (x * _motion.x = 0)
 	{
-		if (_motion.x > 0)
+		if (isDirection(RIGHT))
 		{
 			_character.state(CharacterState::IdleRight);
 		}
@@ -34,7 +44,7 @@ void Walk::update()
 	else if (x * _motion.x < 0)
 	{
 		// joystick dans le sens contraire, il faut changer d'etat.
-		if (_motion.x < 0)
+		if (isDirection(RIGHT))
 		{
 			_character.state(CharacterState::WalkRight);
 		}
@@ -48,7 +58,7 @@ void Walk::update()
 		_character.move(_motion);
 		if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_A))
 		{
-			if (_motion.x < 0)
+			if (isDirection(LEFT))
 			{
 				_character.state(CharacterState::AttackLeft);
 			}
@@ -59,7 +69,7 @@ void Walk::update()
 		}
 		else if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_B))
 		{
-			if (_motion.x < 0)
+			if (isDirection(LEFT))
 			{
 				_character.state(CharacterState::SpecialLeft);
 			}
