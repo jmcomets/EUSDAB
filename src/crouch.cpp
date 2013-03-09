@@ -1,8 +1,7 @@
-//-----------------------crouch.cpp
 #include <crouch.h>
 #include <character.h>
 
-Crouch::Crouch(Character &c, DirectionX dirX, DirectionY dirY) :
+Crouch::Crouch(Character & c, DirectionX dirX, DirectionY dirY):
     CharacterState(c, dirX, dirY)
 {
 }
@@ -16,10 +15,11 @@ void Crouch::enter()
     CharacterState::enter();
 }
 
-void Crouch::update(const JoystickState & j)
+void Crouch::update()
 {
-    CharacterState::update(j);
-    if (_character.joystickState.axisPosition(Joystick::Axis::Y) > 0) //get up
+    CharacterState::update();
+    const Joystick::State & j = _character.joystickState();
+    if (j.axisPosition(Joystick::Y) > 0) // get up
     {
         if (isDirection(Right))
         {
@@ -32,14 +32,14 @@ void Crouch::update(const JoystickState & j)
     }
     else if (isDirection(Right))
     {
-        if (_character.joystickState.axisPosition(Joystick::Axis::X) < 0) //joystick to the left, change direction
+        if (j.axisPosition(Joystick::X) < 0) // joystick to the left, change direction
         {
             _character.state(CharacterState::CrouchLeft);
         }
     }
     else
     {
-        if (_character.joystickState.axisPosition(Joystick::Axis::X) > 0) //joystick to the right, change direction
+        if (j.axisPosition(Joystick::X) > 0) // joystick to the right, change direction
         {
             _character.state(CharacterState::CrouchRight);
         }
@@ -48,4 +48,5 @@ void Crouch::update(const JoystickState & j)
 
 void Crouch::leave()
 {
+    CharacterState::leave();
 }

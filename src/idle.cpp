@@ -1,9 +1,5 @@
 #include <idle.h>
 
-#define TRIGGER_L 0
-#define TRIGGER_R 0
-
-
 Idle::Idle(Character & c):
     CharacterState(c), _delay(false)
 {
@@ -24,9 +20,9 @@ void Idle::leave()
     CharacterState::leave();
 }
 
-void Idle::update(const JoystickState & j)
+void Idle::update()
 {
-    CharacterState::update(j);
+    CharacterState::update();
 
     if (_delay)
     {
@@ -34,9 +30,9 @@ void Idle::update(const JoystickState & j)
     }
     else
     {
-        unsigned int joystickId = _character.joystickId();
-        if (sf::Joystick::isButtonPressed(joystickId, TRIGGER_L)
-                || sf::Joystick::isButtonPressed(joystickId, TRIGGER_L))
+        const Joystick::State & j = _character.joystickState();
+        if (j.isButtonFront(Joystick::TriggerRight)
+                || j.isButtonFront(Joystick::TriggerLeft))
         {
             if (isDirection(Left))
             {
@@ -47,8 +43,7 @@ void Idle::update(const JoystickState & j)
                 _character.state(CharacterState::GuardRight);
             }
         }
-        else if (sf::Joystick::getAxisPosition(joystickId, sf::Joystick::X)
-                || sf::Joystick::getAxisPosition(joystickId, sf::Joystick::Y))
+        else if (j.axisPosition(Joystick::X) || j.axisPosition(Joystick::Y))
         {
             _delay = true;
         }
@@ -57,4 +52,5 @@ void Idle::update(const JoystickState & j)
 
 void Idle::updateDelay()
 {
+    // TODO
 }

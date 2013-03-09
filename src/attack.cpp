@@ -1,4 +1,3 @@
-//-----------------attack.cpp
 #include <attack.h>
 
 Attack::Attack(Character & c, DirectionX dirX, DirectionY dirY, const unsigned int duration):
@@ -16,9 +15,9 @@ void Attack::enter()
 	CharacterState::enter();
 }
 
-void Attack::update(const JoystickState & j)
+void Attack::update()
 {
-	CharacterState::update(j);
+	CharacterState::update();
 	if (--countdown == 0)
 	{
 		if(isDirection(Right))
@@ -34,4 +33,5 @@ void Attack::update(const JoystickState & j)
 
 void Attack::leave()
 {
+	CharacterState::leave();
 }

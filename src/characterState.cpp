@@ -1,7 +1,8 @@
 #include <characterState.h>
 #include <character.h>
 
-CharacterState::CharacterState(Character & c, DirectionX dirX, DirectionY dirY) : _character(c), _direction(dirX, dirY)
+CharacterState::CharacterState(Character & c, DirectionX dirX, DirectionY dirY):
+    _character(c), _direction(dirX, dirY)
 {
 }
 
@@ -14,7 +15,7 @@ void CharacterState::enter()
 {
 }
 
-void update(const JoystickState &)
+void update()
 {
 }
 

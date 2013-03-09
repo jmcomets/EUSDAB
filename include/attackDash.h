@@ -13,7 +13,7 @@ class AttackDash: public CharacterState
         AttackDash & operator=(const AttackDash &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState &);
+        virtual void update();
 };
 
 #endif

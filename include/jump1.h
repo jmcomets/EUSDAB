@@ -14,7 +14,7 @@ class Jump1: public CharacterState
         Jump1 & operator=(const Jump1 &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState &);
+        virtual void update();
 
     private:
 		sf::Vector2f _motion;

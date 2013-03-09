@@ -11,7 +11,7 @@ View::~View()
 
 void View::attach(Observer * obs)
 {
-    _observers.push_back(obs);
+    _observers.insert(obs);
 }
 
 void View::detach(Observer * obs)

@@ -2,7 +2,9 @@
 #include <stdexcept>
 
 Character::Character():
-    joystickState(0), _currentState(nullptr), _states(), _name(""), _damage(0), _joystickId(0)
+    Entity(),
+    _joystickState(0), _currentState(nullptr), 
+    _states(), _name(), _damage(0)
 {
 }
 
@@ -10,10 +12,10 @@ Character::~Character()
 {
 }
 
-void Character::update(const JoystickState & joystickState)
+void Character::update()
 {
     CharacterState * oldState = _currentState;
-    _currentState->update(joystickState);
+    _currentState->update();
     if (oldState != _currentState)
     {
         if (oldState != nullptr)
@@ -30,7 +32,7 @@ void Character::render(Graphics::Target &, Graphics::RenderStates)
     //_currentState->view().graphics.draw(target, trans);
 }
 
-void Character::addState(CharacterState::Id id, CharacterState * charState)
+inline void Character::addState(CharacterState::Id id, CharacterState * charState)
 {
     _states[id] = charState;
 }
@@ -50,33 +52,27 @@ void Character::state(CharacterState::Id id)
     }
 }
 
-std::string const & Character::name()
+inline std::string const & Character::name()
 {
     return _name;
 }
 
-void Character::name(std::string const & n)
+inline void Character::name(std::string const & n)
 {
     _name = n;
 }
 
-int Character::damage()
+inline int Character::damage()
 {
     return _damage;
 }
 
-void Character::damage(int d)
+inline void Character::damage(int d)
 {
     _damage = d;
 }
 
-unsigned int Character::joystickId()
+inline const Joystick::State & Character::joystickState() const
 {
-    return _joystickId;
+    return _joystickState;
 }
-
-void Character::joystickId(unsigned int id)
-{
-    _joystickId = id;
-}
-

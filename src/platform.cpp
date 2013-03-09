@@ -4,17 +4,17 @@ Platform::Platform()
 {
 }
 
-std::string const & Platform::name()
+const std::string & Platform::name()
 {
     return _name;
 }
 
-void Platform::name(std::string const & name)
+void Platform::name(const std::string & name)
 {
     _name = name;
 }
 
-View const & Platform::view()
+const View & Platform::view()
 {
     return _view;
 }

@@ -13,7 +13,7 @@ class AerialDodge: public CharacterState
         AerialDodge & operator=(const AerialDodge &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState &);
+        virtual void update();
 };
 
 #endif

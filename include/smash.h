@@ -14,7 +14,8 @@ class Smash: public CharacterState
         Smash & operator=(const Smash &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState &);
+        virtual void update();
+
 	private:
 		unsigned int countdown;
 };

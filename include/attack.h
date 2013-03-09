@@ -14,7 +14,8 @@ class Attack: public CharacterState
         Attack & operator=(const Attack &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState &);
+        virtual void update();
+
 	private:
 		unsigned int countdown;
 };

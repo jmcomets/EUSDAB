@@ -1,7 +1,5 @@
-//-----------------run.cpp
 #include <run.h>
 #include <character.h>
-#include <joystickState.h>
 
 Run::Run(Character & c, float speed, DirectionX dirX, DirectionY dirY) :
     CharacterState(c, dirX, dirY)
@@ -27,10 +25,11 @@ void Run::enter()
     CharacterState::enter();
 }
 
-void Run::update(const JoystickState & j)
+void Run::update()
 {
-    CharacterState::update(j);
-    if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x == 0)
+    CharacterState::update();
+    const Joystick::State & j = _character.joystickState();
+    if (j.axisPosition(Joystick::X) * _motion.x == 0)
     {
         if (isDirection(Right))
         {
@@ -41,9 +40,9 @@ void Run::update(const JoystickState & j)
             _character.state(CharacterState::IdleLeft);
         }
     }
-    else if (j.axisPosition(_character.joystickId(), JoystickState::Axis::X) * _motion.x < 0)
+    else if (j.axisPosition(Joystick::X) * _motion.x < 0)
     {
-        if(isDirection(Left))
+        if (isDirection(Left))
         {
             _character.state(CharacterState::RunRight);
         }
@@ -55,7 +54,7 @@ void Run::update(const JoystickState & j)
     else
     {
         _character.move(_motion);
-        /*if (j.isButtonFront(_character.joystickId(),BUTTON_A)) 
+        /*if (j.isButtonFront(Joystick::ButtonA)) 
         {
             if (isDirection(Left))
             {
@@ -66,7 +65,7 @@ void Run::update(const JoystickState & j)
                 _character.state(CharacterState::AttackRight);
             }
         }
-        else if (j.isButtonFront(_character.joystickId(), BUTTON_B))
+        else if (j.isButtonFront(Joystick::ButtonB))
         {
             if (isDirection(Left))
             {

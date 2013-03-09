@@ -1,4 +1,3 @@
-//-----------------------smash.cpp
 #include <smash.h>
 
 Smash::Smash(Character & c, DirectionX dirX, DirectionY dirY, const unsigned int duration):
@@ -16,12 +15,12 @@ void Smash::enter()
 	CharacterState::enter();
 }
 
-void Smash::update(const JoystickState & j)
+void Smash::update()
 {
-	CharacterState::update(j);
+	CharacterState::update();
 	if (--countdown == 0)
 	{
-		if(isDirection(Right))
+		if (isDirection(Right))
 		{
 			_character.state(IdleRight);
 		}

@@ -3,7 +3,7 @@
 
 #include <view.h>
 #include <hitbox.h>
-#include <joystickState.h>
+#include <joystick.h>
 
 class Character;
 
@@ -42,7 +42,7 @@ class CharacterState
         virtual ~CharacterState();
         CharacterState & operator=(const CharacterState &);
 
-        virtual void update(const JoystickState &);
+        virtual void update();
         virtual void enter();
         virtual void leave();
 
