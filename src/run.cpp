@@ -1,6 +1,7 @@
 //-----------------run.cpp
 #include <run.h>
 #include <character.h>
+#include <joystickState.h>
 
 Run(Character &c, float speed):
 	CharacterState(c)
@@ -26,11 +27,10 @@ void Run::enter()
 	CharacterState::enter();
 }
 
-void Run::update()
+void Run::update(j)
 {
 	CharacterState::update();
-	float x = sf::JoystickgetAxisposition(_character.joystickId(), sf::Joystick::X);
-	if (x * _motion.x = 0)
+	if (j.axisPosition(X) * _motion.x = 0)
 	{
 		if (isDirection(Right))
 		{
@@ -41,7 +41,7 @@ void Run::update()
 			_character.state(CharacterState::IdleLeft);
 		}
 	}
-	else if (x * _motion.x < 0)
+	else if (j.axisPosition(X) * _motion.x < 0)
 	{
 		if(isDirection(Left))
 		{
@@ -55,7 +55,7 @@ void Run::update()
 	else
 	{
 		_character.move(_motion);
-		if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_A))
+		if (j.isButtonFront(_character.joystickId(),BUTTON_A)) 
 		{
 			if (isDirection(Left))
 			{
@@ -66,7 +66,7 @@ void Run::update()
 				_character.state(CharacterState::AttackRight);
 			}
 		}
-		else if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_B))
+		else if (j.isButtonFront(_character.joystickId(), BUTTON_B))
 		{
 			if (isDirection(Left))
 			{
