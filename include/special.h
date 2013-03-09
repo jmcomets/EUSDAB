@@ -13,7 +13,7 @@ class Special: public CharacterState
         Special & operator=(const Special &);
         virtual void enter();
         virtual void leave();
-        virtual void update();
+        virtual void update(const JoystickState update());
 };
 
 #endif

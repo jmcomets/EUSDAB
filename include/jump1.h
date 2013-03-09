@@ -13,7 +13,7 @@ class Jump1: public CharacterState
         Jump1 & operator=(const Jump1 &);
         virtual void enter();
         virtual void leave();
-        virtual void update();
+        virtual void update(const JoystickState update());
 };
 
 #endif
