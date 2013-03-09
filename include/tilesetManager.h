@@ -3,8 +3,12 @@
 
 #include "graphics.h"
 
+#include <map>
+
 namespace Graphics
 {
+    class Tileset;
+
     class TilesetManager
     {
         public:
