@@ -2,7 +2,7 @@
 #define IMAGE_H
 
 #include <SFML/Graphics.hpp>
-#include <drawable.h>
+#include <graphics.h>
 
 namespace Graphics
 {

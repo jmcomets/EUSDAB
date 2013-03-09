@@ -10,22 +10,22 @@ OBJDIR=./build/obj
 DEPDIR=./build/dep
 BINDIR=./bin
 
-WRNFLAGS=-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -W -Wunused-parameter -ansi
+WRNFLAGS=-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wshadow -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -W -Wunused-parameter -ansi # -Weffc++
 
-CXXFLAGS.release=$(WRNFLAGS) -I./lib/SFML-2.0-rc/lib
-LDFLAGS.release=-L$(INCDIR) -L./lib/SFML-2.0-rc/include
-LDLIBS.release=-lsfml_system lsfml-window -lsfml-graphics
+CXXFLAGS.release=$(WRNFLAGS) -I$(INCDIR) -I./lib/SFML-2.0-rc/include
+LDFLAGS.release=-L./lib/SFML-2.0-rc/lib
+LDLIBS.release=-lsfml-graphics -lsfml-window -lsfml-system
 
-CXXFLAGS.debug=$(WRNFLAGS) -I./lib/SFML-2.0-rc/lib
-LDFLAGS.debug=-L$(INCDIR) -L./lib/SFML-2.0-rc/include
-LDLIBS.debug=-lsfml_system lsfml-window -lsfml-graphics
+CXXFLAGS.debug=$(WRNFLAGS) -I$(INCDIR) -I./lib/SFML-2.0-rc/include
+LDFLAGS.debug=-L./lib/SFML-2.0-rc/lib
+LDLIBS.debug=-lsfml-graphics -lsfml-window -lsfml-system
 
 PROD=release
 
 CXXFLAGS=$(CXXFLAGS.$(PROD))
 LDFLAGS=$(LDFLAGS.$(PROD))
 LDLIBS=$(LDLIBS.$(PROD))
-OUTPUT_OPTION=-MMD -MF $(DEPDIR)
+OUTPUT_OPTION=-MMD
 
 SOURCES=$(wildcard $(SRCDIR)/*.cpp)
 HEADERS=$(wildcard $(INCDIR)/*.h)
@@ -45,10 +45,13 @@ all:$(TARGET)
 .PHONY:all $(CLEAN) $(RUN) $(MRPROPER)
 
 $(RUN):$(TARGET)
-	./$(TARGET)
+	export LD_LIBRARY_PATH=./lib/SFML-2.0-rc/lib && ./$(TARGET)
 
 $(TARGET):$(OBJECTS)
-	$(LINK.cpp) -o $^ $(LDLIBS)
+	$(LINK.cpp) $^ $(LDLIBS) -o $@
+
+$(OBJDIR)/%.o:$(SRCDIR)/%.cpp
+	$(COMPILE.cpp) $< $(OUTPUT_OPTION) -MF $(DEPDIR)/$*.d -o $@
 
 $(CLEAN):
 	$(RM) $(OBJECTS) $(DEPENDS)
