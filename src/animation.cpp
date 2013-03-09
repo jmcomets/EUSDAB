@@ -1,26 +1,18 @@
 #include <animation.h>
 
-using namespace Graphics
-
-Animation::Animation(std::vector<Texture *> const & textures) : _currentSpriteId(0)
-{
-    for(auto it : textures)
+namespace Graphics {
+    Animation::Animation(Tilerset const & tileset) : _tileset(tileset), _currentSpriteId(0)
     {
-        _sprites.push_back(new Sprite(**it));
     }
-}
 
-Animation::~Animation()
-{
-    for(auto it : _sprites)
+    Animation::~Animation()
     {
-        delete *it;
     }
-}
 
-Sprite const & Animation::sprite() const
-{
-    _currentSpriteId %= _sprites.size();
-    return *_sprite[_currentSpriteId++];
+    Sprite const & Animation::sprite() const
+    {
+        _currentSpriteId %= _tileset.lsImage().size();
+        return _tileset.lsImage()[_currentSpriteId++];
+    }
 }
 

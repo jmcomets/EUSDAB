@@ -37,8 +37,8 @@ Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _frame
 
     for(std::size_t i = 0 ; i < nbrFrame ; ++i)
     {
-        const Texture * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
-        _lsImage.emplace_back(new Sprite(tex, dx, dy));
+        Texture const * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
+        _lsImage.emplace_back(new Sprite(*tex, dx, dy));
     }
 
     f.close();
@@ -47,9 +47,10 @@ Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _frame
 Tileset::~Tileset()
 {
     for (auto it : _lsImage)
-    {
         delete *it;
-    }
+
+    for (auto it : _lsHitbox)
+        delete *it;
 }
 
 std::vector<Sprite *> const & Tileset::lsImage() const

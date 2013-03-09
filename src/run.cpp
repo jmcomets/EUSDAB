@@ -3,8 +3,18 @@
 #include <character.h>
 
 Run(Character &c, float speed):
-	CharacterState(c), _motion(speed, 0)
+	CharacterState(c)
 {
+	if(isDirection(RIGHT))
+	{
+		_motion.x = speed;
+		_motion.y = 0.f;
+	}
+	else
+	{
+		_motion.x = -speed;
+		_motion.y = 0.f;
+	}
 }
 
 ~Run()
@@ -22,7 +32,7 @@ void Run::update()
 	float x = sf::JoystickgetAxisposition(_character.joystickId(), sf::Joystick::X);
 	if (x * _motion.x = 0)
 	{
-		if (_motion.x > 0 )
+		if (isDirection(RIGHT))
 		{
 			_character.state(CharacterState::IdleRight);
 		}
@@ -33,7 +43,7 @@ void Run::update()
 	}
 	else if (x * _motion.x < 0)
 	{
-		if(_motion.x < 0)
+		if(isDirection(RIGHT))
 		{
 			_character.state(CharacterState::RunRight);
 		}
@@ -47,7 +57,7 @@ void Run::update()
 		_character.move(_motion);
 		if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_A))
 		{
-			if (_motion.x < 0)
+			if (isDirection(LEFT))
 			{
 				_character.state(CharacterState::AttackLeft);
 			}
@@ -58,7 +68,7 @@ void Run::update()
 		}
 		else if (sf::Joystick::isButtonPressed(_character.joystickId(), BUTTON_B))
 		{
-			if (_motion.x < 0)
+			if (isDirection(LEFT))
 			{
 				_character.state(CharacterState::SpecialLeft);
 			}
