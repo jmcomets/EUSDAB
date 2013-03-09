@@ -5,7 +5,7 @@ Character::Character():
 {
 }
 
-Character::~Character()
+Character::~Character() : _damage(0)
 {
 }
 
@@ -36,6 +36,34 @@ void Character::addState(CharacterState::Id id, CharacterState * state)
 
 void Character::state(CharacterState::Id id)
 {
-    _currentState = _states[id];
+    auto it = _states.find(id);
+    if(it != _states.end())
+    {
+        _currentState = _states[id];
+    }
+    else
+    {
+        throw std::runtime_error("State id n°: " + id + "doesn't exist for " + _name);
+    }
+}
+
+string const & Character::name()
+{
+    return _name;
+}
+
+void Character::name(string const & name)
+{
+    _name = name;
+}
+
+int Character::damage()
+{
+    return _damage;
+}
+
+void Character::damage(int damage)
+{
+    _damage = damage;
 }
 
