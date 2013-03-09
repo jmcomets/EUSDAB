@@ -4,7 +4,7 @@
 namespace Geometry
 {
     template <typename T>
-        class Point
+    class Point
     {
         public:
             Point():

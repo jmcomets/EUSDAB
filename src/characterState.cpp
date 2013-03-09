@@ -15,7 +15,7 @@ void CharacterState::enter()
 {
 }
 
-void update()
+void CharacterState::update()
 {
 }
 

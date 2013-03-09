@@ -4,6 +4,10 @@ Platform::Platform()
 {
 }
 
+Platform::~Platform()
+{
+}
+
 const std::string & Platform::name()
 {
     return _name;

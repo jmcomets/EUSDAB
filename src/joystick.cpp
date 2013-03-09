@@ -52,7 +52,7 @@ namespace Joystick
         init();
     }
 
-    inline void State::init()
+    void State::init()
     {
         _btnsUp[ButtonA] = false;
         _btnsUp[ButtonB] = false;
@@ -65,12 +65,12 @@ namespace Joystick
         _axesUp.second = false;
     }
 
-    inline bool State::isConnected() const
+    bool State::isConnected() const
     {
         return sf::Joystick::isConnected(_id);
     }
 
-    inline bool State::isAxisFront(Axis axis) const
+    bool State::isAxisFront(Axis axis) const
     {
         return axis == X ? _axesUp.first : _axesUp.second;
     }
@@ -110,7 +110,7 @@ namespace Joystick
         return false;
     }
 
-    inline bool State::isButtonUp(Button btn) const
+    bool State::isButtonUp(Button btn) const
     {
         return isButtonDown(btn) == false;
     }

@@ -8,7 +8,7 @@ class Entity
 {
     public:
         // Default constructor
-        Entity();
+        Entity() = default;
 
         // Value constructor
         Entity(const sf::Vector2f &);

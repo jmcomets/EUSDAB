@@ -3,7 +3,7 @@
 
 Character::Character():
     Entity(),
-    _joystickState(0), _currentState(nullptr), 
+    _currentState(nullptr), _joystickState(0),
     _states(), _name(), _damage(0)
 {
 }
@@ -32,7 +32,7 @@ void Character::render(Graphics::Target &, Graphics::RenderStates)
     //_currentState->view().graphics.draw(target, trans);
 }
 
-inline void Character::addState(CharacterState::Id id, CharacterState * charState)
+void Character::addState(CharacterState::Id id, CharacterState * charState)
 {
     _states[id] = charState;
 }
@@ -52,27 +52,27 @@ void Character::state(CharacterState::Id id)
     }
 }
 
-inline std::string const & Character::name()
+std::string const & Character::name()
 {
     return _name;
 }
 
-inline void Character::name(std::string const & n)
+void Character::name(std::string const & n)
 {
     _name = n;
 }
 
-inline int Character::damage()
+int Character::damage()
 {
     return _damage;
 }
 
-inline void Character::damage(int d)
+void Character::damage(int d)
 {
     _damage = d;
 }
 
-inline const Joystick::State & Character::joystickState() const
+const Joystick::State & Character::joystickState() const
 {
     return _joystickState;
 }
