@@ -13,7 +13,7 @@ namespace Geometry
 
         protected:
             Polygone _polygone;
-    }
+    };
 }
 
 #endif
