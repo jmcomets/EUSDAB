@@ -1,11 +1,19 @@
-//-------------crouch.h----------------------//
+#ifndef CROUCH_H_
+#define CROUCH_H_
 
-#ifndef CROUCH_H_INCLUDED_
-#define CROUCH_H_INCLUDED_
+#include <characterState.h>
 
-class Crouch : public CharacterState
+class Crouch: public CharacterState
 {
-
-}
+    public:
+        Crouch();
+        Crouch(const Crouch &);
+        Crouch(Crouch &&);
+        virtual ~Crouch();
+        Crouch & operator=(const Crouch &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
+};
 
 #endif

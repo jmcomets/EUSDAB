@@ -4,7 +4,7 @@
 #include <entity.h>
 #include <platform.h>
 
-class Map : public Entity
+class Map: public Entity
 {
     public:
 

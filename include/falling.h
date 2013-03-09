@@ -5,10 +5,15 @@
 
 class Falling: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        Falling();
+        Falling(const Falling &);
+        Falling(Falling &&);
+        virtual ~Falling();
+        Falling & operator=(const Falling &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* FALLING_H_ */
+#endif

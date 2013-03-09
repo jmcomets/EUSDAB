@@ -1,14 +1,19 @@
-#ifndef AERIALSPECIAL_H_
-#define AERIALSPECIAL_H_
+#ifndef AERIAL_SPECIAL_H_
+#define AERIAL_SPECIAL_H_
 
 #include <characterState.h>
 
 class AerialSpecial: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        AerialSpecial();
+        AerialSpecial(const AerialSpecial &);
+        AerialSpecial(AerialSpecial &&);
+        virtual ~AerialSpecial();
+        AerialSpecial & operator=(const AerialSpecial &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* AERIALSPECIAL_H_ */
+#endif

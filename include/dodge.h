@@ -5,10 +5,15 @@
 
 class Dodge: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        Dodge();
+        Dodge(const Dodge &);
+        Dodge(Dodge &&);
+        virtual ~Dodge();
+        Dodge & operator=(const Dodge &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* DODGE_H_ */
+#endif
