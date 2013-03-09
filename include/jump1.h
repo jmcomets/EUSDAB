@@ -7,7 +7,7 @@
 class Jump1: public CharacterState
 {
     public:
-        Jump1(Character &);
+        Jump1(Character &, DirectionX, DirectionY);
         Jump1(const Jump1 &);
         Jump1(Jump1 &&);
         virtual ~Jump1();

@@ -27,6 +27,7 @@ class Character: public Entity
         unsigned int joystickId();
         void joystickId(unsigned int);
 
+        //A MODIFIER
         Joystick::State  joystickState;
 
     private:
