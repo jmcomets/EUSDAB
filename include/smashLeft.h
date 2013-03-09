@@ -7,3 +7,5 @@ class SmashLeft : public Smash
 {
 
 }
+
+#endif

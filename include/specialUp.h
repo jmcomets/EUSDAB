@@ -7,3 +7,5 @@ class SpecialUp : public Special
 {
 
 }
+
+#endif

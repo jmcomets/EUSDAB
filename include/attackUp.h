@@ -7,3 +7,5 @@ class AttackUp : public Attack
 {
 
 }
+
+#endif

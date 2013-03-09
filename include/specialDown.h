@@ -7,3 +7,5 @@ class SpecialDown : public Special
 {
 
 }
+
+#endif

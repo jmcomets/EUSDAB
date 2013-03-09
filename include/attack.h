@@ -7,3 +7,5 @@ class Attack : public CharacterState
 {
 
 }
+
+#endif

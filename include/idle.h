@@ -8,3 +8,5 @@ class Idle : public CharacterState
 {
 
 }
+
+#endif
