@@ -4,21 +4,18 @@
 #include <entity.h>
 #include <view.h>
 
-class Platform : public Entity
+class Platform: public Entity
 {
     public:
-
         Platform();
         virtual ~Platform();
+        const std::string & name();
+        void name(const std::string &);
+        const View & view();
 
-        std::string const & name();
-        void name(std::string const &);
-        View const & view();
-
-    protected:
+    private:
         std::string _name;
         View _view;
-
 };
 
 #endif

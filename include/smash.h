@@ -2,11 +2,12 @@
 #define SMASH_H_
 
 #include <characterState.h>
+#include <character.h>
 
 class Smash: public CharacterState
 {
     public:
-        Smash(Character &);
+        Smash(Character &, DirectionX, DirectionY, const unsigned int);
         Smash(const Smash &);
         Smash(Smash &&);
         virtual ~Smash();
@@ -14,6 +15,8 @@ class Smash: public CharacterState
         virtual void enter();
         virtual void leave();
         virtual void update(const JoystickState &);
+	private:
+		unsigned int countdown;
 };
 
 #endif

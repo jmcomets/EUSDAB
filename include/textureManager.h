@@ -1,27 +1,26 @@
-#ifndef __TEXTURE_MANAGER_H__
-#define __TEXTURE_MANAGER_H__
+#ifndef TEXTURE_MANAGER_H_
+#define TEXTURE_MANAGER_H_
 
-#include "graphics.h"
+#include <graphics.h>
 
-namespace Graphics {
-    class TextureManager {
+namespace Graphics
+{
+    class TextureManager
+    {
         public:
-            static TextureManager * instance();
-
-            static Texture const * get(char const * raw, std::size_t size, int x, int y, std::size_t width, std::size_t height);
-
-            virtual ~TextureManager();
+            TextureManager(TextureManager &&) = delete;
+            TextureManager(const TextureManager &) = delete;
+            ~TextureManager();
+            TextureManager & operator=(const TextureManager &) = delete;
+            static const Texture * get(const char * raw, std::size_t size, int x, int y, std::size_t width, std::size_t height);
 
         private:
-            explicit TextureManager();
-            explicit TextureManager(TextureManager const &) = delete;
+            static TextureManager * instance();
+            TextureManager();
 
-            typedef std::vector<Texture const *> pool_type;
-
-            static TextureManager * s_instance;
-            static pool_type s_pool;
+            static TextureManager * _instance;
+            std::vector<const Texture *> _pool;
     };
 }
 
 #endif
-

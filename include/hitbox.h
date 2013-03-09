@@ -1,20 +1,19 @@
-#ifndef __HITBOX_H__
-#define __HITBOX_H__
+#ifndef HITBOX_H_
+#define HITBOX_H_
 
-#include "polygone.h"
+#include <polygone.h>
 
 namespace Geometry
 {
     class Hitbox
     {
         public:
-            explicit Hitbox(Polygone<int> const &);
+            Hitbox(const Polygone<int> &);
             virtual ~Hitbox();
 
-        protected:
+        private:
             Polygone<int> _polygone;
     };
 }
 
 #endif
-

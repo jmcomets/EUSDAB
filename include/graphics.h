@@ -1,5 +1,5 @@
-#ifndef GRAPHICS
-#define GRAPHICS
+#ifndef GRAPHICS_H_
+#define GRAPHICS_H_
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics.hpp>
@@ -18,10 +18,10 @@ namespace Graphics
             Drawable();
             virtual ~Drawable();
 
-            void render(Graphics::Target &, Graphics::RenderStates const & = RenderStates::Default) const;
+            void render(Graphics::Target &, const Graphics::RenderStates & = RenderStates::Default) const;
 
         protected:
-            virtual Graphics::Sprite const & sprite() const = 0;
+            virtual const Graphics::Sprite & sprite() const = 0;
     };
 }
 

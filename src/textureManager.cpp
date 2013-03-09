@@ -4,7 +4,7 @@
 
 namespace Graphics
 {
-    TextureManager * TextureManager::s_instance = nullptr;
+    TextureManager * TextureManager::_instance = nullptr;
 
     TextureManager::TextureManager()
     {
@@ -12,8 +12,10 @@ namespace Graphics
 
     TextureManager::~TextureManager()
     {
-        for(auto it = s_pool.begin() ; it != s_pool.end() ; ++it)
-            delete *it;
+        for (auto p : _pool)
+        {
+            delete p;
+        }
     }
 
     Texture const * TextureManager::get(char const * raw, std::size_t size, int x, int y, std::size_t width, std::size_t height)
@@ -22,15 +24,17 @@ namespace Graphics
         img.loadFromMemory(static_cast<void const *>(raw), size);
         sf::Texture * tex = new sf::Texture();
         tex->loadFromImage(img, sf::IntRect(x, y, static_cast<int>(width), static_cast<int>(height)));
-        s_pool.emplace_back(tex);
+        instance()->_pool.emplace_back(tex);
         return tex;
     }
 
     TextureManager * TextureManager::instance()
     {
-        if(s_instance == nullptr)
-            s_instance = new TextureManager();
+        if (_instance == nullptr)
+        {
+            _instance = new TextureManager();
+        }
 
-        return s_instance;
+        return _instance;
     }
 }
