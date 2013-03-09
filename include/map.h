@@ -13,15 +13,15 @@ class Map: public Entity
         virtual ~Map() { }
 
         View & view();
-        string const & name();
-        void name(string const & name);
+        std::string const & name();
+        void name(std::string const & name);
         void addPlatform(Platform * platform);
         Platform * removePlatform(Platform * platform);
         void addCharacter(Character * character);
         Character * removeCharacter(Character * character);
 
     protected:
-        string _name;
+        std::string _name;
         View _view;
         std::vector<Platform *> _platforms;
         std::vector<Character *> _characters;
