@@ -6,14 +6,14 @@
 class Smash: public CharacterState
 {
     public:
-        Smash();
+        Smash(Character &);
         Smash(const Smash &);
         Smash(Smash &&);
         virtual ~Smash();
         Smash & operator=(const Smash &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

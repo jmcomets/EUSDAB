@@ -6,14 +6,14 @@
 class AerialSpecial: public CharacterState
 {
     public:
-        AerialSpecial();
+        AerialSpecial(Character &);
         AerialSpecial(const AerialSpecial &);
         AerialSpecial(AerialSpecial &&);
         virtual ~AerialSpecial();
         AerialSpecial & operator=(const AerialSpecial &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

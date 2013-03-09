@@ -6,14 +6,14 @@
 class Run: public CharacterState
 {
     public:
-        Run();
+        Run(Character &);
         Run(const Run &);
         Run(Run &&);
         virtual ~Run();
         Run & operator=(const Run &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

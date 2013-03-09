@@ -6,14 +6,14 @@
 class Landing: public CharacterState
 {
     public:
-        Landing();
+        Landing(Character &);
         Landing(const Landing &);
         Landing(Landing &&);
         virtual ~Landing();
         Landing & operator=(const Landing &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

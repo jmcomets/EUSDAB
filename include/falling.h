@@ -6,14 +6,14 @@
 class Falling: public CharacterState
 {
     public:
-        Falling();
+        Falling(Character &);
         Falling(const Falling &);
         Falling(Falling &&);
         virtual ~Falling();
         Falling & operator=(const Falling &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

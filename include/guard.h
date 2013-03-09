@@ -6,14 +6,14 @@
 class Guard: public CharacterState
 {
     public:
-        Guard();
+        Guard(Character &);
         Guard(const Guard &);
         Guard(Guard &&);
         virtual ~Guard();
         Guard & operator=(const Guard &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif

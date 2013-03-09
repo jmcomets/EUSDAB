@@ -6,14 +6,14 @@
 class Idle: public CharacterState
 {
     public:
-        Idle();
+        Idle(Character &);
         Idle(const Idle &);
         Idle(Idle &&);
         virtual ~Idle();
         Idle & operator=(const Idle &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const sf::Input &);
+        virtual void update();
 };
 
 #endif
