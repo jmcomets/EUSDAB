@@ -28,13 +28,7 @@ namespace Joystick
                 State(unsigned int id, Iterator begin, Iterator end):
                     _id(id), _btnConfig(begin, end), _btnsUp()
             {
-                _btnsUp[ButtonA] = false;
-                _btnsUp[ButtonB] = false;
-                _btnsUp[ButtonZ] = false;
-                _btnsUp[ButtonY] = false;
-                _btnsUp[TriggerLeft] = false;
-                _btnsUp[TriggerRight] = false;
-                _btnsUp[Other] = false;
+                init();
             }
 
             State(unsigned int);
@@ -52,26 +46,11 @@ namespace Joystick
             unsigned int id() const;
 
         private:
+            void init();
             std::vector<Button> _btnConfig;
             unsigned int _id;
             std::unordered_map<Button, bool, std::hash<int>> _btnsUp;
             std::pair<bool, bool> _axesUp;
-    };
-
-    class System
-    {
-        public:
-            System();
-            System(System &&) = delete;
-            System(const System &) = delete;
-            ~System();
-            System & operator=(const System &);
-            void init();
-            void update();
-            const State & state(unsigned int) const;
-
-        private:
-            std::unordered_map<unsigned int, State> _states;
     };
 }
 
