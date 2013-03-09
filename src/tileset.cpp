@@ -1,10 +1,10 @@
 #include "tileset.h"
 
-#include <fstream>
-
 #include "textureManager.h"
-#include "hitbox.h"
+//#include "hitbox.h"
 #include "point.h"
+
+class Hitbox;
 
 namespace Graphics {
     Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _framePerImage(0)
