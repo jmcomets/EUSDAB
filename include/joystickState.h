@@ -12,11 +12,11 @@
 class JoystickState
 {
     public:
-        JoyStickState();
-        JoyStickState(JoyStickState &&);
-        JoyStickState(const JoyStickState &);
-        ~JoyStickState();
-        JoyStickState & operator=(const JoyStickState &);
+        JoystickState();
+        JoystickState(JoystickState &&);
+        JoystickState(const JoystickState &);
+        ~JoystickState();
+        JoystickState & operator=(const JoystickState &);
 
         enum Axis { X, Y };
 
