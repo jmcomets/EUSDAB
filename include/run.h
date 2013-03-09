@@ -14,6 +14,9 @@ class Run: public CharacterState
         virtual void enter();
         virtual void leave();
         virtual void update();
+
+	private:
+		sf::Vector2f _motion;
 };
 
 #endif

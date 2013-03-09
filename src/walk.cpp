@@ -18,16 +18,16 @@ void Walk::enter()
 void Walk::update()
 {
 	CharacterState::update();
-	float x = sf::Joystick::getAxisPosition(_character.joystickId, sf::Joystick::X);
+	float x = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::X);
 	if (x*_motion.x = 0)
 	{
 		if (_motion.x > 0)
 		{
-			_character.state(IdleRight);
+			_character.state(CharacterState::IdleRight);
 		}
 		else
 		{
-			_character.state(IdleLeft);
+			_character.state(CharacterState::IdleLeft);
 		}
 	}
 	else if (x*_motion.x < 0)
@@ -35,16 +35,38 @@ void Walk::update()
 		// joystick dans le sens contraire, il faut changer d'etat.
 		if (_motion.x < 0)
 		{
-			_character.state(WalkRight);
+			_character.state(CharacterState::WalkRight);
 		}
 		else
 		{
-			_character.state(WalkLeft);
+			_character.state(CharacterState::WalkLeft);
 		}
 	}
 	else
 	{
 		_character.move(_motion);
+		if (sf::Joystick::isButtonPressed (_character.joystickId(), BUTTON_A))
+		{
+			if (_motion.x < 0)
+			{
+				_character.state(CharacterState::AttackLeft);
+			}
+			else
+			{
+				_character.state(CharacterState::AttackRight);
+			}
+		}
+		else if (sf::Joystick::isButtonPressed (_character.joystickId(), BUTTON_B))
+		{
+			if (_motion.x < 0)
+			{
+				_character.state(CharacterState::SmashLeft);
+			}
+			else
+			{
+				_character.state(CharacterState::SmashLeft);
+			}
+		}
 	}
 }
 
