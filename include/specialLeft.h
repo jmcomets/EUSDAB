@@ -7,3 +7,5 @@ class SpecialLeft : public Special
 {
 
 }
+
+#endif

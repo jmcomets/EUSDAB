@@ -1,25 +1,28 @@
-//-----------file characterState.h----------//
-//ceci est l'etat général dont les autres hériteront
+#ifndef CHARACTER_STATE_H_
+#define CHARACTER_STATE_H_
 
-#ifndef CHARACTER_STATE_H_INCLUDED_
-#define CHARACTER_STATE_H_INCLUDED_
+#include <SFML/Window/Input.hpp>
+#include <view.h>
 
-//includes
-#include "view.h"
-
-//forward declaration
-class character;
+class Character;
 
 class CharacterState
 {
-	protected:
-	character myCharacter;
-	view myView;
+    public:
+        enum Id {};
+        CharacterState();
+        CharacterState(const CharacterState &);
+        CharacterState(CharacterState &&);
+        virtual ~CharacterState();
+        CharacterState & operator=(const CharacterState &);
+        void enter();
+        void leave();
+        void update(const Input &);
+        View & view();
 
-	public:
-	enum Id {};
-	view();
-	enter();
-	leave();
-	update();
-}
+    protected:
+        Character _character;
+        view _view;
+};
+
+#endif // CHARACTER_STATE_H_

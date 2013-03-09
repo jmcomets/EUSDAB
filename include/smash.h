@@ -7,3 +7,5 @@ class Smash : public CharacterState
 {
 
 }
+
+#endif
