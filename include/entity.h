@@ -47,5 +47,3 @@ class Entity
 };
 
 #endif // ENTITY_H_
-	//float x = sf::Joystick::getAxisPosition(_character.joystickId(), sf::Joystick::X);
-
