@@ -18,7 +18,7 @@ namespace Graphics
             virtual ~Image();
 
         protected:
-            virtual Sprite const & sprite();
+            virtual Sprite const & sprite() const;
 
         private:
             Sprite * _sprite;
