@@ -3,27 +3,32 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 #include "graphics.h"
 
-class Sprite;
-class Hitbox;
+namespace Graphics {
+    class Tileset
+    {
+        public:
+            explicit Tileset(std::string const &);
+            explicit Tileset(Tileset const &) = delete;
+            virtual ~Tileset();
 
-class Tileset
-{
-    public:
-        explicit Tileset(std::string const &);
-        explicit Tileset(Tileset const &) = delete;
-        virtual ~Tileset();
+            std::vector<Sprite *> const & lsImage() const;
+            std::vector<Hitbox *> const & lsHitbox() const;
+            std::time_t framePerImage() const;
 
-        std::vector<Sprite *> const & lsImage() const;
-        std::vector<Hitbox *> const & lsHitbox() const;
-        std::time_t framePerImage() const;
+        protected:
+            typedef map<std::string, Tileset *> pool_type;
 
-    private:
-        std::vector<Sprite *> _lsImage;
-        std::vector<Hitbox *> _lsHitbox;
-        std::time_t _framePerImage;
-};
+            static pool_type s_lsTileset;
+
+        private:
+            std::vector<Sprite *> _lsImage;
+            std::vector<Hitbox *> _lsHitbox;
+            std::time_t _framePerImage;
+    };
+}
 
 #endif
