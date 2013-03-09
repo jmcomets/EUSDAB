@@ -11,12 +11,12 @@ class Platform : public Entity
         Platform();
         virtual ~Platform();
 
-        string const & name();
-        void name(string const &);
+        std::string const & name();
+        void name(std::string const &);
         View const & view();
 
     protected:
-        string _name;
+        std::string _name;
         View _view;
 
 };

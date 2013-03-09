@@ -16,7 +16,7 @@ Image::~Image()
     delete _sprite;
 }
 
-Sprite const & Image::sprite() const
+Sprite const & Image::sprite()
 {
     return *_sprite;
 }
