@@ -8,11 +8,11 @@ namespace Geometry
     class Hitbox
     {
         public:
-            explicit Hitbox(Polygone const &);
+            explicit Hitbox(Polygone<int> const &);
             virtual ~Hitbox();
 
         protected:
-            Polygone _polygone;
+            Polygone<int> _polygone;
     };
 }
 

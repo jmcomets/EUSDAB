@@ -7,14 +7,15 @@
 
 namespace Geometry
 {
+    template <typename T>
     class Polygone
     {
         public:
-            explicit Polygone(std::vector<Point> const &);
+            explicit Polygone(std::vector<Point<T> > const &);
             virtual ~Polygone();
 
         protected:
-            std::vector<Point> _lsPoint;
+            std::vector<Point<T> > _lsPoint;
     };
 }
 #endif

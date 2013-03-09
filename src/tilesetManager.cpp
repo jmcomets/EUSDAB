@@ -2,6 +2,7 @@
 
 #include <fstream>
 
+#include "textureManager.h"
 #include "tileset.h"
 #include "hitbox.h"
 #include "point.h"
@@ -17,7 +18,7 @@ namespace Graphics
     TilesetManager::~TilesetManager()
     {
         for(auto it = s_pool.begin() ; it != s_pool.end() ; ++it)
-            delete *it;
+            delete it->second;
     }
 
     TilesetManager * TilesetManager::instance()
@@ -31,7 +32,7 @@ namespace Graphics
     {
         auto it = s_pool.find(filename);
         if(it != s_pool.end())
-            return *it;
+            return it->second;
 
         size_t nbrFrame;
         size_t width;
@@ -49,26 +50,27 @@ namespace Graphics
             size_t nbrPoint;
             f >> nbrPoint;
 
-            std::vector<Geometry::Point> lsPoint;
+            std::vector<Geometry::Point<int> > lsPoint;
             lsPoint.reserve(nbrPoint);
             for (std::size_t j = 0 ; j < nbrPoint ; j++)
             {
                 int x, y;
                 f >> x >> y;
-                lsPoint.emplace_back(Geometry::Point(x, y));
+                lsPoint.emplace_back(Geometry::Point<int>(x, y));
             }
 
-            lsHitbox.emplace_back(new Geometry::Hitbox(lsPoint));
+            lsHitbox.emplace_back(new Geometry::Hitbox(Geometry::Polygone<int>(lsPoint)));
         }
 
         std::string imgRaw;
-        while(f.get(imgRaw));
+        while(f >> imgRaw);
 
         std::vector<Graphics::Sprite *> lsImage;
         for(std::size_t i = 0 ; i < nbrFrame ; ++i)
         {
-            Graphics::Texture const * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
-            lsImage.emplace_back(new Sprite(*tex, dx, dy));
+            Graphics::Texture const * tex = Graphics::TextureManager::get(imgRaw.c_str(), 0, static_cast<int>(i * height), width, height);
+            lsImage.emplace_back(new Sprite(*tex));
+            lsImage.back()->setPosition(static_cast<float>(dx), static_cast<float>(dy));
         }
 
         f.close();

@@ -10,6 +10,8 @@ namespace Graphics
     typedef sf::RenderTarget Target;
     typedef sf::RenderStates RenderStates;
 
+    typedef sf::Texture Texture;
+
     class Drawable
     {
         public:
