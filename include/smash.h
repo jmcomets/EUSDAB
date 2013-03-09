@@ -1,11 +1,19 @@
-//-------------smash.h----------------------//
+#ifndef SMASH_H_
+#define SMASH_H_
 
-#ifndef SMASH_H_INCLUDED_
-#define SMASH_H_INCLUDED_
+#include <characterState.h>
 
-class Smash : public CharacterState
+class Smash: public CharacterState
 {
-
-}
+    public:
+        Smash();
+        Smash(const Smash &);
+        Smash(Smash &&);
+        virtual ~Smash();
+        Smash & operator=(const Smash &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
+};
 
 #endif

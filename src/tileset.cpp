@@ -17,14 +17,14 @@ Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _frame
 
     std::ifstream f(filename.c_str(), std::ios::in);
     f >> nbrFrame >> width >> height >> _framePerImage >> dx >> dy;
-    for(size_t i = 0 ; i < nbrFrame ; ++i)
+    for (std::size_t i = 0 ; i < nbrFrame ; ++i)
     {
         size_t nbrPoint;
         f >> nbrPoint;
 
         std::vector<Point> lsPoint;
         lsPoint.reserve(nbrPoint);
-        for(size_t j = 0 ; j < nbrPoint ; j++)
+        for (std::size_t j = 0 ; j < nbrPoint ; j++)
         {
             int x, y;
             f >> x >> y;
@@ -35,9 +35,9 @@ Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _frame
     std::string imgRaw;
     while(f.get(imgRaw));
 
-    for(size_t i = 0 ; i < nbrFrame ; ++i)
+    for(std::size_t i = 0 ; i < nbrFrame ; ++i)
     {
-        Texture const * tex = TextureManager::get(imgRaw.c_str(), 0, i * height, width, height);
+        const Texture * tex = TextureManager::get(imgRaw.c_str(), 0, i*height, width, height);
         _lsImage.emplace_back(new Sprite(tex, dx, dy));
     }
 
@@ -46,8 +46,10 @@ Tileset::Tileset(std::string const & filename) : _lsImage(), _lsHitbox(), _frame
 
 Tileset::~Tileset()
 {
-    for(auto it = _lsImage.begin() ; it != _lsImage.end() ; ++it)
+    for (auto it : _lsImage)
+    {
         delete *it;
+    }
 }
 
 std::vector<Sprite *> const & Tileset::lsImage() const
@@ -55,7 +57,7 @@ std::vector<Sprite *> const & Tileset::lsImage() const
     return _lsImage;
 }
 
-time_t Tileset::framePerImage() const
+std::time_t Tileset::framePerImage() const
 {
     return _framePerImage;
 }

@@ -5,10 +5,15 @@
 
 class AerialAttack: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        AerialAttack();
+        AerialAttack(const AerialAttack &);
+        AerialAttack(AerialAttack &&);
+        virtual ~AerialAttack();
+        AerialAttack & operator=(const AerialAttack &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* AERIALATTACK_H_ */
+#endif

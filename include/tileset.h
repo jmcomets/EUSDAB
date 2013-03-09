@@ -1,5 +1,5 @@
-#ifndef __TILESET_H__
-#define __TILESET_H__
+#ifndef TILESET_H_
+#define TILESET_H_
 
 #include <vector>
 #include <string>
@@ -10,18 +10,16 @@ class Hitbox;
 class Tileset
 {
     public:
-        Tileset(std::string const &);
+        Tileset(const std::string &);
         ~Tileset();
-
         std::vector<Sprite *> const & lsImage() const;
         std::vector<Hitbox *> const & lsHitbox() const;
         std::time_t framePerImage() const;
 
-    protected:
+    private:
         std::vector<Sprite *> _lsImage;
         std::vector<Hitbox *> _lsHitbox;
-        time_t _framePerImage;
+        std::time_t _framePerImage;
 };
 
 #endif
-

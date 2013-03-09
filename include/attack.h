@@ -1,11 +1,19 @@
-//-------------attack.h----------------------//
+#ifndef ATTACK_H_
+#define ATTACK_H_
 
-#ifndef ATTACK_H_INCLUDED_
-#define ATTACK_H_INCLUDED_
+#include <characterState.h>
 
-class Attack : public CharacterState
+class Attack: public CharacterState
 {
-
-}
+    public:
+        Attack();
+        Attack(const Attack &);
+        Attack(Attack &&);
+        virtual ~Attack();
+        Attack & operator=(const Attack &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
+};
 
 #endif

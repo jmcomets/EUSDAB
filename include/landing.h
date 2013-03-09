@@ -5,10 +5,15 @@
 
 class Landing: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        Landing();
+        Landing(const Landing &);
+        Landing(Landing &&);
+        virtual ~Landing();
+        Landing & operator=(const Landing &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* LANDING_H_ */
+#endif

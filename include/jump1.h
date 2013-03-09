@@ -5,10 +5,15 @@
 
 class Jump1: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        Jump1();
+        Jump1(const Jump1 &);
+        Jump1(Jump1 &&);
+        virtual ~Jump1();
+        Jump1 & operator=(const Jump1 &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* JUMP1_H_ */
+#endif

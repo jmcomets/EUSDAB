@@ -17,7 +17,7 @@ class CharacterState
         CharacterState & operator=(const CharacterState &);
         void enter();
         void leave();
-        void update(const Input &);
+        void update(const sf::Input &);
         View & view();
 
     protected:

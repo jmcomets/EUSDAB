@@ -1,14 +1,19 @@
-#ifndef AERIALDODGE_H_
-#define AERIALDODGE_H_
+#ifndef AERIAL_DODGE_H_
+#define AERIAL_DODGE_H_
 
 #include <characterState.h>
 
 class AerialDodge: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        AerialDodge();
+        AerialDodge(const AerialDodge &);
+        AerialDodge(AerialDodge &&);
+        virtual ~AerialDodge();
+        AerialDodge & operator=(const AerialDodge &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* AERIALDODGE_H_ */
+#endif

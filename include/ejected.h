@@ -5,10 +5,15 @@
 
 class Ejected: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        Ejected();
+        Ejected(const Ejected &);
+        Ejected(Ejected &&);
+        virtual ~Ejected();
+        Ejected & operator=(const Ejected &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* EJECTED_H_ */
+#endif

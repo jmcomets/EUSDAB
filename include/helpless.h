@@ -5,10 +5,15 @@
 
 class Helpless: public CharacterState
 {
-	public:
-	
-	protected:
-
+    public:
+        Helpless();
+        Helpless(const Helpless &);
+        Helpless(Helpless &&);
+        virtual ~Helpless();
+        Helpless & operator=(const Helpless &);
+        virtual void enter();
+        virtual void leave();
+        virtual void update(const sf::Input &);
 };
 
-#endif /* HELPLESS_H_ */
+#endif
