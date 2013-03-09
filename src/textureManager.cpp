@@ -20,8 +20,9 @@ namespace Graphics
     {
         sf::Image img;
         img.loadFromMemory(static_cast<void const *>(raw), size);
-        sf::Texture tex = new sf::Texture();
-        tex->loadFromImage(img, sf::IntRect(x, y, width, height));
+        sf::Texture * tex = new sf::Texture();
+        tex->loadFromImage(img, sf::IntRect(x, y, static_cast<int>(width), static_cast<int>(height)));
+        s_pool.emplace_back(tex);
         return tex;
     }
 
