@@ -2,7 +2,7 @@
 #define SMASH_H_
 
 #include <characterState.h>
-#include <character.h>
+#include
 
 class Smash: public CharacterState
 {
