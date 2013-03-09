@@ -18,7 +18,7 @@ class JoystickState
         ~JoystickState();
         JoystickState & operator=(const JoystickState &);
 
-        enum Axis { X, Y };
+        enum Axis { X, Y };
 
         bool isConnected(unsigned int joyId) const;
         bool isButtonFront(unsigned int joyId, unsigned int btnId) const;
