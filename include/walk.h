@@ -7,7 +7,7 @@
 class Walk: public CharacterState
 {
     public:
-		Walk(Character &, float speed, DirectionX, DirectionY);
+        Walk(Character &, float speed, DirectionX, DirectionY);
         Walk(const Walk &);
         Walk(Walk &&);
         virtual ~Walk();
@@ -15,9 +15,9 @@ class Walk: public CharacterState
         virtual void enter();
         virtual void leave();
         virtual void update(const JoystickState &);
-	
-		private:
-		sf::Vector2f _motion;
+
+        private:
+        sf::Vector2f _motion;
 };
 
 #endif

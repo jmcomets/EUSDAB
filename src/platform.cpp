@@ -14,7 +14,7 @@ void Platform::name(std::string const & name)
     _name = name;
 }
 
-View Platform::view()
+View const & Platform::view()
 {
     return _view;
 }

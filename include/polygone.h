@@ -11,8 +11,8 @@ namespace Geometry
     class Polygone
     {
         public:
-            explicit Polygone(std::vector<Point<T> > const &);
-            virtual ~Polygone();
+            explicit Polygone(std::vector<Point<T> > const & lsPoint) : _lsPoint(lsPoint) { }
+            virtual ~Polygone() { }
 
         protected:
             std::vector<Point<T> > _lsPoint;

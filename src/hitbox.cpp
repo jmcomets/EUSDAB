@@ -2,7 +2,7 @@
 
 namespace Geometry
 {
-    Hitbox::Hitbox(Polygone const & poly) : _polygone(poly)
+    Hitbox::Hitbox(Polygone<int> const & poly) : _polygone(poly)
     {
     }
 
