@@ -13,7 +13,7 @@ class Idle: public CharacterState
         Idle & operator=(const Idle &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 
     private:
         void updateDelay();

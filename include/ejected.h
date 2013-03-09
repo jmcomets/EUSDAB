@@ -13,7 +13,7 @@ class Ejected: public CharacterState
         Ejected & operator=(const Ejected &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 };
 
 #endif

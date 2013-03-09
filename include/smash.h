@@ -13,7 +13,7 @@ class Smash: public CharacterState
         Smash & operator=(const Smash &);
         virtual void enter();
         virtual void leave();
-        virtual void update(const JoystickState update());
+        virtual void update(const JoystickState &);
 };
 
 #endif
