@@ -26,6 +26,9 @@ class Character: public Entity
         unsigned int joystickId();
         void joystickId(unsigned int);
 
+        //A MODIFIER
+        JoystickState joystickState;
+
     private:
         CharacterState * _currentState;
         std::map<CharacterState::Id, CharacterState *> _states;
