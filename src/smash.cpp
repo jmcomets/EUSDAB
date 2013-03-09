@@ -1,22 +1,22 @@
-//-----------------attack.cpp
-#include <attack.h>
+//-----------------------smash.cpp
+#include <smash.h>
 
-Attack::Attack(Character & c, DirectionX dirX, DirectionY dirY, const unsigned int duration):
+Smash::Smash(Character & c, DirectionX dirX, DirectionY dirY, const unsigned int duration):
 	CharacterState(c, dirX, dirY)
 {
 	countdown = duration;
 }
 
-Attack::~Attack()
+Smash::~Smash()
 {
 }
 
-void Attack::enter()
+void Smash::enter()
 {
 	CharacterState::enter();
 }
 
-void Attack::update(const JoystickState & j)
+void Smash::update(const JoystickState & j)
 {
 	CharacterState::update(j);
 	if (--countdown == 0)
@@ -32,6 +32,6 @@ void Attack::update(const JoystickState & j)
 	}
 }
 
-void Attack::leave()
+void Smash::leave()
 {
 }
