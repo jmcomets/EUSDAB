@@ -10,12 +10,12 @@ class Hitbox;
 class Tileset
 {
     public:
-        explicit Tileset(std::string const & filename);
-        virtual ~Tileset();
+        Tileset(std::string const &);
+        ~Tileset();
 
         std::vector<Sprite *> const & lsImage() const;
         std::vector<Hitbox *> const & lsHitbox() const;
-        time_t framePerImage() const;
+        std::time_t framePerImage() const;
 
     protected:
         std::vector<Sprite *> _lsImage;
