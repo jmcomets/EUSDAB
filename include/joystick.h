@@ -1,6 +1,11 @@
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
 
+#include <vector>
+#include <utility>
+#include <unordered_map>
+#include <functional>
+
 namespace Joystick
 {
     enum Axis
@@ -11,7 +16,7 @@ namespace Joystick
     enum Button
     {
         ButtonA, ButtonB,
-        ButtonZ, ButtonY, //ButtonX,
+        ButtonZ, ButtonY, ButtonX,
         TriggerLeft, TriggerRight,
         Other
     };
@@ -21,21 +26,16 @@ namespace Joystick
         public:
             template <typename Iterator>
                 State(unsigned int id, Iterator begin, Iterator end):
-                    _id(id), _btnConfig(begin, end)
+                    _id(id), _btnConfig(begin, end), _btnsUp()
             {
-                _btnsUp[ButtonA] = false;
-                _btnsUp[ButtonB] = false;
-                _btnsUp[ButtonZ] = false;
-                _btnsUp[ButtonY] = false;
-                _btnsUp[TriggerLeft] = false;
-                _btnsUp[TriggerRight] = false;
-                _btnsUp[Other] = false;
+                init();
             }
 
             State(unsigned int);
-            State(State &&);
-            State(const State &);
-            ~State();
+            State() = delete;
+            State(State &&) = delete;
+            State(const State &) = delete;
+            ~State() = default;
             State & operator=(const State &);
             bool isConnected() const;
             bool isAxisFront(Axis) const;
@@ -43,28 +43,14 @@ namespace Joystick
             bool isButtonFront(Button) const;
             bool isButtonUp(Button) const;
             bool isButtonDown(Button) const;
+            unsigned int id() const;
 
         private:
+            void init();
             std::vector<Button> _btnConfig;
             unsigned int _id;
-            std::unordered_map<Button, bool> _btnsUp;
+            std::unordered_map<Button, bool, std::hash<int>> _btnsUp;
             std::pair<bool, bool> _axesUp;
-    };
-
-    class System
-    {
-        public:
-            System();
-            System(System &&);
-            System(const System &);
-            ~System();
-            System & operator=(const System &);
-            void init();
-            void update();
-            const State & state(unsigned int) const;
-
-        private:
-            std::unordered_map<unsigned int, State> _states;
     };
 }
 

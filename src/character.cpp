@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 Character::Character():
-    _currentState(), _damage(0)
+    _currentState(), _damage(0), joystickState(0)
 {
 }
 
