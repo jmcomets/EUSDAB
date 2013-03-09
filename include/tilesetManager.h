@@ -1,9 +1,8 @@
-#ifndef __TILESET_MANAGER_H__
-#define __TILESET_MANAGER_H__
-
-#include "graphics.h"
+#ifndef TILESET_MANAGER_H_
+#define TILESET_MANAGER_H_
 
 #include <map>
+#include <graphics.h>
 
 namespace Graphics
 {
@@ -12,22 +11,19 @@ namespace Graphics
     class TilesetManager
     {
         public:
-            virtual ~TilesetManager();
+            TilesetManager(const TilesetManager &) = delete;
+            TilesetManager(TilesetManager &&) = delete;
+            TilesetManager & operator=(const TilesetManager &) = delete;
+            ~TilesetManager();
 
-            static TilesetManager * instance();
-
-            static Tileset const * get(std::string const & filename);
-
-        protected:
-            static TilesetManager * s_instance;
-
-            typedef std::map<std::string, Tileset const *> pool_type;
-
-            static pool_type s_pool;
+            static const Tileset * get(const std::string & filename);
 
         private:
-            explicit TilesetManager();
-            explicit TilesetManager(TilesetManager const &) = delete;
+            TilesetManager() = default;
+            static TilesetManager * instance();
+            static TilesetManager * _instance;
+            std::map<std::string, const Tileset *> _pool;
+
     };
 }
 

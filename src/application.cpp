@@ -2,7 +2,7 @@
 
 #include "tilesetManager.h"
 
-Application::Application() : _window(sf::VideoMode(800, 600), "EUSDAB"), _animation(*Graphics::TilesetManager::instance()->get("./data/tileset.ts"))
+Application::Application() : _window(sf::VideoMode(800, 600), "EUSDAB"), _animation(*Graphics::TilesetManager::get("./data/tileset.ts"))
 {
 }
 
