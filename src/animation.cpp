@@ -9,10 +9,15 @@ namespace Graphics {
     {
     }
 
-    Sprite const & Animation::sprite()
+    void Animation::nextFrame()
     {
+        _currentSpriteId++;
         _currentSpriteId %= _tileset.lsImage().size();
-        return *_tileset.lsImage()[_currentSpriteId++];
+    }
+
+    Sprite const & Animation::sprite() const
+    {
+        return *_tileset.lsImage()[_currentSpriteId];
     }
 }
 
