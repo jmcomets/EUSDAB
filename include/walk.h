@@ -2,6 +2,7 @@
 #define WALK_H_
 
 #include <characterState.h>
+#include <vector.h>
 
 class Walk: public CharacterState
 {
@@ -14,6 +15,9 @@ class Walk: public CharacterState
         virtual void enter();
         virtual void leave();
         virtual void update(const sf::Input &);
+	
+	private:
+		int speed;
 };
 
 #endif
