@@ -14,6 +14,10 @@ class Idle: public CharacterState
         virtual void enter();
         virtual void leave();
         virtual void update();
+
+    private:
+        void updateDelay();
+        bool _delay;
 };
 
 #endif
