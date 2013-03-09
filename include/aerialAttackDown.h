@@ -1,9 +1,9 @@
-#ifndef AERIALATTACK_H_
-#define AERIALATTACK_H_
+#ifndef AERIALATTACKDOWN_H_
+#define AERIALATTACKDOWN_H_
 
-#include <characterState.h>
+#include <aerialAttack.h>
 
-class AerialAttack: public CharacterState
+class AerialAttackDown: public AerialAttack
 {
 	public:
 	
@@ -11,4 +11,4 @@ class AerialAttack: public CharacterState
 
 };
 
-#endif /* AERIALATTACK_H_ */
+#endif /* AERIALATTACKDOWN_H_ */

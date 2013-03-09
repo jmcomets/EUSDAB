@@ -1,9 +1,9 @@
-#ifndef JUMP1RIGHT_H_
-#define JUMP1RIGHT_H_
+#ifndef JUMP1LEFT_H_
+#define JUMP1LEFT_H_
 
 #include <jump1.h>
 
-class Jump1Right: public Jump1
+class Jump1Left: public Jump1
 {
 	public:
 	
@@ -11,4 +11,4 @@ class Jump1Right: public Jump1
 
 };
 
-#endif /* JUMP1RIGHT_H_ */
+#endif /* JUMP1LEFT_H_ */

@@ -1,9 +1,9 @@
-#ifndef JUMP1_H_
-#define JUMP1_H_
+#ifndef JUMP1RIGHT_H_
+#define JUMP1RIGHT_H_
 
-#include <state.h>
+#include <jump1.h>
 
-class Jump1: public CaracterState
+class Jump1Right: public Jump1
 {
 	public:
 	
@@ -11,4 +11,4 @@ class Jump1: public CaracterState
 
 };
 
-#endif /* JUMP1_H_ */
+#endif /* JUMP1RIGHT_H_ */
