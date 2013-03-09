@@ -32,3 +32,9 @@ void Character::render(Graphics::Target & target, Graphics::Transformation trans
 bool Character::addState(CharacterState::Id id, CharacterState * state)
 {
 }
+
+void Character::state(CharacterState::Id id)
+{
+    _currentState = _states[id];
+}
+
