@@ -9,12 +9,12 @@ View Map::view()
     return _view;
 }
 
-string const & Map::name()
+std::string const & Map::name()
 {
     return _name;
 }
 
-void Map::name(string const & name)
+void Map::name(std::string const & name)
 {
     _name = name;
 }

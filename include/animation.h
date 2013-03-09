@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <graphics.h>
+#include <tileset.h>
 
 namespace Graphics
 {
@@ -16,7 +17,7 @@ namespace Graphics
             virtual ~Animation();
 
         protected:
-            virtual Sprite const & sprite() const;
+            virtual Sprite const & sprite();
 
         private:
             Tileset const & _tileset;

@@ -4,12 +4,12 @@ Platform::Platform()
 {
 }
 
-string const & Platform::name()
+std::string const & Platform::name()
 {
     return _name;
 }
 
-void Platform::name(string const & name)
+void Platform::name(std::string const & name)
 {
     _name = name;
 }

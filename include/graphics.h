@@ -18,7 +18,7 @@ namespace Graphics
             void render(Graphics::Target &, Graphics::RenderStates const &);
 
         protected:
-            virtual Graphics::Sprite const & sprite() const = 0;
+            virtual Graphics::Sprite const & sprite() = 0;
     };
 }
 

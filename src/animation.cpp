@@ -1,7 +1,7 @@
 #include <animation.h>
 
 namespace Graphics {
-    Animation::Animation(Tilerset const & tileset) : _tileset(tileset), _currentSpriteId(0)
+    Animation::Animation(Tileset const & tileset) : _tileset(tileset), _currentSpriteId(0)
     {
     }
 
@@ -9,7 +9,7 @@ namespace Graphics {
     {
     }
 
-    Sprite const & Animation::sprite() const
+    Sprite const & Animation::sprite()
     {
         _currentSpriteId %= _tileset.lsImage().size();
         return _tileset.lsImage()[_currentSpriteId++];
