@@ -1,8 +1,10 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <vector>
 #include <entity.h>
 #include <platform.h>
+#include <character.h>
 
 class Map: public Entity
 {
@@ -16,9 +18,9 @@ class Map: public Entity
         std::string const & name();
         void name(std::string const & name);
         void addPlatform(Platform * platform);
-        Platform * removePlatform(Platform * platform);
+        void removePlatform(Platform * platform);
         void addCharacter(Character * character);
-        Character * removeCharacter(Character * character);
+        void removeCharacter(Character * character);
 
     protected:
         std::string _name;

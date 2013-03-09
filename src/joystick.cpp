@@ -1,7 +1,7 @@
 #include <joystick.h>
 #include <SFML/Window/Joystick.hpp>
 
-namespace Joytick
+namespace Joystick
 {
     // Number of joysticks handled by SFML
     static const unsigned int nbJoysticks = 8;
@@ -11,16 +11,16 @@ namespace Joytick
 
     // Default Joystick configuration
     static const Button defaultConfig[nbButtons] = {
-        ButtonY,      // 0 
-        ButtonX,      // 1 
-        ButtonA,      // 2 
-        ButtonB,      // 3 
-        ButtonZ,      // 4 
-        TriggerRight, // 5 
-        TriggerLeft,  // 6 
-        Other,        // 7 
-        Other,        // 8 
-        Other,        // 9 
+        ButtonY,      // 0
+        ButtonX,      // 1
+        ButtonA,      // 2
+        ButtonB,      // 3
+        ButtonZ,      // 4
+        TriggerRight, // 5
+        TriggerLeft,  // 6
+        Other,        // 7
+        Other,        // 8
+        Other,        // 9
         Other,        // 10
         Other,        // 11
         Other,        // 12
@@ -52,7 +52,7 @@ namespace Joytick
         init();
     }
 
-    inline void init()
+    inline void State::init()
     {
         _btnsUp[ButtonA] = false;
         _btnsUp[ButtonB] = false;
@@ -67,7 +67,7 @@ namespace Joytick
 
     inline bool State::isConnected() const
     {
-        return sf::Joystick::IsConnected(_id);
+        return sf::Joystick::isConnected(_id);
     }
 
     inline bool State::isAxisFront(Axis axis) const
@@ -98,9 +98,9 @@ namespace Joytick
     {
         if (btn != Other)
         {
-            for (std::vector<Button>::size_type i = 0; i < _btnConfig.size(); i++)
+            for (unsigned int i = 0; i < _btnConfig.size(); i++)
             {
-                if (_btnConfig[i] == btn 
+                if (_btnConfig[i] == btn
                         && sf::Joystick::isButtonPressed(_id, i))
                 {
                     return true;
