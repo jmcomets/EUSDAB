@@ -1,6 +1,8 @@
 #include <character.h>
 #include <stdexcept>
 
+using namespace CharacterStates;
+
 Character::Character():
     Entity(),
     _currentState(nullptr), _joystickState(0),
@@ -14,7 +16,7 @@ Character::~Character()
 
 void Character::update()
 {
-    CharacterState * oldState = _currentState;
+    BaseState * oldState = _currentState;
     _currentState->update();
     if (oldState != _currentState)
     {
@@ -32,12 +34,12 @@ void Character::render(Graphics::Target &, Graphics::RenderStates)
     //_currentState->view().graphics.draw(target, trans);
 }
 
-void Character::addState(CharacterState::Id id, CharacterState * charState)
+void Character::addState(BaseState::Id id, BaseState * charState)
 {
     _states[id] = charState;
 }
 
-void Character::state(CharacterState::Id id)
+void Character::state(BaseState::Id id)
 {
     auto it = _states.find(id);
     if(it != _states.end())

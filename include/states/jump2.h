@@ -1,0 +1,22 @@
+#ifndef JUMP2_H_
+#define JUMP2_H_
+
+#include <states/baseState.h>
+
+namespace CharacterStates
+{
+    class Jump2: public CharacterState
+    {
+        public:
+            Jump2(Character &);
+            Jump2(const Jump2 &);
+            Jump2(Jump2 &&);
+            virtual ~Jump2();
+            Jump2 & operator=(const Jump2 &);
+            virtual void enter();
+            virtual void leave();
+            virtual void update();
+    };
+}
+
+#endif

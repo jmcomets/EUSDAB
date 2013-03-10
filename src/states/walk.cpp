@@ -2,7 +2,7 @@
 #include <character.h>
 
 Walk::Walk(Character &c, float speed, DirectionX dirX, DirectionY dirY):
-    CharacterState(c, dirX, dirY)
+    BaseState(c, dirX, dirY)
 {
     if(isDirection(Right))
     {
@@ -22,22 +22,22 @@ Walk::~Walk()
 
 void Walk::enter()
 {
-    CharacterState::enter();
+    BaseState::enter();
 }
 
 void Walk::update()
 {
-    CharacterState::update();
+    BaseState::update();
     const Joystick::State & j = _character.joystickState();
     if (j.axisPosition(Joystick::Axis::X) * _motion.x == 0)
     {
         if (isDirection(Right))
         {
-            _character.state(CharacterState::IdleRight);
+            _character.state(BaseState::IdleRight);
         }
         else
         {
-            _character.state(CharacterState::IdleLeft);
+            _character.state(BaseState::IdleLeft);
         }
     }
     else if (j.axisPosition(Joystick::Axis::X) * _motion.x < 0)
@@ -45,11 +45,11 @@ void Walk::update()
         // joystick dans le sens contraire, il faut changer d'etat.
         if (isDirection(Left))
         {
-            _character.state(CharacterState::WalkRight);
+            _character.state(BaseState::WalkRight);
         }
         else
         {
-            _character.state(CharacterState::WalkLeft);
+            _character.state(BaseState::WalkLeft);
         }
     }
     else
@@ -59,22 +59,22 @@ void Walk::update()
         {
             if (isDirection(Left))
             {
-                _character.state(CharacterState::AttackLeft);
+                _character.state(BaseState::AttackLeft);
             }
             else
             {
-                _character.state(CharacterState::AttackRight);
+                _character.state(BaseState::AttackRight);
             }
         }
         else if (j.isButtonFront(_character.joystickId(), BUTTON_B))
         {
             if (isDirection(Left))
             {
-                _character.state(CharacterState::SpecialLeft);
+                _character.state(BaseState::SpecialLeft);
             }
             else
             {
-                _character.state(CharacterState::SpecialRight);
+                _character.state(BaseState::SpecialRight);
             }
         }*/
     }

@@ -5,7 +5,7 @@ static const int jumpSpeed = 100; // this const permit to regulate the height of
 
 
 Jump1::Jump1(Character & c, DirectionX dirX, DirectionY dirY):
-	CharacterState(c, dirX, dirY)
+	BaseState(c, dirX, dirY)
 {
     _motion.x = 0;
     _motion.y = jumpSpeed;
@@ -17,7 +17,7 @@ Jump1::~Jump1()
 
 void Jump1::enter()
 {
-	CharacterState::enter();
+	BaseState::enter();
 	float x = _character.joystickState().axisPosition(Joystick::X);
 	_motion.x=x;
     _motion.y=jumpSpeed;
@@ -25,7 +25,7 @@ void Jump1::enter()
 
 void Jump1::update()
 {
-	CharacterState::update();
+	BaseState::update();
     const Joystick::State & j = _character.joystickState();
 	float x = j.axisPosition(Joystick::X);
 	float y = j.axisPosition(Joystick::Y);
@@ -38,22 +38,22 @@ void Jump1::update()
 	{
 		if (isDirection(Left))
 		{
-			_character.state(CharacterState::FallingLeft);
+			_character.state(BaseState::FallingLeft);
 		}
 		else
 		{
-			_character.state(CharacterState::FallingRight);
+			_character.state(BaseState::FallingRight);
 		}
 	}	// joystick in the opposite direction, need to change the state to face the opposite direction
 	else if (x*_motion.x < 0)
 	{
 		if (isDirection(Left))
 		{
-			_character.state(CharacterState::Jump1Right);
+			_character.state(BaseState::Jump1Right);
 		}
 		else
 		{
-			_character.state(CharacterState::Jump1Left);
+			_character.state(BaseState::Jump1Left);
 		}
 	}
 	/*else
@@ -63,33 +63,33 @@ void Jump1::update()
 		{
 			if (isDirection(Left))
 			{
-				_character.state(CharacterState::AerialDodgeLeft);
+				_character.state(BaseState::AerialDodgeLeft);
 			}
 			else
 			{
-				_character.state(CharacterState::AerialDodgeRight);
+				_character.state(BaseState::AerialDodgeRight);
 			}
 		}
 		else if (j.isButtonDown(ButtonA))
 		{
 			if (isDirection(Left))
 			{
-				_character.state(CharacterState::AerialAttackLeft);
+				_character.state(BaseState::AerialAttackLeft);
 			}
 			else
 			{
-				_character.state(CharacterState::AerialAttackRight);
+				_character.state(BaseState::AerialAttackRight);
 			}
 		}
 		else if (j.isButtonDown(ButtonB))
 		{
 			if (isDirection(Left))
 			{
-				_character.state(CharacterState::AerialSpecialLeft);
+				_character.state(BaseState::AerialSpecialLeft);
 			}
 			else
 			{
-				_character.state(CharacterState::AerialSpecialRight);
+				_character.state(BaseState::AerialSpecialRight);
 			}
 		}
 	}*/
@@ -97,5 +97,5 @@ void Jump1::update()
 
 void Jump1::leave()
 {
-	CharacterState::leave();
+	BaseState::leave();
 }
