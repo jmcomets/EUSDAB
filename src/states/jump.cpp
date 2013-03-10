@@ -46,11 +46,11 @@ namespace CharacterStates
         {
             if (isDirection(Left))
             {
-                _character.state(BaseState::Jump1Right);
+                _character.state(BaseState::JumpRight);
             }
             else
             {
-                _character.state(BaseState::Jump2Left);
+                _character.state(BaseState::JumpLeft);
             }
         }
         // direction down to break a jump
@@ -66,24 +66,25 @@ namespace CharacterStates
             }
         }	
         //consecutive jumps
-        /*else if ((jumpNumber<jumpNumberMax)&&(FrameCounter<halfJump))
-        {
-            if ((j.isBouttonDown(BouttonX)&&j.isBouttonFront(BouttonX))
+        else if ((j.isBouttonDown(BouttonX)&&j.isBouttonFront(BouttonX))
                     ||(j.isBouttonDown(BouttonY)&&j.isBouttonFront(BouttonY))
-                    ||(frontY && y < 0))
+                    ||(frontY && y < 0)) 
+        {
+            if ((jumpNumber<(jumpNumberMax))&&(FrameCounter>halfJump))
             {
+                jumpNumber++;
                 if (isDirection(Left))
                 {
-                    _character.state(BaseState::Jump2Right);
+                    _character.state(BaseState::JumpRight);
                 }
                 else
                 {
-                    _character.state(BaseState::Jump2Left);
+                    _character.state(BaseState::JumpLeft);
                 }
             }
         }
         //dodge
-        //*if ((j.isButtonDown(TriggerLeft)&&j.isBouttonFront(TriggerLeft))
+        /*if ((j.isButtonDown(TriggerLeft)&&j.isBouttonFront(TriggerLeft))
                 || (j.isButtonDown(TriggerRight)&&j.isBouttonFront(Triggeright)))
         {
             if (isDirection(Left))
