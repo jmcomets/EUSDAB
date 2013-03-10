@@ -32,10 +32,6 @@ SOURCES = $(foreach dir,$(REC_SRCDIR), $(wildcard $(dir)/*.cpp))
 OBJECTS = $(addsuffix .o, $(basename $(subst $(SRCDIR), $(OBJDIR), $(SOURCES))))
 #OBJECTS = $(foreach dir, $(REC_SRCDIR),$(SOURCES: $(dir)/%.cpp=$(OBJDIR)/%.o)) 
 DEPENDS = $(addsuffix .d, $(basename $(subst $(SRCDIR), $(DEPDIR), $(SOURCES))))
-#SOURCES=$(wildcard $(SRCDIR)/*.cpp)
-#HEADERS=$(wildcard $(INCDIR)/*.h)
-#OBJECTS=$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-#DEPENDS=$(SOURCES:$(SRCDIR)/%.cpp=$(DEPDIR)/%.d)
 
 ECHO=@echo
 RM=rm -f

@@ -1,6 +1,8 @@
 #include <animation.h>
+#include <iostream>
 
-namespace Graphics {
+namespace Graphics
+{
     Animation::Animation(Tileset const & tileset) : _tileset(tileset), _currentSpriteId(0)
     {
     }
@@ -17,7 +19,12 @@ namespace Graphics {
 
     Sprite const & Animation::sprite() const
     {
-        return *_tileset.lsImage()[_currentSpriteId];
+        Sprite * sp = _tileset.lsImage()[_currentSpriteId];
+        std::cout << "La maman de Pierre à (" << sp->getPosition().x 
+            << ", " << sp->getPosition().y << ") et est fat de ("
+            << sp->getTexture()->getSize().x << ", " 
+            << sp->getTexture()->getSize().y << ")" << std::endl;
+        return *sp;
     }
 }
 

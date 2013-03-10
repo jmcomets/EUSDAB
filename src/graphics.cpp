@@ -12,11 +12,10 @@ namespace Graphics
     {
     }
 
-    void Drawable::render(Target & target, RenderStates const & renderStates) const
+    void Drawable::render(Target & target, RenderStates renderStates) const
     {
         target.draw(sprite(), renderStates);
     }
-
 }
 
 

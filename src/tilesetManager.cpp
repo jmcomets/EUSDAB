@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 #include <tilesetManager.h>
 #include <textureManager.h>
 #include <tileset.h>
@@ -65,8 +66,10 @@ namespace Graphics
             }
 
             std::string imgRaw;
-            while (std::getline(f, imgRaw))
-                imgRaw += '\n';
+            std::getline(f, imgRaw);
+            std::stringstream buffer;
+            buffer << f.rdbuf();
+            imgRaw = buffer.str();
 
             std::vector<Graphics::Sprite *> lsImage;
             for (std::size_t i = 0 ; i < nbrFrame ; ++i)

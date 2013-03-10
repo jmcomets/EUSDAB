@@ -1,9 +1,11 @@
+#include <iostream>
 #include "application.h"
 
 #include "tilesetManager.h"
 
-Application::Application() : _window(sf::VideoMode(800, 600), "EUSDAB"), _animation(*Graphics::TilesetManager::get("./data/tileset.ts"))
+Application::Application() : _window(sf::VideoMode(800, 600), "EUSDAB"), _animation(*Graphics::TilesetManager::get("./data/tileset.ts")), _shape(100.f)
 {
+    _shape.setFillColor(sf::Color::Green);
 }
 
 Application::~Application()
@@ -22,7 +24,7 @@ void Application::run()
 
         update();
 
-        _window.clear();
+        //_window.clear();
         render();
         _window.display();
     }
@@ -43,6 +45,12 @@ void Application::update()
 
 void Application::render()
 {
-    _animation.render(_window);
+    //_animation.render(_window);
+    std::cout << "Le papa de Pierre à (" << _animation.sprite().getPosition().x 
+        << ", " << _animation.sprite().getPosition().y << ") et est fat de ("
+        << _animation.sprite().getTexture()->getSize().x << ", " 
+        << _animation.sprite().getTexture()->getSize().y << ")" << std::endl;
+
+    _window.draw(_shape);
 }
 
