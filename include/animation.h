@@ -18,8 +18,8 @@ namespace Graphics
 
             void nextFrame();
 
-        protected:
             virtual Sprite const & sprite() const;
+        protected:
 
         private:
             Tileset const & _tileset;

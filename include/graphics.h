@@ -20,8 +20,8 @@ namespace Graphics
 
             void render(Target &, RenderStates = RenderStates::Default) const;
 
-        protected:
             virtual const Sprite & sprite() const = 0;
+        protected:
     };
 }
 
