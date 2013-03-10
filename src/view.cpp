@@ -1,12 +1,12 @@
 #include <view.h>
 
 View::View():
-    View(nullptr, nullptr)
+    _graphics(nullptr), _sound(nullptr)
 {
 }
 
 View::View(Graphics::Drawable * g, Audio::Sound * s):
-    graphics(g), sound(s)
+    _graphics(g), _sound(s)
 {
 }
 
