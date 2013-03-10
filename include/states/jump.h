@@ -16,12 +16,15 @@ namespace CharacterStates
             virtual void enter();
             virtual void leave();
             virtual void update();
+
+            unsigned int jumpNumber() const;
+            unsigned int jumpNumberMax() const;
     
         private:
             sf::Vector2f _motion;
-            unsigned int jumpNumber;
-            unsigned int jumpNumberMax;
-            unsigned int frameCounter;
+            unsigned int _jumpNumber;
+            unsigned int _jumpNumberMax;
+            unsigned int _frameCounter;
     };
 }
 

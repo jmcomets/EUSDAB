@@ -5,10 +5,10 @@
 
 namespace CharacterStates
 {
-    class Falling: public CharacterState
+    class Falling: public BaseState
     {
         public:
-            Falling(Character &);
+            Falling(Character &, DirectionX, DirectionY);
             Falling(const Falling &);
             Falling(Falling &&);
             virtual ~Falling();
@@ -16,6 +16,9 @@ namespace CharacterStates
             virtual void enter();
             virtual void leave();
             virtual void update();
+
+        private:
+            sf::Vector2f _motion;
     };
 }
 

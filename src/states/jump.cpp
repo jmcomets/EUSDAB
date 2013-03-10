@@ -11,9 +11,9 @@ namespace CharacterStates
     {
         _motion.x = 0;
         _motion.y = jumpSpeed;
-        jumpNumber=jumpNbr;
-        jumpNumber=jumpNbrMax;
-        FrameCounter=0;
+        _jumpNumber=jumpNbr;
+        _jumpNumber=jumpNbrMax;
+        _frameCounter=0;
         
     }
 
@@ -27,8 +27,8 @@ namespace CharacterStates
         float x = _character.joystickState().axisPosition(Joystick::X);
         _motion.x=x;
         _motion.y=jumpSpeed;
-        frameCounter=0;
-        jumpNumber++;
+        _frameCounter=0;
+        _jumpNumber++;
     }
 
     void Jump::update()
@@ -43,7 +43,7 @@ namespace CharacterStates
 
         
         // joystick in the opposite direction, need to change the state to face the opposite direction
-        else if (x*_motion.x < 0)
+        if (x*_motion.x < 0)
         {
             if (isDirection(Left))
             {
@@ -55,7 +55,7 @@ namespace CharacterStates
             }
         }
         // direction down to break a jump
-        if (frontY && y < 0)
+        else if (frontY && y < 0)
         {
             if (isDirection(Left))
             {
@@ -67,11 +67,11 @@ namespace CharacterStates
             }
         }	
         //consecutive jumps
-        else if ((j.isBouttonDown(BouttonX)&&j.isBouttonFront(BouttonX))
-                    ||(j.isBouttonDown(BouttonY)&&j.isBouttonFront(BouttonY))
+        else if ((j.isButtonDown(Joystick::ButtonX)&&j.isButtonFront(Joystick::ButtonX))
+                    ||(j.isButtonDown(Joystick::ButtonY)&&j.isButtonFront(Joystick::ButtonY))
                     ||(frontY && y < 0)) 
         {
-            if ((jumpNumber<(jumpNumberMax))&&(FrameCounter>halfJump))
+            if ((_jumpNumber<(_jumpNumberMax))&&(_frameCounter>halfJump))
             {
                 if (isDirection(Left))
                 {
@@ -84,8 +84,8 @@ namespace CharacterStates
             }
         }
         //dodge
-        /*if ((j.isButtonDown(TriggerLeft)&&j.isBouttonFront(TriggerLeft))
-                || (j.isButtonDown(TriggerRight)&&j.isBouttonFront(Triggeright)))
+        /*else if ((j.isButtonDown(Joystick::TriggerLeft)&&j.isButtonFront(Joystick::TriggerLeft))
+                || (j.isButtonDown(TriggerRight)&&j.isButtonFront(Joystick::TriggerRight)))
         {
             if (isDirection(Left))
             {
@@ -97,7 +97,7 @@ namespace CharacterStates
             }
         }
         //aerial normal attack to be completed
-        else if (j.isButtonDown(ButtonA)&&j.isBouttonFront(BouttonA))
+        else if (j.isButtonDown(Joystick::ButtonA)&&j.isButtonFront(Joystick::ButtonA))
         {
             if (isDirection(Left))
             {
@@ -109,7 +109,7 @@ namespace CharacterStates
             }
         }
         //aerial special attack to be completed
-        else if (j.isButtonDown(ButtonB)&&j.isBouttonFront(BouttonB))
+        else if (j.isButtonDown(Joystick::ButtonB)&&j.isButtonFront(Joystick::ButtonB))
         {
             if (isDirection(Left))
             {
@@ -124,7 +124,7 @@ namespace CharacterStates
         else
         {
             _character.move(_motion);
-            frameCounter++;
+            _frameCounter++;
         }
     }
 
@@ -132,5 +132,16 @@ namespace CharacterStates
     {
         BaseState::leave();
     }
+
+    unsigned int Jump::jumpNumber() const
+    {
+        return _jumpNumber;
+    }
+
+    unsigned int Jump::jumpNumberMax() const
+    {
+        return _jumpNumberMax;
+    }
+
 }
 
