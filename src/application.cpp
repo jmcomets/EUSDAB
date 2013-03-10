@@ -1,4 +1,3 @@
-#include <iostream>
 #include "application.h"
 
 #include "tilesetManager.h"
@@ -46,11 +45,6 @@ void Application::update()
 void Application::render()
 {
     //_animation.render(_window);
-    std::cout << "Le papa de Pierre à (" << _animation.sprite().getPosition().x 
-        << ", " << _animation.sprite().getPosition().y << ") et est fat de ("
-        << _animation.sprite().getTexture()->getSize().x << ", " 
-        << _animation.sprite().getTexture()->getSize().y << ")" << std::endl;
-
     _window.draw(_shape);
 }
 

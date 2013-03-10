@@ -18,7 +18,7 @@ namespace Graphics
 
             void nextFrame();
 
-        public:
+        protected:
             virtual Sprite const & sprite() const;
 
         private:
