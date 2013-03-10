@@ -1,30 +1,17 @@
 #include <view.h>
 
-View::View()
+View::View():
+    View(nullptr, nullptr)
+{
+}
+
+View::View(Graphics::Drawable * g, Audio::Sound * s):
+    graphics(g), sound(s)
 {
 }
 
 View::~View()
 {
+    //delete graphics;
+    //delete sound;
 }
-
-
-void View::attach(Observer * obs)
-{
-    _observers.insert(obs);
-}
-
-void View::detach(Observer * obs)
-{
-    _observers.erase(obs);
-}
-
-void View::update()
-{
-    //for(auto it: _observers)
-    //{
-        //it->update(this);
-    //}
-}
-
-

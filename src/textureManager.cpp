@@ -1,5 +1,4 @@
-#include "textureManager.h"
-
+#include <textureManager.h>
 #include <SFML/Graphics.hpp>
 
 namespace Graphics

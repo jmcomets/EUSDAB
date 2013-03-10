@@ -37,7 +37,6 @@ namespace Graphics
         }
         else
         {
-
             std::size_t nbrFrame;
             std::size_t width;
             std::size_t height;
@@ -92,20 +91,14 @@ namespace Graphics
         delete _instance;
         _instance = nullptr;
     }
-}
 
 #ifndef NO_RAII
-
-namespace Priv
-{
-    static struct RAII
+    static struct TilesetManagerRAII
     {
-        ~RAII()
+        ~TilesetManagerRAII()
         {
-            Graphics::TilesetManager::free();
+            TilesetManager::free();
         }
-    } raii;
-}
-
+    } tsmRaii;
 #endif
-
+}

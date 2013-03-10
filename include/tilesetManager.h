@@ -15,7 +15,6 @@ namespace Graphics
             TilesetManager(TilesetManager &&) = delete;
             TilesetManager & operator=(const TilesetManager &) = delete;
             ~TilesetManager();
-
             static const Tileset * get(const std::string & filename);
             static void free();
 
@@ -24,7 +23,6 @@ namespace Graphics
             static TilesetManager * instance();
             static TilesetManager * _instance;
             std::map<std::string, const Tileset *> _pool;
-
     };
 }
 
