@@ -1,0 +1,1 @@
+export LD_LIBRARY_PATH=./lib/SFML-2.0-rc/lib && ././bin/EUSAB
