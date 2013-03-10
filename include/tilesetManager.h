@@ -17,6 +17,7 @@ namespace Graphics
             ~TilesetManager();
 
             static const Tileset * get(const std::string & filename);
+            static void free();
 
         private:
             TilesetManager() = default;

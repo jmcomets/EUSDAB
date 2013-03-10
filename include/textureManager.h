@@ -12,12 +12,13 @@ namespace Graphics
             TextureManager(const TextureManager &) = delete;
             ~TextureManager();
             TextureManager & operator=(const TextureManager &) = delete;
+
             static const Texture * get(const char * raw, std::size_t size, int x, int y, std::size_t width, std::size_t height);
+            static void free();
 
         private:
+            TextureManager() = default;
             static TextureManager * instance();
-            TextureManager();
-
             static TextureManager * _instance;
             std::vector<const Texture *> _pool;
     };

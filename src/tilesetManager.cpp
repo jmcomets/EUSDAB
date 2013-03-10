@@ -82,5 +82,26 @@ namespace Graphics
             return t;
         }
     }
+
+    void TilesetManager::free()
+    {
+        delete _instance;
+        _instance = nullptr;
+    }
 }
+
+#ifndef NO_RAII
+
+namespace Priv
+{
+    static struct RAII
+    {
+        ~RAII()
+        {
+            Graphics::TilesetManager::free();
+        }
+    } raii;
+}
+
+#endif
 

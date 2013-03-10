@@ -6,10 +6,6 @@ namespace Graphics
 {
     TextureManager * TextureManager::_instance = nullptr;
 
-    TextureManager::TextureManager()
-    {
-    }
-
     TextureManager::~TextureManager()
     {
         for (auto p : _pool)
@@ -37,4 +33,25 @@ namespace Graphics
 
         return _instance;
     }
+
+    void TextureManager::free()
+    {
+        delete _instance;
+        _instance = nullptr;
+    }
 }
+
+#ifndef NO_RAII
+
+namespace Priv
+{
+    static struct RAII
+    {
+        ~RAII()
+        {
+            Graphics::TextureManager::free();
+        }
+    } raii;
+}
+
+#endif
