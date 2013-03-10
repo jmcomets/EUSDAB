@@ -8,7 +8,7 @@ namespace CharacterStates
     class Jump: public BaseState
     {
         public:
-            Jump(Character &, DirectionX, DirectionY);
+            Jump(Character &, DirectionX, DirectionY, unsigned int jumpNbr, unsigned int jumpNbrMax );
             Jump(const Jump &);
             Jump(Jump &&);
             virtual ~Jump();
@@ -19,7 +19,8 @@ namespace CharacterStates
     
         private:
             sf::Vector2f _motion;
-            unsigned int jumpCounter;
+            unsigned int jumpNumber;
+            unsigned int jumpNumberMax;
             unsigned int frameCounter;
     };
 }

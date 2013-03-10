@@ -6,11 +6,15 @@ namespace CharacterStates
     static const int halfJump = 50; // this const permit to to know the half of a jump
     static const int jumpSpeed = 100; // this const permit to regulate the height of a jump
 
-    Jump::Jump(Character & c, DirectionX dirX, DirectionY dirY):
+    Jump::Jump(Character & c, DirectionX dirX, DirectionY dirY, unsigned int jumpNbr, unsigned int jumpNbrMax):
         BaseState(c, dirX, dirY)
     {
         _motion.x = 0;
         _motion.y = jumpSpeed;
+        jumpNumber=jumpNbr;
+        jumpNumber=jumpNbrMax;
+        FrameCounter=0;
+        
     }
 
     Jump::~Jump()
@@ -23,6 +27,7 @@ namespace CharacterStates
         float x = _character.joystickState().axisPosition(Joystick::X);
         _motion.x=x;
         _motion.y=jumpSpeed;
+        frameCounter=0;
     }
 
     void Jump::update()
@@ -35,6 +40,19 @@ namespace CharacterStates
 
         _motion.x = x; // set the x movement value
 
+        
+        // joystick in the opposite direction, need to change the state to face the opposite direction
+        else if (x*_motion.x < 0)
+        {
+            if (isDirection(Left))
+            {
+                _character.state(BaseState::Jump1Right);
+            }
+            else
+            {
+                _character.state(BaseState::Jump2Left);
+            }
+        }
         // direction down to break a jump
         if (frontY && y < 0)
         {
@@ -46,55 +64,67 @@ namespace CharacterStates
             {
                 _character.state(BaseState::FallingRight);
             }
-        }	// joystick in the opposite direction, need to change the state to face the opposite direction
-        else if (x*_motion.x < 0)
+        }	
+        //consecutive jumps
+        /*else if ((jumpNumber<jumpNumberMax)&&(FrameCounter<halfJump))
+        {
+            if ((j.isBouttonDown(BouttonX)&&j.isBouttonFront(BouttonX))
+                    ||(j.isBouttonDown(BouttonY)&&j.isBouttonFront(BouttonY))
+                    ||(frontY && y < 0))
+            {
+                if (isDirection(Left))
+                {
+                    _character.state(BaseState::Jump2Right);
+                }
+                else
+                {
+                    _character.state(BaseState::Jump2Left);
+                }
+            }
+        }
+        //dodge
+        //*if ((j.isButtonDown(TriggerLeft)&&j.isBouttonFront(TriggerLeft))
+                || (j.isButtonDown(TriggerRight)&&j.isBouttonFront(Triggeright)))
         {
             if (isDirection(Left))
             {
-                _character.state(BaseState::Jump1Right);
+                _character.state(BaseState::AerialDodgeLeft);
             }
             else
             {
-                _character.state(BaseState::Jump1Left);
+                _character.state(BaseState::AerialDodgeRight);
             }
         }
-        /*else
-          {
-          _character.move(_motion);
-          if (j.isButtonDown(TriggerLeft) || j.isButtonDown(TriggerRight)
-          {
-          if (isDirection(Left))
-          {
-          _character.state(BaseState::AerialDodgeLeft);
-          }
-          else
-          {
-          _character.state(BaseState::AerialDodgeRight);
-          }
-          }
-          else if (j.isButtonDown(ButtonA))
-          {
-          if (isDirection(Left))
-          {
-          _character.state(BaseState::AerialAttackLeft);
-          }
-          else
-          {
-          _character.state(BaseState::AerialAttackRight);
-          }
-          }
-          else if (j.isButtonDown(ButtonB))
-          {
-          if (isDirection(Left))
-          {
-          _character.state(BaseState::AerialSpecialLeft);
-          }
-          else
-          {
-          _character.state(BaseState::AerialSpecialRight);
-          }
-          }
-          }*/
+        //aerial normal attack to be completed
+        else if (j.isButtonDown(ButtonA)&&j.isBouttonFront(BouttonA))
+        {
+            if (isDirection(Left))
+            {
+                _character.state(BaseState::AerialAttackLeft);
+            }
+            else
+            {
+                _character.state(BaseState::AerialAttackRight);
+            }
+        }
+        //aerial special attack to be completed
+        else if (j.isButtonDown(ButtonB)&&j.isBouttonFront(BouttonB))
+        {
+            if (isDirection(Left))
+            {
+                _character.state(BaseState::AerialSpecialLeft);
+            }
+            else
+            {
+                _character.state(BaseState::AerialSpecialRight);
+            }
+        }
+        */
+        else
+        {
+            _character.move(_motion);
+            frameCounter++;
+        }
     }
 
     void Jump::leave()
