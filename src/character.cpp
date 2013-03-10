@@ -126,7 +126,7 @@ bool Character::isFlying()
     return _isflying;
 }
 
-void decraseShieldCapacity(unsigned int variation)
+void Character::decraseShieldCapacity(unsigned int variation)
 {
     int pass= _shieldCapacity-variation;
     if (pass<0)
@@ -135,7 +135,7 @@ void decraseShieldCapacity(unsigned int variation)
         _shieldCapacity=0;
 }
 
-void incraseShieldCapacity(unsigned int variation)
+void Character::incraseShieldCapacity(unsigned int variation)
 {
     int pass= _shieldCapacity+variation;
     if (pass<100)
@@ -144,7 +144,7 @@ void incraseShieldCapacity(unsigned int variation)
         _shieldCapacity=100;
 }
 
-unsigned int getShieldCapacity()
+unsigned int Character::getShieldCapacity()
 {
     return _shieldCapacity;
 }

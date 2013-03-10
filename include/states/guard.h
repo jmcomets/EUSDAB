@@ -5,7 +5,7 @@
 
 namespace CharacterStates
 {
-    class Guard: public CharacterState
+    class Guard: public BaseState
     {
         public:
             Guard(Character &, DirectionX, DirectionY);
