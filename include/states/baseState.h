@@ -23,6 +23,7 @@ namespace CharacterStates
                 EjectedLeft, EjectedRight,
                 FallingLeft, FallingRight,
                 GuardLeft, GuardRight,
+                StunnedLeft, StunnedRight,
                 HelplessLeft, HelplessRight,
                 JumpLeft, JumpRight,
                 LandingLeft, LandingRight,  //those are idle type states

@@ -1,6 +1,8 @@
 #include <character.h>
 #include <stdexcept>
 
+static unsigned int shieldCapacityMax=100;
+
 using namespace CharacterStates;
 
 Character::Character():
@@ -122,4 +124,27 @@ void Character::setIsFlying(bool aFlying)
 bool Character::isFlying()
 {
     return _isflying;
+}
+
+void decraseShieldCapacity(unsigned int variation)
+{
+    int pass= _shieldCapacity-variation;
+    if (pass<0)
+        _shieldCapacity=pass;
+    else
+        _shieldCapacity=0;
+}
+
+void incraseShieldCapacity(unsigned int variation)
+{
+    int pass= _shieldCapacity+variation;
+    if (pass<100)
+        _shieldCapacity=pass;
+    else
+        _shieldCapacity=100;
+}
+
+unsigned int getShieldCapacity()
+{
+    return _shieldCapacity;
 }

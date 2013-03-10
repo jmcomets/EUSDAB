@@ -5,8 +5,8 @@ const unsigned int landinAnimationLength=100;//to be adapted
 
 namespace CharacterStates
 {
-    Idle::Idle(Character & c):
-        BaseState(c), _delay(false)
+    Idle::Idle(Character & c, DirectionX, DirectionY):
+         BaseState(c, dirX, dirY), _delay(false)
     {
     }
 

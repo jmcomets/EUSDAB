@@ -29,6 +29,9 @@ class Character: public Entity
         void damage(int);
         void setIsFlying(bool);
         bool isFlying();
+        void decraseShieldCapacity(unsigned int variation=1);
+        void incraseShieldCapacity(unsigned int variation=1);
+        unsigned int getShieldCapacity();
 
     private:
         Joystick::State _joystickState;
@@ -38,6 +41,7 @@ class Character: public Entity
         std::string _name;
         int _damage;
         bool _isflying;
+        unsigned int _shieldCapacity;
 };
 
 #endif

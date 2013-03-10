@@ -8,7 +8,7 @@ namespace CharacterStates
     class Idle: public BaseState
     {
         public:
-            Idle(Character &);
+            Idle(Character &, DirectionX, DirectionY);
             Idle(const Idle &);
             Idle(Idle &&);
             virtual ~Idle();
