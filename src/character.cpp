@@ -5,7 +5,8 @@ using namespace CharacterStates;
 
 Character::Character():
     Entity(),
-    _currentState(nullptr), _joystickState(0),
+    _joystickState(0),
+    _previousState(nullptr), _currentState(nullptr),
     _states(), _name(), _damage(0)
 {
 }
@@ -16,11 +17,11 @@ Character::~Character()
 
 void Character::update()
 {
-    BaseState * oldState = _currentState;
+    _previousState = _currentState;
     _currentState->update();
-    if (oldState != _currentState)
+    if (_previousState != _currentState)
     {
-        if (oldState != nullptr)
+        if (_previousState != nullptr)
         {
             _currentState->leave();
         }
@@ -42,13 +43,13 @@ void Character::addState(BaseState::Id id, BaseState * charState)
 void Character::state(BaseState::Id id)
 {
     auto it = _states.find(id);
-    if(it != _states.end())
+    if (it != _states.end())
     {
-        _currentState = _states[id];
+        _currentState = it->second;
     }
     else
     {
-        std::string e = "State id n°: ";
+        std::string e = "state id n°: ";
         e += id + "doesn't exist for " + _name;
         throw std::runtime_error(e);
     }
@@ -77,4 +78,38 @@ void Character::damage(int d)
 const Joystick::State & Character::joystickState() const
 {
     return _joystickState;
+}
+
+BaseState * Character::currentState() const
+{
+    return _currentState;
+}
+
+BaseState * Character::previousState() const
+{
+    return _previousState;
+}
+
+BaseState::Id Character::currentStateId() const
+{
+    for (auto p : _states)
+    {
+        if (p.second == _currentState)
+        {
+            return p.first;
+        }
+    }
+    throw std::runtime_error("Unexpected current character state not in character state list, current state is possibly null");
+}
+
+BaseState::Id Character::previousStateId() const
+{
+    for (auto p : _states)
+    {
+        if (p.second == _previousState)
+        {
+            return p.first;
+        }
+    }
+    throw std::runtime_error("Unexpected previous character state not in character state list, previous state is possibly null");
 }

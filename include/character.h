@@ -16,17 +16,22 @@ class Character: public Entity
         Character & operator=(const Character &);
         void update();
         void render(Graphics::Target &, Graphics::RenderStates);
+        const Joystick::State & joystickState() const;
         void addState(CharacterStates::BaseState::Id, CharacterStates::BaseState *);
         void state(CharacterStates::BaseState::Id id);
-        std::string const & name();
-        void name(std::string const &);
+        CharacterStates::BaseState * currentState() const;
+        CharacterStates::BaseState * previousState() const;
+        CharacterStates::BaseState::Id currentStateId() const;
+        CharacterStates::BaseState::Id previousStateId() const;
+        const std::string & name();
+        void name(const std::string &);
         int damage();
         void damage(int);
-        const Joystick::State & joystickState() const;
 
     private:
-        CharacterStates::BaseState * _currentState;
         Joystick::State _joystickState;
+        CharacterStates::BaseState * _previousState;
+        CharacterStates::BaseState * _currentState;
         std::map<CharacterStates::BaseState::Id, CharacterStates::BaseState *> _states;
         std::string _name;
         int _damage;
