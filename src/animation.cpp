@@ -13,12 +13,12 @@ namespace Graphics
     void Animation::nextFrame()
     {
         _currentSpriteId++;
-        _currentSpriteId %= _tileset.lsImage().size();
+        _currentSpriteId %= _tileset.lsImage().size() * _tileset.framePerImage();
     }
 
     Sprite const & Animation::sprite() const
     {
-        return *_tileset.lsImage()[_currentSpriteId];
+        return *_tileset.lsImage()[static_cast<size_t>(_currentSpriteId * 1.0 / _tileset.framePerImage())];
     }
 }
 
