@@ -1,7 +1,7 @@
 #ifndef WALK_H_
 #define WALK_H_
 
-#include <baseState.h>
+#include <states/baseState.h>
 #include <SFML/System/Vector2.hpp>
 
 namespace CharacterStates

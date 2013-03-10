@@ -5,7 +5,7 @@
 
 namespace CharacterStates
 {
-    class Attack: public CharacterState
+    class Attack: public BaseState
     {
         public:
             Attack(Character &, DirectionX, DirectionY, const unsigned int);

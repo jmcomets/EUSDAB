@@ -5,7 +5,7 @@
 
 namespace CharacterStates
 {
-    class Crouch: public CharacterState
+    class Crouch: public BaseState
     {
         public:
             Crouch(Character &, DirectionX, DirectionY);

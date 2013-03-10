@@ -65,7 +65,8 @@ namespace Graphics
             }
 
             std::string imgRaw;
-            while (f >> imgRaw);
+            while (std::getline(f, imgRaw))
+                imgRaw += '\n';
 
             std::vector<Graphics::Sprite *> lsImage;
             for (std::size_t i = 0 ; i < nbrFrame ; ++i)

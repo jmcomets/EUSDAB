@@ -5,7 +5,7 @@
 
 namespace CharacterStates
 {
-    class Jump1: public CharacterState
+    class Jump1: public BaseState
     {
         public:
             Jump1(Character &, DirectionX, DirectionY);

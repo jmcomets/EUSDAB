@@ -6,7 +6,7 @@
 
 namespace CharacterStates
 {
-    class Smash: public CharacterState
+    class Smash: public BaseState
     {
         public:
             Smash(Character &, DirectionX, DirectionY, const unsigned int);

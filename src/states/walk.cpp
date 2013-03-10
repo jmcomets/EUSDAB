@@ -1,4 +1,4 @@
-#include <walk.h>
+#include <states/walk.h>
 #include <character.h>
 
 Walk::Walk(Character &c, float speed, DirectionX dirX, DirectionY dirY):

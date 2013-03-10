@@ -1,4 +1,4 @@
-#include <smash.h>
+#include <states/smash.h>
 #include <character.h>
 
 namespace CharacterStates

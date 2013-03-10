@@ -1,4 +1,4 @@
-#include <attack.h>
+#include <states/attack.h>
 #include <character.h>
 
 namespace CharacterStates

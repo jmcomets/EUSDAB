@@ -5,7 +5,7 @@
 
 namespace CharacterStates
 {
-    class Run: public CharacterState
+    class Run: public BaseState
     {
         public:
             Run(Character &, float speed, DirectionX, DirectionY);

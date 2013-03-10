@@ -1,4 +1,4 @@
-#include <idle.h>
+#include <states/idle.h>
 #include <character.h>
 
 namespace CharacterStates

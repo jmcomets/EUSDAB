@@ -5,7 +5,7 @@
 
 namespace CharacterStates
 {
-    class Idle: public CharacterState
+    class Idle: public BaseState
     {
         public:
             Idle(Character &);
