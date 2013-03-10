@@ -2,7 +2,6 @@
 #define APPLICATION_H_
 
 #include <SFML/Graphics.hpp>
-
 #include <animation.h>
 
 class Application
@@ -22,7 +21,6 @@ class Application
         sf::RenderWindow _window;
 
         Graphics::Animation _animation;
-        sf::CircleShape _shape;
 };
 
 #endif
