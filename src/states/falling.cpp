@@ -37,6 +37,7 @@ namespace CharacterStates
 
         _motion.x = x; // set the x movement value
 
+        //moment when the carater land
         if (_character.isFlying() == false)
         {
             if (isDirection(Left))

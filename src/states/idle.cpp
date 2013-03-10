@@ -1,6 +1,8 @@
 #include <states/idle.h>
 #include <character.h>
 
+const unsigned int landinAnimationLength=100;//to be adapted
+
 namespace CharacterStates
 {
     Idle::Idle(Character & c):
@@ -16,6 +18,8 @@ namespace CharacterStates
     {
         BaseState::enter();
         _delay = false;
+        _frameCounter=landingAnimationLength;
+        
     }
 
     void Idle::leave()
@@ -26,8 +30,21 @@ namespace CharacterStates
     void Idle::update()
     {
         BaseState::update();
-
-        if (_delay)
+        _frameCounter--;
+         //this means that we were landing and that the animation finished 
+         //so we need to go into the idle state
+        if (0==_frameCounter)
+        {
+                if (isDirection(Left))
+                {
+                    _character.state(BaseState::IdleLeft);
+                }
+                else
+                {
+                    _character.state(BaseState::IdleRight);
+                }        
+        }
+        else if (_delay)
         {
             updateDelay();
         }
@@ -51,6 +68,7 @@ namespace CharacterStates
                 _delay = true;
             }
         }
+        
     }
 
     void Idle::updateDelay()

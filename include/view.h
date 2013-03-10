@@ -12,8 +12,8 @@ struct View
     View(const View &) = delete;
     ~View();
     View & operator=(const View &) = delete;
-    Graphics::Drawable * graphics;
-    Audio::Sound * sound;
+    Graphics::Drawable * _graphics;
+    Audio::Sound * _sound;
 };
 
 #endif

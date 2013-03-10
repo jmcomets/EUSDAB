@@ -25,7 +25,7 @@ namespace CharacterStates
                 GuardLeft, GuardRight,
                 HelplessLeft, HelplessRight,
                 JumpLeft, JumpRight,
-                LandingLeft, LandingRight,
+                LandingLeft, LandingRight,  //those are idle type states
                 RunLeft, RunRight,
                 SmashDown, SmashLeft, SmashRight, SmashUp,
                 SpecialDown, SpecialLeft, SpecialRight, SpecialUp,

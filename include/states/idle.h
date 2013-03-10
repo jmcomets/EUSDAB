@@ -20,6 +20,7 @@ namespace CharacterStates
         private:
             void updateDelay();
             bool _delay;
+            unsigned int _frameCounter;
     };
 }
 
