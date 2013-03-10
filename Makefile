@@ -27,13 +27,19 @@ LDFLAGS=$(LDFLAGS.$(PROD))
 LDLIBS=$(LDLIBS.$(PROD))
 OUTPUT_OPTION=-MMD
 
-SOURCES=$(wildcard $(SRCDIR)/*.cpp)
-HEADERS=$(wildcard $(INCDIR)/*.h)
-OBJECTS=$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-DEPENDS=$(SOURCES:$(SRCDIR)/%.cpp=$(DEPDIR)/%.d)
+REC_SRCDIR = $(shell find $(SRCDIR) -type d)
+SOURCES = $(foreach dir,$(REC_SRCDIR), $(wildcard $(dir)/*.cpp))
+OBJECTS = $(addsuffix .o, $(basename $(subst $(SRCDIR), $(OBJDIR), $(SOURCES))))
+#OBJECTS = $(foreach dir, $(REC_SRCDIR),$(SOURCES: $(dir)/%.cpp=$(OBJDIR)/%.o)) 
+DEPENDS = $(addsuffix .d, $(basename $(subst $(SRCDIR), $(DEPDIR), $(SOURCES))))
+#SOURCES=$(wildcard $(SRCDIR)/*.cpp)
+#HEADERS=$(wildcard $(INCDIR)/*.h)
+#OBJECTS=$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+#DEPENDS=$(SOURCES:$(SRCDIR)/%.cpp=$(DEPDIR)/%.d)
 
 ECHO=@echo
 RM=rm -f
+MKDIR=mkdir -p
 
 RUN=run
 CLEAN=clean
@@ -42,15 +48,23 @@ TARGET=$(BINDIR)/EUSAB
 
 all:$(TARGET)
 
+test:
+	echo $(SOURCES)
+	echo $(REC_SRCDIR)
+	echo $(OBJECTS)
+
 .PHONY:all $(CLEAN) $(RUN) $(MRPROPER)
 
 $(RUN):$(TARGET)
 	export LD_LIBRARY_PATH=./lib/SFML-2.0-rc/lib && ./$(TARGET)
 
 $(TARGET):$(OBJECTS)
+	$(MKDIR) $(@D)
 	$(LINK.cpp) $^ $(LDLIBS) -o $@
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
+	$(MKDIR) $(@D)
+	$(MKDIR) $(dir $(DEPDIR)/$*.d)
 	$(COMPILE.cpp) $< $(OUTPUT_OPTION) -MF $(DEPDIR)/$*.d -o $@
 
 $(CLEAN):
