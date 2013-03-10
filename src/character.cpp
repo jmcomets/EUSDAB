@@ -113,3 +113,13 @@ BaseState::Id Character::previousStateId() const
     }
     throw std::runtime_error("Unexpected previous character state not in character state list, previous state is possibly null");
 }
+
+void setIsFlying(bool aFlying)
+{
+    _isflying=aFlying;
+}
+
+bool isFlying()
+{
+    return _isflying;
+}

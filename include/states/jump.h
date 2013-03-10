@@ -8,7 +8,7 @@ namespace CharacterStates
     class Jump: public BaseState
     {
         public:
-            Jump(Character &, DirectionX, DirectionY, unsigned int jumpNbr, unsigned int jumpNbrMax );
+            Jump(Character &, DirectionX, DirectionY, unsigned int jumpNbrMax, unsigned int jumpNbr );
             Jump(const Jump &);
             Jump(Jump &&);
             virtual ~Jump();

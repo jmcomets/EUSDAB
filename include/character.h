@@ -27,6 +27,8 @@ class Character: public Entity
         void name(const std::string &);
         int damage();
         void damage(int);
+        void setIsFlying(bool);
+        bool isFlying();
 
     private:
         Joystick::State _joystickState;
@@ -35,6 +37,7 @@ class Character: public Entity
         std::map<CharacterStates::BaseState::Id, CharacterStates::BaseState *> _states;
         std::string _name;
         int _damage;
+        bool _isflying;
 };
 
 #endif
