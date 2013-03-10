@@ -2,9 +2,8 @@
 
 #include "tilesetManager.h"
 
-Application::Application() : _window(sf::VideoMode(800, 600), "EUSDAB"), _animation(*Graphics::TilesetManager::get("./data/tileset.ts")), _shape(100.f)
+Application::Application() : _window(sf::VideoMode(800, 600), "EUSDAB"), _animation(*Graphics::TilesetManager::get("./data/tileset.ts"))
 {
-    _shape.setFillColor(sf::Color::Green);
 }
 
 Application::~Application()
@@ -23,7 +22,7 @@ void Application::run()
 
         update();
 
-        //_window.clear();
+        _window.clear();
         render();
         _window.display();
     }
@@ -44,7 +43,6 @@ void Application::update()
 
 void Application::render()
 {
-    //_animation.render(_window);
-    _window.draw(_shape);
+    _animation.render(_window);
 }
 
