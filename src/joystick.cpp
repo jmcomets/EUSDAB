@@ -1,16 +1,11 @@
 #include <joystick.h>
+#include <stdexcept>
 #include <SFML/Window/Joystick.hpp>
 
 namespace Joystick
 {
-    // Number of joysticks handled by SFML
-    static const unsigned int nbJoysticks = 8;
-
-    // Number of buttons handled by SFML
-    static const unsigned int nbButtons = 32;
-
     // Default Joystick configuration
-    static const Button defaultConfig[nbButtons] = {
+    static const Button defaultConfig[NbButtons] = {
         ButtonY,      // 0
         ButtonX,      // 1
         ButtonA,      // 2
@@ -45,34 +40,32 @@ namespace Joystick
         Other         // 31
     };
 
-    // Joystick::State implementation
-    State::State(unsigned int id):
-        _btnConfig(defaultConfig, defaultConfig + nbButtons), _id(id), _btnsUp(), _axesUp()
+    // Joystick::ButtonConfig implementation
+    unsigned int ButtonConfig::operator[](Button btn) const
     {
-        init();
+        for (unsigned int i = 0; i < _btnConfig.size(); i++)
+        {
+            if (btn == _btnConfig[i])
+            {
+                return i;
+            }
+        }
+        throw std::runtime_error("Unhandled Button -> id mapping");
     }
 
-    void State::init()
-    {
-        _btnsUp[ButtonA] = false;
-        _btnsUp[ButtonB] = false;
-        _btnsUp[ButtonZ] = false;
-        _btnsUp[ButtonY] = false;
-        _btnsUp[TriggerLeft] = false;
-        _btnsUp[TriggerRight] = false;
-        _btnsUp[Other] = false;
-        _axesUp.first = false;
-        _axesUp.second = false;
-    }
+    // Joystick::State implementation
+    State::State(unsigned int id):
+        _id(id), _frameMasks(),
+        _btnConfig(defaultConfig, defaultConfig + NbButtons) {}
 
     bool State::isConnected() const
     {
         return sf::Joystick::isConnected(_id);
     }
 
-    bool State::isAxisFront(Axis axis) const
+    unsigned int State::id() const
     {
-        return axis == X ? _axesUp.first : _axesUp.second;
+        return _id;
     }
 
     float State::axisPosition(Axis axis) const
@@ -81,33 +74,9 @@ namespace Joystick
                 axis == X ? sf::Joystick::X : sf::Joystick::Y);
     }
 
-    bool State::isButtonFront(Button btn) const
-    {
-        if (btn != Other)
-        {
-            auto it = _btnsUp.find(btn);
-            if (it != _btnsUp.end())
-            {
-                return it->second;
-            }
-        }
-        return false;
-    }
-
     bool State::isButtonDown(Button btn) const
     {
-        if (btn != Other)
-        {
-            for (unsigned int i = 0; i < _btnConfig.size(); i++)
-            {
-                if (_btnConfig[i] == btn
-                        && sf::Joystick::isButtonPressed(_id, i))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return btn != Other && sf::Joystick::isButtonPressed(_id, _btnConfig[btn]);
     }
 
     bool State::isButtonUp(Button btn) const
@@ -115,8 +84,19 @@ namespace Joystick
         return isButtonDown(btn) == false;
     }
 
-    unsigned int State::id() const
+    bool State::isAxisFront(Axis axis) const
     {
-        return _id;
+        return _frameMasks.back()[btn]
+    }
+
+    bool State::isButtonFront(Button btn) const
+    {
+    }
+
+    // Joystick::State::Mask implementation
+    State::Mask::Mask(const ButtonConfig & config):
+        _btnConfig(config),
+        _btns(), _axes(false, false)
+    {
     }
 }

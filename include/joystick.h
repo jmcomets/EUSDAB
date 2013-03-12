@@ -1,9 +1,12 @@
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
 
-#include <vector>
+#include <cstddef>
+#include <algorithm>
+#include <bitset>
+#include <list>
 #include <utility>
-#include <unordered_map>
+#include <array>
 #include <functional>
 
 namespace Joystick
@@ -21,36 +24,95 @@ namespace Joystick
         Other
     };
 
+    // Number of real joysticks handled
+    constexpr unsigned int NbButtons = 32;
+
+    // Number of real buttons handled
+    constexpr unsigned int NbJoysticks = 8;
+
+    class ButtonConfig
+    {
+        public:
+            ButtonConfig();
+            template <typename Iterator>
+                ButtonConfig(Iterator begin, Iterator end):
+                    _btnConfig()
+            {
+                std::copy(begin, end, _btnConfig.begin());
+            }
+
+            ButtonConfig(ButtonConfig &&) = default;
+            ButtonConfig(const ButtonConfig &) = default;
+            ~ButtonConfig() = default;
+            ButtonConfig & operator=(const ButtonConfig &) = default;
+            unsigned int operator[](Button) const;
+
+        private:
+            std::array<Button, NbButtons> _btnConfig;
+    };
+
     class State
     {
         public:
+            // Construct with default config
+            State(unsigned int);
+
+            // Construct with inplace config
             template <typename Iterator>
                 State(unsigned int id, Iterator begin, Iterator end):
-                    _id(id), _btnConfig(begin, end), _btnsUp()
-            {
-                init();
-            }
+                    _id(id), _frameMasks(),
+                    _btnConfig(begin, end) {}
 
-            State(unsigned int);
+            // Construct with config
+            State(unsigned int id, const ButtonConfig & config):
+                _id(id), _frameMasks(),
+                _btnConfig(config) {}
+
             State() = delete;
             State(State &&) = delete;
             State(const State &) = delete;
             ~State() = default;
-            State & operator=(const State &);
+            State & operator=(const State &) = delete;
+
+            // Joystick connected
             bool isConnected() const;
-            bool isAxisFront(Axis) const;
-            float axisPosition(Axis) const;
-            bool isButtonFront(Button) const;
+
+            // Status for current frame
             bool isButtonUp(Button) const;
             bool isButtonDown(Button) const;
+            float axisPosition(Axis) const;
+
+            // Event mask for current frame
+            bool isAxisFront(Axis) const;
+            bool isButtonFront(Button) const;
+
+            // Event mask during a frame interval
+            bool isAxisFront(Axis, unsigned int) const;
+            bool isButtonFront(Button, unsigned int) const;
+
+            // Update the handled event mask
+            void update();
+
+            // Handled joystick's id
             unsigned int id() const;
 
+        protected:
+            struct Mask
+            {
+                Mask(const ButtonConfig &);
+                Mask() = delete;
+                Mask(const Mask &) = default;
+                Mask(Mask &&) = default;
+                ~Mask() = default;
+                Mask & operator=(const Mask &) = default;
+                std::bitset<NbButtons> _btns;
+                std::pair<bool, bool> _axes;
+            };
+
         private:
-            void init();
-            std::vector<Button> _btnConfig;
             unsigned int _id;
-            std::unordered_map<Button, bool, std::hash<int>> _btnsUp;
-            std::pair<bool, bool> _axesUp;
+            std::list<Mask> _frameMasks;
+            ButtonConfig _btnConfig;
     };
 }
 
