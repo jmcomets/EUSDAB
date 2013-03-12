@@ -1,30 +1,39 @@
-#include "tileset.h"
+#include <tileset.h>
 
-#include "textureManager.h"
-#include "hitbox.h"
-
-namespace Graphics {
-    Tileset::Tileset(std::vector<Graphics::Sprite *> lsImg, std::vector<Geometry::Hitbox *> lsHB, std::time_t fpi) : _lsImage(lsImg), _lsHitbox(lsHB), _framePerImage(fpi)
+namespace Graphics
+{
+    std::time_t Tileset::framesPerImage() const
     {
+        return _fpi;
     }
 
-    Tileset::~Tileset()
+    Tileset::SpritePtr Tileset::spriteAt(std::size_t index) const
     {
-        for (auto it : _lsImage)
-            delete it;
-
-        for (auto it : _lsHitbox)
-            delete it;
+        return _images.at(index);
     }
 
-    std::vector<Sprite *> const & Tileset::lsImage() const
+    Tileset::HitboxPtr Tileset::hitboxAt(std::size_t index) const
     {
-        return _lsImage;
+        return _hitboxes.at(index);
     }
 
-    std::time_t Tileset::framePerImage() const
+    std::size_t Tileset::nbSprites() const
     {
-        return _framePerImage;
+        return _images.size();
+    }
+
+    std::size_t Tileset::nbHitboxes() const
+    {
+        return _hitboxes.size();
+    }
+
+    void Tileset::addSprite(Sprite * sp)
+    {
+        _images.emplace_back(sp);
+    }
+
+    void Tileset::addHitbox(Geometry::Hitbox * hb)
+    {
+        _hitboxes.emplace_back(hb);
     }
 }
-

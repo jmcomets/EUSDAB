@@ -34,21 +34,24 @@ namespace Graphics
             std::ifstream f(filename.c_str(), std::ios::in);
             f >> nbrFrame >> width >> height >> framePerImage >> dx >> dy;
 
-            std::vector<Geometry::Hitbox *> lsHitbox;
+            Tileset * tileset = new Tileset(framePerImage);
+
+            using namespace Geometry;
             for (std::size_t i = 0 ; i < nbrFrame ; ++i)
             {
-                std::size_t nbrPoint;
-                f >> nbrPoint;
+                std::size_t nbPts;
+                f >> nbPts;
 
-                std::vector<Geometry::Point<int> > lsPoint;
-                lsPoint.reserve(nbrPoint);
-                for (std::size_t j = 0 ; j < nbrPoint ; j++)
+                std::vector<Point<int>> pts;
+                pts.reserve(nbPts);
+                for (std::size_t j = 0 ; j < nbPts ; j++)
                 {
                     int x, y;
                     f >> x >> y;
-                    lsPoint.emplace_back(Geometry::Point<int>(x, y));
+                    pts.emplace_back(Point<int>(x, y));
                 }
-                lsHitbox.emplace_back(new Geometry::Hitbox(Geometry::Polygone<int>(lsPoint.begin(), lsPoint.end())));
+                Hitbox * hb = new Hitbox(Polygone<int>(pts.begin(), pts.end()));
+                tileset->addHitbox(hb);
             }
 
             std::string imgRaw;
@@ -56,20 +59,17 @@ namespace Graphics
             std::stringstream buffer;
             buffer << f.rdbuf();
             imgRaw = buffer.str();
-
-            std::vector<Sprite *> lsImage;
             for (std::size_t i = 0 ; i < nbrFrame ; ++i)
             {
-                const Texture * tex = _tm->get(imgRaw.c_str(), imgRaw.size(), 0, static_cast<int>(i * height), width, height);
-                lsImage.emplace_back(new Sprite(*tex));
-                lsImage.back()->setPosition(static_cast<float>(dx), static_cast<float>(dy));
+                const Texture * tex = _tm->get(imgRaw.c_str(), imgRaw.size(), 0,
+                        static_cast<int>(i * height), width, height);
+                Sprite * sp = new Sprite(*tex);
+                sp->setPosition(static_cast<float>(dx), static_cast<float>(dy));
+                tileset->addSprite(sp);
             }
-
             f.close();
-
-            Tileset * t = new Tileset(lsImage, lsHitbox, framePerImage);
-            _pool.insert(std::make_pair(filename, std::shared_ptr<const Tileset>(t)));
-            return t;
+            _pool.insert(std::make_pair(filename, TilesetPtr(tileset)));
+            return tileset;
         }
     }
 }

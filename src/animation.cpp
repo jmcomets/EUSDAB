@@ -14,12 +14,12 @@ namespace Graphics
     void Animation::nextFrame()
     {
         _index++;
-        _index %= _tileset.lsImage().size()*_tileset.framePerImage();
+        _index %= _tileset.nbSprites()*_tileset.framesPerImage();
     }
 
     const Sprite & Animation::sprite() const
     {
-        return *_tileset.lsImage()[_index / _tileset.framePerImage()];
+        return *_tileset.spriteAt(_index / _tileset.framesPerImage());
     }
 }
 

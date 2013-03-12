@@ -18,10 +18,11 @@ namespace Graphics
             ~TilesetManager() = default;
             TilesetManager & operator=(const TilesetManager &) = default;
             const Tileset * get(const std::string & filename);
+            typedef std::shared_ptr<const Tileset> TilesetPtr;
 
         private:
             std::shared_ptr<TextureManager> _tm;
-            std::map<std::string, std::shared_ptr<const Tileset>> _pool;
+            std::map<std::string, TilesetPtr> _pool;
     };
 }
 
