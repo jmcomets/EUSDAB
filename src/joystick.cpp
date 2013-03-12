@@ -86,17 +86,34 @@ namespace Joystick
 
     bool State::isAxisFront(Axis axis) const
     {
-        return _frameMasks.back()[btn]
+        const Mask & mask = _frameMasks.back();
+        return axis == X ? mask.axisX : mask.axisY;
     }
 
     bool State::isButtonFront(Button btn) const
     {
+        const Mask & mask = _frameMasks.back();
+        return mask.buttons[_btnConfig[btn]];
     }
 
-    // Joystick::State::Mask implementation
-    State::Mask::Mask(const ButtonConfig & config):
-        _btnConfig(config),
-        _btns(), _axes(false, false)
+    void State::update()
     {
+        // TODO
+    }
+
+    // Joystick::Mask implementation
+    Mask::Mask():
+        buttons(), axisX(false), axisY(false)
+    {
+    }
+
+    bool Mask::operator==(const Mask & m) const
+    {
+        return buttons == m.buttons && axisX == m.axisX && axisY == m.axisY;
+    }
+
+    void update()
+    {
+        sf::Joystick::update();
     }
 }

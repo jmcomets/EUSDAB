@@ -3,18 +3,15 @@
 
 namespace CharacterStates
 {
-    static const int halfJump = 50; // this const permit to to know the half of a jump
-    static const int jumpSpeed = 100; // this const permit to regulate the height of a jump
+    constexpr unsigned int halfJump = 50; // this const permit to to know the half of a jump
+    constexpr unsigned int jumpSpeed = 100; // this const permit to regulate the height of a jump
 
     Jump::Jump(Character & c, DirectionX dirX, DirectionY dirY, unsigned int jumpNbrMax, unsigned int jumpNbr=0):
-        BaseState(c, dirX, dirY)
+        BaseState(c, dirX, dirY), 
+        _motion(0, jumpSpeed),
+        _jumpNumber(jumpNbr), _jumpNumberMax(jumpNbrMax),
+        _frameCounter(0)
     {
-        _motion.x = 0;
-        _motion.y = jumpSpeed;
-        _jumpNumber=jumpNbr;
-        _jumpNumber=jumpNbrMax;
-        _frameCounter=0;
-        
     }
 
     Jump::~Jump()
@@ -25,9 +22,9 @@ namespace CharacterStates
     {
         BaseState::enter();
         float x = _character.joystickState().axisPosition(Joystick::X);
-        _motion.x=x;
-        _motion.y=jumpSpeed;
-        _frameCounter=0;
+        _motion.x = x; // FIXME
+        _motion.y = jumpSpeed;
+        _frameCounter = 0;
         _jumpNumber++;
     }
 
@@ -39,8 +36,7 @@ namespace CharacterStates
         float y = j.axisPosition(Joystick::Y);
         bool frontY = j.isAxisFront(Joystick::Y);
 
-        _motion.x = x; // set the x movement value
-
+        _motion.x = x; // set the x movement value FIXME
         
         // joystick in the opposite direction, need to change the state to face the opposite direction
         if (x*_motion.x < 0)
@@ -71,7 +67,7 @@ namespace CharacterStates
                     ||(j.isButtonDown(Joystick::ButtonY)&&j.isButtonFront(Joystick::ButtonY))
                     ||(frontY && y < 0)) 
         {
-            if ((_jumpNumber<(_jumpNumberMax))&&(_frameCounter>halfJump))
+            if (_jumpNumber < _jumpNumberMax && _frameCounter > halfJump)
             {
                 if (isDirection(Left))
                 {
@@ -142,6 +138,5 @@ namespace CharacterStates
     {
         return _jumpNumberMax;
     }
-
 }
 

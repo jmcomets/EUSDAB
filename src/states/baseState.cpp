@@ -10,7 +10,6 @@ namespace CharacterStates
 
     BaseState::~BaseState()
     {
-        delete _view;
     }
 
     void BaseState::enter()
@@ -23,6 +22,11 @@ namespace CharacterStates
 
     void BaseState::leave()
     {
+    }
+
+    View & BaseState::view()
+    {
+        return *_view;
     }
 
     bool BaseState::isDirection(DirectionX x) const

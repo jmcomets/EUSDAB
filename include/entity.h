@@ -3,46 +3,25 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <graphics.h>
+#include <view.h>
 
 class Entity
 {
     public:
-        // Default constructor
         Entity() = default;
-
-        // Value constructor
         Entity(const sf::Vector2f &);
-
-        // Move constructor
-        Entity(Entity &&);
-
-        // Copy constructor
-        Entity(const Entity &);
-
-        // Destructor
+        Entity(Entity &&) = default;
+        Entity(const Entity &) = default;
         virtual ~Entity();
-
-        // Assignment operator
-        Entity & operator=(const Entity &);
-
-        // Get position
-        sf::Vector2f position() const;
-
-        // Set position
-        void position(const sf::Vector2f &);
-
-        // Move Entity
-        void move(const sf::Vector2f &);
-
-        // Update method
+        Entity & operator=(const Entity &) = default;
+        const sf::Vector2f & position() const;
+        const sf::Vector2f & position(const sf::Vector2f &);
+        const sf::Vector2f & move(const sf::Vector2f &);
         virtual void update() = 0;
-
-        // Render method
         virtual void render(Graphics::Target &, Graphics::RenderStates) = 0;
 
-    private:
-        // Absolute position
+    protected:
         sf::Vector2f _pos;
 };
 
-#endif // ENTITY_H_
+#endif

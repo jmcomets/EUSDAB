@@ -6,7 +6,7 @@ namespace CharacterStates
     Smash::Smash(Character & c, DirectionX dirX, DirectionY dirY, const unsigned int duration):
         BaseState(c, dirX, dirY)
     {
-        countdown = duration;
+        _countDown = duration;
     }
 
     Smash::~Smash()
@@ -21,7 +21,7 @@ namespace CharacterStates
     void Smash::update()
     {
         BaseState::update();
-        if (--countdown == 0)
+        if (--_countDown == 0)
         {
             if (isDirection(Right))
             {
@@ -36,5 +36,6 @@ namespace CharacterStates
 
     void Smash::leave()
     {
+        BaseState::leave();
     }
 }

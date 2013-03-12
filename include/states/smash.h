@@ -19,7 +19,7 @@ namespace CharacterStates
             virtual void update();
     
         private:
-            unsigned int countdown;
+            unsigned int _countDown;
     };
 }
 

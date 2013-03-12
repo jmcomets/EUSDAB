@@ -51,6 +51,18 @@ namespace Joystick
             std::array<Button, NbButtons> _btnConfig;
     };
 
+    struct Mask
+    {
+        Mask();
+        Mask(const Mask &) = default;
+        Mask(Mask &&) = default;
+        ~Mask() = default;
+        Mask & operator=(const Mask &) = default;
+        bool operator==(const Mask &) const;
+        std::bitset<NbButtons> buttons;
+        bool axisX, axisY;
+    };
+
     class State
     {
         public:
@@ -85,10 +97,12 @@ namespace Joystick
             // Event mask for current frame
             bool isAxisFront(Axis) const;
             bool isButtonFront(Button) const;
+            bool isMask(const Mask &) const;
 
             // Event mask during a frame interval
             bool isAxisFront(Axis, unsigned int) const;
             bool isButtonFront(Button, unsigned int) const;
+            bool isMask(const Mask &, unsigned int) const;
 
             // Update the handled event mask
             void update();
@@ -96,24 +110,14 @@ namespace Joystick
             // Handled joystick's id
             unsigned int id() const;
 
-        protected:
-            struct Mask
-            {
-                Mask(const ButtonConfig &);
-                Mask() = delete;
-                Mask(const Mask &) = default;
-                Mask(Mask &&) = default;
-                ~Mask() = default;
-                Mask & operator=(const Mask &) = default;
-                std::bitset<NbButtons> _btns;
-                std::pair<bool, bool> _axes;
-            };
-
         private:
             unsigned int _id;
             std::list<Mask> _frameMasks;
             ButtonConfig _btnConfig;
     };
+
+    // Update entire joystick system
+    void update();
 }
 
 #endif

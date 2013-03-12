@@ -54,7 +54,7 @@ namespace CharacterStates
 
         protected:
             Character & _character;
-            View * _view;
+            std::shared_ptr<View> _view;
             Geometry::Hitbox * _hitbox;
 
         private:

@@ -67,7 +67,7 @@ namespace CharacterStates
                     ||(j.isButtonDown(Joystick::ButtonY)&&j.isButtonFront(Joystick::ButtonY))
                     ||(frontY && y < 0)) 
         {
-            Jump * jumpState = dynamic_cast<Jump *>(_character.previousState());
+            const Jump * jumpState = dynamic_cast<const Jump *>(_character.previousState());
             if (jumpState != nullptr)
             {
                 if (jumpState->jumpNumber() < jumpState->jumpNumberMax())

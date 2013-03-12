@@ -16,7 +16,6 @@ namespace CharacterStates
             virtual void enter();
             virtual void leave();
             virtual void update();
-
             unsigned int jumpNumber() const;
             unsigned int jumpNumberMax() const;
 

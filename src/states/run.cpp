@@ -31,7 +31,7 @@ namespace CharacterStates
     {
         BaseState::update();
         const Joystick::State & j = _character.joystickState();
-        if (j.axisPosition(Joystick::X) * _motion.x == 0)
+        if (j.axisPosition(Joystick::X) * _motion.x == 0.)
         {
             if (isDirection(Right))
             {
@@ -57,27 +57,27 @@ namespace CharacterStates
         {
             _character.move(_motion);
             /*if (j.isButtonFront(Joystick::ButtonA)) 
-              {
-              if (isDirection(Left))
-              {
-              _character.state(BaseState::AttackLeft);
-              }
-              else
-              {
-              _character.state(BaseState::AttackRight);
-              }
-              }
-              else if (j.isButtonFront(Joystick::ButtonB))
-              {
-              if (isDirection(Left))
-              {
-              _character.state(BaseState::SpecialLeft);
-              }
-              else
-              {
-              _character.state(BaseState::SpecialRight);
-              }
-              }*/
+            {
+                if (isDirection(Left))
+                {
+                    _character.state(BaseState::AttackLeft);
+                }
+                else
+                {
+                    _character.state(BaseState::AttackRight);
+                }
+            }
+            else if (j.isButtonFront(Joystick::ButtonB))
+            {
+                if (isDirection(Left))
+                {
+                    _character.state(BaseState::SpecialLeft);
+                }
+                else
+                {
+                    _character.state(BaseState::SpecialRight);
+                }
+            }*/
         }
     }
 

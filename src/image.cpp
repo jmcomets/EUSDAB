@@ -2,22 +2,16 @@
 
 namespace Graphics
 {
-
-    Image::Image()
+    Image::Image(const Texture & texture):
+        _sprite(new Sprite(texture))
     {
-    }
-
-    Image::Image(Texture const & texture)
-    {
-        _sprite = new Sprite(texture);
     }
 
     Image::~Image()
     {
-        delete _sprite;
     }
 
-    Sprite const & Image::sprite() const
+    const Sprite & Image::sprite() const
     {
         return *_sprite;
     }

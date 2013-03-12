@@ -1,7 +1,7 @@
 #include <character.h>
 #include <stdexcept>
 
-static unsigned int shieldCapacityMax=100;
+constexpr unsigned int shieldCapacityMax = 100;
 
 using namespace CharacterStates;
 
@@ -20,6 +20,7 @@ Character::~Character()
 void Character::update()
 {
     _previousState = _currentState;
+    _joystickState.update();
     _currentState->update();
     if (_previousState != _currentState)
     {
@@ -31,15 +32,15 @@ void Character::update()
     }
 }
 
-void Character::render(Graphics::Target &, Graphics::RenderStates)
+void Character::render(Graphics::Target & target, Graphics::RenderStates states)
 {
-    //trans.translate(_position);
-    //_currentState->view().graphics.draw(target, trans);
+    states.transform.translate(_pos);
+    _currentState->view().graphics->render(target, states);
 }
 
-void Character::addState(BaseState::Id id, BaseState * charState)
+bool Character::addState(BaseState::Id id, BaseState * state)
 {
-    _states[id] = charState;
+    return _states.insert(std::make_pair(id, state)).second;
 }
 
 void Character::state(BaseState::Id id)
@@ -57,24 +58,24 @@ void Character::state(BaseState::Id id)
     }
 }
 
-std::string const & Character::name()
+const std::string & Character::name() const
 {
     return _name;
 }
 
-void Character::name(std::string const & n)
+const std::string & Character::name(const std::string & n)
 {
-    _name = n;
+    return _name = n;
 }
 
-int Character::damage()
+int Character::damage() const
 {
     return _damage;
 }
 
-void Character::damage(int d)
+int Character::damage(int d)
 {
-    _damage = d;
+    return _damage = d;
 }
 
 const Joystick::State & Character::joystickState() const
@@ -82,12 +83,12 @@ const Joystick::State & Character::joystickState() const
     return _joystickState;
 }
 
-BaseState * Character::currentState() const
+const BaseState * Character::currentState() const
 {
     return _currentState;
 }
 
-BaseState * Character::previousState() const
+const BaseState * Character::previousState() const
 {
     return _previousState;
 }
@@ -116,35 +117,34 @@ BaseState::Id Character::previousStateId() const
     throw std::runtime_error("Unexpected previous character state not in character state list, previous state is possibly null");
 }
 
-void Character::setIsFlying(bool aFlying)
+bool Character::isFlying() const
 {
-    _isflying=aFlying;
+    return _isFlying;
 }
 
-bool Character::isFlying()
+bool Character::isFlying(bool aFlying)
 {
-    return _isflying;
+    return _isFlying = aFlying;
 }
 
-void Character::decraseShieldCapacity(unsigned int variation)
+unsigned int Character::decreaseShieldCapacity(unsigned int variation)
 {
-    int pass= _shieldCapacity-variation;
-    if (pass<0)
-        _shieldCapacity=pass;
-    else
-        _shieldCapacity=0;
+    return _shieldCapacity = std::max(shieldCapacityMax,
+            _shieldCapacity - variation);
 }
 
-void Character::incraseShieldCapacity(unsigned int variation)
+unsigned int Character::incraseShieldCapacity(unsigned int variation)
 {
-    int pass= _shieldCapacity+variation;
-    if (pass<100)
-        _shieldCapacity=pass;
-    else
-        _shieldCapacity=100;
+    return _shieldCapacity = std::min(shieldCapacityMax,
+            _shieldCapacity + variation);
 }
 
-unsigned int Character::getShieldCapacity()
+unsigned int Character::shieldCapacity(unsigned int sc)
+{
+    return _shieldCapacity = std::min(sc, shieldCapacityMax);
+}
+
+unsigned int Character::shieldCapacity() const
 {
     return _shieldCapacity;
 }

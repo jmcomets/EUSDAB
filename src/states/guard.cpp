@@ -26,14 +26,15 @@ namespace CharacterStates
     {
         BaseState::update();
 
-        //decrase the shield
-        _character.decraseShieldCapacity();
+        // Decrase the shield
+        _character.decreaseShieldCapacity();
 
         const Joystick::State & j = _character.joystickState();
         float x = j.axisPosition(Joystick::X);
         bool frontX = j.isAxisFront(Joystick::X);
-        //if the shield is broken
-        if (_character.getShieldCapacity()<1)
+
+        // If the shield is broken
+        if (_character.shieldCapacity() < 1)
         {
             if (isDirection(Left))
             {
@@ -45,7 +46,8 @@ namespace CharacterStates
             }
 
         }
-        else if ((!j.isButtonDown(Joystick::TriggerLeft))||(!j.isButtonDown(Joystick::TriggerRight)))
+        else if (j.isButtonDown(Joystick::TriggerLeft) == false
+                || j.isButtonDown(Joystick::TriggerRight) == false)
         {
             if (isDirection(Left))
             {
@@ -57,7 +59,7 @@ namespace CharacterStates
             }
         }
 
-        else if ((x!=0)&&frontX)
+        else if (x != 0. && frontX)
         {
             if (isDirection(Left))
             {
@@ -68,7 +70,5 @@ namespace CharacterStates
                 _character.state(BaseState::DodgeRight);
             }
         }
-
     }
-
 }

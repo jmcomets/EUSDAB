@@ -1,17 +1,15 @@
 #include <view.h>
 
 View::View():
-    _graphics(nullptr), _sound(nullptr)
+    graphics(nullptr), sound(nullptr)
 {
 }
 
 View::View(Graphics::Drawable * g, Audio::Sound * s):
-    _graphics(g), _sound(s)
+    graphics(g), sound(s)
 {
 }
 
 View::~View()
 {
-    //delete graphics;
-    //delete sound;
 }

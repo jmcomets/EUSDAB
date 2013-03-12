@@ -13,16 +13,14 @@ Application::~Application()
 
 void Application::run()
 {
-    while(_window.isOpen())
+    while (_window.isOpen())
     {
         sf::Event e;
         while(_window.pollEvent(e))
         {
             event(e);
         }
-
         update();
-
         _window.clear();
         render();
         _window.display();
@@ -31,7 +29,7 @@ void Application::run()
 
 void Application::event(sf::Event const & e)
 {
-    if(e.type == sf::Event::Closed)
+    if (e.type == sf::Event::Closed)
     {
         _window.close();
     }

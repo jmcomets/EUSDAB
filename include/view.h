@@ -1,6 +1,7 @@
 #ifndef VIEW_H_
 #define VIEW_H_
 
+#include <memory>
 #include <sound.h>
 #include <graphics.h>
 
@@ -12,8 +13,8 @@ struct View
     View(const View &) = delete;
     ~View();
     View & operator=(const View &) = delete;
-    Graphics::Drawable * _graphics;
-    Audio::Sound * _sound;
+    std::shared_ptr<Graphics::Drawable> graphics;
+    std::shared_ptr<Audio::Sound> sound;
 };
 
 #endif

@@ -4,9 +4,8 @@
 namespace CharacterStates
 {
     Attack::Attack(Character & c, DirectionX dirX, DirectionY dirY, const unsigned int duration):
-        BaseState(c, dirX, dirY)
+        BaseState(c, dirX, dirY), _countDown(duration)
     {
-        countdown = duration;
     }
 
     Attack::~Attack()
@@ -21,9 +20,9 @@ namespace CharacterStates
     void Attack::update()
     {
         BaseState::update();
-        if (--countdown == 0)
+        if (--_countDown == 0)
         {
-            if(isDirection(Right))
+            if (isDirection(Right))
             {
                 _character.state(IdleRight);
             }
