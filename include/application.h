@@ -3,6 +3,7 @@
 
 #include <graphics.h>
 #include <animation.h>
+#include <tilesetManager.h>
 
 class Application
 {
@@ -18,6 +19,7 @@ class Application
 
     private:
         sf::RenderWindow _window;
+        Graphics::TilesetManager _tm;
         Graphics::Animation _animation;
 };
 

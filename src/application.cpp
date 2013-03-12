@@ -1,9 +1,8 @@
 #include <application.h>
-#include <tilesetManager.h>
 
 Application::Application(): 
-    _window(sf::VideoMode(800, 600), "EUSDAB"), 
-    _animation(*Graphics::TilesetManager::get("./data/tileset.ts"))
+    _window(sf::VideoMode(800, 600), "EUSDAB"), _tm(),
+    _animation(*_tm.get("./data/tileset.ts"))
 {
 }
 

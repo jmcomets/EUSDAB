@@ -1,6 +1,8 @@
 #ifndef TEXTURE_MANAGER_H_
 #define TEXTURE_MANAGER_H_
 
+#include <vector>
+#include <memory>
 #include <graphics.h>
 
 namespace Graphics
@@ -8,19 +10,16 @@ namespace Graphics
     class TextureManager
     {
         public:
-            TextureManager(TextureManager &&) = delete;
-            TextureManager(const TextureManager &) = delete;
+            TextureManager() = default;
+            TextureManager(TextureManager &&) = default;
+            TextureManager(const TextureManager &) = default;
             ~TextureManager();
-            TextureManager & operator=(const TextureManager &) = delete;
-
-            static const Texture * get(const char * raw, std::size_t size, int x, int y, std::size_t width, std::size_t height);
-            static void free();
+            TextureManager & operator=(const TextureManager &) = default;
+            const Texture * get(const char * raw, std::size_t size,
+                    int x, int y, std::size_t width, std::size_t height);
 
         private:
-            TextureManager() = default;
-            static TextureManager * instance();
-            static TextureManager * _instance;
-            std::vector<const Texture *> _pool;
+            std::vector<std::shared_ptr<const Texture>> _pool;
     };
 }
 

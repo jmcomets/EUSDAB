@@ -1,39 +1,26 @@
 #include <fstream>
 #include <sstream>
 #include <tilesetManager.h>
-#include <textureManager.h>
-#include <tileset.h>
 #include <hitbox.h>
 #include <point.h>
 
 namespace Graphics
 {
-    TilesetManager * TilesetManager::_instance = nullptr;
-
-    TilesetManager::~TilesetManager()
+    TilesetManager::TilesetManager(TextureManager * tm):
+        _tm(tm)
     {
-        for (auto p : _pool)
+        if (_tm == nullptr)
         {
-            delete p.second;
+            _tm.reset(new TextureManager());
         }
-    }
-
-    TilesetManager * TilesetManager::instance()
-    {
-        if (_instance == nullptr)
-        {
-            _instance = new TilesetManager();
-        }
-        return _instance;
     }
 
     const Tileset * TilesetManager::get(const std::string & filename)
     {
-        TilesetManager * tm = instance();
-        auto it = tm->_pool.find(filename);
-        if (it != tm->_pool.end())
+        auto it = _pool.find(filename);
+        if (it != _pool.end())
         {
-            return it->second;
+            return it->second.get();
         }
         else
         {
@@ -70,35 +57,19 @@ namespace Graphics
             buffer << f.rdbuf();
             imgRaw = buffer.str();
 
-            std::vector<Graphics::Sprite *> lsImage;
+            std::vector<Sprite *> lsImage;
             for (std::size_t i = 0 ; i < nbrFrame ; ++i)
             {
-                const Graphics::Texture * tex = Graphics::TextureManager::get(imgRaw.c_str(), imgRaw.size(), 0, static_cast<int>(i * height), width, height);
+                const Texture * tex = _tm->get(imgRaw.c_str(), imgRaw.size(), 0, static_cast<int>(i * height), width, height);
                 lsImage.emplace_back(new Sprite(*tex));
                 lsImage.back()->setPosition(static_cast<float>(dx), static_cast<float>(dy));
             }
 
             f.close();
 
-            Graphics::Tileset * t = new Graphics::Tileset(lsImage, lsHitbox, framePerImage);
-            tm->_pool.insert(std::make_pair(filename, t));
+            Tileset * t = new Tileset(lsImage, lsHitbox, framePerImage);
+            _pool.insert(std::make_pair(filename, std::shared_ptr<const Tileset>(t)));
             return t;
         }
     }
-
-    void TilesetManager::free()
-    {
-        delete _instance;
-        _instance = nullptr;
-    }
-
-#ifndef NO_RAII
-    static struct TilesetManagerRAII
-    {
-        ~TilesetManagerRAII()
-        {
-            TilesetManager::free();
-        }
-    } tsmRaii;
-#endif
 }
