@@ -2,7 +2,6 @@
 #define SPEAKER_H_
 
 #include <queue>
-#include <memory>
 #include <event.h>
 #include <listener.h>
 
@@ -13,7 +12,7 @@
 class Speaker
 {
     public:
-        Speaker() = default;
+        Speaker();
         Speaker(Speaker &&) = default;
         Speaker(const Speaker &) = default;
         ~Speaker() = default;
@@ -23,7 +22,7 @@ class Speaker
         void pollEvents();
 
     private:
-        std::shared_ptr<Listener> _listener;
+        Listener * _listener;
         std::queue<Event> _events;
 };
 

@@ -1,5 +1,11 @@
 #include <speaker.h>
 
+Speaker::Speaker():
+    _listener(nullptr),
+    _events()
+{
+}
+
 Speaker::setListener(Listener * l)
 {
     if (l != nullptr)
@@ -12,7 +18,7 @@ Speaker::setListener(Listener * l)
         {
             _listener->onLeave();
         }
-        _listener.reset(l);
+        _listener = l;
         _listener->onEnter();
     }
 }
