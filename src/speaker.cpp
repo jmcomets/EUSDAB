@@ -1,10 +1,5 @@
 #include <speaker.h>
 
-Speaker::Speaker():
-    _listener(nullptr), _events()
-{
-}
-
 Speaker::setListener(Listener * l)
 {
     if (l != nullptr)

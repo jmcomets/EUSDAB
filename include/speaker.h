@@ -13,11 +13,11 @@
 class Speaker
 {
     public:
-        Speaker();
-        Speaker(Speaker &&) = delete;
-        Speaker(const Speaker &) = delete;
-        ~Speaker();
-        Speaker & operator=(const Speaker &) = delete;
+        Speaker() = default;
+        Speaker(Speaker &&) = default;
+        Speaker(const Speaker &) = default;
+        ~Speaker() = default;
+        Speaker & operator=(const Speaker &) = default;
         void setListener(Listener *);
         void push(const Event &);
         void pollEvents();
