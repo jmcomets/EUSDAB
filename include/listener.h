@@ -13,6 +13,13 @@ class Listener
         virtual void onLeft(Event const &);
         virtual void onRight(Event const &);
 
+        virtual void onA(Event const &);
+        virtual void onB(Event const &);
+        virtual void onX(Event const &);
+        virtual void onY(Event const &);
+        virtual void onZ(Event const &);
+        virtual void onTrigger(Event const &);
+
         virtual void onNextFrame(Event const &);
 
         virtual void onAttack(Event const &);
@@ -22,7 +29,6 @@ class Listener
         virtual void onLeave();
 
     protected:
-        Speaker * _speaker;
         std::time_t _time;
 };
 

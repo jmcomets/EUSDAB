@@ -9,13 +9,32 @@ class Speaker;
 class State: public Listener
 {
     public:
-        enum Id
+        struct Movement
         {
-            Idle,
-            Jump,
-            Left,
-            Right
+            static enum
+            {
+                Idle,
+                Jump,
+                Attack,
+                Smash,
+                Flee,
+                Guard,
+                OnHit
+            };
         };
+
+        struct Direction
+        {
+            static enum
+            {
+                Up,
+                Down,
+                Left,
+                Right
+            };
+        };
+
+        typedef int Id;
 
         explicit State(State &&) = default;
         explicit State(State const &) = delete;
