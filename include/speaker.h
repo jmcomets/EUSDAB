@@ -2,10 +2,34 @@
 #define SPEAKER_H_
 
 #include <queue>
-#include <event.h>
 #include <listener.h>
 
-// Speaker class (design pattern `opinion`)
+// Event
+//
+// Structure corresponding to the event
+// given to the Speaker's event queue.
+struct Event
+{
+    typedef float Ratio;
+    enum Id
+    {
+        Up, Down, Left, Right,
+        A, B, X, Y, Z,
+        Trigger,
+    };
+
+    Event() = default;
+    Event(Id, Ratio);
+    Event(Event &&) = default;
+    Event(const Event &) = default;
+    ~Event() = default;
+    Event & operator=(const Event &) = default;
+
+    Id id;
+    Ratio ratio;
+};
+
+// Speaker
 //
 // Dispatches different Events to Listeners,
 // simulates a state-based event handling.
