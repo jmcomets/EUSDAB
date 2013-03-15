@@ -4,11 +4,6 @@ namespace EUSDAB
 {
     namespace Input
     {
-        Event::Event(Id id, Ratio ratio):
-            id(id), ratio(ratio)
-        {
-        }
-
         Speaker::Speaker():
             _listener(nullptr),
             _events()

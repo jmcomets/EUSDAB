@@ -4,6 +4,7 @@
 #include <ctypes>
 
 #include <input/speaker.h>
+#include <input/event.h>
 
 namespace EUSDAB
 {
