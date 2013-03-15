@@ -8,7 +8,7 @@ namespace EUSDAB
             _playerList(), _entityList(),
             _keyMapping()
         {
-            // Remplissage de players
+            // Remplissage de players (et de ta mère JM)
             // TODO
 
             // Mapping des touches claviers
@@ -53,7 +53,7 @@ namespace EUSDAB
                 }
             }
 
-            // TODO
+            // TODO Joystick
 
             throw std::runtime_error("Event not recognized");
         }
