@@ -15,11 +15,13 @@ namespace EUSDAB
         struct Event
         {
             typedef float Ratio;
+
             enum Id
             {
                 Up, Down, Left, Right,
-                A, B, X, Y, Z,
-                Trigger,
+                A, B, X, Y, Z, Trigger,
+                NextFrame, Attack, Damage,
+                Enter, Leave
             };
 
             Event() = default;
