@@ -30,7 +30,6 @@ OUTPUT_OPTION = -MMD
 REC_SRCDIR = $(shell find $(SRCDIR) -type d)
 SOURCES = $(foreach dir,$(REC_SRCDIR), $(wildcard $(dir)/*.cpp))
 OBJECTS = $(addsuffix .o, $(basename $(subst $(SRCDIR), $(OBJDIR), $(SOURCES))))
-#OBJECTS = $(foreach dir, $(REC_SRCDIR),$(SOURCES: $(dir)/%.cpp=$(OBJDIR)/%.o)) 
 DEPENDS = $(addsuffix .d, $(basename $(subst $(SRCDIR), $(DEPDIR), $(SOURCES))))
 
 ECHO = @echo
@@ -47,11 +46,6 @@ TARGET = $(BINDIR)/EUSDAB
 .PHONY: $(ALL) $(TEST) $(CLEAN) $(RUN) $(MRPROPER)
 
 $(ALL): $(TARGET)
-
-$(TEST):
-	$(ECHO) $(SOURCES)
-	$(ECHO) $(REC_SRCDIR)
-	$(ECHO) $(OBJECTS)
 
 $(RUN): $(TARGET)
 	@export LD_LIBRARY_PATH=./lib/SFML-2.0-rc/lib && ./$(TARGET)
