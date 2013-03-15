@@ -1,8 +1,7 @@
-#ifndef INPUT_LISTENER_H
-#define INPUT_LISTENER_H
+#ifndef INPUT_LISTENER_H_
+#define INPUT_LISTENER_H_
 
 #include <ctypes>
-
 #include <input/speaker.h>
 
 namespace EUSDAB
@@ -39,4 +38,3 @@ namespace EUSDAB
 }
 
 #endif
-

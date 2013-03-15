@@ -4,8 +4,17 @@ namespace EUSDAB
 {
     namespace Input
     {
-        Controller::~Controller()
+        void Controller::add(Speaker * speaker)
         {
+            _speakers.push_back(speaker);
+        }
+
+        void Controller::update()
+        {
+            for (Speaker * s : _speakers)
+            {
+                s->pollEvents();
+            }
         }
     }
 }

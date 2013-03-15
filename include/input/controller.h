@@ -1,21 +1,35 @@
 #ifndef INPUT_CONTROLLER_H_
 #define INPUT_CONTROLLER_H_
 
-namespace EUSDAB {
+#include <vector>
+#include <speaker.h>
+
+namespace EUSDAB
+{
     namespace Input
     {
         class Controller
         {
             public:
-                explicit Controller() = delete;
-                explicit Controller(Controller const &) = delete;
-                explicit Controller(Controller &&) = default;
-                Controller & operator=(Controller const &) = delete;
+                Controller() = delete;
+                Controller(Controller &&) = default;
+                Controller(const Controller &) = delete;
+                ~Controller() = default;
+                Controller & operator=(const Controller &) = delete;
+                void add(Speaker *);
+                void dispatch(const sf::Event &);
+                void update();
 
-                virtual ~Controller();
+            protected:
+                void dispatch(const sf::Event::KeyEvent &);
+                void dispatch(const sf::Event::JoystickConnectEvent &);
+                void dispatch(const sf::Event::JoystickButtonEvent &);
+                void dispatch(const sf::Event::JoystickMoveEvent &);
+
+            private:
+                std::vector<Speaker *> _speakers;
         };
     }
 }
 
 #endif
-
