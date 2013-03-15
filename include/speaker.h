@@ -38,9 +38,9 @@ class Speaker
     public:
         Speaker();
         Speaker(Speaker &&) = default;
-        Speaker(const Speaker &) = default;
+        Speaker(const Speaker &) = delete;
         ~Speaker() = default;
-        Speaker & operator=(const Speaker &) = default;
+        Speaker & operator=(const Speaker &) = delete;
         void setListener(Listener *);
         void push(const Event &);
         void pollEvents();
