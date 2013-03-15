@@ -4,9 +4,16 @@ namespace EUSDAB
 {
     namespace Input
     {
-        void Controller::add(Speaker * speaker)
+        Controller::Controller(std::array<Entity *, Config::NbPlayers> players):
+            _playerList(), _entityList(),
+            _keyMapping()
         {
-            _speakers.push_back(speaker);
+            // Remplissage de players
+            // TODO
+
+            // Mapping des touches claviers
+            // TODO
+            _keyMapping[sf::Keyboard::Z] = std::make_pair();
         }
 
         void Controller::update()
@@ -15,6 +22,40 @@ namespace EUSDAB
             {
                 s->pollEvents();
             }
+        }
+
+        void Controller::addSpeaker(Speaker * s)
+        {
+            _speakerList.push_back(s);
+        }
+
+        void Controller::addEntity(const Entity &)
+        {
+            // TODO
+        }
+
+        const Event & Controller::translate(const sf::Event & e)
+        {
+            if (e.type == sf::Event::KeyPressed)
+            {
+                if ( (auto it = _keyMapping.find(e.key.code)) != _keyMapping.end() )
+                {
+                    Event event(it-second.second, Event::Full, Event::RisingEdge);
+                    it->second.first->push(event);
+                }
+            }
+            else if (e.type == sf::Event::KeyReleased)
+            {
+                if ( (auto it = _keyMapping.find(e.key.code)) != _keyMapping.end() )
+                {
+                    Event event(it-second.second, Event::Full, Event::FallingEdge);
+                    it->second.first->push(event);
+                }
+            }
+
+            // TODO
+
+            throw std::runtime_error("Event not recognized");
         }
     }
 }

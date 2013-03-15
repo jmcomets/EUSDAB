@@ -1,8 +1,13 @@
 #ifndef INPUT_CONTROLLER_H_
 #define INPUT_CONTROLLER_H_
 
+#include <array>
 #include <vector>
-#include <speaker.h>
+#include <SFML/Window/Event.hpp>
+#include <entity.h>
+#include <config.h>
+#include <input/event.h>
+#include <input/speaker.h>
 
 namespace EUSDAB
 {
@@ -16,18 +21,16 @@ namespace EUSDAB
                 Controller(const Controller &) = delete;
                 ~Controller() = default;
                 Controller & operator=(const Controller &) = delete;
-                void add(Speaker *);
-                void dispatch(const sf::Event &);
+                void addEntity(const Entity &);
+                void addSpeaker(Speaker *);
+                const Event & translate(const sf::Event &);
                 void update();
 
             protected:
-                void dispatch(const sf::Event::KeyEvent &);
-                void dispatch(const sf::Event::JoystickConnectEvent &);
-                void dispatch(const sf::Event::JoystickButtonEvent &);
-                void dispatch(const sf::Event::JoystickMoveEvent &);
-
-            private:
-                std::vector<Speaker *> _speakers;
+                std::array<Speaker *, Config::NBR_PLAYER> _playerList;
+                std::vector<Speaker *> _entityList;
+                std::unordered_map<sf::EventType,
+                    std::pair<Speaker * , Event::Id> _keyMapping;
         };
     }
 }
