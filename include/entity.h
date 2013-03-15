@@ -14,13 +14,12 @@ class Entity
         Entity(const sf::Vector2f &);
         Entity(Entity &&) = default;
         Entity(const Entity &) = delete;
-        virtual ~Entity();
+        ~Entity();
         Entity & operator=(const Entity &) = delete;
         const sf::Vector2f & position() const;
         const sf::Vector2f & position(const sf::Vector2f &);
         const sf::Vector2f & move(const sf::Vector2f &);
-        virtual void update() = 0;
-        virtual void render(Graphics::Target &, Graphics::RenderStates) = 0;
+        void render(Graphics::Target &, Graphics::RenderStates);
         void addState(State::Id, State *);
         State * state() const;
         State * state(State::Id) const;
