@@ -5,7 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <graphics.h>
 #include <view.h>
-#include <state.h>
+#include <input/state.h>
 
 class Entity
 {

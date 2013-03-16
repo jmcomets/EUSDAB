@@ -27,7 +27,7 @@ namespace EUSDAB
                 void update();
 
             protected:
-                std::array<Speaker *, Config::NBR_PLAYER> _playerList;
+                std::array<Speaker *, Config::NbPlayers> _playerList;
                 std::vector<Speaker *> _entityList;
                 std::unordered_map<sf::EventType,
                     std::pair<Speaker * , Event::Id> _keyMapping;
