@@ -1,26 +1,41 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#include <graphics.h>
-#include <animation.h>
-#include <tilesetManager.h>
+#include <array>
+#include <vector>
 
-class Application
+#include <SFML/Graphics.hpp>
+
+#include <config.h>
+#include <input/controller.h>
+
+namespace EUSDAB
 {
-    public:
-        Application();
-        virtual ~Application();
-        void run();
+    class Application
+    {
+        public:
+            Application(sf::RenderWindow *);
+            virtual ~Application();
 
-    protected:
-        virtual void event(sf::Event const & e);
-        virtual void update();
-        virtual void render();
+            void run();
 
-    private:
-        sf::RenderWindow _window;
-        Graphics::TilesetManager _tm;
-        Graphics::Animation _animation;
-};
+        protected:
+            virtual void event();
+            virtual void update();
+            virtual void render();
+
+        private:
+            // SFML context
+            sf::RenderWindow * _window;
+
+            // World
+            std::array<Entity *, Config::NbPlayers> _playerList;
+            std::vector<Entity *> _entityList;
+
+            // Controller
+            Input::Controller * _input;
+    };
+}
 
 #endif
+

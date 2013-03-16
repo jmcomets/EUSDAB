@@ -13,33 +13,28 @@ namespace EUSDAB
         class State: public Listener
         {
             public:
-                struct Movement
+                enum Movement
                 {
-                    static enum
-                    {
-                        Idle,
-                        Jump,
-                        Attack,
-                        Smash,
-                        Flee,
-                        Guard,
-                        OnHit
-                    };
+                    Idle,
+                    Jump,
+                    Attack,
+                    Smash,
+                    Flee,
+                    Guard,
+                    OnHit
                 };
 
-                struct Direction
+                enum Direction
                 {
-                    static enum
-                    {
-                        Up,
-                        Down,
-                        Left,
-                        Right
-                    };
+                    Up,
+                    Down,
+                    Left,
+                    Right
                 };
 
                 typedef int Id;
 
+                explicit State() = delete;
                 explicit State(State &&) = default;
                 explicit State(State const &) = delete;
                 State & operator=(State const &) = delete;
@@ -48,7 +43,7 @@ namespace EUSDAB
                 virtual ~State();
 
                 template <typename TState, typename... Args>
-                    virtual void switchState(State::Id const &, Args&&... args)
+                    void switchState(State::Id const &, Args&&... args)
                     {
                         State * s = _entity->state(id);
                         if(s == nullptr)
