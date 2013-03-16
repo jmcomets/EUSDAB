@@ -11,9 +11,9 @@ namespace EUSDAB
         public:
             Entity() = default;
             Entity(Entity &&) = default;
-            Entity(Entity const &) = delete;
+            Entity(const Entity &) = delete;
             virtual ~Entity();
-            Entity & operator=(Entity const &) = delete;
+            Entity & operator=(const Entity &) = delete;
 
             void state(Input::State *);
             Input::State * state() const;

@@ -1,4 +1,5 @@
 #include <input/state.h>
+#include <entity.h>
 
 namespace EUSDAB
 {

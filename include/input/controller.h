@@ -35,7 +35,7 @@ namespace EUSDAB
                 void update();
 
             protected:
-                std::array<Speaker *, Config::NBR_PLAYER> _playerList;
+                std::array<Speaker *, Config::NbPlayers> _playerList;
                 std::vector<Speaker *> _entityList;
 
                 // Configuration

@@ -1,5 +1,5 @@
 #include <entity.h>
-
+#include <input/state.h>
 #include <stdexcept>
 
 namespace EUSDAB
@@ -7,7 +7,9 @@ namespace EUSDAB
     Entity::~Entity()
     {
         for (auto p : _states)
+        {
             delete p.second;
+        }
     }
 
     void Entity::state(Input::State * state)
