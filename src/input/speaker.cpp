@@ -4,15 +4,15 @@ namespace EUSDAB
 {
     namespace Input
     {
-        Speaker::Speaker():
-            _listener(nullptr),
+        Speaker::Speaker(Listener * listener):
+            _listener(listener),
             _events()
         {
         }
 
         Speaker::setListener(Listener * l)
         {
-            if (l != nullptr)
+            if (l == nullptr)
             {
                 throw std::runtime_error("Speaker cannot switch to null Listener");
             }
@@ -27,7 +27,7 @@ namespace EUSDAB
             }
         }
 
-        void Speaker::push(const Event & e)
+        void Speaker::push(Event const & e)
         {
             _events.push(e);
         }
@@ -36,7 +36,8 @@ namespace EUSDAB
         {
             while (_events.empty() == false)
             {
-                const Event & e = _events.top();
+                Event const & e = _events.top();
+                _events.pop();
                 switch (e.id)
                 {
                     Event::Up:

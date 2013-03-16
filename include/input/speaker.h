@@ -17,13 +17,16 @@ namespace EUSDAB
         class Speaker
         {
             public:
-                Speaker();
                 Speaker(Speaker &&) = default;
-                Speaker(const Speaker &) = delete;
+                Speaker(Speaker const &) = delete;
                 ~Speaker() = default;
-                Speaker & operator=(const Speaker &) = delete;
+                Speaker & operator=(Speaker const &) = delete;
+
+                Speaker(Listener * listener = nullptr);
+
                 void setListener(Listener *);
-                void push(const Event &);
+
+                void push(Event const &);
                 void pollEvents();
 
             private:
