@@ -1,4 +1,4 @@
-#ifndef INPUT_EVENT_H_
+#ifndef INPUT_EVENT_H
 #define INPUT_EVENT_H
 
 namespace EUSDAB
@@ -44,3 +44,6 @@ namespace EUSDAB
         };
     }
 }
+
+#endif
+

@@ -28,15 +28,20 @@ namespace EUSDAB
         Controller::~Controller()
         {
             for(auto e : _playerList)
-                delete _playerList;
+                delete e;
 
             for(auto e : _entityList)
-                delete _entityList;
+                delete e;
         }
 
         void Controller::update()
         {
-            for (Speaker * s : _speakers)
+            for (Speaker * s : _playerList)
+            {
+                s->pollEvents();
+            }
+
+            for (Speaker * s : _entityList)
             {
                 s->pollEvents();
             }
@@ -44,27 +49,30 @@ namespace EUSDAB
 
         void Controller::addEntity(Entity * e)
         {
-            // TODO
-            _entityList.emplace_back(new Speaker(e));
+            Listener * l = nullptr;
+            l = e->state();
+            _entityList.push_back(new Speaker(e->state()));
         }
 
-        void Controller::pushEvent(std::vector<sf::Event> const & event_list);
+        void Controller::pushEvent(std::vector<sf::Event> const & event_list)
         {
             for(auto e : event_list)
             {
                 if (e.type == sf::Event::KeyPressed)
                 {
-                    if ( (auto it = _keyMapping.find(e.key.code)) != _keyMapping.end() )
+                    auto it = _keyMapping.find(e.key.code);
+                    if (it != _keyMapping.end())
                     {
-                        Event event(it-second.second, Event::Full, Event::RisingEdge);
+                        Event event(it->second.second, Event::Full, Event::RisingEdge);
                         it->second.first->push(event);
                     }
                 }
                 else if (e.type == sf::Event::KeyReleased)
                 {
-                    if ( (auto it = _keyMapping.find(e.key.code)) != _keyMapping.end() )
+                    auto it = _keyMapping.find(e.key.code);
+                    if (it != _keyMapping.end())
                     {
-                        Event event(it-second.second, Event::Full, Event::FallingEdge);
+                        Event event(it->second.second, Event::Full, Event::FallingEdge);
                         it->second.first->push(event);
                     }
                 }
@@ -72,12 +80,12 @@ namespace EUSDAB
                 // TODO Joystick : rising and falling edge
             }
 
-            for(auto key : _keyMapping)
+            for(auto p : _keyMapping)
             {
-                if(sf::Keyboard::isKeyPressed(key))
+                if(sf::Keyboard::isKeyPressed(p.first))
                 {
-                    Event event(_keyMapping[key].second, Event::Full, Event::ContinuousEdge);
-                    _keyMapping[key].first->push(event);
+                    Event event(p.second.second, Event::Full, Event::ContinuousEdge);
+                    p.second.first->push(event);
                 }
             }
 

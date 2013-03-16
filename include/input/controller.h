@@ -3,9 +3,12 @@
 
 #include <array>
 #include <vector>
+
 #include <SFML/Window/Event.hpp>
+
 #include <entity.h>
 #include <config.h>
+
 #include <input/event.h>
 #include <input/speaker.h>
 
@@ -36,7 +39,7 @@ namespace EUSDAB
                 std::vector<Speaker *> _entityList;
 
                 // Configuration
-                std::unordered_map<sf::Keyboard::Key, std::pair<Speaker * , Event::Id> > _keyMapping;
+                std::unordered_map<sf::Keyboard::Key, std::pair<Speaker * , Event::Id> , std::hash<int>> _keyMapping;
         };
     }
 }

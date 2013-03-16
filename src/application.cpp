@@ -1,46 +1,88 @@
 #include <application.h>
 
-Application::Application(): 
-    _window(sf::VideoMode(800, 600), "EUSDAB"), _tm(),
-    _animation(*_tm.get("./data/tileset.ts"))
+namespace EUSDAB
 {
-}
+    Application::Application(sf::RenderWindow * window):
+        _window(window),
+        _playerList(),
+        _entityList(),
+        _input(nullptr)
+    {
+        // Generation of player
+        _playerList.fill(nullptr);
+        _playerList[0] = new Entity();
+        _playerList[1] = new Entity();
 
-Application::~Application()
-{
-}
+        // Generation of world
+        // _entityList.emplace_back(new Entity());
 
-void Application::run()
-{
-    while (_window.isOpen())
+        // Controller creation
+        _input = new Input::Controller(_playerList);
+
+        // Controllers filling
+        for(auto e : _entityList)
+            _input->addEntity(e);
+    }
+
+    Application::~Application()
+    {
+        // Controller delete
+        if(_input != nullptr)
+            delete _input;
+
+        // Entities delete
+        for(auto e : _playerList)
+            delete e;
+
+        for(auto e : _entityList)
+            delete e;
+    }
+
+    void Application::run()
+    {
+        while (_window->isOpen())
+        {
+            event();
+            update();
+            _window->clear();
+            render();
+            _window->display();
+        }
+    }
+
+    void Application::event()
     {
         sf::Event e;
-        while(_window.pollEvent(e))
+        std::vector<sf::Event> eventList;
+        while(_window->pollEvent(e))
         {
-            event(e);
+            if(e.type == sf::Event::Closed)
+            {
+                _window->close();
+            }
+
+            if(e.type == sf::Event::KeyPressed)
+            {
+                eventList.push_back(e);
+            }
+
+            if(e.type == sf::Event::KeyReleased)
+            {
+                eventList.push_back(e);
+            }
         }
-        update();
-        _window.clear();
-        render();
-        _window.display();
-    }
-}
 
-void Application::event(sf::Event const & e)
-{
-    if (e.type == sf::Event::Closed)
+        _input->pushEvent(eventList);
+    }
+
+    void Application::update()
     {
-        _window.close();
+        // Controllers update
+        _input->update();
     }
-}
 
-void Application::update()
-{
-    _animation.nextFrame();
-}
-
-void Application::render()
-{
-    _animation.render(_window);
+    void Application::render()
+    {
+    }
 }
 
