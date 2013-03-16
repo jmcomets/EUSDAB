@@ -14,6 +14,8 @@ namespace EUSDAB
         {
             typedef float Ratio;
 
+            static Ratio const Full;
+
             enum Id
             {
                 Up, Down, Left, Right,
@@ -22,8 +24,15 @@ namespace EUSDAB
                 Enter, Leave
             };
 
+            enum Edge
+            {
+                RisingEdge,
+                FallingEdge,
+                ContinuousEdge
+            };
+
             Event() = default;
-            Event(Id, Ratio);
+            Event(Id, Ratio, Edge);
             Event(Event &&) = default;
             Event(const Event &) = default;
             ~Event() = default;
@@ -31,6 +40,7 @@ namespace EUSDAB
 
             Id id;
             Ratio ratio;
+            Edge edge;
         };
     }
 }
