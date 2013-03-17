@@ -4,11 +4,8 @@
 #include <array>
 #include <vector>
 #include <unordered_map>
-
 #include <SFML/Window/Event.hpp>
-
 #include <config.h>
-
 #include <input/event.h>
 
 namespace EUSDAB
@@ -17,26 +14,32 @@ namespace EUSDAB
 
     namespace Input
     {
-        class Speaker;
         class State;
+        class Speaker;
 
         class Controller
         {
             public:
+                Controller(const std::array<Entity *, Config::NbPlayers> & players);
                 Controller() = delete;
                 Controller(Controller &&) = default;
-                Controller(Controller const &) = delete;
-                Controller & operator=(Controller const &) = delete;
-
-                Controller(std::array<Entity *, Config::NbPlayers> const & players);
+                Controller(const Controller &) = delete;
                 ~Controller();
+                Controller & operator=(const Controller &) = delete;
 
+                // Add an entity to the controller
                 void addEntity(Entity *);
                 void addEntity(Entity *, State *);
 
                 // Must be called only once per frame
-                void pushEvent(std::vector<sf::Event> const &);
+                //
+                // FIXME replace with single/multiple pushEvent, 
+                //   handle continuous events before update.
+                //   Seriously, stop passing hard-typed containers, 
+                //   use iterators instead.
+                void pushEvent(const std::vector<sf::Event> &);
 
+                // Update all speakers with current event context
                 void update();
 
             protected:
@@ -44,7 +47,8 @@ namespace EUSDAB
                 std::vector<Speaker *> _entityList;
 
                 // Configuration
-                std::unordered_map<sf::Keyboard::Key, std::pair<Speaker * , Event::Id> , std::hash<int>> _keyMapping;
+                std::unordered_map<sf::Keyboard::Key, std::pair<Speaker * , 
+                    Event::Id> , std::hash<int>> _keyMapping;
         };
     }
 }

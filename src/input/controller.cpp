@@ -38,25 +38,34 @@ namespace EUSDAB
         Controller::~Controller()
         {
             for(auto e : _playerList)
-                if(e != nullptr)
-                    delete e;
-
-            for(auto e : _entityList)
+            {
                 delete e;
+            }
+            for(auto e : _entityList)
+            {
+                delete e;
+            }
         }
 
         void Controller::update()
         {
             for (auto s : _playerList)
             {
-                if(s != nullptr)
+                if (s != nullptr)
+                {
                     s->pollEvents();
+                }
             }
 
             for (auto s : _entityList)
             {
                 s->pollEvents();
             }
+        }
+
+        void Controller::addEntity(Entity * e)
+        {
+            _entityList.push_back(new Speaker(e->state()));
         }
 
         void Controller::addEntity(Entity * e, State * s)
@@ -66,14 +75,9 @@ namespace EUSDAB
             _entityList.push_back(new Speaker(s));
         }
 
-        void Controller::addEntity(Entity * e)
-        {
-            _entityList.push_back(new Speaker(e->state()));
-        }
-
         void Controller::pushEvent(std::vector<sf::Event> const & event_list)
         {
-            for(auto e : event_list)
+            for (auto e : event_list)
             {
                 if (e.type == sf::Event::KeyPressed)
                 {
@@ -97,9 +101,9 @@ namespace EUSDAB
                 // TODO Joystick : rising and falling edge
             }
 
-            for(auto p : _keyMapping)
+            for (auto p : _keyMapping)
             {
-                if(sf::Keyboard::isKeyPressed(p.first))
+                if (sf::Keyboard::isKeyPressed(p.first))
                 {
                     Event event(p.second.second, Event::Full, Event::ContinuousEdge);
                     p.second.first->push(event);

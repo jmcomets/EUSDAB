@@ -1,18 +1,14 @@
 #include <application.h>
-
 #include <entity.h>
 #include <movement.h>
-
 #include <input/controller.h>
-
 #include <input/states/test.h>
 
 namespace EUSDAB
 {
     Application::Application(sf::RenderWindow * window):
         _window(window),
-        _playerList(),
-        _entityList(),
+        _playerList(), _entityList(),
         _input(nullptr)
     {
         // Window's config
@@ -34,22 +30,30 @@ namespace EUSDAB
         _input = new Input::Controller(_playerList);
 
         // Controllers filling
-        for(auto e : _entityList)
+        for (auto e : _entityList)
+        {
             _input->addEntity(e);
+        }
     }
 
     Application::~Application()
     {
         // Controller delete
-        if(_input != nullptr)
+        if (_input != nullptr)
+        {
             delete _input;
+        }
 
         // Entities delete
-        for(auto e : _playerList)
+        for (auto e : _playerList)
+        {
             delete e;
+        }
 
-        for(auto e : _entityList)
+        for (auto e : _entityList)
+        {
             delete e;
+        }
     }
 
     void Application::run()
@@ -68,24 +72,21 @@ namespace EUSDAB
     {
         sf::Event e;
         std::vector<sf::Event> eventList;
-        while(_window->pollEvent(e))
+        while (_window->pollEvent(e))
         {
-            if(e.type == sf::Event::Closed)
+            if (e.type == sf::Event::Closed)
             {
                 _window->close();
             }
-
-            if(e.type == sf::Event::KeyPressed)
+            else if (e.type == sf::Event::KeyPressed)
             {
                 eventList.push_back(e);
             }
-
-            if(e.type == sf::Event::KeyReleased)
+            else if (e.type == sf::Event::KeyReleased)
             {
                 eventList.push_back(e);
             }
         }
-
         _input->pushEvent(eventList);
     }
 

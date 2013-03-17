@@ -1,14 +1,11 @@
 #include <entity.h>
-
 #include <stdexcept>
-
 #include <input/state.h>
 
 namespace EUSDAB
 {
     Entity::Entity(Input::State * current):
-        _current(current),
-        _states()
+        _current(current), _states()
     {
     }
 
@@ -45,4 +42,3 @@ namespace EUSDAB
         return (it != _states.end()) ?  nullptr : it->second;
     }
 }
-

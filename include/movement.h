@@ -1,8 +1,9 @@
-#ifndef MOVEMENT_H
-#define MOVEMENT_H
+#ifndef MOVEMENT_H_
+#define MOVEMENT_H_
 
 namespace EUSDAB
 {
+    // TODO comment this class
     struct Movement
     {
         enum Direction
@@ -24,12 +25,12 @@ namespace EUSDAB
             OnHit = 0x07 << 2
         };
 
-        explicit Movement() = delete;
-        explicit Movement(Movement const &) = default;
-        Movement & operator=(Movement const &) = default;
+        Movement(Movement::Action, Movement::Direction);
+        Movement() = delete;
+        Movement(Movement &&) = default;
+        Movement(const Movement &) = default;
         ~Movement() = default;
-
-        explicit Movement(Movement::Action, Movement::Direction);
+        Movement & operator=(const Movement &) = default;
 
         operator int() const;
 
@@ -39,4 +40,3 @@ namespace EUSDAB
 }
 
 #endif
-

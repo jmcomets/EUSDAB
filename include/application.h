@@ -3,26 +3,22 @@
 
 #include <array>
 #include <vector>
-
 #include <SFML/Graphics.hpp>
-
+#include <entity.h>
+#include <input/controller.h>
 #include <config.h>
 
 namespace EUSDAB
 {
-    class Entity;
-
-    namespace Input
-    {
-        class Controller;
-    }
-
     class Application
     {
         public:
             Application(sf::RenderWindow *);
-            virtual ~Application();
-
+            Application() = delete;
+            Application(Application &&) = delete;
+            Application(const Application &) = delete;
+            ~Application();
+            Application & operator=(const Application &) = delete;
             void run();
 
         protected:
@@ -44,4 +40,3 @@ namespace EUSDAB
 }
 
 #endif
-

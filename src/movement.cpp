@@ -3,8 +3,7 @@
 namespace EUSDAB
 {
     Movement::Movement(Movement::Action action, Movement::Direction direction):
-        action(action),
-        direction(direction)
+        action(action), direction(direction)
     {
     }
 
@@ -13,4 +12,3 @@ namespace EUSDAB
         return action | direction;
     }
 }
-
