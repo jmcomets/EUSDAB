@@ -14,9 +14,11 @@ namespace EUSDAB
             _keyMapping()
         {
             // Remplissage de players (et de ta mère JM)
+            static_assert(sizeof(players) == sizeof(_playerList), "The number of player must be constant");
             _playerList.fill(nullptr);
-            for(auto e : players)
-                addEntity(e);
+            for(std::size_t i = 0 ; i < _playerList.size() ; ++i)
+                if(players[i] != nullptr)
+                    _playerList[i] = new Speaker(players[i]->state());
 
             // Mapping des touches claviers
             // TODO finir
@@ -30,7 +32,7 @@ namespace EUSDAB
             _keyMapping[sf::Keyboard::Left] = std::make_pair(_playerList[1], Event::Left);
             _keyMapping[sf::Keyboard::Right] = std::make_pair(_playerList[1], Event::Right);
         }
-        
+
         Controller::~Controller()
         {
             for(auto e : _playerList)
@@ -43,12 +45,13 @@ namespace EUSDAB
 
         void Controller::update()
         {
-            for (Speaker * s : _playerList)
+            for (auto s : _playerList)
             {
-                s->pollEvents();
+                if(s != nullptr)
+                    s->pollEvents();
             }
 
-            for (Speaker * s : _entityList)
+            for (auto s : _entityList)
             {
                 s->pollEvents();
             }

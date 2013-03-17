@@ -15,7 +15,7 @@ namespace EUSDAB
     class Entity
     {
         public:
-            Entity() = default;
+            Entity();
             Entity(Entity &&) = default;
             Entity(const Entity &) = delete;
             virtual ~Entity();

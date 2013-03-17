@@ -6,6 +6,12 @@
 
 namespace EUSDAB
 {
+    Entity::Entity():
+        _current(nullptr),
+        _states()
+    {
+    }
+
     Entity::~Entity()
     {
         for (auto p : _states)

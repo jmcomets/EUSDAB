@@ -38,6 +38,9 @@ namespace EUSDAB
 
         void Speaker::pollEvents()
         {
+            if(_listener == nullptr)
+                return;
+
             while (_events.empty() == false)
             {
                 Event const & e = _events.front();

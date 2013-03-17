@@ -17,7 +17,7 @@ namespace EUSDAB
         _playerList[1] = new Entity();
 
         // Generation of world
-        // _entityList.emplace_back(new Entity());
+        _entityList.emplace_back(new Entity());
 
         // Controller creation
         _input = new Input::Controller(_playerList);
