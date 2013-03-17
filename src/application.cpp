@@ -1,5 +1,8 @@
 #include <application.h>
 
+#include <entity.h>
+#include <input/controller.h>
+
 namespace EUSDAB
 {
     Application::Application(sf::RenderWindow * window):

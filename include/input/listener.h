@@ -2,12 +2,13 @@
 #define INPUT_LISTENER_H_
 
 #include <ctime>
-#include <input/event.h>
 
 namespace EUSDAB
 {
     namespace Input
     {
+        class Event;
+
         class Listener
         {
             public:

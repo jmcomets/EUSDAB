@@ -7,10 +7,16 @@
 #include <SFML/Graphics.hpp>
 
 #include <config.h>
-#include <input/controller.h>
 
 namespace EUSDAB
 {
+    class Entity;
+
+    namespace Input
+    {
+        class Controller;
+    }
+
     class Application
     {
         public:

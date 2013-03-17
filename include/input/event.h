@@ -32,15 +32,15 @@ namespace EUSDAB
             };
 
             Event() = default;
-            Event(Id, Ratio, Edge);
+            Event(Event::Id, Event::Ratio, Event::Edge);
             Event(Event &&) = default;
             Event(const Event &) = default;
             ~Event() = default;
             Event & operator=(const Event &) = default;
 
-            Id id;
-            Ratio ratio;
-            Edge edge;
+            Event::Id id;
+            Event::Ratio ratio;
+            Event::Edge edge;
         };
     }
 }

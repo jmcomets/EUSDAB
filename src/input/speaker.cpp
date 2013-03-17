@@ -1,5 +1,9 @@
 #include <input/speaker.h>
 
+#include <stdexcept>
+
+#include <input/listener.h>
+
 namespace EUSDAB
 {
     namespace Input
@@ -10,7 +14,7 @@ namespace EUSDAB
         {
         }
 
-        Speaker::setListener(Listener * l)
+        void Speaker::setListener(Listener * l)
         {
             if (l == nullptr)
             {
@@ -36,72 +40,72 @@ namespace EUSDAB
         {
             while (_events.empty() == false)
             {
-                Event const & e = _events.top();
+                Event const & e = _events.front();
                 _events.pop();
-                switch (e.id)
+                switch(e.id)
                 {
-                    Event::Up:
+                    case Event::Up:
                         _listener->onUp(e);
-                    break;
+                        break;
 
-                    Event::Down:
+                    case Event::Down:
                         _listener->onDown(e);
-                    break;
+                        break;
 
-                    Event::Left:
+                    case Event::Left:
                         _listener->onLeft(e);
-                    break;
+                        break;
 
-                    Event::Right:
+                    case Event::Right:
                         _listener->onRight(e);
-                    break;
+                        break;
 
-                    Event::A:
+                    case Event::A:
                         _listener->onA(e);
-                    break;
+                        break;
 
-                    Event::B:
+                    case Event::B:
                         _listener->onB(e);
-                    break;
+                        break;
 
-                    Event::X:
+                    case Event::X:
                         _listener->onX(e);
-                    break;
+                        break;
 
-                    Event::Y:
+                    case Event::Y:
                         _listener->onY(e);
-                    break;
+                        break;
 
-                    Event::Z:
+                    case Event::Z:
                         _listener->onZ(e);
-                    break;
+                        break;
 
-                    Event::Trigger:
+                    case Event::Trigger:
                         _listener->onTrigger(e);
-                    break;
+                        break;
 
-                    Event::NextFrame:
+                    case Event::NextFrame:
                         _listener->onNextFrame(e);
-                    break;
+                        break;
 
-                    Event::Attack:
+                    case Event::Attack:
                         _listener->onAttack(e);
-                    break;
+                        break;
 
-                    Event::Damage:
+                    case Event::Damage:
                         _listener->onDamage(e);
-                    break;
+                        break;
 
-                    Event::Enter:
-                        _listener->onEnter(e);
-                    break;
+                    case Event::Enter:
+                        _listener->onEnter();
+                        break;
 
-                    Event::Leave:
-                        _listener->onLeave(e);
-                    break;
+                    case Event::Leave:
+                        _listener->onLeave();
+                        break;
 
                     default:
-                    break;
+                        break;
                 }
             }
         }

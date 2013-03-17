@@ -3,19 +3,22 @@
 
 #include <array>
 #include <vector>
+#include <unordered_map>
 
 #include <SFML/Window/Event.hpp>
 
-#include <entity.h>
 #include <config.h>
 
 #include <input/event.h>
-#include <input/speaker.h>
 
 namespace EUSDAB
 {
+    class Entity;
+
     namespace Input
     {
+        class Speaker;
+
         class Controller
         {
             public:

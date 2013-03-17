@@ -1,6 +1,8 @@
 #include <entity.h>
-#include <input/state.h>
+
 #include <stdexcept>
+
+#include <input/state.h>
 
 namespace EUSDAB
 {
@@ -22,7 +24,7 @@ namespace EUSDAB
         return _current;
     }
 
-    void Entity::state(Input::State::Id id, Input::State * state)
+    void Entity::state(Movement id, Input::State * state)
     {
         if (_states.emplace(id, state).second == false)
         {
@@ -30,7 +32,7 @@ namespace EUSDAB
         }
     }
 
-    Input::State * Entity::state(Input::State::Id id) const
+    Input::State * Entity::state(Movement id) const
     {
         auto it = _states.find(id);
         return (it != _states.end()) ?  nullptr : it->second;

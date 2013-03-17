@@ -2,10 +2,16 @@
 #define ENTITY_H_
 
 #include <unordered_map>
-#include <input/state.h>
+
+#include <movement.h>
 
 namespace EUSDAB
 {
+    namespace Input
+    {
+        class State;
+    }
+
     class Entity
     {
         public:
@@ -18,12 +24,12 @@ namespace EUSDAB
             void state(Input::State *);
             Input::State * state() const;
 
-            void state(Input::State::Id, Input::State *);
-            Input::State * state(Input::State::Id) const;
+            void state(Movement, Input::State *);
+            Input::State * state(Movement) const;
 
         protected:
             Input::State * _current;
-            std::unordered_map<Input::State::Id, Input::State *, std::hash<int>> _states;
+            std::unordered_map<Movement, Input::State *, std::hash<int>> _states;
     };
 }
 

@@ -3,13 +3,14 @@
 
 #include <queue>
 
-#include <input/listener.h>
 #include <input/event.h>
 
 namespace EUSDAB
 {
     namespace Input
     {
+        class Listener;
+
         // Speaker
         //
         // Dispatches different Events to Listeners,

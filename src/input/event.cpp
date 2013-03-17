@@ -6,8 +6,10 @@ namespace EUSDAB
     {
         Event::Ratio const Full = 1.0;
 
-        Event::Event(Id id, Ratio ratio):
-            id(id), ratio(ratio)
+        Event::Event(Event::Id id, Event::Ratio ratio, Event::Edge edge):
+            id(id),
+            ratio(ratio),
+            edge(edge)
         {
         }
     }

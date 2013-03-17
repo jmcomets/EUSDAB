@@ -1,5 +1,9 @@
 #include <input/controller.h>
 
+#include <entity.h>
+#include <input/listener.h>
+#include <input/speaker.h>
+
 namespace EUSDAB
 {
     namespace Input
@@ -9,6 +13,7 @@ namespace EUSDAB
             _keyMapping()
         {
             // Remplissage de players (et de ta mère JM)
+            _playerList.fill(nullptr);
             for(auto e : players)
                 addEntity(e);
 
@@ -28,7 +33,8 @@ namespace EUSDAB
         Controller::~Controller()
         {
             for(auto e : _playerList)
-                delete e;
+                if(e != nullptr)
+                    delete e;
 
             for(auto e : _entityList)
                 delete e;
@@ -50,7 +56,7 @@ namespace EUSDAB
         void Controller::addEntity(Entity * e)
         {
             Listener * l = nullptr;
-            l = e->state();
+            l = dynamic_cast<Listener *>(e->state());
             _entityList.push_back(new Speaker(e->state()));
         }
 
