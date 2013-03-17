@@ -14,11 +14,13 @@ namespace EUSDAB
             _keyMapping()
         {
             // Remplissage de players (et de ta mère JM)
-            static_assert(sizeof(players) == sizeof(_playerList), "The number of player must be constant");
             _playerList.fill(nullptr);
             for(std::size_t i = 0 ; i < _playerList.size() ; ++i)
                 if(players[i] != nullptr)
+                {
+                    players[i]->state()->entity(players[i]);
                     _playerList[i] = new Speaker(players[i]->state());
+                }
 
             // Mapping des touches claviers
             // TODO finir
@@ -57,6 +59,13 @@ namespace EUSDAB
             }
         }
 
+        void Controller::addEntity(Entity * e, State * s)
+        {
+            e->state(s);
+            s->entity(e);
+            _entityList.push_back(new Speaker(s));
+        }
+
         void Controller::addEntity(Entity * e)
         {
             _entityList.push_back(new Speaker(e->state()));
@@ -75,7 +84,7 @@ namespace EUSDAB
                         it->second.first->push(event);
                     }
                 }
-                else if (e.type == sf::Event::KeyReleased)
+                if (e.type == sf::Event::KeyReleased)
                 {
                     auto it = _keyMapping.find(e.key.code);
                     if (it != _keyMapping.end())

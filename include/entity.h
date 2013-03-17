@@ -1,5 +1,5 @@
-#ifndef ENTITY_H_
-#define ENTITY_H_
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <unordered_map>
 
@@ -15,11 +15,12 @@ namespace EUSDAB
     class Entity
     {
         public:
-            Entity();
             Entity(Entity &&) = default;
-            Entity(const Entity &) = delete;
+            Entity(Entity const &) = delete;
+            Entity & operator=(Entity const &) = delete;
+
+            Entity(Input::State * current = nullptr);
             virtual ~Entity();
-            Entity & operator=(const Entity &) = delete;
 
             void state(Input::State *);
             Input::State * state() const;

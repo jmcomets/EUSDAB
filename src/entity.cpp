@@ -6,8 +6,8 @@
 
 namespace EUSDAB
 {
-    Entity::Entity():
-        _current(nullptr),
+    Entity::Entity(Input::State * current):
+        _current(current),
         _states()
     {
     }
@@ -36,6 +36,7 @@ namespace EUSDAB
         {
             throw std::runtime_error("Entity's States should be unique");
         }
+        state->entity(this);
     }
 
     Input::State * Entity::state(Movement id) const

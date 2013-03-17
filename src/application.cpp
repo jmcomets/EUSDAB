@@ -1,7 +1,11 @@
 #include <application.h>
 
 #include <entity.h>
+#include <movement.h>
+
 #include <input/controller.h>
+
+#include <input/states/test.h>
 
 namespace EUSDAB
 {
@@ -11,10 +15,17 @@ namespace EUSDAB
         _entityList(),
         _input(nullptr)
     {
+        // Window's config
+        _window->setKeyRepeatEnabled(false);
+        _window->setMouseCursorVisible(false);
+        _window->setFramerateLimit(60);
+        _window->setTitle("EUSDAB");
+        _window->setVerticalSyncEnabled(true);
+
         // Generation of player
         _playerList.fill(nullptr);
-        _playerList[0] = new Entity();
-        _playerList[1] = new Entity();
+        _playerList[0] = new Entity(new Input::States::Test());
+        _playerList[1] = new Entity(new Input::States::Test());
 
         // Generation of world
         _entityList.emplace_back(new Entity());

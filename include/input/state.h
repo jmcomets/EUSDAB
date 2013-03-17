@@ -14,12 +14,15 @@ namespace EUSDAB
         class State: public Listener
         {
             public:
-                State() = delete;
-                State(Entity * entity, Speaker * speaker);
                 State(State &&) = default;
                 State(State const &) = delete;
-                virtual ~State();
                 State & operator=(State const &) = delete;
+
+                State();
+                State(Entity * entity, Speaker * speaker);
+                virtual ~State();
+
+                void entity(Entity *);
 
                 // FIXME forward declaration messes this up
                 template <typename TState, typename... Args>

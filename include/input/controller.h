@@ -18,6 +18,7 @@ namespace EUSDAB
     namespace Input
     {
         class Speaker;
+        class State;
 
         class Controller
         {
@@ -31,6 +32,7 @@ namespace EUSDAB
                 ~Controller();
 
                 void addEntity(Entity *);
+                void addEntity(Entity *, State *);
 
                 // Must be called only once per frame
                 void pushEvent(std::vector<sf::Event> const &);

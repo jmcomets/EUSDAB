@@ -5,6 +5,12 @@ namespace EUSDAB
 {
     namespace Input
     {
+        State::State():
+            _entity(nullptr),
+            _speaker(nullptr)
+        {
+        }
+
         State::State(Entity * entity, Speaker * speaker):
             _entity(entity),
             _speaker(speaker)
@@ -13,6 +19,11 @@ namespace EUSDAB
 
         State::~State()
         {
+        }
+        
+        void State::entity(Entity * e)
+        {
+            _entity = e;
         }
     }
 }
