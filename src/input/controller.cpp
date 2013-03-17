@@ -2,6 +2,7 @@
 
 #include <entity.h>
 #include <input/listener.h>
+#include <input/state.h>
 #include <input/speaker.h>
 
 namespace EUSDAB
@@ -55,8 +56,6 @@ namespace EUSDAB
 
         void Controller::addEntity(Entity * e)
         {
-            Listener * l = nullptr;
-            l = dynamic_cast<Listener *>(e->state());
             _entityList.push_back(new Speaker(e->state()));
         }
 

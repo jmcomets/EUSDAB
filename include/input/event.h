@@ -14,7 +14,7 @@ namespace EUSDAB
         {
             typedef float Ratio;
 
-            static Ratio const Full;
+            static Event::Ratio const Full;
 
             enum Id
             {

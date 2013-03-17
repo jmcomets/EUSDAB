@@ -5,18 +5,23 @@ namespace EUSDAB
 {
     struct Movement
     {
-        enum Action
-        {
-            Idle, Jump,
-            Attack, Smash,
-            Flee, Guard,
-            OnHit
-        };
-
         enum Direction
         {
-            Up, Down,
-            Left, Right
+            Up = 0x01 << 0,
+            Down = 0x02 << 0,
+            Left = 0x03 << 0,
+            Right = 0x04 << 0
+        };
+
+        enum Action
+        {
+            Idle = 0x01 << 2,
+            Jump = 0x02 << 2,
+            Attack = 0x03 << 2,
+            Smash = 0x04 << 2,
+            Flee = 0x05 << 2,
+            Guard = 0x06 << 2,
+            OnHit = 0x07 << 2
         };
 
         explicit Movement() = delete;
