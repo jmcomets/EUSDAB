@@ -21,8 +21,11 @@ namespace EUSDAB
         class Hitbox
         {
             public:
-                // Unit used for computations
+                // Unit used for OBBs
                 typedef float Unit;
+
+                // Unit used for angles
+                typedef float Angle;
 
                 // Range constructor taking (begin, end) iterators
                 // which verify STL's `InputIterator` concept.
@@ -64,7 +67,7 @@ namespace EUSDAB
                 bool contains(const Vector2<Unit> &) const;
 
                 // Rotate Hitbox -> rotate all OBBs
-                Hitbox & rotate(Unit);
+K               Hitbox & rotate(Angle);
 
                 // Translate Hitbox -> translate all OBBs
                 Hitbox & translate(const Vector2<Unit> &);

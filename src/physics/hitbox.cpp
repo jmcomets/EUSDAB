@@ -67,7 +67,7 @@ namespace EUSDAB
         }
 
         // Rotate -> all of our OBBs
-        Hitbox & Hitbox::rotate(Unit angle)
+        Hitbox & Hitbox::rotate(Angle angle)
         {
             for (auto obb : _obbList)
             {
