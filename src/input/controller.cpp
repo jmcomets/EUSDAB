@@ -49,6 +49,18 @@ namespace EUSDAB
 
         void Controller::update()
         {
+            // Handle continuous input
+            for (auto p : _keyMapping)
+            {
+                if (sf::Keyboard::isKeyPressed(p.first))
+                {
+                    Event event(p.second.second, Event::Full, Event::ContinuousEdge);
+                    p.second.first->push(event);
+                }
+            }
+
+            // TODO Joystick
+
             for (auto s : _playerList)
             {
                 if (s != nullptr)
@@ -75,44 +87,28 @@ namespace EUSDAB
             _entityList.push_back(new Speaker(s));
         }
 
-        void Controller::pushEvent(std::vector<sf::Event> const & event_list)
+        void Controller::pushEvent(const sf::Event & e)
         {
-            for (auto e : event_list)
+            if (e.type == sf::Event::KeyPressed)
             {
-                if (e.type == sf::Event::KeyPressed)
+                auto it = _keyMapping.find(e.key.code);
+                if (it != _keyMapping.end())
                 {
-                    auto it = _keyMapping.find(e.key.code);
-                    if (it != _keyMapping.end())
-                    {
-                        Event event(it->second.second, Event::Full, Event::RisingEdge);
-                        it->second.first->push(event);
-                    }
+                    Event event(it->second.second, Event::Full, Event::RisingEdge);
+                    it->second.first->push(event);
                 }
-                if (e.type == sf::Event::KeyReleased)
-                {
-                    auto it = _keyMapping.find(e.key.code);
-                    if (it != _keyMapping.end())
-                    {
-                        Event event(it->second.second, Event::Full, Event::FallingEdge);
-                        it->second.first->push(event);
-                    }
-                }
-
-                // TODO Joystick : rising and falling edge
             }
-
-            for (auto p : _keyMapping)
+            if (e.type == sf::Event::KeyReleased)
             {
-                if (sf::Keyboard::isKeyPressed(p.first))
+                auto it = _keyMapping.find(e.key.code);
+                if (it != _keyMapping.end())
                 {
-                    Event event(p.second.second, Event::Full, Event::ContinuousEdge);
-                    p.second.first->push(event);
+                    Event event(it->second.second, Event::Full, Event::FallingEdge);
+                    it->second.first->push(event);
                 }
             }
 
-            // TODO Joystick : continuous edge
-
-            // throw std::runtime_error("Event not recognized");
+            // TODO Joystick : rising and falling edge
         }
     }
 }
