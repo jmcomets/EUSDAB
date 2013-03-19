@@ -1,27 +1,37 @@
-#ifndef ENTITY_H_
-#define ENTITY_H_
+#ifndef ENTITY_H
+#define ENTITY_H
 
-#include <SFML/System/Vector2.hpp>
-#include <graphics.h>
-#include <view.h>
+#include <unordered_map>
 
-class Entity
+#include <movement.h>
+
+namespace EUSDAB
 {
-    public:
-        Entity() = default;
-        Entity(const sf::Vector2f &);
-        Entity(Entity &&) = default;
-        Entity(const Entity &) = default;
-        virtual ~Entity();
-        Entity & operator=(const Entity &) = default;
-        const sf::Vector2f & position() const;
-        const sf::Vector2f & position(const sf::Vector2f &);
-        const sf::Vector2f & move(const sf::Vector2f &);
-        virtual void update() = 0;
-        virtual void render(Graphics::Target &, Graphics::RenderStates) = 0;
+    namespace Input
+    {
+        class State;
+    }
 
-    protected:
-        sf::Vector2f _pos;
-};
+    class Entity
+    {
+        public:
+            Entity(Entity &&) = default;
+            Entity(Entity const &) = delete;
+            Entity & operator=(Entity const &) = delete;
+
+            Entity(Input::State * current = nullptr);
+            virtual ~Entity();
+
+            void state(Input::State *);
+            Input::State * state() const;
+
+            void state(Movement, Input::State *);
+            Input::State * state(Movement) const;
+
+        protected:
+            Input::State * _current;
+            std::unordered_map<Movement, Input::State *, std::hash<int>> _states;
+    };
+}
 
 #endif
