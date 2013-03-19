@@ -1,4 +1,4 @@
-#include <hitbox.h>
+#include <physics/hitbox.h>
 #include <algorithm>
 
 namespace EUSDAB
