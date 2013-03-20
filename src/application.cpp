@@ -87,7 +87,7 @@ namespace EUSDAB
                 eventList.push_back(e);
             }
         }
-        _input->pushEvent(eventList);
+        _input->pushEvent(eventList.begin(), eventList.end());
     }
 
     void Application::update()
