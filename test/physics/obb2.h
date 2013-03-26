@@ -128,6 +128,8 @@ namespace EUSDAB
                         typedef Utils::Interval<T> Interval;
                         Vector2<T> xAxis(_X.unit());
                         Vector2<T> yAxis(_Y.unit());
+                        Vector2<T> obblxAxis(other._X.unit());
+                        Vector2<T> obblyAxis(other._Y.unit());
                         Vector2<T> extent(_X + _Y);
                         Vector2<T> obbExtent(other._X + other._Y);
                         Vector2<T> lExtent(_center - extent);
@@ -145,13 +147,49 @@ namespace EUSDAB
                             << "\t Y = " << _Y << std::endl;
 #endif
 
-                        return Interval(lExtent.dot(xAxis), rExtent.dot(xAxis)).
+                        Vector2<T> myXOnOther = _X;
+                        myXOnOther.rotate(other._angle, other._X);
+                        Vector2<T> myYOnOther = _Y;
+                        myYOnOther.rotate(other._angle, other._Y);
+                        if(!(
+                                Interval(myXOnOther.x(), myXOnOther.x() + myXOnOther.norm()).intersects
+                                (Interval(other._X.x(), other._X.x() + other._X.norm()))
+                                &&
+                                Interval(myYOnOther.y(), myXOnOther.y() + myYOnOther.norm()).intersects
+                                (Interval(other._Y.y(), other._Y.y() + other._Y.norm()))
+                            ))
+                            return false;
+
+                        Vector2<T> otherXOnMe = other._X;
+                        otherXOnMe.rotate(_angle, _X);
+                        Vector2<T> otherYOnMe = other._Y;
+                        otherYOnMe.rotate(_angle, _Y);
+                        if(!(
+                                Interval(otherXOnMe.x(), otherXOnMe.x() + otherXOnMe.norm()).intersects
+                                (Interval(_X.x(), _X.x() + _X.norm()))
+                                &&
+                                Interval(otherYOnMe.y(), otherYOnMe.y() + otherYOnMe.norm()).intersects
+                                (Interval(_Y.y(), _Y.y() + _Y.norm()))
+                            ))
+                            return false;
+
+                        return true;
+
+                        return (Interval(lExtent.dot(xAxis), rExtent.dot(xAxis)).
                             intersects
                             (Interval(obblExtent.dot(xAxis), obbrExtent.dot(xAxis)))
                             &&
                             Interval(lExtent.dot(yAxis), rExtent.dot(yAxis)).
                             intersects
-                            (Interval(obblExtent.dot(yAxis), obbrExtent.dot(yAxis)));
+                            (Interval(obblExtent.dot(yAxis), obbrExtent.dot(yAxis))))
+                            &&
+                            (Interval(lExtent.dot(obblxAxis), rExtent.dot(obblxAxis)).
+                            intersects
+                            (Interval(obblExtent.dot(obblxAxis), obbrExtent.dot(obblxAxis)))
+                            &&
+                            Interval(lExtent.dot(obblyAxis), rExtent.dot(obblyAxis)).
+                            intersects
+                            (Interval(obblExtent.dot(obblyAxis), obbrExtent.dot(obblyAxis))));
                     }
 
                 private:
