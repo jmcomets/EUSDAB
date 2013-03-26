@@ -14,6 +14,10 @@ namespace EUSDAB
             {
             }
 
+            Test::~Test()
+            {
+            }
+
             void Test::onUp(Event const & e)
             {
                 if(e.edge == Event::RisingEdge)

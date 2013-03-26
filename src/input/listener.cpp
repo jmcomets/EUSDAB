@@ -28,6 +28,8 @@ namespace EUSDAB
         {
             _time = 0;
         }
+
         void Listener::onLeave() {}
+        void Listener::onGround(Event const &){}
     }
 }

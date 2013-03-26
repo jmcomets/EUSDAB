@@ -29,6 +29,8 @@ namespace EUSDAB
                 virtual void onAttack(Event const &);
                 virtual void onDamage(Event const &);
 
+                virtual void onGround(Event const &);
+
                 virtual void onEnter();
                 virtual void onLeave();
 

@@ -12,7 +12,12 @@ namespace EUSDAB
             class Test: public State
             {
                 public:
+                    Test(Test &&) = default;
+                    Test(const Test &) = delete;
+                    Test & operator=(const Test &) = delete;
+
                     Test();
+                    ~Test();
 
                     virtual void onUp(Event const &);
                     virtual void onDown(Event const &);

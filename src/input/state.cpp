@@ -1,5 +1,6 @@
 #include <input/state.h>
 #include <entity.h>
+#include <stdexcept>
 
 namespace EUSDAB
 {
@@ -20,10 +21,26 @@ namespace EUSDAB
         State::~State()
         {
         }
-        
-        void State::entity(Entity * e)
+
+        Entity * State::entity() const
         {
-            _entity = e;
+            return _entity;
+        }
+        
+        Entity * State::entity(Entity * e)
+        {
+            return _entity = e;
+        }
+
+        void State::switchState(Movement const & id)
+        {
+            State * s = _entity->state(id);
+            if (s == nullptr)
+            {
+                throw std::runtime_error("Undefined State");
+            }
+            _speaker->setListener(s);
+            _entity->state(s);
         }
     }
 }
