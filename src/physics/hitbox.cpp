@@ -14,7 +14,7 @@ namespace EUSDAB
         // Single OBB addition -> basic `push_back`
         Hitbox & Hitbox::add(const OBB2<Unit> & obb)
         {
-            _obbList.push_back(obb);
+            _obbList.push_front(obb);
             return *this;
         }
 
@@ -46,19 +46,6 @@ namespace EUSDAB
             for (auto obb : hitbox._obbList)
             {
                 if (collides(obb))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Any of our OBBs contain given vector -> Contained
-        bool Hitbox::contains(const Vector2<Unit> & v) const
-        {
-            for (const OBB2<Unit> & obb : _obbList)
-            {
-                if (obb.contains(v))
                 {
                     return true;
                 }

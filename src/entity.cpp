@@ -29,7 +29,7 @@ namespace EUSDAB
 
     void Entity::state(Movement id, Input::State * state)
     {
-        if (_states.emplace(id, state).second == false)
+        if (_states.insert(std::make_pair(id, state)).second == false)
         {
             throw std::runtime_error("Entity's States should be unique");
         }

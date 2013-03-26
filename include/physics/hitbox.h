@@ -4,7 +4,7 @@
 #include <initializer_list>
 #include <type_traits>
 #include <forward_list>
-#include <physics/obb.h>
+#include <physics/obb2.h>
 
 namespace EUSDAB
 {
@@ -36,7 +36,7 @@ namespace EUSDAB
                     Hitbox(InputIt begin, InputIt end):
                         _obbList(begin, end)
                 {
-                    using V = InputIt::value_type;
+                    typedef typename InputIt::value_type V;
                     static_assert(std::is_same<OBB2<Unit>, V>::value, 
                         "Hitbox must be constructed from OBB2<Hitbox::Unit>");
                 }
@@ -67,7 +67,7 @@ namespace EUSDAB
                 bool contains(const Vector2<Unit> &) const;
 
                 // Rotate Hitbox -> rotate all OBBs
-K               Hitbox & rotate(Angle);
+                Hitbox & rotate(Angle);
 
                 // Translate Hitbox -> translate all OBBs
                 Hitbox & translate(const Vector2<Unit> &);

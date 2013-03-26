@@ -38,7 +38,8 @@ namespace EUSDAB
                 template <typename InputIter>
                     void pushEvent(InputIter begin, InputIter end)
                 {
-                    using V = typename InputIter::value_type;
+                    //using V = typename InputIter::value_type;
+                    typedef typename InputIter::value_type V;
                     static_assert(std::is_convertible<const sf::Event &, V>::value, 
                         "Can only push `const sf::Event &` to Input::Controller");
                     for (; begin != end; begin++)

@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-namespace Geometry
+namespace Utils
 {
     template <class T>
         class Interval
@@ -22,38 +22,24 @@ namespace Geometry
             {
             }
 
-            Interval(const Interval<T> & interval):
-                empty_(interval.empty_),
-                min_(interval.min_),
-                max_(interval.max_)
-            {
-            }
+            Interval(Interval<T> &&) = default;
+            Interval(const Interval<T> &) = default;
+            ~Interval() = default;
+            Interval & operator=(const Interval<T> &) = default;
 
-            virtual ~Interval()
-            {
-            }
-
-            Interval & operator=(const Interval<T> & interval)
-            {
-                empty_ = interval.empty_;
-                min_ = interval.min_;
-                max_ = interval.max_;
-                return *this;
-            }
-
-            inline bool empty() const
+            bool empty() const
             {
                 return empty_;
             }
 
-            inline Interval<T> merge(const Interval<T> & interval) const
+            Interval<T> merge(const Interval<T> & interval) const
             {
                 // FIXME: doesn't work correctly when intersection is empty
                 return Interval<T>(std::min<T>(min_, interval.min_),
                         std::max<T>(max_, interval.max_));
             }
 
-            inline Interval<T> diff(const Interval<T> & interval) const
+            Interval<T> diff(const Interval<T> & interval) const
             {
                 if (*this < interval || *this > interval) // empty interval
                 {
@@ -68,17 +54,17 @@ namespace Geometry
                 }
             }
 
-            inline bool intersects(const Interval<T> & interval) const
+            bool intersects(const Interval<T> & interval) const
             {
                 return diff(interval).empty() == false;
             }
 
-            inline bool operator<(const Interval<T> & interval) const
+            bool operator<(const Interval<T> & interval) const
             {
                 return max_ < interval.min_;
             }
 
-            inline bool operator>(const Interval<T> & interval) const
+            bool operator>(const Interval<T> & interval) const
             {
                 return min_ > interval.max_;
             }
@@ -86,7 +72,7 @@ namespace Geometry
         private:
             bool empty_;
             T min_, max_;
-    }; // class Interval
-} // namespace Geometry
+    };
+}
 
-#endif // INTERVAL_H_INCLUDED_
+#endif
