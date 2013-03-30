@@ -8,7 +8,7 @@
                 "direction": [ "left" ]
             },
             "view": {
-                "sounds": [ "idle_left1.mp3" ],
+                "audio": "idle_left1.mp3",
                 "tileset": "idle_left.ts"
             },
             "physics": {
