@@ -82,7 +82,7 @@ namespace EUSDAB
 
         void Controller::addEntity(Entity * e, State * s)
         {
-            e->state(s);
+            e->setState(s);
             s->entity(e);
             _entityList.push_back(new Speaker(s));
         }

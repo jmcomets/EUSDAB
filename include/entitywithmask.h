@@ -13,7 +13,7 @@ namespace EUSDAB
             EntityWithMask(EntityWithMask const &) = delete;
             EntityWithMask & operator=(EntityWithMask const &) = delete;
 
-            EntityWithMask(Input::State * current = nullptr);
+            EntityWithMask();
             virtual ~EntityWithMask();
 
             template <typename InputIter>

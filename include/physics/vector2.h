@@ -98,7 +98,7 @@ namespace EUSDAB
                     }
 
                     template <typename U>
-                        T const & dot(Vector2<U> const & v) const
+                        T dot(Vector2<U> const & v) const
                         {
                             return _x * v.x() + _y * v.y();
                         }

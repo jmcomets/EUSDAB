@@ -2,8 +2,8 @@
 
 namespace EUSDAB
 {
-    EntityWithMask::EntityWithMask(Input::State * current):
-        Entity(current), _mask()
+    EntityWithMask::EntityWithMask():
+        Entity(), _mask()
     {
     }
 

@@ -1,8 +1,8 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef ENTITY_H_
+#define ENTITY_H_
 
+#include <string>
 #include <unordered_map>
-
 #include <movement.h>
 
 namespace EUSDAB
@@ -19,16 +19,23 @@ namespace EUSDAB
             Entity(Entity const &) = delete;
             Entity & operator=(Entity const &) = delete;
 
-            Entity(Input::State * current = nullptr);
+            Entity();
             virtual ~Entity();
 
-            void state(Input::State *);
-            Input::State * state() const;
+            void setState(const Movement &);
+            void setState(Input::State *);
 
-            void state(Movement, Input::State *);
-            Input::State * state(Movement) const;
+            void setName(const std::string &);
+
+            Input::State * state() const;
+            Input::State * state(const Movement &) const;
+
+            std::string name() const;
+
+    void addState(const Movement &, Input::State *);
 
         protected:
+            std::string _name;
             Input::State * _current;
             std::unordered_map<Movement, Input::State *, std::hash<int>> _states;
     };

@@ -40,7 +40,7 @@ namespace EUSDAB
                 throw std::runtime_error("Undefined State");
             }
             _speaker->setListener(s);
-            _entity->state(s);
+            _entity->setState(s);
         }
     }
 }

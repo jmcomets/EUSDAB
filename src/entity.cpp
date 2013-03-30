@@ -4,8 +4,8 @@
 
 namespace EUSDAB
 {
-    Entity::Entity(Input::State * current):
-        _current(current), _states()
+    Entity::Entity():
+        _name(), _current(nullptr), _states()
     {
     }
 
@@ -17,9 +17,27 @@ namespace EUSDAB
         }
     }
 
-    void Entity::state(Input::State * state)
+    void Entity::setState(const Movement & id)
+    {
+        Input::State * st = state(id);
+        if (st == nullptr)
+        {
+            throw std::runtime_error("Unknown state id");
+        }
+        else
+        {
+            _current = st;
+        }
+    }
+
+    void Entity::setState(Input::State * state)
     {
         _current = state;
+    }
+
+    void Entity::setName(const std::string & name)
+    {
+        _name = name;
     }
 
     Input::State * Entity::state() const
@@ -27,18 +45,23 @@ namespace EUSDAB
         return _current;
     }
 
-    void Entity::state(Movement id, Input::State * state)
+    Input::State * Entity::state(const Movement & id) const
+    {
+        auto it = _states.find(id);
+        return (it != _states.end()) ? it->second : nullptr;
+    }
+
+    std::string Entity::name() const
+    {
+        return _name;
+    }
+
+    void Entity::addState(const Movement & id, Input::State * state)
     {
         if (_states.insert(std::make_pair(id, state)).second == false)
         {
-            throw std::runtime_error("Entity's States should be unique");
+            throw std::runtime_error("Entity's states should be unique");
         }
         state->entity(this);
-    }
-
-    Input::State * Entity::state(Movement id) const
-    {
-        auto it = _states.find(id);
-        return (it != _states.end()) ?  nullptr : it->second;
     }
 }

@@ -18,10 +18,26 @@ namespace EUSDAB
         _window->setTitle("EUSDAB");
         _window->setVerticalSyncEnabled(true);
 
-        // Generation of player
+        // Creating players
+        Entity * player1 = new Entity();
+        Entity * player2 = new Entity();
+
+        // Test state bundle
+        typedef Input::States::Test TestState;
+        Movement testMovement(Movement::Idle, Movement::Left);
+
+        // Adding player states
+        player1->addState(testMovement, new TestState());
+        player2->addState(testMovement, new TestState());
+
+        // Setting player states
+        player1->setState(testMovement);
+        player2->setState(testMovement);
+
+        // Adding players
         _playerList.fill(nullptr);
-        _playerList[0] = new Entity(new Input::States::Test());
-        _playerList[1] = new Entity(new Input::States::Test());
+        _playerList[0] = player1;
+        _playerList[1] = player2;
 
         // Generation of world
         _entityList.emplace_back(new Entity());
