@@ -20,7 +20,15 @@ namespace EUSDAB
         {
             // Boost's magic
             ptree entityPt;
-            read_json(is, entityPt);
+            try
+            {
+                read_json(is, entityPt);
+            }
+            catch (ptree_error)
+            {
+                std::cout << "JSON file invalid" << std::endl;
+                return nullptr;
+            }
 
             // Entity to construct
             Entity * entity = new Entity();
@@ -39,6 +47,7 @@ namespace EUSDAB
                     std::pair<Movement, Input::State *> stateInfo = readState(s.second);
                     entity->addState(stateInfo.first, stateInfo.second);
                 }
+                entity->setState(Movement(Movement::Idle, Movement::Left));
             }
             catch (ptree_error e)
             {
@@ -55,12 +64,13 @@ namespace EUSDAB
 
             try
             {
-                Movement mvt(Movement::Idle, Movement::Left);
-
-                // FIXME
+                // FIXME "type" field
                 state = new Input::States::Idle();
 
-                std::string hbFilename = statePt.get<std::string>("physics");
+                // FIXME
+                Movement mvt(Movement::Idle, Movement::Left);
+
+                std::string hbFilename = statePt.get<std::string>("hitbox");
                 std::cout << "hitbox : " << hbFilename << std::endl;
 
                 std::string tsFilename = statePt.get<std::string>("view.tileset");

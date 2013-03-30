@@ -48,9 +48,9 @@ int main(int argc, const char *argv[])
             delete parser;
         }
     }
-    catch (std::exception e)
+    catch (std::exception)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Unexpected error" << std::endl;
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
