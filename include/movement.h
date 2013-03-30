@@ -1,12 +1,20 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
+#include <functional>
+
 namespace EUSDAB
 {
-    // TODO comment this class
+    // Identifier-type used to define the different states
+    //   accessible and their id.
+    // Specializes std::hash<Movement>
     struct Movement
     {
-        enum Direction
+        typedef unsigned int Flag;
+        typedef std::hash<Flag> Hash;
+
+        // TODO check if combination of directions is possible
+        enum Direction: Flag
         {
             Up = 0x01 << 0,
             Down = 0x02 << 0,
@@ -14,7 +22,7 @@ namespace EUSDAB
             Right = 0x04 << 0
         };
 
-        enum Action
+        enum Action: Flag
         {
             Idle = 0x01 << 2,
             Jump = 0x02 << 2,
@@ -25,18 +33,32 @@ namespace EUSDAB
             OnHit = 0x07 << 2
         };
 
-        Movement(Movement::Action, Movement::Direction);
         Movement() = delete;
         Movement(Movement &&) = default;
-        Movement(const Movement &) = default;
+        Movement(Movement const &) = default;
         ~Movement() = default;
-        Movement & operator=(const Movement &) = default;
+        Movement & operator=(Movement const &) = default;
 
-        operator int() const;
+        Movement(Action, Direction);
 
-        Movement::Action action;
-        Movement::Direction direction;
+        operator Flag() const;
+
+        Action action;
+        Direction direction;
     };
+}
+
+// Specialization of std::hash<EUSDAB::Movement>
+namespace std
+{
+    template <>
+        struct hash<EUSDAB::Movement>
+        {
+            size_t operator()(const EUSDAB::Movement & x) const
+            {
+                return hash<EUSDAB::Movement::Flag>()(x);
+            }
+        };
 }
 
 #endif

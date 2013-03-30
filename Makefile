@@ -33,8 +33,8 @@ OBJECTS = $(addsuffix .o, $(basename $(subst $(SRCDIR), $(OBJDIR), $(SOURCES))))
 DEPENDS = $(addsuffix .d, $(basename $(subst $(SRCDIR), $(DEPDIR), $(SOURCES))))
 
 ECHO = @echo
-RM = rm -f
-MKDIR = mkdir -p
+RM = @rm -f
+MKDIR = @mkdir -p
 
 ALL = all
 TEST = test
@@ -60,7 +60,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(COMPILE.cpp) $< $(OUTPUT_OPTION) -MF $(DEPDIR)/$*.d -o $@
 
 $(CLEAN):
-	$(RM) $(OBJECTS) $(DEPENDS) $(TARGET)
+	$(RM) $(OBJECTS) $(DEPENDS)
 
 $(MRPROPER): $(CLEAN)
 	$(RM) $(TARGET)

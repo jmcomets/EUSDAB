@@ -37,7 +37,7 @@ namespace EUSDAB
         protected:
             std::string _name;
             Input::State * _current;
-            std::unordered_map<Movement, Input::State *, std::hash<int>> _states;
+            std::unordered_map<Movement, Input::State *> _states;
     };
 }
 
