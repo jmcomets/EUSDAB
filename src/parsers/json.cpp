@@ -55,16 +55,19 @@ namespace EUSDAB
 
             try
             {
-                state = new Input::States::Idle();
                 Movement mvt(Movement::Idle, Movement::Left);
+
+                // FIXME
+                state = new Input::States::Idle();
+
+                std::string hbFilename = statePt.get<std::string>("physics");
+                std::cout << "hitbox : " << hbFilename << std::endl;
+
                 std::string tsFilename = statePt.get<std::string>("view.tileset");
                 std::cout << "tileset : " << tsFilename << std::endl;
 
-                std::string hbFilename = statePt.get<std::string>("view.physics");
-                std::cout << "tileset : " << tsFilename << std::endl;
-
                 std::string audioFilename = statePt.get<std::string>("view.audio");
-                std::cout << "tileset : " << tsFilename << std::endl;
+                std::cout << "audio : " << audioFilename << std::endl;
 
                 return std::make_pair(mvt, state);
             }
