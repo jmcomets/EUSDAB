@@ -16,9 +16,13 @@ namespace EUSDAB
         {
         }
 
-        // Utility function for reading an Entity's 
+        // Internal utility function for reading an Entity's 
         //   Input::State JSON representation.
         static std::pair<Movement, Input::State *> readState(const ptree & statePt);
+
+        // Internal utility function for reading an Entity's
+        //   Movement JSON representation.
+        static Movement readMovement(const ptree & mvtPt);
 
         Entity * Json::read(std::istream & is) const
         {
@@ -59,10 +63,10 @@ namespace EUSDAB
 
             try
             {
-                Movement mvt(Movement::Idle, Movement::Left);
-
                 // FIXME
                 state = new Input::States::Idle();
+
+                Movement mvt = readMovement(statePt.get_child("movement"));
 
                 std::string hbFilename = statePt.get<std::string>("physics");
                 std::cout << "hitbox : " << hbFilename << std::endl;
@@ -80,6 +84,11 @@ namespace EUSDAB
                 delete state;
                 throw;
             }
+        }
+
+        Movement readMovement(const ptree & mvtPt)
+        {
+            return Movement(Movement::Idle, Movement::Left);
         }
     }
 }
