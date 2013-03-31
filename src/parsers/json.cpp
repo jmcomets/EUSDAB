@@ -12,6 +12,10 @@ namespace EUSDAB
 {
     namespace Parsers
     {
+        Json::~Json()
+        {
+        }
+
         // Utility function for reading an Entity's 
         //   Input::State JSON representation.
         static std::pair<Movement, Input::State *> readState(const ptree & statePt);
