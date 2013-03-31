@@ -80,10 +80,10 @@ TARGET = $(BINDIR)/EUSDAB
 $(ALL): $(TARGET) $(TAGS)
 
 $(TAGS): $(HEADERS) $(SOURCES)
-	$(CTAGS) $(INCDIR) $(SRCDIR) ./lib/SFML-2.0-rc/include
+	$(CTAGS) $(INCDIR) $(SRCDIR) $(SFML_INCDIR)
 
 $(RUN): $(TARGET)
-	@export LD_LIBRARY_PATH=$(LIBDIR) && ./$(TARGET)
+	@export LD_LIBRARY_PATH=$(SFML_LIBDIR) && ./$(TARGET)
 
 $(TARGET): $(OBJECTS)
 	$(MKDIR) $(@D)
