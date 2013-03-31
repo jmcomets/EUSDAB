@@ -36,6 +36,9 @@ ECHO = @echo
 RM = @rm -f
 MKDIR = @mkdir -p
 
+TAGS = tags
+CTAGS = @ctags -R --sort=yes --c++-kinds=+px-d --fields=+iaS --extra=+q
+
 ALL = all
 TEST = test
 RUN = run
@@ -46,6 +49,9 @@ TARGET = $(BINDIR)/EUSDAB
 .PHONY: $(ALL) $(TEST) $(CLEAN) $(RUN) $(MRPROPER)
 
 $(ALL): $(TARGET)
+
+$(TAGS):
+	$(CTAGS) $(INCDIR)
 
 $(RUN): $(TARGET)
 	@export LD_LIBRARY_PATH=./lib/SFML-2.0-rc/lib && ./$(TARGET)
@@ -60,7 +66,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(COMPILE.cpp) $< $(OUTPUT_OPTION) -MF $(DEPDIR)/$*.d -o $@
 
 $(CLEAN):
-	$(RM) $(OBJECTS) $(DEPENDS)
+	$(RM) $(OBJECTS) $(DEPENDS) $(TAGS)
 
 $(MRPROPER): $(CLEAN)
 	$(RM) $(TARGET)
