@@ -9,17 +9,17 @@ namespace EUSDAB
 {
     namespace Input
     {
-        Controller::Controller(std::array<Entity *, Config::NbPlayers> const & players):
-            _playerList(), _entityList(),
+        Controller::Controller(std::vector<Entity *> const & players):
+            _playerList(),
+            _entityList(),
             _keyMapping()
         {
             // Remplissage de players (et de ta mère JM)
-            _playerList.fill(nullptr);
-            for(std::size_t i = 0 ; i < _playerList.size() ; ++i)
-                if(players[i] != nullptr)
+            for(Entity * e : players)
+                if(e != nullptr)
                 {
-                    players[i]->state()->entity(players[i]);
-                    _playerList[i] = new Speaker(players[i]->state());
+                    e->state()->entity(e);
+                    _playerList.emplace_back(new Speaker(e->state()));
                 }
 
             // Mapping des touches claviers

@@ -1,8 +1,12 @@
 #ifndef PHYSICS_CONTROLLER_H_
 #define PHYSICS_CONTROLLER_H_
 
+#include <vector>
+
 namespace EUSDAB
 {
+    class Entity;
+
     namespace Input
     {
         class Controller;

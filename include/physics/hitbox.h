@@ -47,6 +47,11 @@ namespace EUSDAB
 
                     ~Hitbox() = default;
 
+                    bool operator==(Hitbox::Semantic __sem) const
+                    {
+                        return _semantic == __sem;
+                    }
+
                     void addAABB(AABB<T> const & __aabb)
                     {
                         _aabb_list.push_back(__aabb);
@@ -155,6 +160,8 @@ namespace EUSDAB
                     std::vector<AABB<T> > _aabb_list;
                     AABB<T> _aabb_global;
             };
+
+        typedef Hitbox<int> Hitbox_t;
     }
 }
 #endif

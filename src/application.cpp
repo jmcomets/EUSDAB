@@ -35,9 +35,8 @@ namespace EUSDAB
         player2->setState(testMovement);
 
         // Adding players
-        _playerList.fill(nullptr);
-        _playerList[0] = player1;
-        _playerList[1] = player2;
+        _playerList.emplace_back(player1);
+        _playerList.emplace_back(player2);
 
         // Generation of world
         _entityList.emplace_back(new Entity());

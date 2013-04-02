@@ -12,6 +12,8 @@ namespace EUSDAB
         class Listener
         {
             public:
+                virtual ~Listener() = default;
+
                 virtual void onUp(Event const &);
                 virtual void onDown(Event const &);
                 virtual void onLeft(Event const &);
