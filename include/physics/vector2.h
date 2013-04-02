@@ -1,79 +1,30 @@
-#ifndef VECTOR2_H_
-#define VECTOR2_H_
+#ifndef PHYSICS_VECTOR2_H_
+#define PHYSICS_VECTOR2_H_
 
-#include <cmath>
+#include <cctype>
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        template <typename T>
+        template<typename T>
             class Vector2
             {
                 public:
+                    Vector2(T const && __x = T(), T const && __y = T()):
+                        _x(__x),
+                        _y(__y)
+                    {
+                    }
 
-                    Vector2(T const & x = 0, T const & y = 0):
-                        _x(x), _y(y)
-                {
-                }
-
-                    Vector2(Vector2 &&) = default;
                     Vector2(Vector2 const &) = default;
-                    ~Vector2() = default;
+                    Vector2(Vector2 &&) = default;
                     Vector2 & operator=(Vector2 const &) = default;
-
-                    template <typename U>
-                        Vector2 & operator+=(Vector2<U> const & v)
-                        {
-                            _x += v.x();
-                            _y += v.y();
-                            return *this;
-                        }
-
-                    template <typename U>
-                        Vector2 & operator-=(Vector2<U> const & v)
-                        {
-                            _x -= v.x();
-                            _y -= v.y();
-                            return *this;
-                        }
-
-                    template <typename U>
-                        Vector2 & operator*=(U const & u)
-                        {
-                            _x *= u;
-                            _y *= u;
-                            return *this;
-                        }
-
-                    template <typename U>
-                        Vector2 & operator/=(U const & u)
-                        {
-                            _x /= u;
-                            _y /= u;
-                            return *this;
-                        }
-
-                    template <typename U>
-                        bool operator==(Vector2<U> const & v) const
-                        {
-                            return v._x == _x && v._y == _y;
-                        }
-
-                    template <typename U>
-                        bool operator!=(Vector2<U> const & v) const
-                        {
-                            return !(*this == v);
-                        }
+                    ~Vector2() = default;
 
                     T const & x() const
                     {
                         return _x;
-                    }
-
-                    T const & x(T const & x)
-                    {
-                        return _x = x;
                     }
 
                     T const & y() const
@@ -81,86 +32,106 @@ namespace EUSDAB
                         return _y;
                     }
 
-                    T const & y(T const & y)
+                    void x(T const & __x)
                     {
-                        return _y = y;
+                        _x = __x;
                     }
 
-                    double norm() const
+                    void y(T const & __y)
                     {
-                        return std::sqrt(_x * _x + _y * _y);
+                        _y = __y;
                     }
 
-                    Vector2 unit() const
+                    bool operator==(Vector2 const & __other)
                     {
-                        double s = norm();
-                        return (s > 0) ? Vector2(*this / s) : Vector2();
+                        return _x == __other._x && _y == __other._y;
+                    }
+
+                    bool operator!=(Vector2 const & __other)
+                    {
+                        return !this->operator==(__other);
+                    }
+
+                    Vector2 & operator+=(Vector2 const & __other)
+                    {
+                        _x += __other._x;
+                        _y += __other._y;
+                        return *this;
+                    }
+
+                    Vector2 & operator-=(Vector2 const & __other)
+                    {
+                        _x -= __other._x;
+                        _y -= __other._y;
+                       return *this;
+                    }
+
+                    Vector2 & operator*=(T const & __scale)
+                    {
+                        _x *= __scale;
+                        _y *= __scale;
+                        return *this;
+                    }
+
+                    Vector2 & operator/=(T const & __scale)
+                    {
+                        _x /= __scale;
+                        _y /= __scale;
+                        return *this;
                     }
 
                     template <typename U>
-                        T dot(Vector2<U> const & v) const
+                        operator Vector2<U>()
                         {
-                            return _x * v.x() + _y * v.y();
+                            Vector2<U> v;
+                            v.x(static_cast<U>(_x));
+                            v.y(static_cast<U>(_y));
+                            return v;
                         }
 
-                    template <typename U>
-                        Vector2 & translate(Vector2<U> const & v)
-                        {
-                            _x += v.x();
-                            _y += v.y();
-                            return *this;
-                        }
-
-                    Vector2 perp()
+                    Vector2 & translate(T const & __tx, T const & __ty)
                     {
-                        return Vector2(*this).rotate(M_PI / 2.0);
+                        _x += __tx;
+                        _y += __ty;
+                        return *this;
                     }
 
-                    template <typename U>
-                        Vector2 & rotate(U const & angle, Vector2<T> const & origin = Vector2<T>())
-                        {
-                            if (origin != *this)
-                            {
-                                T x = _x;
-
-                                _x = (x - origin.x()) * std::cos(angle)
-                                    - (_y - origin.y()) * std::sin(angle);
-
-                                _y = (x - origin.x()) * std::sin(angle)
-                                    + (_y - origin.y()) * std::cos(angle);
-                            }
-                            return *this;
-                        }
+                    Vector2 & translate(Vector2<T> const & __t)
+                    {
+                        translate(__t._x, __t._y);
+                        return *this;
+                    }
 
                 private:
                     T _x;
                     T _y;
             };
 
-        template <typename T, typename U>
-            inline Vector2<T> operator+(Vector2<T> lv, Vector2<U> const & rv)
+        template <typename T>
+            inline Vector2<T> operator+(Vector2<T> __l, Vector2<T> const & __r)
             {
-                return lv += rv;
+                return __l += __r;
             }
 
-        template <typename T, typename U>
-            inline Vector2<T> operator-(Vector2<T> lv, Vector2<U> const & rv)
+        template <typename T>
+            inline Vector2<T> operator-(Vector2<T> __l, Vector2<T> const & __r)
             {
-                return lv -= rv;
+                return __l -= __r;
             }
 
-        template <typename T, typename U>
-            inline Vector2<T> operator*(Vector2<T> v, U const & u)
+        template <typename T>
+            inline Vector2<T> operator*(Vector2<T> __l, T const & __r)
             {
-                return v *= u;
+                return __l *= __r;
             }
 
-        template <typename T, typename U>
-            inline Vector2<T> operator/(Vector2<T> v, U const & u)
+        template <typename T>
+            inline Vector2<T> operator/(Vector2<T> __l, T const & __r)
             {
-                return v /= u;
+                return __l /= __r;
             }
     }
 }
 
 #endif
+
