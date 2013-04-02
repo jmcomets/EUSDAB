@@ -1,6 +1,7 @@
 #include <parsers/json.h>
 #include <istream>
 #include <utility>
+#include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <input/states/idle.h>
@@ -88,7 +89,73 @@ namespace EUSDAB
 
         Movement readMovement(const ptree & mvtPt)
         {
-            return Movement(Movement::Idle, Movement::Left);
+            Movement movement;
+            ptree actions = mvtPt.get_child("action");
+            Movement::Flag flag = 0;
+            for (auto p : actions)
+            {
+                std::string action = p.second.data();
+                if (action == "idle")
+                {
+                    flag |= Movement::Idle;
+                }
+                else if (action == "jump")
+                {
+                    flag |= Movement::Jump;
+                }
+                else if (action == "attack")
+                {
+                    flag |= Movement::Attack;
+                }
+                else if (action == "smash")
+                {
+                    flag |= Movement::Smash;
+                }
+                else if (action == "flee")
+                {
+                    flag |= Movement::Flee;
+                }
+                else if (action == "guard")
+                {
+                    flag |= Movement::Guard;
+                }
+                else if (action == "onhit")
+                {
+                    flag |= Movement::OnHit;
+                }
+                else
+                {
+                    throw std::runtime_error("Unrecognized movement");
+                }
+            }
+            ptree directions = mvtPt.get_child("direction");
+            for (auto p : directions)
+            {
+                std::string direction = p.second.data();
+                if (direction == "up")
+                {
+                    flag |= Movement::Up;
+                }
+                else if (direction == "down")
+                {
+                    flag |= Movement::Down;
+                }
+                else if (direction == "left")
+                {
+                    flag |= Movement::Left;
+                }
+                else if (direction == "right")
+                {
+                    flag |= Movement::Right;
+                }
+                else
+                {
+                    throw std::runtime_error("Unrecognized direction");
+                }
+            }
+            movement.setFlag(flag);
+            std::cout << "flag parsed: " << flag << std::endl;
+            return movement;
         }
     }
 }

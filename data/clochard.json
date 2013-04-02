@@ -5,6 +5,20 @@
             "type": "idle",
             "movement": {
                 "action": [ "idle" ],
+                "direction": [ "right" ]
+            },
+            "view": {
+                "audio": "idle_right1.mp3",
+                "tileset": "idle_right.ts"
+            },
+            "physics": {
+                "hitboxes": "idle_right.hb"
+            }
+        },
+        {
+            "type": "idle",
+            "movement": {
+                "action": [ "idle" ],
                 "direction": [ "left" ]
             },
             "view": {
