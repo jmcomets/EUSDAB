@@ -8,43 +8,47 @@ namespace EUSDAB
     // Identifier-type used to define the different states
     //   accessible and their id.
     // Specializes std::hash<Movement>
-    struct Movement
+    class Movement
     {
-        typedef unsigned int Flag;
-        typedef std::hash<Flag> Hash;
+        public:
+            typedef unsigned int Flag;
+            typedef std::hash<Flag> Hash;
 
-        // TODO check if combination of directions is possible
-        enum Direction: Flag
-        {
-            Up = 0x01 << 0,
-            Down = 0x02 << 0,
-            Left = 0x03 << 0,
-            Right = 0x04 << 0
-        };
+            enum Direction: Flag
+            {
+                None  = 1 << 0,
+                Up    = 1 << 1,
+                Down  = 1 << 2,
+                Left  = 1 << 3,
+                Right = 1 << 4,
+            };
 
-        enum Action: Flag
-        {
-            Idle = 0x01 << 2,
-            Jump = 0x02 << 2,
-            Attack = 0x03 << 2,
-            Smash = 0x04 << 2,
-            Flee = 0x05 << 2,
-            Guard = 0x06 << 2,
-            OnHit = 0x07 << 2
-        };
+            enum Action: Flag
+            {
+                Noop   = 1 << 5,
+                Idle   = 1 << 6,
+                Jump   = 1 << 7,
+                Attack = 1 << 8,
+                Smash  = 1 << 9,
+                Flee   = 1 << 10,
+                Guard  = 1 << 11,
+                OnHit  = 1 << 12,
+            };
 
-        Movement() = delete;
-        Movement(Movement &&) = default;
-        Movement(Movement const &) = default;
-        ~Movement() = default;
-        Movement & operator=(Movement const &) = default;
+            Movement(Movement &&) = default;
+            Movement(Movement const &) = default;
+            ~Movement() = default;
+            Movement & operator=(Movement const &) = default;
 
-        Movement(Action, Direction);
+            Movement(Flag = 0);
 
-        operator Flag() const;
+            Flag flag() const;
+            void setFlag(Flag);
 
-        Action action;
-        Direction direction;
+            operator Flag() const;
+
+        private:
+            Flag _flag;
     };
 }
 

@@ -4,6 +4,10 @@ namespace EUSDAB
 {
     namespace Input
     {
+        Listener::~Listener()
+        {
+        }
+
         void Listener::onUp(const Event &) {}
         void Listener::onDown(const Event &) {}
         void Listener::onLeft(const Event &) {}

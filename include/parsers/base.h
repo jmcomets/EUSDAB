@@ -15,7 +15,7 @@ namespace EUSDAB
                 Base & operator=(const Base &) = default;
 
                 Base() = default;
-                virtual ~Base() {};
+                virtual ~Base();
 
                 virtual Entity * read(std::istream &) const = 0;
         };
