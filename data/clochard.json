@@ -3,6 +3,7 @@
     "states": [
         {
             "type": "idle",
+
             "movement": {
                 "action": [ "idle" ],
                 "direction": [ "right" ]
@@ -21,13 +22,13 @@
                 "action": [ "idle" ],
                 "direction": [ "left" ]
             },
+
             "view": {
                 "audio": "idle_left1.mp3",
                 "tileset": "idle_left.ts"
             },
-            "physics": {
-                "hitboxes": "idle_left.hb"
-            }
+
+            "physics": "idle_left.hb"
         }
     ]
 }
