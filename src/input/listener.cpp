@@ -4,6 +4,11 @@ namespace EUSDAB
 {
     namespace Input
     {
+        Listener::Listener():
+            _time(0)
+        {
+        }
+
         Listener::~Listener()
         {
         }

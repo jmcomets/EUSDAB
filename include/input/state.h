@@ -20,7 +20,7 @@ namespace EUSDAB
 
                 State();
                 State(Entity * entity, Speaker * speaker);
-                virtual ~State();
+                virtual ~State() noexcept (true);
 
                 Entity * entity() const;
                 Entity * entity(Entity *);

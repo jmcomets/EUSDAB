@@ -1,12 +1,12 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#include <array>
 #include <vector>
+
 #include <SFML/Graphics.hpp>
+
 #include <entity.h>
 #include <input/controller.h>
-#include <config.h>
 
 namespace EUSDAB
 {
@@ -17,8 +17,10 @@ namespace EUSDAB
             Application() = delete;
             Application(Application &&) = delete;
             Application(const Application &) = delete;
-            ~Application();
             Application & operator=(const Application &) = delete;
+
+            virtual ~Application();
+
             void run();
 
         protected:
@@ -31,7 +33,7 @@ namespace EUSDAB
             sf::RenderWindow * _window;
 
             // World
-            std::array<Entity *, Config::NbPlayers> _playerList;
+            std::vector<Entity *> _playerList;
             std::vector<Entity *> _entityList;
 
             // Controller

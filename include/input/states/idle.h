@@ -17,7 +17,7 @@ namespace EUSDAB
                     Idle & operator=(const Idle &) = delete;
 
                     Idle();
-                    ~Idle();
+                    virtual ~Idle() noexcept (true);
 
                     void onUp(Event const &);
                     void onDown(Event const &);

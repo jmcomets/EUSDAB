@@ -1,83 +1,168 @@
-#ifndef HITBOX_H_
-#define HITBOX_H_
+#ifndef PHYSICS_HITBOX_H_
+#define PHYSICS_HITBOX_H_
 
-#include <initializer_list>
-#include <type_traits>
-#include <forward_list>
-#include <physics/obb2.h>
+#include <vector>
+
+#include <physics/aabb.h>
+
+#ifdef SFML_TEST
+#include <SFML/Graphics.hpp>
+#endif
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        // Encapsulates the commonly used `Hitbox` as a list of
-        // oriented-bounding-boxes (or OBB).
-        //
-        // Currently used the `float` unit for computations,
-        // accessable via the `Hitbox::Unit` member type.
-        //
-        // Most modifying methods return a reference to the
-        // object they are applied upon to allow method chaining.
-        class Hitbox
-        {
-            public:
-                // Unit used for OBBs
-                typedef float Unit;
+        template <typename T>
+#ifdef SFML_TEST
+            class Hitbox : public sf::Drawable
+#else
+            class Hitbox
+#endif
+            {
+                public:
+                    enum Semantic
+                    {
+                        Defense,
+                        Foot,
+                        Attack,
+                        Grab,
+                        Grabable
+                    };
 
-                // Unit used for angles
-                typedef float Angle;
+                    explicit Hitbox(Hitbox::Semantic __semantic = Hitbox::Defense):
+                        _semantic(__semantic),
+                        _aabb_list(),
+                        _aabb_global(0, 0, 0, 0)
+                    {
+#ifdef SFML_TEST
+                        color(sf::Color::Black);
+#endif
+                    }
 
-                // Range constructor taking (begin, end) iterators
-                // which verify STL's `InputIterator` concept.
-                //
-                // The underlying type is checked at compile-time
-                // via static assertion.
-                template <typename InputIt>
-                    Hitbox(InputIt begin, InputIt end):
-                        _obbList(begin, end)
-                {
-                    typedef typename InputIt::value_type V;
-                    static_assert(std::is_same<OBB2<Unit>, V>::value, 
-                        "Hitbox must be constructed from OBB2<Hitbox::Unit>");
-                }
+                    explicit Hitbox(Hitbox const &) = default;
+                    explicit Hitbox(Hitbox &&) = default;
 
-                // Construct from `initializer_list`, an in-place range
-                Hitbox(std::initializer_list<OBB2<Unit>>);
+                    Hitbox & operator=(Hitbox const &) = default;
 
-                // Allow all defaults (no pointers here)
-                Hitbox() = default;
-                Hitbox(Hitbox &&) = default;
-                Hitbox(const Hitbox &) = default;
-                ~Hitbox() = default;
-                Hitbox & operator=(const Hitbox &) = default;
+                    ~Hitbox() = default;
 
-                // Add an OBB to the Hitbox
-                Hitbox & add(const OBB2<Unit> &);
+                    bool operator==(Hitbox::Semantic __sem) const
+                    {
+                        return _semantic == __sem;
+                    }
 
-                // Add all of another Hitbox's OBBs (copy)
-                Hitbox & add(const Hitbox &);
+                    void addAABB(AABB<T> const & __aabb)
+                    {
+                        _aabb_list.push_back(__aabb);
 
-                // Check collision with a specific OBB
-                bool collides(const OBB2<Unit> &) const;
+                        if(_aabb_global.x() == 0 && _aabb_global.y() == 0 && _aabb_global.w() == 0 && _aabb_global.h() == 0)
+                        {
+                            _aabb_global.x(__aabb.x());
+                            _aabb_global.y(__aabb.y());
+                            _aabb_global.w(__aabb.w());
+                            _aabb_global.h(__aabb.h());
+                        }
+                        else
+                        {
+                            if(__aabb.x() < _aabb_global.x())
+                            {
+                                _aabb_global.w(_aabb_global.x() - __aabb.x() + _aabb_global.w());
+                                _aabb_global.x(__aabb.x());
+                            }
 
-                // Check collision with another Hitbox
-                bool collides(const Hitbox &) const;
+                            if(__aabb.y() < _aabb_global.y())
+                            {
+                                _aabb_global.h(_aabb_global.y() - __aabb.y() + _aabb_global.h());
+                                _aabb_global.y(__aabb.y());
+                            }
 
-                // Check if a vector is contained
-                bool contains(const Vector2<Unit> &) const;
+                            if(__aabb.x() + __aabb.w() > _aabb_global.x() + _aabb_global.w())
+                                _aabb_global.w(__aabb.x() + __aabb.w() - _aabb_global.x());
 
-                // Rotate Hitbox -> rotate all OBBs
-                Hitbox & rotate(Angle);
+                            if(__aabb.y() + __aabb.h() > _aabb_global.y() + _aabb_global.h())
+                                _aabb_global.h(__aabb.y() + __aabb.h() - _aabb_global.y());
+                        }
+                    }
 
-                // Translate Hitbox -> translate all OBBs
-                Hitbox & translate(const Vector2<Unit> &);
+                    void do_global()
+                    {
+                        if(_aabb_list.size() == 0)
+                            _aabb_global = AABB<T>(0, 0, 0, 0);
+                        else
+                        {
+                            T minX = _aabb_list[0].x();
+                            T maxX = _aabb_list[0].x() + _aabb_list[0].w();
+                            T minY = _aabb_list[0].y();
+                            T maxY = _aabb_list[0].y() + _aabb_list[0].h();
 
-            private:
-                // Only forward iteration is needed and hitbox adding
-                // should be done dynamically -> STL's `forward_list`
-                std::forward_list<OBB2<Unit>> _obbList;
-        };
+                            for(auto aabb : _aabb_list)
+                            {
+                                minX = std::min(minX, aabb.x());
+                                maxX = std::max(maxX, aabb.x() + aabb.w());
+                                minY = std::min(minY, aabb.y());
+                                maxY = std::max(maxY, aabb.y() + aabb.h());
+                            }
+
+                            _aabb_global = AABB<T>(minX, minY, maxX - minX, maxY - minY);
+                        }
+                    }
+
+                    bool collide(Hitbox const & __other) const
+                    {
+                        // TODO: Gestion de la sémentique dans les collision
+                        // Exemple de regle de sémentique :
+                        // Attack & Defense
+                        // Grab & Grabable
+                        // Foot & Defense
+
+                        if(!__other._aabb_global.collide(_aabb_global))
+                            return false;
+
+                        for(auto aabb : _aabb_list)
+                            for(auto aabb_other : __other._aabb_list)
+                                if(aabb.collide(aabb_other))
+                                return true;
+
+                        return false;
+                    }
+
+                    void translate(T const & __tx, T const & __ty)
+                    {
+                        _aabb_global.translate(__tx, __ty);
+                        for(AABB<T> & aabb : _aabb_list)
+                            aabb.translate(__tx, __ty);
+                    }
+
+#ifdef SFML_TEST
+                public:
+                    void color(sf::Color const & __color)
+                    {
+                        for(AABB<T> & aabb : _aabb_list)
+                            aabb.color(__color);
+                    }
+
+                    void draw(sf::RenderTarget & __target, sf::RenderStates __state) const
+                    {
+                        for(AABB<T> const & aabb : _aabb_list)
+                            aabb.draw(__target, __state);
+                        sf::RectangleShape rect(sf::Vector2f(_aabb_global.w(), _aabb_global.h()));
+                        rect.setOutlineColor(sf::Color::Black);
+                        rect.setFillColor(sf::Color(0, 0, 0, 120));
+
+                        __state.transform.translate(_aabb_global.x(), _aabb_global.y());
+                        __target.draw(rect, __state);
+                    }
+#endif
+
+                protected:
+                    Hitbox::Semantic _semantic;
+                    std::vector<AABB<T> > _aabb_list;
+                    AABB<T> _aabb_global;
+            };
+
+        typedef Hitbox<int> Hitbox_t;
     }
 }
-
 #endif
+
