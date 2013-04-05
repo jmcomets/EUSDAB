@@ -12,7 +12,12 @@ namespace EUSDAB
         class Listener
         {
             public:
-                virtual ~Listener() = default;
+                Listener(Listener &&) = default;
+                Listener(const Listener &) = default;
+                Listener & operator=(const Listener &) = default;
+
+                Listener();
+                virtual ~Listener();
 
                 virtual void onUp(Event const &);
                 virtual void onDown(Event const &);
