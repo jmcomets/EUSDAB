@@ -16,7 +16,7 @@ namespace EUSDAB
                 Json() = default;
                 virtual ~Json();
 
-                virtual Entity * read(std::istream &) const;
+                virtual Entity * readEntity(std::istream &) const;
         };
     }
 }

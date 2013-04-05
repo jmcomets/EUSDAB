@@ -2,6 +2,7 @@
 #define ENTITY_PARSER_H_
 
 #include <entity.h>
+#include <physics/hitbox.h>
 
 namespace EUSDAB
 {
@@ -17,7 +18,7 @@ namespace EUSDAB
                 Base() = default;
                 virtual ~Base();
 
-                virtual Entity * read(std::istream &) const = 0;
+                virtual Entity * readEntity(std::istream &) const = 0;
         };
     }
 }

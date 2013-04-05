@@ -13,19 +13,23 @@ namespace EUSDAB
 {
     namespace Parsers
     {
+        // Make code more readable
+        using namespace Input;
+        using namespace Physics;
+
         Json::~Json()
         {
         }
 
         // Internal utility function for reading an Entity's 
-        //   Input::State JSON representation.
-        static std::pair<Movement, Input::State *> readState(const ptree & statePt);
+        //   State JSON representation.
+        static std::pair<Movement, State *> readState(const ptree & statePt);
 
         // Internal utility function for reading an Entity's
         //   Movement JSON representation.
         static Movement readMovement(const ptree & mvtPt);
 
-        Entity * Json::read(std::istream & is) const
+        Entity * Json::readEntity(std::istream & is) const
         {
             // Boost's magic
             ptree entityPt;
@@ -35,7 +39,7 @@ namespace EUSDAB
             }
             catch (ptree_error)
             {
-                std::cout << "JSON file invalid" << std::endl;
+                std::cout << "Entity JSON file invalid" << std::endl;
                 return nullptr;
             }
 
@@ -44,7 +48,6 @@ namespace EUSDAB
 
             // Entity's name
             std::string name = entityPt.get<std::string>("name");
-            std::cout << "name : " << name << std::endl;
             entity->setName(name);
 
             // Entity's states
@@ -53,7 +56,7 @@ namespace EUSDAB
             {
                 for (auto s : stateNodes)
                 {
-                    std::pair<Movement, Input::State *> stateInfo = readState(s.second);
+                    std::pair<Movement, State *> stateInfo = readState(s.second);
                     entity->addState(stateInfo.first, stateInfo.second);
                 }
                 entity->setState(Movement(Movement::Idle | Movement::Left));
@@ -66,25 +69,68 @@ namespace EUSDAB
             return entity;
         }
 
-        std::pair<Movement, Input::State *> readState(const ptree & statePt)
+        Hitbox * readHitbox(std::istream & is)
+        {
+            // Boost's magic
+            ptree hbPt;
+            try
+            {
+                read_json(is, hbPt);
+            }
+            catch (ptree_error)
+            {
+                std::cout << "Hitbox JSON file invalid" << std::endl;
+                return nullptr;
+            }
+
+            // Hitbox to construct
+            Hitbox * hb = new Hitbox();
+
+            // Hitbox's AABBs
+            ptree aabbNodes = hbPt.get_child("aabbs");
+            try
+            {
+                for (auto aabb : aabbNodes)
+                {
+                    // TODO
+                }
+            }
+            catch (ptree_error)
+            {
+                delete hb;
+                hb = nullptr;
+            }
+            return hb;
+        }
+
+        std::pair<Movement, State *> readState(const ptree & statePt)
         {
             // State to be constructed
-            Input::State * state = nullptr;
+            State * state = nullptr;
 
             try
             {
-                // FIXME "type" field
-                state = new Input::States::Idle();
+                // FIXME handle "type" field and specific states
+                state = new States::Idle();
 
-                std::string hbFilename = statePt.get<std::string>("hitbox");
+                // Parse movement
                 Movement mvt = readMovement(statePt.get_child("movement"));
-                std::cout << "hitbox : " << hbFilename << std::endl;
 
+                // Parse hitbox file
+                Hitbox * hb = nullptr;
+                std::string hbFilename = statePt.get<std::string>("hitbox");
+                std::ifstream hbFile(hbFilename.c_str());
+                if (hbFile.good())
+                {
+                    hb = readHitbox(hbFile);
+                }
+                //state->setHitbox(hb);
+
+                // TODO parse tileset
                 std::string tsFilename = statePt.get<std::string>("view.tileset");
-                std::cout << "tileset : " << tsFilename << std::endl;
 
+                // TODO parse audio
                 std::string audioFilename = statePt.get<std::string>("view.audio");
-                std::cout << "audio : " << audioFilename << std::endl;
 
                 return std::make_pair(mvt, state);
             }
