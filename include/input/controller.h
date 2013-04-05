@@ -1,12 +1,12 @@
 #ifndef INPUT_CONTROLLER_H_
 #define INPUT_CONTROLLER_H_
 
+#include <SFML/Window/Event.hpp>
+
 #include <type_traits>
-#include <array>
 #include <vector>
 #include <unordered_map>
-#include <SFML/Window/Event.hpp>
-#include <config.h>
+
 #include <input/event.h>
 
 namespace EUSDAB
@@ -23,10 +23,10 @@ namespace EUSDAB
             public:
                 Controller() = delete;
                 Controller(Controller &&) = default;
-                Controller(const Controller &) = delete;
-                Controller & operator=(const Controller &) = delete;
+                Controller(Controller const &) = delete;
+                Controller & operator=(Controller const &) = delete;
 
-                Controller(const std::array<Entity *, Config::NbPlayers> & players);
+                Controller(std::vector<Entity *> const & players);
                 ~Controller();
 
                 // Add an entity to the controller
@@ -34,15 +34,17 @@ namespace EUSDAB
                 void addEntity(Entity *, State *);
 
                 // Push an event to the controller
-                void pushEvent(const sf::Event &);
+                void pushEvent(Input::Event const &);
+                void pushEvent(sf::Event const &);
+
                 template <typename InputIter>
                     void pushEvent(InputIter begin, InputIter end)
                 {
                     //using V = typename InputIter::value_type;
                     typedef typename InputIter::value_type V;
                     static_assert(std::is_convertible<const sf::Event &, V>::value, 
-                        "Can only push `const sf::Event &` to Input::Controller");
-                    for (; begin != end; begin++)
+                        "Can only push `sf::Event const &` to Input::Controller");
+                    for (; begin != end ; begin++)
                     {
                         pushEvent(*begin);
                     }
@@ -53,7 +55,7 @@ namespace EUSDAB
                 void update();
 
             protected:
-                std::array<Speaker *, Config::NbPlayers> _playerList;
+                std::vector<Speaker *> _playerList;
                 std::vector<Speaker *> _entityList;
 
                 // Configuration

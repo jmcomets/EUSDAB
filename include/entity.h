@@ -3,10 +3,15 @@
 
 #include <string>
 #include <unordered_map>
+
 #include <movement.h>
+
+#include <physics/hitbox.h>
 
 namespace EUSDAB
 {
+    class Attack;
+
     namespace Input
     {
         class State;
@@ -32,10 +37,15 @@ namespace EUSDAB
 
             std::string name() const;
 
+            std::vector<Physics::Hitbox_t> const & hitboxList() const;
+            Attack const & attack() const;
+
     void addState(const Movement &, Input::State *);
 
         protected:
             std::string _name;
+
+            // Module Input
             Input::State * _current;
             std::unordered_map<Movement, Input::State *> _states;
     };
