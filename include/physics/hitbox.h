@@ -2,167 +2,190 @@
 #define PHYSICS_HITBOX_H_
 
 #include <vector>
-
 #include <physics/aabb.h>
 
 #ifdef SFML_TEST
-#include <SFML/Graphics.hpp>
+#  include <SFML/Graphics.hpp>
 #endif
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        template <typename T>
+        template <class T>
 #ifdef SFML_TEST
-            class Hitbox : public sf::Drawable
+            class Hitbox: public sf::Drawable
 #else
             class Hitbox
 #endif
-            {
-                public:
-                    enum Semantic
-                    {
-                        Defense,
-                        Foot,
-                        Attack,
-                        Grab,
-                        Grabable
-                    };
+        {
+            public:
+                enum Semantic
+                {
+                    Defense,
+                    Foot,
+                    Attack,
+                    Grab,
+                    Grabable
+                };
 
-                    explicit Hitbox(Hitbox::Semantic __semantic = Hitbox::Defense):
-                        _semantic(__semantic),
-                        _aabb_list(),
-                        _aabb_global(0, 0, 0, 0)
-                    {
+                Hitbox(Semantic semantic = Defense):
+                    _sem(semantic),
+                    _aabbList(),
+                    _aabbGlobal(0, 0, 0, 0)
+                {
 #ifdef SFML_TEST
-                        color(sf::Color::Black);
+                        setColor(sf::Color::Black);
 #endif
-                    }
+                }
 
-                    explicit Hitbox(Hitbox const &) = default;
-                    explicit Hitbox(Hitbox &&) = default;
+                Hitbox(Hitbox &&) = default;
+                Hitbox(Hitbox const &) = default;
+                ~Hitbox() = default;
+                Hitbox & operator=(Hitbox const &) = default;
 
-                    Hitbox & operator=(Hitbox const &) = default;
+                // Return if a hitbox has the asked semantic
+                bool isOfSemantic(Semantic sem) const
+                {
+                    return _sem == sem;
+                }
+                // ...shortcut operator
+                bool operator==(Semantic sem) const
+                {
+                    return isOfSemantic(sem);
+                }
 
-                    ~Hitbox() = default;
+                // Add an AABB to the hitbox, resizing the global hitbox
+                //   if necessary, no check is done on the relevance of
+                //   the added AABB.
+                void addAABB(AABB<T> const & aabb)
+                {
+                    _aabbList.push_back(aabb);
 
-                    bool operator==(Hitbox::Semantic __sem) const
+                    if (_aabbGlobal.x() == 0 && _aabbGlobal.y() == 0 
+                            && _aabbGlobal.w() == 0 && _aabbGlobal.h() == 0)
                     {
-                        return _semantic == __sem;
+                        _aabbGlobal.x(aabb.x());
+                        _aabbGlobal.y(aabb.y());
+                        _aabbGlobal.w(aabb.w());
+                        _aabbGlobal.h(aabb.h());
                     }
-
-                    void addAABB(AABB<T> const & __aabb)
+                    else
                     {
-                        _aabb_list.push_back(__aabb);
-
-                        if(_aabb_global.x() == 0 && _aabb_global.y() == 0 && _aabb_global.w() == 0 && _aabb_global.h() == 0)
+                        if (aabb.x() < _aabbGlobal.x())
                         {
-                            _aabb_global.x(__aabb.x());
-                            _aabb_global.y(__aabb.y());
-                            _aabb_global.w(__aabb.w());
-                            _aabb_global.h(__aabb.h());
+                            _aabbGlobal.w(_aabbGlobal.x() - aabb.x() + _aabbGlobal.w());
+                            _aabbGlobal.x(aabb.x());
                         }
-                        else
+
+                        if (aabb.y() < _aabbGlobal.y())
                         {
-                            if(__aabb.x() < _aabb_global.x())
-                            {
-                                _aabb_global.w(_aabb_global.x() - __aabb.x() + _aabb_global.w());
-                                _aabb_global.x(__aabb.x());
-                            }
-
-                            if(__aabb.y() < _aabb_global.y())
-                            {
-                                _aabb_global.h(_aabb_global.y() - __aabb.y() + _aabb_global.h());
-                                _aabb_global.y(__aabb.y());
-                            }
-
-                            if(__aabb.x() + __aabb.w() > _aabb_global.x() + _aabb_global.w())
-                                _aabb_global.w(__aabb.x() + __aabb.w() - _aabb_global.x());
-
-                            if(__aabb.y() + __aabb.h() > _aabb_global.y() + _aabb_global.h())
-                                _aabb_global.h(__aabb.y() + __aabb.h() - _aabb_global.y());
+                            _aabbGlobal.h(_aabbGlobal.y() - aabb.y() + _aabbGlobal.h());
+                            _aabbGlobal.y(aabb.y());
                         }
-                    }
 
-                    void do_global()
-                    {
-                        if(_aabb_list.size() == 0)
-                            _aabb_global = AABB<T>(0, 0, 0, 0);
-                        else
+                        if (aabb.x() + aabb.w() > _aabbGlobal.x() + _aabbGlobal.w())
                         {
-                            T minX = _aabb_list[0].x();
-                            T maxX = _aabb_list[0].x() + _aabb_list[0].w();
-                            T minY = _aabb_list[0].y();
-                            T maxY = _aabb_list[0].y() + _aabb_list[0].h();
+                            _aabbGlobal.w(aabb.x() + aabb.w() - _aabbGlobal.x());
+                        }
 
-                            for(auto aabb : _aabb_list)
-                            {
-                                minX = std::min(minX, aabb.x());
-                                maxX = std::max(maxX, aabb.x() + aabb.w());
-                                minY = std::min(minY, aabb.y());
-                                maxY = std::max(maxY, aabb.y() + aabb.h());
-                            }
-
-                            _aabb_global = AABB<T>(minX, minY, maxX - minX, maxY - minY);
+                        if (aabb.y() + aabb.h() > _aabbGlobal.y() + _aabbGlobal.h())
+                        {
+                            _aabbGlobal.h(aabb.y() + aabb.h() - _aabbGlobal.y());
                         }
                     }
+                }
 
-                    bool collide(Hitbox const & __other) const
+                void do_global()
+                {
+                    if (_aabbList.size() == 0)
                     {
-                        // TODO: Gestion de la sémentique dans les collision
-                        // Exemple de regle de sémentique :
-                        // Attack & Defense
-                        // Grab & Grabable
-                        // Foot & Defense
+                        _aabbGlobal = AABB<T>(0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        T minX = _aabbList[0].x();
+                        T maxX = _aabbList[0].x() + _aabbList[0].w();
+                        T minY = _aabbList[0].y();
+                        T maxY = _aabbList[0].y() + _aabbList[0].h();
 
-                        if(!__other._aabb_global.collide(_aabb_global))
-                            return false;
+                        for (AABB<T> & aabb : _aabbList)
+                        {
+                            minX = std::min(minX, aabb.x());
+                            maxX = std::max(maxX, aabb.x() + aabb.w());
+                            minY = std::min(minY, aabb.y());
+                            maxY = std::max(maxY, aabb.y() + aabb.h());
+                        }
 
-                        for(auto aabb : _aabb_list)
-                            for(auto aabb_other : __other._aabb_list)
-                                if(aabb.collide(aabb_other))
-                                return true;
+                        _aabbGlobal = AABB<T>(minX, minY, maxX - minX, maxY - minY);
+                    }
+                }
 
+#ifdef SFML_TEST
+                void setColor(sf::Color const & color)
+                {
+                    for (AABB<T> & aabb : _aabbList)
+                    {
+                        aabb.color(color);
+                    }
+                }
+
+                void draw(sf::RenderTarget & target, sf::RenderStates state) const
+                {
+                    for (AABB<T> const & aabb : _aabbList)
+                    {
+                        aabb.draw(target, state);
+                    }
+                    sf::RectangleShape rect(sf::Vector2f(_aabbGlobal.w(), _aabbGlobal.h()));
+                    rect.setOutlineColor(sf::Color::Black);
+                    rect.setFillColor(sf::Color(0, 0, 0, 120));
+
+                    state.transform.translate(_aabbGlobal.x(), _aabbGlobal.y());
+                    target.draw(rect, state);
+                }
+#endif
+
+                bool collide(Hitbox const & other) const
+                {
+                    // TODO: Gestion de la sémentique dans les collision
+                    // Exemple de regle de sémentique :
+                    // Attack & Defense
+                    // Grab & Grabable
+                    // Foot & Defense
+
+                    if (!other._aabbGlobal.collide(_aabbGlobal))
+                    {
                         return false;
                     }
 
-                    void translate(T const & __tx, T const & __ty)
+                    for (AABB<T> const & aabb : _aabbList)
                     {
-                        _aabb_global.translate(__tx, __ty);
-                        for(AABB<T> & aabb : _aabb_list)
-                            aabb.translate(__tx, __ty);
+                        for(AABB<T> const & aabb_other : other._aabbList)
+                        {
+                            if(aabb.collide(aabb_other))
+                            {
+                                return true;
+                            }
+                        }
                     }
+                    return false;
+                }
 
-#ifdef SFML_TEST
-                public:
-                    void color(sf::Color const & __color)
+                void translate(T const & tx, T const & ty)
+                {
+                    _aabbGlobal.translate(tx, ty);
+                    for (AABB<T> & aabb : _aabbList)
                     {
-                        for(AABB<T> & aabb : _aabb_list)
-                            aabb.color(__color);
+                        aabb.translate(tx, ty);
                     }
+                }
 
-                    void draw(sf::RenderTarget & __target, sf::RenderStates __state) const
-                    {
-                        for(AABB<T> const & aabb : _aabb_list)
-                            aabb.draw(__target, __state);
-                        sf::RectangleShape rect(sf::Vector2f(_aabb_global.w(), _aabb_global.h()));
-                        rect.setOutlineColor(sf::Color::Black);
-                        rect.setFillColor(sf::Color(0, 0, 0, 120));
-
-                        __state.transform.translate(_aabb_global.x(), _aabb_global.y());
-                        __target.draw(rect, __state);
-                    }
-#endif
-
-                protected:
-                    Hitbox::Semantic _semantic;
-                    std::vector<AABB<T> > _aabb_list;
-                    AABB<T> _aabb_global;
-            };
-
-        typedef Hitbox<int> Hitbox_t;
+            private:
+                Semantic _sem;
+                std::vector<AABB<T>> _aabbList;
+                AABB<T> _aabbGlobal;
+        };
     }
 }
-#endif
 
+#endif

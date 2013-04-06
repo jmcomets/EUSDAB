@@ -1,7 +1,7 @@
 #ifndef ENTITY_WITH_MASK_
 #define ENTITY_WITH_MASK_
 
-#include <unordered_set>
+#include <set>
 #include <entity.h>
 
 namespace EUSDAB
@@ -16,24 +16,26 @@ namespace EUSDAB
             EntityWithMask();
             virtual ~EntityWithMask();
 
+            // Add an Entity to the current mask
+            void mask(const Entity *);
+            // ...range version
             template <typename InputIter>
                 void mask(InputIter begin, InputIter end)
             {
-                    typedef typename InputIter::value_type V;
-                    static_assert(std::is_convertible<const Entity *, V>::value, 
-                            "Can only mask `const Entity &`");
                     for (; begin != end; begin++)
                     {
                         mask(*begin);
                     }
             }
-            void mask(const Entity *);
+
+            // Return if the Entity is masked
             bool masked(const Entity *) const;
 
+            // Reset the mask, removing all masked Entities
             void reset();
 
         private:
-            std::unordered_set<const Entity *> _mask;
+            std::set<const Entity *> _mask;
     };
 }
 

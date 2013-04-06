@@ -14,7 +14,7 @@
 using namespace EUSDAB;
 
 template <typename T>
-void draw(Physics::Vector2<T> const & v)
+    void draw(Physics::Vector2<T> const & v)
 {
     std::cout << "v : (" << v.x() << ", " << v.y() << ")" << std::endl;
 }
@@ -52,8 +52,8 @@ int main()
     hitbox2.addAABB(Physics::AABB<int>(100, 130, 200, 200));
     hitbox2.addAABB(Physics::AABB<int>(300, 130, 200, 50));
 
-    hitbox1.color(sf::Color::Green);
-    hitbox2.color(sf::Color::Green);
+    hitbox1.setColor(sf::Color::Green);
+    hitbox2.setColor(sf::Color::Green);
 
     sf::RenderWindow _window(sf::VideoMode(800, 600), "EUSDAB");
     while(_window.isOpen())
@@ -81,11 +81,11 @@ int main()
 
                 if (hitbox1.collide(hitbox2))
                 {
-                    hitbox1.color(sf::Color::Red);
+                    hitbox1.setColor(sf::Color::Red);
                 }
                 else
                 {
-                    hitbox1.color(sf::Color::Blue);
+                    hitbox1.setColor(sf::Color::Blue);
                 }
             }
         }

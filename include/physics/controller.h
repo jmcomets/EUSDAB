@@ -2,16 +2,12 @@
 #define PHYSICS_CONTROLLER_H_
 
 #include <vector>
+#include <entity.h>
+#include <input/controller.h>
+#include <physics/config.h>
 
 namespace EUSDAB
 {
-    class Entity;
-
-    namespace Input
-    {
-        class Controller;
-    }
-
     namespace Physics
     {
         class Controller
@@ -19,10 +15,10 @@ namespace EUSDAB
             public:
                 Controller(Controller &&) = default;
                 Controller(Controller const &) = delete;
+                ~Controller() = default;
                 Controller & operator=(Controller const &) = delete;
 
                 Controller(Input::Controller &);
-                ~Controller();
 
                 // Add an entity to the controller
                 void addEntity(Entity *);
@@ -32,8 +28,11 @@ namespace EUSDAB
                 void update();
 
             protected:
-                Input::Controller & _input_controller;
-                std::vector<Entity *> _entity_list;
+                void handleEntityCollision(Entity *, Entity *);
+
+            private:
+                Input::Controller & _input;
+                std::vector<Entity *> _entityList;
         };
     }
 }
