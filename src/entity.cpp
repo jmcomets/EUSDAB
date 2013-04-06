@@ -67,4 +67,9 @@ namespace EUSDAB
         }
         state->entity(this);
     }
+
+    const Entity::HitboxList & Entity::hitboxList() const
+    {
+        return _hitboxList;
+    }
 }

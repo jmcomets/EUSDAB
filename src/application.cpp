@@ -42,7 +42,7 @@ namespace EUSDAB
         _entityList.emplace_back(new Entity());
 
         // Controller creation
-        _input = new Input::Controller(_playerList);
+        _input = new Input::Controller(_playerList.begin(), _playerList.end());
 
         // Controllers filling
         for (auto e : _entityList)

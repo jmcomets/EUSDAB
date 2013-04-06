@@ -1,49 +1,55 @@
 #ifndef INPUT_CONTROLLER_H_
 #define INPUT_CONTROLLER_H_
 
-#include <SFML/Window/Event.hpp>
-
-#include <type_traits>
 #include <vector>
-#include <unordered_map>
-
+#include <map>
+#include <SFML/Window/Event.hpp>
+#include <entity.h>
 #include <input/event.h>
+#include <input/state.h>
+#include <input/speaker.h>
 
 namespace EUSDAB
 {
-    class Entity;
-
     namespace Input
     {
-        class State;
-        class Speaker;
-
         class Controller
         {
             public:
-                Controller() = delete;
                 Controller(Controller &&) = default;
                 Controller(Controller const &) = delete;
                 Controller & operator=(Controller const &) = delete;
 
-                Controller(std::vector<Entity *> const & players);
+                Controller() = default;
                 ~Controller();
+
+                template <typename InputIter>
+                    Controller(InputIter begin, InputIter end):
+                        Controller()
+                {
+                    for(; begin != end; begin++)
+                    {
+                        Entity * e = *begin;
+                        Speaker * s = speaker(e);
+                        _playerList.push_back(s);
+                    }
+                    initMappings();
+                }
 
                 // Add an entity to the controller
                 void addEntity(Entity *);
-                void addEntity(Entity *, State *);
 
                 // Push an event to the controller
+                // ...EUSDAB event
                 void pushEvent(Input::Event const &);
+                // ...SFML event
                 void pushEvent(sf::Event const &);
+                // ...EUSDAB event for a specific Entity
+                void pushEvent(Entity *, Input::Event const &);
 
                 template <typename InputIter>
                     void pushEvent(InputIter begin, InputIter end)
                 {
-                    //using V = typename InputIter::value_type;
-                    typedef typename InputIter::value_type V;
-                    static_assert(std::is_convertible<const sf::Event &, V>::value, 
-                        "Can only push `sf::Event const &` to Input::Controller");
                     for (; begin != end ; begin++)
                     {
                         pushEvent(*begin);
@@ -54,13 +60,19 @@ namespace EUSDAB
                 //   must be called only once per frame.
                 void update();
 
-            protected:
-                std::vector<Speaker *> _playerList;
-                std::vector<Speaker *> _entityList;
+                // Get the Entity's Speaker lazily
+                Speaker * speaker(Entity *);
 
-                // Configuration
-                std::unordered_map<sf::Keyboard::Key, std::pair<Speaker * , 
-                    Event::Id> , std::hash<int>> _keyMapping;
+            protected:
+                void initMappings();
+
+            private:
+                std::map<Entity *, Speaker *> _allSpeakers;
+                std::vector<Speaker *> _playerList;
+                std::vector<Speaker *> _speakerList;
+
+                std::map<sf::Keyboard::Key, 
+                    std::pair<Speaker *, Event::Id>> _keyMapping;
         };
     }
 }

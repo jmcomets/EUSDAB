@@ -36,33 +36,33 @@ namespace EUSDAB
             {
                 for (Hitbox<Unit> const & h2 : e2->hitboxList())
                 {
-                    if(h1.collide(h2))
+                    if (h1.collide(h2))
                     {
                         // Traitement de la collision
                         if (h1 == Hitbox<Unit>::Attack && h2 == Hitbox<Unit>::Defense)
                         {
                             // Attaque
-                            _input.pushEntityEvent(e1, Input::Event::Attack(e1, e2));
-                            _input.pushEntityEvent(e2, Input::Event::Damage(e1, e2));
-                            e1->attack(e2);
+                            //_input.pushEvent(e1, Input::Event::Attack);
+                            //_input.pushEvent(e2, Input::Event::Damage);
+                            //e1->attack(e2);
                         }
                         else if (h1 == Hitbox<Unit>::Foot && h2 == Hitbox<Unit>::Defense)
                         {
                             // Atterissage
-                            _input.pushEntityEvent(e1, GroundEvent(e2));
-                            e1->physics(e2);
+                            //_input.pushEvent(e1, Input::Event::Ground);
+                            //e1->physics(e2);
                         }
                         else if (h1 == Hitbox<Unit>::Defense && h2 == Hitbox<Unit>::Defense)
                         {
                             // Collision
-                            _input.pushEntityEvent(e1, CollisionEvent(e2));
-                            e1->physics(e2);
+                            //_input.pushEvent(e1, Input::Event::Collision);
+                            //e1->physics(e2);
                         }
                         else if (h1 == Hitbox<Unit>::Grab && h2 == Hitbox<Unit>::Grabable)
                         {
                             // Grab
-                            _input.pushEntityEvent(e1, GrabEvent(e2));
-                            e1->grab(e2);
+                            //_input.pushEvent(e1, Input::Event::Grab);
+                            //e1->grab(e2);
                         }
                     }
                 }
