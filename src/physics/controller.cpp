@@ -1,62 +1,72 @@
 #include <physics/controller.h>
-
-#include <entity.h>
-#include <input/controller.h>
+#include <physics/hitbox.h>
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        Controller::Controller(Input::Controller & __input_controller):
-            _input_controller(__input_controller),
-            _entity_list()
+        Controller::Controller(Input::Controller & input_controller):
+            _input(input_controller),
+            _entityList()
         {
         }
 
-        Controller::~Controller()
+        void Controller::addEntity(Entity * e)
         {
-        }
-
-        void Controller::addEntity(Entity * __e)
-        {
-            _entity_list.emplace_back(__e);
+            _entityList.emplace_back(e);
         }
 
         void Controller::update()
         {
-            for(Entity * e : _entity_list)
-                for(Entity * other : _entity_list)
-                    for(Physics::Hitbox_t const & h1 : e->hitboxList())
-                        for(Physics::Hitbox_t const & h2 : other->hitboxList())
-                            if(e != other && h1.collide(h2))
-                            {
-                                // Traitement de la collision
-                                if(h1 == Hitbox_t::Attack && h2 == Hitbox_t::Defense)
-                                {
-                                    // Attaque
-                                    _input_controller.pushEvent(e, Input::Event::Attack(e, other));
-                                    _input_controller.pushEvent(other, Input::Event::Damage(e, other));
-                                    e->attack(other);
-                                }
-                                else if(h1 == Hitbox_t::Foot && h2 == Hitbox_t::Defense)
-                                {
-                                    // Atterissage
-                                    _input_controller.pushEvent(e, GroundEvent(other));
-                                    e->physics(other);
-                                }
-                                else if(h1 == Hitbox_t::Defense && h2 == Hitbox_t::Defense)
-                                {
-                                    // Collision
-                                    _input_controller.pushEvent(e, CollisionEvent(other));
-                                    e->physics(other);
-                                }
-                                else if(h1 == Hitbox_t::Grab && h2 == Hitbox_t::Grabable)
-                                {
-                                    // Grab
-                                    _input_controller.pushEvent(e, GrabEvent(other));
-                                    e->grab(other);
-                                }
-                            }
+            for (Entity * e1 : _entityList)
+            {
+                for (Entity * e2 : _entityList)
+                {
+                    if (e1 != e2)
+                    {
+                        handleEntityCollision(e1, e2);
+                    }
+                }
+            }
+        }
+
+        void Controller::handleEntityCollision(Entity * e1, Entity * e2)
+        {
+            for (Hitbox<Unit> const & h1 : e1->hitboxList())
+            {
+                for (Hitbox<Unit> const & h2 : e2->hitboxList())
+                {
+                    if(h1.collide(h2))
+                    {
+                        // Traitement de la collision
+                        if (h1 == Hitbox<Unit>::Attack && h2 == Hitbox<Unit>::Defense)
+                        {
+                            // Attaque
+                            _input.pushEntityEvent(e1, Input::Event::Attack(e1, e2));
+                            _input.pushEntityEvent(e2, Input::Event::Damage(e1, e2));
+                            e1->attack(e2);
+                        }
+                        else if (h1 == Hitbox<Unit>::Foot && h2 == Hitbox<Unit>::Defense)
+                        {
+                            // Atterissage
+                            _input.pushEntityEvent(e1, GroundEvent(e2));
+                            e1->physics(e2);
+                        }
+                        else if (h1 == Hitbox<Unit>::Defense && h2 == Hitbox<Unit>::Defense)
+                        {
+                            // Collision
+                            _input.pushEntityEvent(e1, CollisionEvent(e2));
+                            e1->physics(e2);
+                        }
+                        else if (h1 == Hitbox<Unit>::Grab && h2 == Hitbox<Unit>::Grabable)
+                        {
+                            // Grab
+                            _input.pushEntityEvent(e1, GrabEvent(e2));
+                            e1->grab(e2);
+                        }
+                    }
+                }
+            }
         }
     }
 }

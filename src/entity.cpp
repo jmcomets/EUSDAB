@@ -5,7 +5,10 @@
 namespace EUSDAB
 {
     Entity::Entity():
-        _name(), _current(nullptr), _states()
+        _name(),
+        _attack(nullptr),
+        _current(nullptr),
+        _states()
     {
     }
 
