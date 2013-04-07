@@ -40,12 +40,10 @@ namespace EUSDAB
                 void addEntity(Entity *);
 
                 // Push an event to the controller
-                // ...EUSDAB event
-                void pushEvent(Input::Event const &);
                 // ...SFML event
                 void pushEvent(sf::Event const &);
-                // ...EUSDAB event for a specific Entity
-                void pushEvent(Entity *, Input::Event const &);
+                // ...EUSDAB event (for a specific Entity)
+                void pushEvent(Entity *, Event const &);
 
                 template <typename InputIter>
                     void pushEvent(InputIter begin, InputIter end)

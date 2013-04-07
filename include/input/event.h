@@ -31,7 +31,7 @@ namespace EUSDAB
                 ContinuousEdge
             };
 
-            Event() = default;
+            Event() = delete;
             Event(Event &&) = default;
             Event(const Event &) = default;
             ~Event() = default;

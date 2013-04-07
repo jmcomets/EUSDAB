@@ -25,7 +25,7 @@ namespace EUSDAB
         Input::State * st = state(id);
         if (st == nullptr)
         {
-            throw std::runtime_error("Unknown state id");
+            throw std::runtime_error("Unknown Entity's state id");
         }
         else
         {

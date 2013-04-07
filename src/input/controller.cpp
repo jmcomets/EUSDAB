@@ -20,13 +20,9 @@ namespace EUSDAB
 
         Controller::~Controller()
         {
-            for (Speaker * s : _playerList)
+            for (auto pair : _allSpeakers)
             {
-                delete s;
-            }
-            for (Speaker * s : _speakerList)
-            {
-                delete s;
+                delete pair.second;
             }
         }
 
@@ -60,28 +56,20 @@ namespace EUSDAB
             _speakerList.push_back(speaker(e));
         }
 
-        // FIXME why ?
-        //void Controller::addEntity(Entity * e, State * s)
-        //{
-            //e->setState(s);
-            //s->entity(e);
-            //_speakerList.push_back(new Speaker(s));
-        //}
-
-        void Controller::pushEvent(const sf::Event & e)
+        void Controller::pushEvent(const sf::Event & event)
         {
-            if (e.type == sf::Event::KeyPressed)
+            if (event.type == sf::Event::KeyPressed)
             {
-                auto it = _keyMapping.find(e.key.code);
+                auto it = _keyMapping.find(event.key.code);
                 if (it != _keyMapping.end())
                 {
                     Event event(it->second.second, Event::Full, Event::RisingEdge);
                     it->second.first->push(event);
                 }
             }
-            if (e.type == sf::Event::KeyReleased)
+            if (event.type == sf::Event::KeyReleased)
             {
-                auto it = _keyMapping.find(e.key.code);
+                auto it = _keyMapping.find(event.key.code);
                 if (it != _keyMapping.end())
                 {
                     Event event(it->second.second, Event::Full, Event::FallingEdge);
@@ -90,6 +78,11 @@ namespace EUSDAB
             }
 
             // TODO Joystick : rising and falling edge
+        }
+
+        void Controller::pushEvent(Entity * e, Event const & event)
+        {
+            speaker(e)->push(event);
         }
 
         Speaker * Controller::speaker(Entity * e)

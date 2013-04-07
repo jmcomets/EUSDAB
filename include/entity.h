@@ -10,6 +10,7 @@
 
 namespace EUSDAB
 {
+    // TODO design and write this module
     class Attack;
 
     // Forward declarations
@@ -18,6 +19,8 @@ namespace EUSDAB
         class State;
     }
 
+    // TODO physics module should be moved either in a 
+    //   component or in state, using delegation afterwards.
     class Entity
     {
         public:
@@ -29,9 +32,6 @@ namespace EUSDAB
             virtual ~Entity();
 
             // General
-
-            // Add a new State to the Entity
-            void addState(const Movement &, Input::State *);
 
             // Get/Set the Entity's name
             std::string name() const;
@@ -54,19 +54,31 @@ namespace EUSDAB
 
             // Get the hitbox list
             const HitboxList & hitboxList() const;
+            // ...non const version
             //HitboxList & hitboxList();
 
-            // Add another hitbox
+            // Add a new hitbox to the Entity
             void addHitbox(const Hitbox &);
 
             // Input module
 
-            // Get/Set the Entity's state, either directly
-            //   or by lookup by Movement (ID).
-            void setState(const Movement &);
-            void setState(Input::State *);
+            // Get the Entity's state directly
             Input::State * state() const;
+            // ...or by lookup by movement
             Input::State * state(const Movement &) const;
+
+            // Set the Entity's state directly
+            void setState(Input::State *);
+            // ...or by lookup by movement (throws an 
+            //   std::runtime_error if the given ID 
+            //   isn't defined by an associated state). 
+            void setState(const Movement &);
+
+            // Add a new state to the Entity, identified
+            //   by its movement (throws an std::runtime_error
+            //   if the state's ID is already associated to another
+            //   state).
+            void addState(const Movement &, Input::State *);
 
         protected:
             // General
@@ -77,6 +89,9 @@ namespace EUSDAB
 
             // Physics
             HitboxList _hitboxList;
+
+            // View TODO
+            //View _view;
 
             // Input
             Input::State * _current;

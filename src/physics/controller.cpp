@@ -38,30 +38,33 @@ namespace EUSDAB
                 {
                     if (h1.collide(h2))
                     {
-                        // Traitement de la collision
+                        // Shorten code a little
+                        using Input::Event;
+
+                        // Collision treatment
                         if (h1 == Hitbox<Unit>::Attack && h2 == Hitbox<Unit>::Defense)
                         {
                             // Attaque
-                            //_input.pushEvent(e1, Input::Event::Attack);
-                            //_input.pushEvent(e2, Input::Event::Damage);
+                            _input.pushEvent(e1, Event(Event::Attack, Event::Full, Event::RisingEdge));
+                            _input.pushEvent(e2, Event(Event::Damage, Event::Full, Event::RisingEdge));
                             //e1->attack(e2);
                         }
                         else if (h1 == Hitbox<Unit>::Foot && h2 == Hitbox<Unit>::Defense)
                         {
                             // Atterissage
-                            //_input.pushEvent(e1, Input::Event::Ground);
+                            _input.pushEvent(e1, Event(Event::Ground, Event::Full, Event::RisingEdge));
                             //e1->physics(e2);
                         }
                         else if (h1 == Hitbox<Unit>::Defense && h2 == Hitbox<Unit>::Defense)
                         {
                             // Collision
-                            //_input.pushEvent(e1, Input::Event::Collision);
+                            //_input.pushEvent(e1, Event(Event::Collision, Event::Full, Event::RisingEdge));
                             //e1->physics(e2);
                         }
                         else if (h1 == Hitbox<Unit>::Grab && h2 == Hitbox<Unit>::Grabable)
                         {
                             // Grab
-                            //_input.pushEvent(e1, Input::Event::Grab);
+                            _input.pushEvent(e1, Event(Event::Grab, Event::Full, Event::RisingEdge));
                             //e1->grab(e2);
                         }
                     }
