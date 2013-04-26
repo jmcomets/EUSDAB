@@ -39,7 +39,7 @@ namespace EUSDAB
             }
             catch (ptree_error)
             {
-                std::cout << "Entity JSON file invalid" << std::endl;
+                std::cerr << "Entity JSON file invalid" << std::endl;
                 return nullptr;
             }
 
@@ -59,7 +59,7 @@ namespace EUSDAB
                     std::pair<Movement, State *> stateInfo = readState(s.second);
                     entity->addState(stateInfo.first, stateInfo.second);
                 }
-                entity->setState(Movement(Movement::Idle | Movement::Left));
+                entity->setState(Movement(Movement::Idle | Movement::Left)); // FIXME
             }
             catch (ptree_error e)
             {
@@ -79,7 +79,7 @@ namespace EUSDAB
             }
             catch (ptree_error)
             {
-                std::cout << "Hitbox JSON file invalid" << std::endl;
+                std::cerr << "Hitbox JSON file invalid" << std::endl;
                 return nullptr;
             }
 
