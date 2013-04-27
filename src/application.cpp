@@ -2,7 +2,7 @@
 #include <entity.h>
 #include <movement.h>
 #include <input/controller.h>
-#include <input/states/test.h>
+#include <states/test.h>
 
 namespace EUSDAB
 {
@@ -23,7 +23,7 @@ namespace EUSDAB
         Entity * player2 = new Entity();
 
         // Test state bundle
-        typedef Input::States::Test TestState;
+        typedef States::Test TestState;
         Movement testMovement(Movement::Idle | Movement::Left);
 
         // Adding player states

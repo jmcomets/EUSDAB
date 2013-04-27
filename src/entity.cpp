@@ -1,12 +1,13 @@
 #include <entity.h>
 #include <stdexcept>
-#include <input/state.h>
+#include <state.h>
 
 namespace EUSDAB
 {
     Entity::Entity():
         _name(),
         _attack(nullptr),
+        _hitboxList(),
         _current(nullptr),
         _states()
     {
@@ -22,7 +23,7 @@ namespace EUSDAB
 
     void Entity::setState(const Movement & id)
     {
-        Input::State * st = state(id);
+        State * st = state(id);
         if (st == nullptr)
         {
             throw std::runtime_error("Unknown Entity's state id");
@@ -33,7 +34,7 @@ namespace EUSDAB
         }
     }
 
-    void Entity::setState(Input::State * state)
+    void Entity::setState(State * state)
     {
         _current = state;
     }
@@ -43,12 +44,12 @@ namespace EUSDAB
         _name = name;
     }
 
-    Input::State * Entity::state() const
+    State * Entity::state() const
     {
         return _current;
     }
 
-    Input::State * Entity::state(const Movement & id) const
+    State * Entity::state(const Movement & id) const
     {
         auto it = _states.find(id);
         return (it != _states.end()) ? it->second : nullptr;
@@ -59,7 +60,7 @@ namespace EUSDAB
         return _name;
     }
 
-    void Entity::addState(const Movement & id, Input::State * state)
+    void Entity::addState(const Movement & id, State * state)
     {
         if (_states.insert(std::make_pair(id, state)).second == false)
         {

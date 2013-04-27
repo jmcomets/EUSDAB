@@ -10,14 +10,9 @@
 
 namespace EUSDAB
 {
-    // TODO design and write this module
-    class Attack;
-
     // Forward declarations
-    namespace Input
-    {
-        class State;
-    }
+    class State;
+    class Attack; // TODO design and write this module
 
     // TODO physics module should be moved either in a 
     //   component or in state, using delegation afterwards.
@@ -60,15 +55,15 @@ namespace EUSDAB
             // Add a new hitbox to the Entity
             void addHitbox(const Hitbox &);
 
-            // Input module
+            // State module
 
             // Get the Entity's state directly
-            Input::State * state() const;
+            State * state() const;
             // ...or by lookup by movement
-            Input::State * state(const Movement &) const;
+            State * state(const Movement &) const;
 
             // Set the Entity's state directly
-            void setState(Input::State *);
+            void setState(State *);
             // ...or by lookup by movement (throws an 
             //   std::runtime_error if the given ID 
             //   isn't defined by an associated state). 
@@ -78,7 +73,7 @@ namespace EUSDAB
             //   by its movement (throws an std::runtime_error
             //   if the state's ID is already associated to another
             //   state).
-            void addState(const Movement &, Input::State *);
+            void addState(const Movement &, State *);
 
         protected:
             // General
@@ -93,9 +88,9 @@ namespace EUSDAB
             // View TODO
             //View _view;
 
-            // Input
-            Input::State * _current;
-            std::unordered_map<Movement, Input::State *> _states;
+            // State
+            State * _current;
+            std::unordered_map<Movement, State *> _states;
     };
 }
 

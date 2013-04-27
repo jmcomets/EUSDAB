@@ -4,8 +4,8 @@
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <input/states/idle.h>
-#include <input/states/test.h>
+#include <states/idle.h>
+#include <states/test.h>
 
 using namespace boost::property_tree;
 
@@ -14,7 +14,7 @@ namespace EUSDAB
     namespace Parsers
     {
         // Make code more readable
-        using namespace Input;
+        //using namespace Input;
         typedef Entity::Hitbox Hitbox;
 
         Json::~Json()

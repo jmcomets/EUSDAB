@@ -4,6 +4,12 @@ namespace EUSDAB
 {
     namespace Input
     {
+        Controller::Controller():
+            _allSpeakers(), _playerList(),
+            _speakerList(), _keyMapping()
+        {
+        }
+
         // TODO make this code cleaner
         void Controller::initMappings()
         {

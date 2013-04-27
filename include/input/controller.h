@@ -6,8 +6,8 @@
 #include <SFML/Window/Event.hpp>
 #include <entity.h>
 #include <input/event.h>
-#include <input/state.h>
 #include <input/speaker.h>
+#include <state.h>
 
 namespace EUSDAB
 {
@@ -20,7 +20,7 @@ namespace EUSDAB
                 Controller(Controller const &) = delete;
                 Controller & operator=(Controller const &) = delete;
 
-                Controller() = default;
+                Controller();
                 ~Controller();
 
                 template <typename InputIter>
