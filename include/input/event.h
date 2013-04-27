@@ -9,18 +9,18 @@ namespace EUSDAB
         //
         // Structure corresponding to the event
         // given to the Speaker's event queue.
-        // TODO: supprimer le contructeur par défaut, inclure le flags de front montant/descendant ou continu (enum avec FallingEdge, RisingEdge, Continuous)
         struct Event
         {
             typedef float Ratio;
 
-            static Event::Ratio const Full;
+            static Ratio const Full;
 
             enum Id
             {
                 Up, Down, Left, Right,
                 A, B, X, Y, Z, Trigger,
                 NextFrame, Attack, Damage,
+                Grab, Ground, Collide,
                 Enter, Leave
             };
 
@@ -31,16 +31,17 @@ namespace EUSDAB
                 ContinuousEdge
             };
 
-            Event() = default;
-            Event(Event::Id, Event::Ratio, Event::Edge);
+            Event() = delete;
             Event(Event &&) = default;
             Event(const Event &) = default;
             ~Event() = default;
             Event & operator=(const Event &) = default;
 
-            Event::Id id;
-            Event::Ratio ratio;
-            Event::Edge edge;
+            Event(Id, Ratio, Edge);
+
+            Id id;
+            Ratio ratio;
+            Edge edge;
         };
     }
 }

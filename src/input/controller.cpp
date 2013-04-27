@@ -1,29 +1,12 @@
 #include <input/controller.h>
 
-#include <entity.h>
-#include <input/listener.h>
-#include <input/state.h>
-#include <input/speaker.h>
-
 namespace EUSDAB
 {
     namespace Input
     {
-        Controller::Controller(std::vector<Entity *> const & players):
-            _playerList(),
-            _entityList(),
-            _keyMapping()
+        // TODO make this code cleaner
+        void Controller::initMappings()
         {
-            // Remplissage de players (et de ta mère JM)
-            for(Entity * e : players)
-                if(e != nullptr)
-                {
-                    e->state()->entity(e);
-                    _playerList.emplace_back(new Speaker(e->state()));
-                }
-
-            // Mapping des touches claviers
-            // TODO finir
             _keyMapping[sf::Keyboard::Z] = std::make_pair(_playerList[0], Event::Up);
             _keyMapping[sf::Keyboard::S] = std::make_pair(_playerList[0], Event::Down);
             _keyMapping[sf::Keyboard::Q] = std::make_pair(_playerList[0], Event::Left);
@@ -37,13 +20,9 @@ namespace EUSDAB
 
         Controller::~Controller()
         {
-            for(auto e : _playerList)
+            for (auto pair : _allSpeakers)
             {
-                delete e;
-            }
-            for(auto e : _entityList)
-            {
-                delete e;
+                delete pair.second;
             }
         }
 
@@ -61,15 +40,12 @@ namespace EUSDAB
 
             // TODO Joystick
 
-            for (auto s : _playerList)
+            for (Speaker * s : _playerList)
             {
-                if (s != nullptr)
-                {
-                    s->pollEvents();
-                }
+                s->pollEvents();
             }
 
-            for (auto s : _entityList)
+            for (Speaker * s : _speakerList)
             {
                 s->pollEvents();
             }
@@ -77,30 +53,23 @@ namespace EUSDAB
 
         void Controller::addEntity(Entity * e)
         {
-            _entityList.push_back(new Speaker(e->state()));
+            _speakerList.push_back(speaker(e));
         }
 
-        void Controller::addEntity(Entity * e, State * s)
+        void Controller::pushEvent(const sf::Event & event)
         {
-            e->setState(s);
-            s->entity(e);
-            _entityList.push_back(new Speaker(s));
-        }
-
-        void Controller::pushEvent(const sf::Event & e)
-        {
-            if (e.type == sf::Event::KeyPressed)
+            if (event.type == sf::Event::KeyPressed)
             {
-                auto it = _keyMapping.find(e.key.code);
+                auto it = _keyMapping.find(event.key.code);
                 if (it != _keyMapping.end())
                 {
                     Event event(it->second.second, Event::Full, Event::RisingEdge);
                     it->second.first->push(event);
                 }
             }
-            if (e.type == sf::Event::KeyReleased)
+            if (event.type == sf::Event::KeyReleased)
             {
-                auto it = _keyMapping.find(e.key.code);
+                auto it = _keyMapping.find(event.key.code);
                 if (it != _keyMapping.end())
                 {
                     Event event(it->second.second, Event::Full, Event::FallingEdge);
@@ -109,6 +78,22 @@ namespace EUSDAB
             }
 
             // TODO Joystick : rising and falling edge
+        }
+
+        void Controller::pushEvent(Entity * e, Event const & event)
+        {
+            speaker(e)->push(event);
+        }
+
+        Speaker * Controller::speaker(Entity * e)
+        {
+            Speaker * s = nullptr;
+            auto insertPair = _allSpeakers.insert(std::make_pair(e, s));
+            if (insertPair.second)
+            {
+                insertPair.first->second = new Speaker(e->state());
+            }
+            return insertPair.first->second;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace EUSDAB
                     Test & operator=(const Test &) = delete;
 
                     Test();
-                    virtual ~Test() noexcept (true);
+                    virtual ~Test();
 
                     virtual void onUp(Event const &);
                     virtual void onDown(Event const &);

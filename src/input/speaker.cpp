@@ -39,13 +39,15 @@ namespace EUSDAB
         void Speaker::pollEvents()
         {
             if(_listener == nullptr)
+            {
                 return;
+            }
 
             while (_events.empty() == false)
             {
                 Event const & e = _events.front();
                 _events.pop();
-                switch(e.id)
+                switch (e.id)
                 {
                     case Event::Up:
                         _listener->onUp(e);
