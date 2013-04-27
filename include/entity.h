@@ -2,16 +2,28 @@
 #define ENTITY_H_
 
 #include <string>
-#include <unordered_map>
-#include <movement.h>
+#include <unordered_set>
 #include <physics/config.h>
 #include <physics/hitbox.h>
 //#include <attack.h>
+
+namespace std
+{
+    template <typename T>
+        struct hash_ptr
+    {
+        size_t operator()(T * const x) const
+        {
+            return x != nullptr ? hash<T>()(*x) : 0;
+        }
+    };
+}
 
 namespace EUSDAB
 {
     // Forward declarations
     class State;
+    class Movement;
     class Attack; // TODO design and write this module
 
     // TODO physics module should be moved either in a 
@@ -73,7 +85,8 @@ namespace EUSDAB
             //   by its movement (throws an std::runtime_error
             //   if the state's ID is already associated to another
             //   state).
-            void addState(const Movement &, State *);
+            void addState(State *);
+
 
         protected:
             // General
@@ -90,7 +103,7 @@ namespace EUSDAB
 
             // State
             State * _current;
-            std::unordered_map<Movement, State *> _states;
+            std::unordered_set<State *, std::hash_ptr<State>> _states;
     };
 }
 

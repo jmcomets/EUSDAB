@@ -25,10 +25,14 @@ namespace EUSDAB
         // Test state bundle
         typedef States::Test TestState;
         Movement testMovement(Movement::Idle | Movement::Left);
+        TestState * player1testState = new TestState();
+        player1testState->setMovement(testMovement);
+        TestState * player2testState = new TestState();
+        player2testState->setMovement(testMovement);
 
         // Adding player states
-        player1->addState(testMovement, new TestState());
-        player2->addState(testMovement, new TestState());
+        player1->addState(player1testState);
+        player2->addState(player2testState);
 
         // Setting player states
         player1->setState(testMovement);

@@ -46,6 +46,7 @@ namespace EUSDAB
             void setFlag(Flag);
 
             operator Flag() const;
+            bool operator<(const Movement &) const;
 
         private:
             Flag _flag;
@@ -57,12 +58,12 @@ namespace std
 {
     template <>
         struct hash<EUSDAB::Movement>
+    {
+        size_t operator()(const EUSDAB::Movement & x) const
         {
-            size_t operator()(const EUSDAB::Movement & x) const
-            {
-                return hash<EUSDAB::Movement::Flag>()(x);
-            }
-        };
+            return hash<EUSDAB::Movement::Flag>()(x);
+        }
+    };
 }
 
 #endif

@@ -21,4 +21,9 @@ namespace EUSDAB
     {
         return flag();
     }
+
+    bool Movement::operator<(const Movement & mvt) const
+    {
+        return _flag < mvt._flag;
+    }
 }

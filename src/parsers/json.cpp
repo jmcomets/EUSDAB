@@ -23,7 +23,7 @@ namespace EUSDAB
 
         // Internal utility function for reading an Entity's 
         //   State JSON representation.
-        static std::pair<Movement, State *> readState(const ptree & statePt);
+        static State * readState(const ptree & statePt);
 
         // Internal utility function for reading an Entity's
         //   Movement JSON representation.
@@ -56,8 +56,7 @@ namespace EUSDAB
             {
                 for (auto s : stateNodes)
                 {
-                    std::pair<Movement, State *> stateInfo = readState(s.second);
-                    entity->addState(stateInfo.first, stateInfo.second);
+                    entity->addState(readState(s.second));
                 }
                 entity->setState(Movement(Movement::Idle | Movement::Left)); // FIXME
             }
@@ -103,7 +102,7 @@ namespace EUSDAB
             return hb;
         }
 
-        std::pair<Movement, State *> readState(const ptree & statePt)
+        State * readState(const ptree & statePt)
         {
             // State to be constructed
             State * state = nullptr;
@@ -115,6 +114,7 @@ namespace EUSDAB
 
                 // Parse movement
                 Movement mvt = readMovement(statePt.get_child("movement"));
+                state->setMovement(mvt);
 
                 // Parse hitbox file
                 Hitbox * hb = nullptr;
@@ -132,7 +132,7 @@ namespace EUSDAB
                 // TODO parse audio
                 std::string audioFilename = statePt.get<std::string>("view.audio");
 
-                return std::make_pair(mvt, state);
+                return state;
             }
             catch (ptree_error)
             {

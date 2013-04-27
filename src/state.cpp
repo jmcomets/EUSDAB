@@ -4,13 +4,9 @@
 
 namespace EUSDAB
 {
-    State::State():
-        _entity(nullptr),
-        _speaker(nullptr)
-    {
-    }
-
-    State::State(Entity * entity, Input::Speaker * speaker):
+    State::State(Entity * entity, Input::Speaker * speaker,
+            const Movement & mvt):
+        _mvt(mvt),
         _entity(entity),
         _speaker(speaker)
     {
@@ -39,5 +35,15 @@ namespace EUSDAB
         }
         _speaker->setListener(s);
         _entity->setState(s);
+    }
+
+    Movement State::movement() const
+    {
+        return _mvt;
+    }
+
+    void State::setMovement(const Movement & mvt)
+    {
+        _mvt = mvt;
     }
 }
