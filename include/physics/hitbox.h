@@ -4,20 +4,12 @@
 #include <vector>
 #include <physics/aabb.h>
 
-#ifdef SFML_TEST
-#  include <SFML/Graphics.hpp>
-#endif
-
 namespace EUSDAB
 {
     namespace Physics
     {
         template <class T>
-#ifdef SFML_TEST
-            class Hitbox: public sf::Drawable
-#else
             class Hitbox
-#endif
         {
             public:
                 enum Semantic
@@ -34,9 +26,6 @@ namespace EUSDAB
                     _aabbList(),
                     _aabbGlobal(0, 0, 0, 0)
                 {
-#ifdef SFML_TEST
-                        setColor(sf::Color::Black);
-#endif
                 }
 
                 Hitbox(Hitbox &&) = default;
@@ -105,47 +94,23 @@ namespace EUSDAB
                     else
                     {
                         T minX = _aabbList[0].x();
-                        T maxX = _aabbList[0].x() + _aabbList[0].w();
+                        T maxX = _aabbList[0].x() + _aabbList[0].width();
                         T minY = _aabbList[0].y();
-                        T maxY = _aabbList[0].y() + _aabbList[0].h();
+                        T maxY = _aabbList[0].y() + _aabbList[0].height();
 
                         for (AABB<T> & aabb : _aabbList)
                         {
                             minX = std::min(minX, aabb.x());
-                            maxX = std::max(maxX, aabb.x() + aabb.w());
+                            maxX = std::max(maxX, aabb.x() + aabb.width());
                             minY = std::min(minY, aabb.y());
-                            maxY = std::max(maxY, aabb.y() + aabb.h());
+                            maxY = std::max(maxY, aabb.y() + aabb.height());
                         }
 
                         _aabbGlobal = AABB<T>(minX, minY, maxX - minX, maxY - minY);
                     }
                 }
 
-#ifdef SFML_TEST
-                void setColor(sf::Color const & color)
-                {
-                    for (AABB<T> & aabb : _aabbList)
-                    {
-                        aabb.color(color);
-                    }
-                }
-
-                void draw(sf::RenderTarget & target, sf::RenderStates state) const
-                {
-                    for (AABB<T> const & aabb : _aabbList)
-                    {
-                        aabb.draw(target, state);
-                    }
-                    sf::RectangleShape rect(sf::Vector2f(_aabbGlobal.w(), _aabbGlobal.h()));
-                    rect.setOutlineColor(sf::Color::Black);
-                    rect.setFillColor(sf::Color(0, 0, 0, 120));
-
-                    state.transform.translate(_aabbGlobal.x(), _aabbGlobal.y());
-                    target.draw(rect, state);
-                }
-#endif
-
-                bool collide(Hitbox const & other) const
+                bool collides(Hitbox const & other) const
                 {
                     // TODO: Gestion de la sémentique dans les collision
                     // Exemple de regle de sémentique :
@@ -153,7 +118,7 @@ namespace EUSDAB
                     // Grab & Grabable
                     // Foot & Defense
 
-                    if (!other._aabbGlobal.collide(_aabbGlobal))
+                    if (!other._aabbGlobal.collides(_aabbGlobal))
                     {
                         return false;
                     }
@@ -162,7 +127,7 @@ namespace EUSDAB
                     {
                         for(AABB<T> const & aabb_other : other._aabbList)
                         {
-                            if(aabb.collide(aabb_other))
+                            if(aabb.collides(aabb_other))
                             {
                                 return true;
                             }
@@ -171,12 +136,12 @@ namespace EUSDAB
                     return false;
                 }
 
-                void translate(T const & tx, T const & ty)
+                void translate(T const & x, T const & y)
                 {
-                    _aabbGlobal.translate(tx, ty);
+                    _aabbGlobal.translate(x, y);
                     for (AABB<T> & aabb : _aabbList)
                     {
-                        aabb.translate(tx, ty);
+                        aabb.translate(x, y);
                     }
                 }
 

@@ -1,120 +1,85 @@
 #ifndef PHYSICS_AABB_H_
 #define PHYSICS_AABB_H_
 
-#ifdef SFML_TEST
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
-#endif
-
 namespace EUSDAB
 {
     namespace Physics
     {
         template <typename T>
-#ifdef SFML_TEST
-            class AABB : public sf::Drawable
-#else
             class AABB
-#endif
-            {
-                public:
-                    AABB(T const & __x, T const & __y, T const & __w, T const & __h):
-                        _x(__x),
-                        _y(__y),
-                        _w(__w),
-                        _h(__h)
-                    {
-#ifdef SFML_TEST
-                        _sfml_rect = sf::RectangleShape(sf::Vector2f(static_cast<float>(_w), static_cast<float>(_h)));
-#endif
-                    }
+        {
+            public:
+                AABB(const T & x, const T & y, const T & w, const T & h):
+                    _x(x), _y(y),
+                    _w(w), _h(h)
+                {
+                }
 
-                    AABB(AABB const &) = default;
-                    AABB(AABB &&) = default;
+                AABB(const AABB &) = default;
+                AABB(AABB &&) = default;
 
-                    AABB & operator=(AABB const &) = default;
+                AABB & operator=(const AABB &) = default;
 
-                    ~AABB() = default;
+                ~AABB() = default;
 
-                    T const & x() const
-                    {
-                        return _x;
-                    }
+                const T & x() const
+                {
+                    return _x;
+                }
 
-                    T const & y() const
-                    {
-                        return _y;
-                    }
+                void setX(const T & x)
+                {
+                    _x = x;
+                }
 
-                    T const & w() const
-                    {
-                        return _w;
-                    }
+                const T & y() const
+                {
+                    return _y;
+                }
 
-                    T const & h() const
-                    {
-                        return _h;
-                    }
+                void setY(const T & y)
+                {
+                    _y = y;
+                }
 
-                    void x(T const & __x)
-                    {
-                        _x = __x;
-                    }
+                const T & width() const
+                {
+                    return _w;
+                }
 
-                    void y(T const & __y)
-                    {
-                        _y = __y;
-                    }
+                void setWidth(const T & w)
+                {
+                    _w = w;
+                }
 
-                    void w(T const & __w)
-                    {
-                        _w = __w;
-                    }
+                const T & height() const
+                {
+                    return _h;
+                }
 
-                    void h(T const & __h)
-                    {
-                        _h = __h;
-                    }
+                void setHeight(const T & h)
+                {
+                    _h = h;
+                }
 
-                    bool collide(AABB<T> const & __other) const
-                    {
-                        if((_x >= __other._x + __other._w)
-                                || (_x + _w <= __other._x)
-                                || (_y >= __other._y + __other._h)
-                                || (_y + _h <= __other._y))
-                            return false;
-                        return true;
-                    }
+                bool collides(const AABB<T> & other) const
+                {
+                    return ((_x >= other._x + other._w)
+                            || (_x + _w <= other._x)
+                            || (_y >= other._y + other._h)
+                            || (_y + _h <= other._y)) == false;
+                }
 
-                    void translate(T const & __tx, T const & __ty)
-                    {
-                        _x += __tx;
-                        _y += __ty;
-                    }
+                void translate(const T & x, const T & y)
+                {
+                    _x += x;
+                    _y += y;
+                }
 
-#ifdef SFML_TEST
-                public:
-                    void color(sf::Color const & __color)
-                    {
-                        _sfml_rect.setFillColor(__color);
-                    }
-
-                    void draw(sf::RenderTarget & __target, sf::RenderStates __state) const
-                    {
-                        __state.transform.translate(_x, _y);
-                        __target.draw(_sfml_rect, __state);
-                    }
-
-                protected:
-                    sf::RectangleShape _sfml_rect;
-#endif
-
-                private:
-                    T _x;
-                    T _y;
-                    T _w;
-                    T _h;
-            };
+            private:
+                T _x, _y;
+                T _w, _h;
+        };
     }
 }
 

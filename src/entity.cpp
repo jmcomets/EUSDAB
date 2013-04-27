@@ -7,7 +7,6 @@ namespace EUSDAB
     Entity::Entity():
         _name(),
         _attack(nullptr),
-        _hitboxList(),
         _current(nullptr),
         _states()
     {
@@ -65,11 +64,6 @@ namespace EUSDAB
         {
             throw std::runtime_error("Entity's states should be unique");
         }
-        state->entity(this);
-    }
-
-    const Entity::HitboxList & Entity::hitboxList() const
-    {
-        return _hitboxList;
+        state->setEntity(this);
     }
 }

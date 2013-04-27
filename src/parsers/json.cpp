@@ -13,9 +13,7 @@ namespace EUSDAB
 {
     namespace Parsers
     {
-        // Make code more readable
-        //using namespace Input;
-        typedef Entity::Hitbox Hitbox;
+        typedef Physics::Hitbox<Physics::Unit> Hitbox;
 
         Json::~Json()
         {

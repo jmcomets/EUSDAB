@@ -32,11 +32,11 @@ namespace EUSDAB
 
         void Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
-            for (Hitbox<Unit> const & h1 : e1->hitboxList())
+            for (Hitbox<Unit> const & h1 : e1->state()->hitboxList())
             {
-                for (Hitbox<Unit> const & h2 : e2->hitboxList())
+                for (Hitbox<Unit> const & h2 : e2->state()->hitboxList())
                 {
-                    if (h1.collide(h2))
+                    if (h1.collides(h2))
                     {
                         // Shorten code a little
                         using Input::Event;

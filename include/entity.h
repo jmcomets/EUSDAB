@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_set>
 #include <physics/config.h>
-#include <physics/hitbox.h>
 //#include <attack.h>
 
 namespace std
@@ -53,20 +52,6 @@ namespace EUSDAB
             // Actually attack another entity
             void attack(Entity *); // FIXME const ? 
 
-            // Physics module
-
-            // Exposed types
-            typedef Physics::Hitbox<Physics::Unit> Hitbox;
-            typedef std::vector<Hitbox> HitboxList;
-
-            // Get the hitbox list
-            const HitboxList & hitboxList() const;
-            // ...non const version
-            //HitboxList & hitboxList();
-
-            // Add a new hitbox to the Entity
-            void addHitbox(const Hitbox &);
-
             // State module
 
             // Get the Entity's state directly
@@ -94,12 +79,6 @@ namespace EUSDAB
 
             // Attack
             Attack * _attack;
-
-            // Physics
-            HitboxList _hitboxList;
-
-            // View TODO
-            //View _view;
 
             // State
             State * _current;

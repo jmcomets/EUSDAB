@@ -6,40 +6,73 @@
 #include <entity.h>
 #include <input/listener.h>
 #include <input/speaker.h>
+#include <physics/hitbox.h>
 
 namespace EUSDAB
 {
     class State: public Input::Listener
     {
         public:
+            // Shortcuts for subclasses
+            typedef Input::Event Event;
+            typedef Input::Speaker Speaker;
+
             State(State &&) = default;
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
             State(Entity * entity = nullptr,
-                    Input::Speaker * speaker = nullptr,
+                    Speaker * speaker = nullptr,
                     const Movement & = Movement());
             virtual ~State();
 
-            Entity * entity() const;
-            Entity * entity(Entity *);
-
+            // Helper for subclasses
             void switchState(Movement const &);
 
-            // Shortcut for derived classes
-            typedef Input::Event Event;
+            // Movement module
 
             // Get/Set the state's movement
             Movement movement() const;
             void setMovement(const Movement &);
 
-            // ID boilerplate
+            // Compare States by Movement
             bool operator<(const State &) const;
 
+            // Get/Set the associated Entity
+            Entity * entity() const;
+            void setEntity(Entity *);
+
+            // Get/Set the associated Speaker
+            Speaker * speaker() const;
+            void setSpeaker(Speaker *);
+
+            // Physics module
+
+            // Exposed types
+            typedef Physics::Hitbox<Physics::Unit> Hitbox;
+            typedef std::vector<Hitbox> HitboxList;
+
+            // Get the hitbox list
+            const HitboxList & hitboxList() const;
+            // ...non const version
+            //HitboxList & hitboxList();
+
+            // Add a new hitbox to the Entity
+            void addHitbox(const Hitbox &);
+
         protected:
-            Movement _mvt;
+            // State boilerplate
             Entity * _entity;
-            Input::Speaker * _speaker;
+            Speaker * _speaker;
+
+            // Movement (identification)
+            Movement _mvt;
+
+            // View TODO
+            //View _view;
+
+            // Physics
+            HitboxList _hitboxList;
     };
 }
 
