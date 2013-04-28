@@ -112,12 +112,6 @@ namespace EUSDAB
 
                 bool collides(Hitbox const & other) const
                 {
-                    // TODO: Gestion de la sémentique dans les collision
-                    // Exemple de regle de sémentique :
-                    // Attack & Defense
-                    // Grab & Grabable
-                    // Foot & Defense
-
                     if (!other._aabbGlobal.collides(_aabbGlobal))
                     {
                         return false;
