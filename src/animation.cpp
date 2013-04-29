@@ -37,6 +37,11 @@ namespace EUSDAB
         return _sprite;
     }
 
+    Animation::HitboxList & Animation::hitboxList()
+    {
+        return current().hitboxList();
+    }
+
     const Animation::HitboxList & Animation::hitboxList() const
     {
         return current().hitboxList();
@@ -62,9 +67,13 @@ namespace EUSDAB
         _hitboxList.push_back(hb);
     }
 
-    const Frame::HitboxList & Frame::hitboxList() const
+    Frame::HitboxList & Frame::hitboxList()
     {
         return _hitboxList;
+    }
+
+    const Frame::HitboxList & Frame::hitboxList() const
+    {
         return _hitboxList;
     }
 }

@@ -6,7 +6,7 @@ namespace EUSDAB
 {
     Entity::Entity():
         _name(),
-        _attack(nullptr),
+        //_attack(nullptr),
         _current(nullptr),
         _states()
     {
@@ -23,6 +23,7 @@ namespace EUSDAB
     void Entity::setState(State * state)
     {
         _current = state;
+        setListener(state);
     }
 
     void Entity::setState(const Movement & mvt)
@@ -32,7 +33,7 @@ namespace EUSDAB
         {
             throw std::runtime_error("No state defined for given movement");
         }
-        _current = s;
+        setState(s);
     }
 
     void Entity::setName(const std::string & name)
@@ -48,7 +49,7 @@ namespace EUSDAB
     State * Entity::state(const Movement & mvt) const
     {
         Input::Speaker sp;
-        State s(sp);
+        State s;
         s.setMovement(mvt);
         auto it = _states.find(&s);
         return it != _states.end() ? *it : nullptr;

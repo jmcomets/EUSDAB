@@ -1,7 +1,4 @@
 #include <input/speaker.h>
-
-#include <stdexcept>
-
 #include <input/listener.h>
 
 namespace EUSDAB
@@ -16,19 +13,12 @@ namespace EUSDAB
 
         void Speaker::setListener(Listener * l)
         {
-            if (l == nullptr)
+            if (_listener != nullptr)
             {
-                throw std::runtime_error("Speaker cannot switch to null Listener");
+                _listener->onLeave();
             }
-            else
-            {
-                if (_listener != nullptr)
-                {
-                    _listener->onLeave();
-                }
-                _listener = l;
-                _listener->onEnter();
-            }
+            _listener = l;
+            _listener->onEnter();
         }
 
         void Speaker::push(Event const & e)
@@ -108,6 +98,8 @@ namespace EUSDAB
                     case Event::Leave:
                         _listener->onLeave();
                         break;
+
+                    // TODO other events
 
                     default:
                         break;

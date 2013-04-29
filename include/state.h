@@ -5,7 +5,6 @@
 #include <movement.h>
 #include <entity.h>
 #include <input/listener.h>
-#include <input/speaker.h>
 #include <animation.h>
 
 namespace EUSDAB
@@ -20,8 +19,7 @@ namespace EUSDAB
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
-            State(Input::Speaker &, Entity * = nullptr,
-                    const Movement & = Movement());
+            State(Entity * = nullptr, const Movement & = Movement());
             virtual ~State();
 
             // Helper for subclasses
@@ -54,10 +52,6 @@ namespace EUSDAB
 
             // Animation (graphics/physics)
             Animation _animation;
-
-        private:
-            // Speaker (used for switching states)
-            Input::Speaker & _speaker;
     };
 }
 

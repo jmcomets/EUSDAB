@@ -25,9 +25,13 @@ namespace EUSDAB
 
                 Speaker(Listener * listener = nullptr);
 
+                // Change the Speaker's current Listenrr
                 void setListener(Listener *);
 
-                void push(Event const &);
+                // Push an Event to the Speaker's input queue
+                void push(const Event &);
+
+                // Dispatch all Events to current Listener
                 void pollEvents();
 
             private:
@@ -38,4 +42,3 @@ namespace EUSDAB
 }
 
 #endif
-

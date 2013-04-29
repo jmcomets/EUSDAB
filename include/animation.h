@@ -59,7 +59,7 @@ namespace EUSDAB
             Animation();
             Animation(Animation &&) = default;
             Animation(const Animation &) = default;
-            ~Animation();
+            ~Animation() = default;
 
             template <typename InputIter>
                 Animation(InputIter begin, InputIter end):

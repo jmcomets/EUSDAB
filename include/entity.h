@@ -4,8 +4,11 @@
 #include <string>
 #include <unordered_set>
 #include <physics/config.h>
+#include <movement.h>
+#include <input/speaker.h>
 //#include <attack.h>
 
+// TODO move this in a separate header
 namespace std
 {
     template <typename T>
@@ -22,12 +25,10 @@ namespace EUSDAB
 {
     // Forward declarations
     class State;
-    class Movement;
-    class Attack; // TODO design and write this module
 
     // TODO physics module should be moved either in a 
     //   component or in state, using delegation afterwards.
-    class Entity
+    class Entity: public Input::Speaker
     {
         public:
             Entity(Entity &&) = default;
@@ -46,8 +47,8 @@ namespace EUSDAB
             // Attack module
 
             // Get/Set the attack
-            const Attack & attack() const;
-            void setAttack(Attack *);
+            //const Attack & attack() const;
+            //void setAttack(Attack *);
 
             // Actually attack another entity
             void attack(Entity *); // FIXME const ? 
@@ -72,13 +73,12 @@ namespace EUSDAB
             //   state).
             void addState(State *);
 
-
         protected:
             // General
             std::string _name;
 
-            // Attack
-            Attack * _attack;
+            // Attack TODO
+            //Attack * _attack;
 
             // State
             State * _current;
