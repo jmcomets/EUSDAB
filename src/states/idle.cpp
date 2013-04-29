@@ -13,23 +13,23 @@ namespace EUSDAB
         {
         }
 
-        void Idle::onUp(Event const &)
+        void Idle::onUp(const Event &)
         {
         }
 
-        void Idle::onDown(Event const &)
+        void Idle::onDown(const Event &)
         {
         }
 
-        void Idle::onLeft(Event const &)
+        void Idle::onLeft(const Event &)
         {
         }
 
-        void Idle::onRight(Event const &)
+        void Idle::onRight(const Event &)
         {
         }
 
-        void Idle::onNextFrame(Event const &)
+        void Idle::onNextFrame()
         {
         }
     }

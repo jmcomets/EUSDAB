@@ -1,6 +1,6 @@
 #include <application.h>
 
-int main(int argc, const char *argv[])
+int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 500), "EUSDAB");
     EUSDAB::Application app(&window);

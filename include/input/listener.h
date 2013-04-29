@@ -19,11 +19,13 @@ namespace EUSDAB
                 Listener();
                 virtual ~Listener();
 
+                // Direction events
                 virtual void onUp(Event const &);
                 virtual void onDown(Event const &);
                 virtual void onLeft(Event const &);
                 virtual void onRight(Event const &);
 
+                // Action events
                 virtual void onA(Event const &);
                 virtual void onB(Event const &);
                 virtual void onX(Event const &);
@@ -31,13 +33,21 @@ namespace EUSDAB
                 virtual void onZ(Event const &);
                 virtual void onTrigger(Event const &);
 
-                virtual void onNextFrame(Event const &);
+                // Next frame event
+                virtual void onNextFrame();
 
+                // Attack events
                 virtual void onAttack(Event const &);
                 virtual void onDamage(Event const &);
 
+                // Collision event
+                virtual void onCollide(Event const &);
+
+                // Grab/Ground events
+                virtual void onGrab(Event const &);
                 virtual void onGround(Event const &);
 
+                // Enter/Leave state events
                 virtual void onEnter();
                 virtual void onLeave();
 
@@ -48,4 +58,3 @@ namespace EUSDAB
 }
 
 #endif
-

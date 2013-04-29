@@ -107,6 +107,7 @@ namespace EUSDAB
             }
         }
         _input->pushEvent(eventList.begin(), eventList.end());
+        _input->nextFrame();
     }
 
     void Application::update()

@@ -93,6 +93,15 @@ namespace EUSDAB
             addSpeaker(s);
             s->push(event);
         }
+
+        void Controller::nextFrame()
+        {
+            Event event(Event::NextFrame, Event::Full, Event::RisingEdge);
+            for (Speaker * s : _allSpeakers)
+            {
+                s->push(event);
+            }
+        }
     }
 }
 

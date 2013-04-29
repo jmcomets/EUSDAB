@@ -45,6 +45,9 @@ namespace EUSDAB
                 // ...EUSDAB event (for a specific Speaker)
                 void pushEvent(Speaker *, const Event &);
 
+                // Shortcut for signaling next frame
+                void nextFrame();
+
                 template <typename InputIter>
                     void pushEvent(InputIter begin, InputIter end)
                 {

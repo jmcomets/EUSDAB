@@ -16,6 +16,7 @@ namespace EUSDAB
 
         void Test::onUp(const Event & e)
         {
+            State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
                 _n += e.ratio;
@@ -33,6 +34,7 @@ namespace EUSDAB
 
         void Test::onDown(const Event & e)
         {
+            State::onDown(e);
             if (e.edge == Event::RisingEdge)
             {
                 _n -= e.ratio;
@@ -50,6 +52,7 @@ namespace EUSDAB
 
         void Test::onLeft(const Event & e)
         {
+            State::onLeft(e);
             if (e.edge == Event::RisingEdge)
             {
                 std::cout << "[LEFT] - Montant - " << e.ratio << std::endl;
@@ -66,6 +69,7 @@ namespace EUSDAB
 
         void Test::onRight(const Event & e)
         {
+            State::onRight(e);
             if (e.edge == Event::RisingEdge)
             {
                 std::cout << "[RIGHT] - Montant - " << e.ratio << std::endl;
@@ -78,6 +82,12 @@ namespace EUSDAB
             {
                 std::cout << "[RIGHT] - Continue - " << e.ratio << std::endl;
             }
+        }
+
+        void Test::onNextFrame()
+        {
+            State::onNextFrame();
+            std::cout << "[NEXT] - Heure " << _time << std::endl;
         }
     }
 }

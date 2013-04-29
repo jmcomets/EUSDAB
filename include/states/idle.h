@@ -17,24 +17,24 @@ namespace EUSDAB
                 Idle();
                 virtual ~Idle();
 
-                void onUp(Event const &);
-                void onDown(Event const &);
-                void onLeft(Event const &);
-                void onRight(Event const &);
+                void onUp(const Event &);
+                void onDown(const Event &);
+                void onLeft(const Event &);
+                void onRight(const Event &);
 
-                //void onA(Event const &);
-                //void onB(Event const &);
-                //void onX(Event const &);
-                //void onY(Event const &);
-                //void onZ(Event const &);
-                //void onTrigger(Event const &);
+                //void onA(const Event &);
+                //void onB(const Event &);
+                //void onX(const Event &);
+                //void onY(const Event &);
+                //void onZ(const Event &);
+                //void onTrigger(const Event &);
 
-                void onNextFrame(Event const &);
+                void onNextFrame();
 
-                //void onAttack(Event const &);
-                //void onDamage(Event const &);
+                //void onAttack(const Event &);
+                //void onDamage(const Event &);
 
-                //void onGround(Event const &);
+                //void onGround(const Event &);
 
                 //void onEnter();
                 //void onLeave();

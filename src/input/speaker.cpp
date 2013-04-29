@@ -79,7 +79,7 @@ namespace EUSDAB
                         break;
 
                     case Event::NextFrame:
-                        _listener->onNextFrame(e);
+                        _listener->onNextFrame();
                         break;
 
                     case Event::Attack:
@@ -98,7 +98,17 @@ namespace EUSDAB
                         _listener->onLeave();
                         break;
 
-                    // TODO other events
+                    case Event::Grab:
+                        _listener->onGrab(e);
+                        break;
+
+                    case Event::Collide:
+                        _listener->onCollide(e);
+                        break;
+
+                    case Event::Ground:
+                        _listener->onGround(e);
+                        break;
 
                     default:
                         break;

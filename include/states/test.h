@@ -22,6 +22,8 @@ namespace EUSDAB
                 virtual void onLeft(const Event &);
                 virtual void onRight(const Event &);
 
+                virtual void onNextFrame();
+
             private:
                 Input::Event::Ratio _n;
         };
