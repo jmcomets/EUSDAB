@@ -1,4 +1,4 @@
-#include <parsers/json.h>
+#include <entityparser.h>
 #include <istream>
 #include <utility>
 #include <stdexcept>
@@ -60,38 +60,32 @@ namespace EUSDAB
         return entity;
     }
 
-    Hitbox * readHitbox(std::istream & is)
+    Animation * EntityParser::readAnimation(std::istream & is) const
     {
         // Boost's magic
-        ptree hbPt;
+        ptree animationPt;
         try
         {
-            read_json(is, hbPt);
+            read_json(is, animationPt);
         }
         catch (ptree_error)
         {
-            std::cerr << "Hitbox JSON file invalid" << std::endl;
+            std::cerr << "Animation JSON file invalid" << std::endl;
             return nullptr;
         }
 
-        // Hitbox to construct
-        Hitbox * hb = new Hitbox();
-
-        // Hitbox's AABBs
-        ptree aabbNodes = hbPt.get_child("aabbs");
+        // Actual animation parsing
+        Animation * animation = new Animation();
         try
         {
-            for (auto aabb : aabbNodes)
-            {
-                // TODO
-            }
+            // TODO
         }
         catch (ptree_error)
         {
-            delete hb;
-            hb = nullptr;
+            delete animation;
+            animation = nullptr;
         }
-        return hb;
+        return animation;
     }
 
     State * readState(const ptree & statePt)
@@ -108,21 +102,18 @@ namespace EUSDAB
             Movement mvt = readMovement(statePt.get_child("movement"));
             state->setMovement(mvt);
 
-            // Parse hitbox file
-            Hitbox * hb = nullptr;
-            std::string hbFilename = statePt.get<std::string>("hitbox");
-            std::ifstream hbFile(hbFilename.c_str());
-            if (hbFile.good())
+            // Parse animation file
+            Animation * animation = nullptr;
+            std::string animFilename = statePt.get<std::string>("animation");
+            std::ifstream animFile(animFilename.c_str());
+            if (animFile.good())
             {
-                hb = readHitbox(hbFile);
+                animation = EntityParser().readAnimation(animFile); // FIXME hack
             }
-            //state->setHitbox(hb);
-
-            // TODO parse tileset
-            std::string tsFilename = statePt.get<std::string>("view.tileset");
+            state->setAnimation(animation);
 
             // TODO parse audio
-            std::string audioFilename = statePt.get<std::string>("view.audio");
+            //std::string audioFilename = statePt.get<std::string>("view.audio");
 
             return state;
         }

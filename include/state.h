@@ -19,13 +19,12 @@ namespace EUSDAB
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
-            State(Entity * = nullptr, const Movement & = Movement());
+            State(const Movement & = Movement(), Entity * = nullptr, 
+                    Animation * = nullptr);
             virtual ~State();
 
             // Helper for subclasses
             void switchState(Movement const &);
-
-            // Movement module
 
             // Get/Set the state's movement
             Movement movement() const;
@@ -38,20 +37,19 @@ namespace EUSDAB
             Entity * entity() const;
             void setEntity(Entity *);
 
-            // Get the animation
-            Animation & animation();
-            // ...const version
-            const Animation & animation() const;
+            // Get/Set the animation
+            Animation * animation() const;
+            void setAnimation(Animation *);
 
         protected:
-            // State boilerplate
-            Entity * _entity;
-
             // Movement (identification)
             Movement _mvt;
 
+            // State boilerplate
+            Entity * _entity;
+
             // Animation (graphics/physics)
-            Animation _animation;
+            Animation * _animation;
     };
 }
 

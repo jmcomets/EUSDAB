@@ -4,15 +4,16 @@
 
 namespace EUSDAB
 {
-    State::State(Entity * entity, const Movement & mvt):
-        _entity(entity),
-        _mvt(mvt),
-        _animation()
+    State::State(const Movement & mvt, 
+            Entity * entity, Animation * anim):
+        _mvt(mvt), _entity(entity),
+        _animation(anim)
     {
     }
 
     State::~State()
     {
+        delete _animation;
     }
 
     Entity * State::entity() const
@@ -50,13 +51,13 @@ namespace EUSDAB
         return _mvt < st._mvt;
     }
 
-    Animation & State::animation()
+    Animation * State::animation() const
     {
         return _animation;
     }
 
-    const Animation & State::animation() const
+    void State::setAnimation(Animation * a)
     {
-        return _animation;
+        _animation = a;
     }
 }

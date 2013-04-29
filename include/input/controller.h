@@ -2,9 +2,9 @@
 #define INPUT_CONTROLLER_H_
 
 #include <vector>
+#include <set>
 #include <map>
 #include <SFML/Window/Event.hpp>
-#include <entity.h>
 #include <input/event.h>
 #include <input/speaker.h>
 #include <state.h>
@@ -29,21 +29,21 @@ namespace EUSDAB
                 {
                     for(; begin != end; begin++)
                     {
-                        Entity * e = *begin;
-                        Speaker * s = speaker(e);
+                        Speaker * s = *begin;
+                        addSpeaker(s);
                         _playerList.push_back(s);
                     }
                     initMappings();
                 }
 
-                // Add an entity to the controller
-                void addEntity(Entity *);
+                // Add an speaker to the controller
+                void addSpeaker(Speaker *);
 
                 // Push an event to the controller
                 // ...SFML event
-                void pushEvent(sf::Event const &);
-                // ...EUSDAB event (for a specific Entity)
-                void pushEvent(Entity *, Event const &);
+                void pushEvent(const sf::Event &);
+                // ...EUSDAB event (for a specific Speaker)
+                void pushEvent(Speaker *, const Event &);
 
                 template <typename InputIter>
                     void pushEvent(InputIter begin, InputIter end)
@@ -58,16 +58,13 @@ namespace EUSDAB
                 //   must be called only once per frame.
                 void update();
 
-                // Get the Entity's Speaker lazily
-                Speaker * speaker(Entity *);
-
             protected:
+                // Initialize mappings (ugly ugly ugly)
                 void initMappings();
 
             private:
-                std::map<Entity *, Speaker *> _allSpeakers;
                 std::vector<Speaker *> _playerList;
-                std::vector<Speaker *> _speakerList;
+                std::set<Speaker *> _allSpeakers;
 
                 std::map<sf::Keyboard::Key, 
                     std::pair<Speaker *, Event::Id>> _keyMapping;

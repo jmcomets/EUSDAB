@@ -32,16 +32,42 @@ namespace EUSDAB
 
         void Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
-            // TODO: Gestion de la sémentique dans les collision
-            // Exemple de regle de sémentique :
-            // Attack & Defense
-            // Grab & Grabable
-            // Foot & Defense
-
-            for (Hitbox<Unit> const & h1 : e1->state()->animation().hitboxList())
+            State * s1 = e1->state();
+            if (s1 == nullptr)
             {
-                for (Hitbox<Unit> const & h2 : e2->state()->animation().hitboxList())
+                return;
+            }
+
+            Animation * a1 = s1->animation();
+            if (a1 == nullptr)
+            {
+                return;
+            }
+
+            for (Hitbox<Unit> const & h1 : a1->hitboxList())
+            {
+                // Do not collide if entity state is not defined
+                State * s2 = e2->state();
+                if (s2 == nullptr)
                 {
+                    continue;
+                }
+
+                // Do not collide if state animation is not defined
+                Animation * a2 = s2->animation();
+                if (a2 == nullptr)
+                {
+                    continue;
+                }
+
+                // All is good, handle collision
+                for (Hitbox<Unit> const & h2 : a2->hitboxList())
+                {
+                    // TODO: Gestion de la sémentique dans les collision
+                    // Exemple de regle de sémentique :
+                    // Attack & Defense
+                    // Grab & Grabable
+                    // Foot & Defense
                     if (h1.collides(h2))
                     {
                         // Shorten code a little

@@ -51,7 +51,7 @@ namespace EUSDAB
         // Controllers filling
         for (auto e : _entityList)
         {
-            _input->addEntity(e);
+            _input->addSpeaker(e);
         }
     }
 

@@ -35,8 +35,7 @@ namespace EUSDAB
 
             while (_events.empty() == false)
             {
-                Event const & e = _events.front();
-                _events.pop();
+                const Event & e = _events.front();
                 switch (e.id)
                 {
                     case Event::Up:
@@ -104,6 +103,7 @@ namespace EUSDAB
                     default:
                         break;
                 }
+                _events.pop();
             }
         }
     }

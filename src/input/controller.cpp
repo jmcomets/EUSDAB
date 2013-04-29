@@ -5,8 +5,9 @@ namespace EUSDAB
     namespace Input
     {
         Controller::Controller():
-            _allSpeakers(), _playerList(),
-            _speakerList(), _keyMapping()
+            _playerList(),
+            _allSpeakers(),
+            _keyMapping()
         {
         }
 
@@ -26,10 +27,11 @@ namespace EUSDAB
 
         Controller::~Controller()
         {
-            for (auto pair : _allSpeakers)
-            {
-                delete pair.second;
-            }
+            // FIXME
+            //for (auto s : _allSpeakers)
+            //{
+                //delete s;
+            //}
         }
 
         void Controller::update()
@@ -46,20 +48,20 @@ namespace EUSDAB
 
             // TODO Joystick
 
-            for (Speaker * s : _playerList)
-            {
-                s->pollEvents();
-            }
+            //for (Speaker * s : _playerList)
+            //{
+                //s->pollEvents();
+            //}
 
-            for (Speaker * s : _speakerList)
+            for (Speaker * s : _allSpeakers)
             {
                 s->pollEvents();
             }
         }
 
-        void Controller::addEntity(Entity * e)
+        void Controller::addSpeaker(Speaker * s)
         {
-            _speakerList.push_back(speaker(e));
+            _allSpeakers.insert(s);
         }
 
         void Controller::pushEvent(const sf::Event & event)
@@ -86,20 +88,10 @@ namespace EUSDAB
             // TODO Joystick : rising and falling edge
         }
 
-        void Controller::pushEvent(Entity * e, Event const & event)
+        void Controller::pushEvent(Speaker * s, Event const & event)
         {
-            speaker(e)->push(event);
-        }
-
-        Speaker * Controller::speaker(Entity * e)
-        {
-            Speaker * s = nullptr;
-            auto insertPair = _allSpeakers.insert(std::make_pair(e, s));
-            if (insertPair.second)
-            {
-                insertPair.first->second = new Speaker(e->state());
-            }
-            return insertPair.first->second;
+            addSpeaker(s);
+            s->push(event);
         }
     }
 }

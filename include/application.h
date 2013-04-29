@@ -2,9 +2,7 @@
 #define APPLICATION_H_
 
 #include <vector>
-
-#include <SFML/Graphics.hpp>
-
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <entity.h>
 #include <input/controller.h>
 

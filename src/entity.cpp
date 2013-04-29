@@ -48,7 +48,7 @@ namespace EUSDAB
 
     State * Entity::state(const Movement & mvt) const
     {
-        State s(nullptr, mvt);
+        State s(mvt);
         auto it = _states.find(&s);
         return it != _states.end() ? *it : nullptr;
     }

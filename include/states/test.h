@@ -17,13 +17,13 @@ namespace EUSDAB
                 Test();
                 virtual ~Test();
 
-                virtual void onUp(Event const &);
-                virtual void onDown(Event const &);
-                virtual void onLeft(Event const &);
-                virtual void onRight(Event const &);
+                virtual void onUp(const Event &);
+                virtual void onDown(const Event &);
+                virtual void onLeft(const Event &);
+                virtual void onRight(const Event &);
 
-            protected:
-                double _n;
+            private:
+                Input::Event::Ratio _n;
         };
     }
 }

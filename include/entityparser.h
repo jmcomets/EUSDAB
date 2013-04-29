@@ -6,7 +6,7 @@
 
 namespace EUSDAB
 {
-    class EntityParser: public Base
+    class EntityParser
     {
         public:
             EntityParser() = default;
@@ -15,8 +15,8 @@ namespace EUSDAB
             EntityParser & operator=(const EntityParser &) = default;
             ~EntityParser() = default;
 
-            virtual Entity * readEntity(std::istream &) const;
-            virtual Animation * readAnimation(std::istream &) const;
+            Entity * readEntity(std::istream &) const;
+            Animation * readAnimation(std::istream &) const;
     }; 
 }
 
