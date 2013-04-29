@@ -36,9 +36,9 @@ namespace EUSDAB
             };
 
             Movement(Movement &&) = default;
-            Movement(Movement const &) = default;
+            Movement(const Movement &) = default;
             ~Movement() = default;
-            Movement & operator=(Movement const &) = default;
+            Movement & operator=(const Movement &) = default;
 
             Movement(Flag = 0);
 

@@ -25,9 +25,9 @@ namespace EUSDAB
         _entity = e;
     }
 
-    void State::switchState(const Movement & id)
+    void State::switchState(const Movement & mvt)
     {
-        State * s = _entity->state(id);
+        State * s = _entity->state(mvt);
         if (s == nullptr)
         {
             throw std::runtime_error("Undefined State");
@@ -43,6 +43,11 @@ namespace EUSDAB
     void State::setMovement(const Movement & mvt)
     {
         _mvt = mvt;
+    }
+
+    bool State::operator<(const State & st) const
+    {
+        return _mvt < st._mvt;
     }
 
     Animation & State::animation()

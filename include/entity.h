@@ -2,7 +2,7 @@
 #define ENTITY_H_
 
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <physics/config.h>
 #include <movement.h>
 #include <input/speaker.h>
@@ -14,9 +14,18 @@ namespace std
     template <typename T>
         struct hash_ptr
     {
-        size_t operator()(T * const x) const
+        size_t operator()(const T * x) const
         {
             return x != nullptr ? hash<T>()(*x) : 0;
+        }
+    };
+
+    template <typename T>
+        struct less_ptr
+    {
+        bool operator()(const T * l, const T * r) const
+        {
+            return l != nullptr && r != nullptr ? less<T>()(*l, *r) : false;
         }
     };
 }
@@ -82,7 +91,7 @@ namespace EUSDAB
 
             // State
             State * _current;
-            std::unordered_set<State *, std::hash_ptr<State>> _states;
+            std::set<State *, std::less_ptr<State>> _states;
     };
 }
 
