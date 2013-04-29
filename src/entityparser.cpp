@@ -4,8 +4,7 @@
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <states/idle.h>
-#include <states/test.h>
+#include <states/all.h>
 
 using namespace boost::property_tree;
 

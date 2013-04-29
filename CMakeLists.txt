@@ -13,7 +13,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 
 # Executable name
-set(EXE_NAME "EUSDAB")
+set(EUSDAB_EXE_NAME "EUSDAB")
 
 # Compile flags
 set(CXX_MAIN_FLAGS "-pedantic -std=c++0x")
@@ -28,8 +28,26 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_MAIN_FLAGS} ${CXX_WARNING_FLAGS}")
 include_directories("include")
 
 # Executable sources
-file(GLOB_RECURSE EUSDAB_SOURCES "src/*.cpp")
-add_executable(${EXE_NAME} ${EUSDAB_SOURCES})
+set(EUSDAB_SOURCES 
+    ${EUSDAB_SOURCE_DIR}/src/state.cpp
+    ${EUSDAB_SOURCE_DIR}/src/movement.cpp
+    ${EUSDAB_SOURCE_DIR}/src/entity.cpp
+    ${EUSDAB_SOURCE_DIR}/src/physics/controller.cpp
+    ${EUSDAB_SOURCE_DIR}/src/animation.cpp
+    ${EUSDAB_SOURCE_DIR}/src/input/controller.cpp
+    ${EUSDAB_SOURCE_DIR}/src/input/event.cpp
+    ${EUSDAB_SOURCE_DIR}/src/input/listener.cpp
+    ${EUSDAB_SOURCE_DIR}/src/input/speaker.cpp
+    ${EUSDAB_SOURCE_DIR}/src/entitywithmask.cpp
+    ${EUSDAB_SOURCE_DIR}/src/application.cpp
+    ${EUSDAB_SOURCE_DIR}/src/entityparser.cpp
+    ${EUSDAB_SOURCE_DIR}/src/states/idle.cpp
+    )
+
+add_executable(${EUSDAB_EXE_NAME}
+    ${EUSDAB_SOURCES}
+    ${EUSDAB_SOURCE_DIR}/src/main.cpp
+    )
 
 # Boost
 set(Boost_MIN_VERSION "1.41.0")
@@ -44,4 +62,7 @@ endif()
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
 include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/lib")
-target_link_libraries(${EXE_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
+target_link_libraries(${EUSDAB_EXE_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
+
+# Tests
+add_subdirectory("tests")

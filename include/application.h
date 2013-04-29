@@ -1,42 +1,33 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <entity.h>
-#include <input/controller.h>
 
 namespace EUSDAB
 {
     class Application
     {
         public:
-            Application(sf::RenderWindow *);
             Application() = delete;
             Application(Application &&) = delete;
             Application(const Application &) = delete;
             Application & operator=(const Application &) = delete;
 
+            Application(sf::RenderWindow &);
             virtual ~Application();
 
+            // Game loop
             void run();
 
         protected:
+            // 3-step game loop callbacks
             virtual void event();
             virtual void update();
             virtual void render();
 
-        private:
             // SFML context
-            sf::RenderWindow * _window;
-
-            // World
-            std::vector<Entity *> _playerList;
-            std::vector<Entity *> _entityList;
-
-            // Controller
-            Input::Controller * _input;
-    };
+            sf::RenderWindow & _window;
+    }; 
 }
 
 #endif
