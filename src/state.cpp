@@ -4,11 +4,12 @@
 
 namespace EUSDAB
 {
-    State::State(Entity * entity, Input::Speaker * speaker,
-            const Movement & mvt):
+    State::State(Input::Speaker & speaker,
+            Entity * entity, const Movement & mvt):
         _entity(entity),
-        _speaker(speaker),
-        _mvt(mvt), _hitboxList()
+        _mvt(mvt),
+        _animation(),
+        _speaker(speaker)
     {
     }
 
@@ -26,24 +27,14 @@ namespace EUSDAB
         _entity = e;
     }
 
-    State::Speaker * State::speaker() const
-    {
-        return _speaker;
-    }
-    
-    void State::setSpeaker(State::Speaker * s)
-    {
-        _speaker = s;
-    }
-
-    void State::switchState(Movement const & id)
+    void State::switchState(const Movement & id)
     {
         State * s = _entity->state(id);
         if (s == nullptr)
         {
             throw std::runtime_error("Undefined State");
         }
-        _speaker->setListener(s);
+        _speaker.setListener(s);
         _entity->setState(s);
     }
 
@@ -55,10 +46,5 @@ namespace EUSDAB
     void State::setMovement(const Movement & mvt)
     {
         _mvt = mvt;
-    }
-
-    const State::HitboxList & State::hitboxList() const
-    {
-        return _hitboxList;
     }
 }

@@ -38,9 +38,9 @@ namespace EUSDAB
             // Grab & Grabable
             // Foot & Defense
 
-            for (Hitbox<Unit> const & h1 : e1->state()->hitboxList())
+            for (Hitbox<Unit> const & h1 : e1->state()->animation().hitboxList())
             {
-                for (Hitbox<Unit> const & h2 : e2->state()->hitboxList())
+                for (Hitbox<Unit> const & h2 : e2->state()->animation().hitboxList())
                 {
                     if (h1.collides(h2))
                     {

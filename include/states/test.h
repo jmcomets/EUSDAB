@@ -14,7 +14,7 @@ namespace EUSDAB
                 Test(const Test &) = delete;
                 Test & operator=(const Test &) = delete;
 
-                Test();
+                Test(Input::Speaker &);
                 virtual ~Test();
 
                 virtual void onUp(Event const &);

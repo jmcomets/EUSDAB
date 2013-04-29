@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Test::Test():
-            State(),
+        Test::Test(Input::Speaker & sp):
+            State(sp),
             _n(0)
         {
         }

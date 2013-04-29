@@ -6,7 +6,7 @@
 #include <entity.h>
 #include <input/listener.h>
 #include <input/speaker.h>
-#include <physics/hitbox.h>
+#include <animation.h>
 
 namespace EUSDAB
 {
@@ -15,14 +15,12 @@ namespace EUSDAB
         public:
             // Shortcuts for subclasses
             typedef Input::Event Event;
-            typedef Input::Speaker Speaker;
 
             State(State &&) = default;
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
-            State(Entity * entity = nullptr,
-                    Speaker * speaker = nullptr,
+            State(Input::Speaker &, Entity * = nullptr,
                     const Movement & = Movement());
             virtual ~State();
 
@@ -42,40 +40,26 @@ namespace EUSDAB
             Entity * entity() const;
             void setEntity(Entity *);
 
-            // Get/Set the associated Speaker
-            Speaker * speaker() const;
-            void setSpeaker(Speaker *);
-
-            // Physics module
-
-            // Exposed types
-            typedef Physics::Hitbox<Physics::Unit> Hitbox;
-            typedef std::vector<Hitbox> HitboxList;
-
-            // Get the hitbox list
-            const HitboxList & hitboxList() const;
-            // ...non const version
-            //HitboxList & hitboxList();
-
-            // Add a new hitbox to the Entity
-            void addHitbox(const Hitbox &);
+            // Get the animation
+            Animation & animation();
+            // ...const version
+            const Animation & animation() const;
 
         protected:
             // State boilerplate
             Entity * _entity;
-            Speaker * _speaker;
 
             // Movement (identification)
             Movement _mvt;
 
-            // View TODO
-            //View _view;
+            // Animation (graphics/physics)
+            Animation _animation;
 
-            // Physics
-            HitboxList _hitboxList;
+        private:
+            // Speaker (used for switching states)
+            Input::Speaker & _speaker;
     };
 }
-
 
 // Specialization of std::hash<EUSDAB::State>
 namespace std

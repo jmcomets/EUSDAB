@@ -47,7 +47,8 @@ namespace EUSDAB
 
     State * Entity::state(const Movement & mvt) const
     {
-        State s;
+        Input::Speaker sp;
+        State s(sp);
         s.setMovement(mvt);
         auto it = _states.find(&s);
         return it != _states.end() ? *it : nullptr;
