@@ -1,6 +1,7 @@
 #ifndef INPUT_STATES_TEST_H_
 #define INPUT_STATES_TEST_H_
 
+#include <cstddef>
 #include <state.h>
 
 namespace EUSDAB
@@ -25,7 +26,8 @@ namespace EUSDAB
                 virtual void onNextFrame();
 
             private:
-                Input::Event::Ratio _n;
+                Input::Event::Ratio _x, _y;
+                const std::size_t _id;
         };
     }
 }

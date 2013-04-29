@@ -27,12 +27,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_MAIN_FLAGS} ${CXX_WARNING_FLAGS}")
 # EUSDAB include directory
 include_directories("include")
 
-# Source files
-add_subdirectory("src")
+# Executable sources
+file(GLOB_RECURSE EUSDAB_SOURCES "src/*.cpp")
+add_executable(${EXE_NAME} ${EUSDAB_SOURCES})
 
-# Tags
-#set_source_files_properties(tags PROPERTIES GENERATED true)
-#add_custom_command(OUTPUT tags
-    #COMMAND ctags -R --sort=yes --c++-kinds=+px-d --fields=+iaS --extra=+q "${PROJECT_SOURCE_DIR}/include"
-    #WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-#add_dependencies(${EXE_NAME} tags)
+# Boost
+find_package(Boost 1.41.0 REQUIRED)
+if(Boost_FOUND)
+   include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
+# SFML
+set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
+include_directories("${SFML_DIR}/include")
+link_directories("${SFML_DIR}/lib")
+target_link_libraries(${EXE_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
