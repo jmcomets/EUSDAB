@@ -27,7 +27,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_MAIN_FLAGS} ${CXX_WARNING_FLAGS}")
 # EUSDAB include directory
 include_directories("include")
 
-# Executable sources
+# EUSDAB sources
 set(EUSDAB_SOURCES 
     ${EUSDAB_SOURCE_DIR}/src/state.cpp
     ${EUSDAB_SOURCE_DIR}/src/movement.cpp
@@ -43,11 +43,12 @@ set(EUSDAB_SOURCES
     ${EUSDAB_SOURCE_DIR}/src/entityparser.cpp
     ${EUSDAB_SOURCE_DIR}/src/states/idle.cpp
     )
+set(EUSDAB_LIB "EUSDAB_lib")
+add_library(${EUSDAB_LIB} ${EUSDAB_SOURCES})
 
-add_executable(${EUSDAB_EXE_NAME}
-    ${EUSDAB_SOURCES}
-    ${EUSDAB_SOURCE_DIR}/src/main.cpp
-    )
+# EUSDAB main executable
+add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
+target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
 
 # Boost
 set(Boost_MIN_VERSION "1.41.0")
@@ -60,9 +61,10 @@ endif()
 
 # SFML
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
+set(SFML_LIBS sfml-system sfml-window sfml-graphics sfml-audio)
 include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/lib")
-target_link_libraries(${EUSDAB_EXE_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
+target_link_libraries(${EUSDAB_EXE_NAME} ${SFML_LIBS})
 
 # Tests
 add_subdirectory("tests")
