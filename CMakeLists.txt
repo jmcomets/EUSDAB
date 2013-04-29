@@ -32,9 +32,12 @@ file(GLOB_RECURSE EUSDAB_SOURCES "src/*.cpp")
 add_executable(${EXE_NAME} ${EUSDAB_SOURCES})
 
 # Boost
-find_package(Boost 1.41.0 REQUIRED)
+set(Boost_MIN_VERSION "1.41.0")
+find_package(Boost ${Boost_MIN_VERSION} REQUIRED)
 if(Boost_FOUND)
-   include_directories(${Boost_INCLUDE_DIRS})
+    include_directories(${Boost_INCLUDE_DIRS})
+else()
+    message(FATAL_ERROR "Boost ${Boost_MIN_VERSION} required")
 endif()
 
 # SFML
