@@ -1,0 +1,16 @@
+{
+    "name": "Rick Hard",
+    "start": "idle",
+    "states": [
+        {
+            "type": "idle",
+
+            "movement": {
+                "action": [ "idle" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "idle_right.json"
+        }
+    ]
+}
