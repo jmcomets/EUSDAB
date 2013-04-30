@@ -1,6 +1,7 @@
 #ifndef PHYSICS_HITBOX_H_
 #define PHYSICS_HITBOX_H_
 
+#include <functional>
 #include <vector>
 #include <physics/aabb.h>
 
@@ -12,13 +13,13 @@ namespace EUSDAB
             class Hitbox
         {
             public:
-                enum Semantic
+                enum Semantic: unsigned char
                 {
-                    Defense,
-                    Foot,
-                    Attack,
-                    Grab,
-                    Grabable
+                    Attack   = 1 << 0,
+                    Defense  = 1 << 1,
+                    Foot     = 1 << 2,
+                    Grab     = 1 << 3,
+                    Grabable = 1 << 4
                 };
 
                 Hitbox(Semantic semantic = Defense):
@@ -43,6 +44,17 @@ namespace EUSDAB
                 {
                     return isOfSemantic(sem);
                 }
+                // ...also for class
+                bool operator==(const Hitbox<T> & hb) const
+                {
+                    return *this == hb._sem;
+                }
+
+                // Allow sorting
+                bool operator<(const Hitbox<T> & hb) const
+                {
+                    return _sem < hb._sem;
+                }
 
                 // Add an AABB to the hitbox, resizing the global hitbox
                 //   if necessary, no check is done on the relevance of
@@ -52,35 +64,35 @@ namespace EUSDAB
                     _aabbList.push_back(aabb);
 
                     if (_aabbGlobal.x() == 0 && _aabbGlobal.y() == 0 
-                            && _aabbGlobal.w() == 0 && _aabbGlobal.h() == 0)
+                            && _aabbGlobal.width() == 0 && _aabbGlobal.height() == 0)
                     {
-                        _aabbGlobal.x(aabb.x());
-                        _aabbGlobal.y(aabb.y());
-                        _aabbGlobal.w(aabb.w());
-                        _aabbGlobal.h(aabb.h());
+                        _aabbGlobal.setX(aabb.x());
+                        _aabbGlobal.setY(aabb.y());
+                        _aabbGlobal.setWidth(aabb.width());
+                        _aabbGlobal.setHeight(aabb.height());
                     }
                     else
                     {
                         if (aabb.x() < _aabbGlobal.x())
                         {
-                            _aabbGlobal.w(_aabbGlobal.x() - aabb.x() + _aabbGlobal.w());
-                            _aabbGlobal.x(aabb.x());
+                            _aabbGlobal.setWidth(_aabbGlobal.x() - aabb.x() + _aabbGlobal.width());
+                            _aabbGlobal.setX(aabb.x());
                         }
 
                         if (aabb.y() < _aabbGlobal.y())
                         {
-                            _aabbGlobal.h(_aabbGlobal.y() - aabb.y() + _aabbGlobal.h());
-                            _aabbGlobal.y(aabb.y());
+                            _aabbGlobal.setHeight(_aabbGlobal.y() - aabb.y() + _aabbGlobal.height());
+                            _aabbGlobal.setY(aabb.y());
                         }
 
-                        if (aabb.x() + aabb.w() > _aabbGlobal.x() + _aabbGlobal.w())
+                        if (aabb.x() + aabb.width() > _aabbGlobal.x() + _aabbGlobal.width())
                         {
-                            _aabbGlobal.w(aabb.x() + aabb.w() - _aabbGlobal.x());
+                            _aabbGlobal.setWidth(aabb.x() + aabb.width() - _aabbGlobal.x());
                         }
 
-                        if (aabb.y() + aabb.h() > _aabbGlobal.y() + _aabbGlobal.h())
+                        if (aabb.y() + aabb.height() > _aabbGlobal.y() + _aabbGlobal.height())
                         {
-                            _aabbGlobal.h(aabb.y() + aabb.h() - _aabbGlobal.y());
+                            _aabbGlobal.setHeight(aabb.y() + aabb.height() - _aabbGlobal.y());
                         }
                     }
                 }
@@ -139,12 +151,30 @@ namespace EUSDAB
                     }
                 }
 
+                Semantic semantic() const
+                {
+                    return _sem;
+                }
+
             private:
                 Semantic _sem;
                 std::vector<AABB<T>> _aabbList;
                 AABB<T> _aabbGlobal;
         };
     }
+}
+
+namespace std
+{
+    template <>
+        template <class T> struct hash<EUSDAB::Physics::Hitbox<T>>
+    {
+        size_t operator()(const EUSDAB::Physics::Hitbox<T> & x) const
+        {
+            typedef typename EUSDAB::Physics::Hitbox<T>::Semantic Semantic;
+            return std::hash<Semantic>(x.semantic());
+        }
+    };
 }
 
 #endif

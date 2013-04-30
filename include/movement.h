@@ -61,7 +61,7 @@ namespace std
     {
         size_t operator()(const EUSDAB::Movement & x) const
         {
-            return hash<EUSDAB::Movement::Flag>()(x);
+            return hash<EUSDAB::Movement::Flag>()(x.flag());
         }
     };
 }
