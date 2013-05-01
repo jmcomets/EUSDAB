@@ -1,5 +1,5 @@
-#ifndef IDLE_H
-#define IDLE_H
+#ifndef STATES_IDLE_H
+#define STATES_IDLE_H
 
 #include <state.h>
 

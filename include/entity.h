@@ -3,40 +3,16 @@
 
 #include <string>
 #include <set>
-#include <physics/config.h>
+#include <stdextension.h>
 #include <movement.h>
 #include <input/speaker.h>
 //#include <attack.h>
-
-// TODO move this in a separate header
-namespace std
-{
-    template <typename T>
-        struct hash_ptr
-    {
-        size_t operator()(const T * x) const
-        {
-            return x != nullptr ? hash<T>()(*x) : 0;
-        }
-    };
-
-    template <typename T>
-        struct less_ptr
-    {
-        bool operator()(const T * l, const T * r) const
-        {
-            return l != nullptr && r != nullptr ? less<T>()(*l, *r) : false;
-        }
-    };
-}
 
 namespace EUSDAB
 {
     // Forward declarations
     class State;
 
-    // TODO physics module should be moved either in a 
-    //   component or in state, using delegation afterwards.
     class Entity: public Input::Speaker
     {
         public:
