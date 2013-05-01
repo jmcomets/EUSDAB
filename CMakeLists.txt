@@ -4,25 +4,20 @@
 # minimum version of CMake needed (used version).
 cmake_minimum_required(VERSION 2.6)
 
-# Our project name
+# Our project name: EUSDAB
 project(EUSDAB)
 
 # Enable debug symbols by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
-    set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_BUILD_TYPE "Debug")
 endif()
+message(STATUS "Building in '${CMAKE_BUILD_TYPE}' mode")
 
 # Executable name
 set(EUSDAB_EXE_NAME "EUSDAB")
 
 # Compile flags
-set(CXX_MAIN_FLAGS "-pedantic -std=c++0x")
-
-# Warning flags
-set(CXX_WARNING_FLAGS "-W -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -Wunused-parameter")
-
-# Finalized compile flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_MAIN_FLAGS} ${CXX_WARNING_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -std=c++11 -W -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -Wunused-parameter")
 
 # EUSDAB include directory
 include_directories("include")
