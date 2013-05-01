@@ -226,7 +226,7 @@ namespace EUSDAB
                 }
 
                 // Add finalized frame to animation
-                animation->addFrame(Frame(tx.get(), frameHitboxes.begin(), 
+                animation->addFrame(Frame(tx, frameHitboxes.begin(), 
                             frameHitboxes.end()));
             }
         }

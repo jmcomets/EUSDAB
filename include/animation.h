@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <physics/config.h>
 #include <physics/hitbox.h>
+#include <textureManager.h>
 
 namespace EUSDAB
 {
@@ -18,6 +19,7 @@ namespace EUSDAB
             // Shortcuts
             typedef Physics::Hitbox<Physics::Unit> Hitbox;
             typedef std::vector<Hitbox> HitboxList;
+            typedef Graphics::TextureManager::TexturePtr TexturePtr;
 
             Frame();
             Frame(Frame &&) = default;
@@ -25,8 +27,10 @@ namespace EUSDAB
             ~Frame() = default;
             Frame & operator=(const Frame &) = default;
 
+            Frame(const TexturePtr &);
+
             template <typename InputIter>
-                Frame(sf::Texture * texture, 
+                Frame(const TexturePtr & texture, 
                         InputIter begin, InputIter end):
                     _texture(texture),
                     _hitboxList(begin, end)
@@ -34,8 +38,8 @@ namespace EUSDAB
             }
 
             // Get/Set the frame texture
-            void setTexture(sf::Texture *);
-            sf::Texture * texture();
+            void setTexture(const TexturePtr &);
+            TexturePtr texture();
 
             // Add hitboxes to the frame
             void addHitbox(const Hitbox &);
@@ -46,7 +50,7 @@ namespace EUSDAB
             const HitboxList & hitboxList() const;
 
         private:
-            std::shared_ptr<sf::Texture> _texture;
+            TexturePtr _texture;
             HitboxList _hitboxList;
     };
 

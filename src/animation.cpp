@@ -7,14 +7,19 @@ namespace EUSDAB
     {
     }
 
-    void Frame::setTexture(sf::Texture * tx)
+    Frame::Frame(const TexturePtr & tx):
+        _texture(tx), _hitboxList()
     {
-        _texture.reset(tx);
     }
 
-    sf::Texture * Frame::texture()
+    void Frame::setTexture(const Frame::TexturePtr & tx)
     {
-        return _texture.get();
+        _texture = tx;
+    }
+
+    Frame::TexturePtr Frame::texture()
+    {
+        return _texture;
     }
 
     void Frame::addHitbox(const Frame::Hitbox & hb)
@@ -39,10 +44,10 @@ namespace EUSDAB
 
     void Animation::advance()
     {
-        if (!_frames.empty())
+        if (!_frames.empty() && !_paused)
         {
-            _frames.splice(_frames.begin(), 
-                    _frames, _frames.end());
+            _frames.splice(_frames.end(), 
+                    _frames, _frames.begin());
             refresh();
         }
     }
@@ -55,6 +60,11 @@ namespace EUSDAB
     Frame & Animation::current()
     {
         return _frames.front();
+    }
+
+    void Animation::addFrame(const Frame & frame)
+    {
+        _frames.push_back(frame);
     }
 
     const Frame & Animation::current() const
