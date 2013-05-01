@@ -1,4 +1,5 @@
 #include <entityparser.h>
+#include <memory>
 #include <array>
 #include <istream>
 #include <utility>
@@ -6,8 +7,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <textureManager.h>
 #include <states/all.h>
-#include <SFML/Graphics/Texture.hpp>
 
 using boost::lexical_cast;
 using namespace boost::property_tree;
@@ -184,64 +185,49 @@ namespace EUSDAB
                 const ptree & hitboxesPt = a.second;
 
                 // Load texture
-                sf::Texture * tx = new sf::Texture();
-                if (!tx->loadFromFile(frameImagePath))
-                {
-                    delete tx;
-                    throw std::runtime_error("Image wasn't loaded");
-                }
+                typedef Graphics::TextureManager TextureManager;
+                typedef TextureManager::TexturePtr TexturePtr;
+                TexturePtr tx = TextureManager::loadTexture(frameImagePath);
 
                 // Parse Hitboxes
-                try
+                // List of different hitboxes
+                std::array<Hitbox, 5> frameHitboxes = {
+                    Hitbox(Hitbox::Defense),
+                    Hitbox(Hitbox::Attack),
+                    Hitbox(Hitbox::Grabable),
+                    Hitbox(Hitbox::Grab),
+                    Hitbox(Hitbox::Foot),
+                };
+
+                // Parse all AABBs
+                for (auto p : hitboxesPt)
                 {
-                    // List of different hitboxes
-                    std::array<Hitbox, 5> frameHitboxes = {
-                        Hitbox(Hitbox::Defense),
-                        Hitbox(Hitbox::Attack),
-                        Hitbox(Hitbox::Grabable),
-                        Hitbox(Hitbox::Grab),
-                        Hitbox(Hitbox::Foot),
-                    };
+                    const ptree & hb = p.second;
+                    Unit x = lexical_cast<Unit>(hb.get<std::string>("center.x"));
+                    Unit y = lexical_cast<Unit>(hb.get<std::string>("center.y"));
+                    Unit width = lexical_cast<Unit>(hb.get<std::string>("width"));
+                    Unit height = lexical_cast<Unit>(hb.get<std::string>("height"));
 
-                    // Parse all AABBs
-                    for (auto p : hitboxesPt)
-                    {
-                        const ptree & hb = p.second;
-                        Unit x = lexical_cast<Unit>(hb.get<std::string>("center.x"));
-                        Unit y = lexical_cast<Unit>(hb.get<std::string>("center.y"));
-                        Unit width = lexical_cast<Unit>(hb.get<std::string>("width"));
-                        Unit height = lexical_cast<Unit>(hb.get<std::string>("height"));
+                    // Hitbox semantic
+                    Hitbox::Semantic sem;
+                    const std::string & semantic = hb.get<std::string>("semantic");
+                    if (semantic == "defense") { sem = Hitbox::Defense; }
+                    else if (semantic == "foot") { sem = Hitbox::Foot; }
+                    else if (semantic == "attack") { sem = Hitbox::Attack; }
+                    else if (semantic == "grab") { sem = Hitbox::Grab; }
+                    else if (semantic == "grabable") { sem = Hitbox::Grabable; }
+                    else { throw std::runtime_error("Unknown hitbox semantic"); }
 
-                        // Hitbox semantic
-                        Hitbox::Semantic sem;
-                        const std::string & semantic = hb.get<std::string>("semantic");
-                        if (semantic == "defense") { sem = Hitbox::Defense; }
-                        else if (semantic == "foot") { sem = Hitbox::Foot; }
-                        else if (semantic == "attack") { sem = Hitbox::Attack; }
-                        else if (semantic == "grab") { sem = Hitbox::Grab; }
-                        else if (semantic == "grabable") { sem = Hitbox::Grabable; }
-                        else { throw std::runtime_error("Unknown hitbox semantic"); }
-
-                        // Ensure Hitbox is in set and add AABB to it
-                        AABB frameAABB = AABB(x, y, width, height);
-                        Hitbox & frameHitbox = *std::find(frameHitboxes.begin(),
-                                frameHitboxes.end(), Hitbox(sem));
-                        frameHitbox.addAABB(frameAABB);
-                    }
-
-                    // Add finalized frame to animation
-                    animation->addFrame(Frame(tx, frameHitboxes.begin(), frameHitboxes.end()));
+                    // Ensure Hitbox is in set and add AABB to it
+                    AABB frameAABB = AABB(x, y, width, height);
+                    Hitbox & frameHitbox = *std::find(frameHitboxes.begin(),
+                            frameHitboxes.end(), Hitbox(sem));
+                    frameHitbox.addAABB(frameAABB);
                 }
-                catch (ptree_error)
-                {
-                    delete tx;
-                    throw;
-                }
-                catch (std::runtime_error)
-                {
-                    delete tx;
-                    throw;
-                }
+
+                // Add finalized frame to animation
+                animation->addFrame(Frame(tx.get(), frameHitboxes.begin(), 
+                            frameHitboxes.end()));
             }
         }
         catch (ptree_error)

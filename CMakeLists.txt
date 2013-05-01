@@ -40,6 +40,7 @@ set(EUSDAB_SOURCES
     ${EUSDAB_SOURCE_DIR}/src/input/speaker.cpp
     ${EUSDAB_SOURCE_DIR}/src/entitywithmask.cpp
     ${EUSDAB_SOURCE_DIR}/src/application.cpp
+    ${EUSDAB_SOURCE_DIR}/src/textureManager.cpp
     ${EUSDAB_SOURCE_DIR}/src/entityparser.cpp
     ${EUSDAB_SOURCE_DIR}/src/states/idle.cpp
     )
