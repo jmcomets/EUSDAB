@@ -63,13 +63,17 @@ namespace EUSDAB
 
             template <typename InputIter>
                 Animation(InputIter begin, InputIter end):
-                    _frames(begin, end), _sprite(_frames.front())
+                    _frames(begin, end), _sprite(_frames.front()),
+                    _paused(false)
             {
                 // TODO assert for begin != end ?
             }
 
             // Add a frame to the Animation
             void addFrame(const Frame &);
+
+            // Refresh the animation
+            void refresh();
 
             // Advance the animation to the next Image/Hitbox
             void advance();
@@ -89,9 +93,14 @@ namespace EUSDAB
             // ...const version
             const HitboxList & hitboxList() const;
 
+            // Get/Set the "paused" flag
+            bool paused() const;
+            void setPaused(bool = true);
+
         private:
             std::list<Frame> _frames;
             sf::Sprite _sprite;
+            bool _paused;
     };
 }
 

@@ -41,6 +41,9 @@ namespace EUSDAB
             Animation * animation() const;
             void setAnimation(Animation *);
 
+            // onNextFrame -> advance Animation
+            virtual void onNextFrame();
+
         protected:
             // Movement (identification)
             Movement _mvt;

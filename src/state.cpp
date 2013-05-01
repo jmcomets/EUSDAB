@@ -60,4 +60,12 @@ namespace EUSDAB
     {
         _animation = a;
     }
+
+    void State::onNextFrame()
+    {
+        if (_animation != nullptr)
+        {
+            _animation->advance();
+        }
+    }
 }

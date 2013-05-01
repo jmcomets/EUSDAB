@@ -10,3 +10,4 @@ TODO List
 * Write complete Attack module
 * <del>Cleanup *parsing* module</del>
 * Implement different State classes and write JSON representation specification
+* Add assertions __everywhere__
