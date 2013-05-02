@@ -10,11 +10,6 @@ using namespace boost::property_tree;
 
 namespace EUSDAB
 {
-    // Shortcuts
-    typedef Physics::Unit Unit;
-    typedef Physics::AABB<Unit> AABB;
-    typedef Physics::Hitbox<Unit> Hitbox;
-
     // Concepts:
     //  - entityDir is a valid path to the Entity's directory,
     //      and contains no trailing slashes

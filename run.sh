@@ -17,7 +17,12 @@ TESTS_DIR='./tests'
 # Run script
 if [ "$#" -eq "0" ]; then
     if [ -f "$BUILD_DIR/$PROJECT_NAME" ]; then
+        echo "Running $PROJECT_NAME"
         "$BUILD_DIR/$PROJECT_NAME"
+        echo "$PROJECT_NAME finished"
+        if [ "$?" -ne "0" ]; then
+            echo "Failed with exit code $?"
+        fi
     else
         echo "Cannot find $BUILD_DIR/$PROJECT_NAME, consider recompiling"
         exit 1
@@ -29,7 +34,18 @@ else
         exe_rel_path="$TESTS_DIR/$exe_name"
         exe_full_path=`readlink -e "$BUILD_DIR/$exe_rel_path"` 
         if [ "$?" -eq "0" ]; then
-            cd "$test_rel_path" && "$exe_full_path"
+            cd "$test_rel_path"
+            if [ "$?" -eq "0" ]; then
+                echo "Running test $test_name"
+                "$exe_full_path"
+                echo "Test $test_name finished"
+                if [ "$?" -ne "0" ]; then
+                    echo "Failed with exit code $?"
+                fi
+            else
+                echo "Cannot change to $test_rel_path directory"
+                exit 1
+            fi
         else
             echo "Cannot find $BUILD_DIR/$exe_rel_path, consider recompiling"
         exit 1

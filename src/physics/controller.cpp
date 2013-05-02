@@ -44,7 +44,7 @@ namespace EUSDAB
                 return;
             }
 
-            for (Hitbox<Unit> const & h1 : a1->hitboxList())
+            for (Hitbox const & h1 : a1->hitboxList())
             {
                 // Do not collide if entity state is not defined
                 State * s2 = e2->state();
@@ -61,7 +61,7 @@ namespace EUSDAB
                 }
 
                 // All is good, handle collision
-                for (Hitbox<Unit> const & h2 : a2->hitboxList())
+                for (Hitbox const & h2 : a2->hitboxList())
                 {
                     // TODO: Gestion de la sémentique dans les collision
                     // Exemple de regle de sémentique :
@@ -74,26 +74,26 @@ namespace EUSDAB
                         using Input::Event;
 
                         // Collision treatment
-                        if (h1 == Hitbox<Unit>::Attack && h2 == Hitbox<Unit>::Defense)
+                        if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
                             // Attaque
                             _input.pushEvent(e1, Event(Event::Attack, Event::Full, Event::RisingEdge));
                             _input.pushEvent(e2, Event(Event::Damage, Event::Full, Event::RisingEdge));
                             //e1->attack(e2);
                         }
-                        else if (h1 == Hitbox<Unit>::Foot && h2 == Hitbox<Unit>::Defense)
+                        else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
                             _input.pushEvent(e1, Event(Event::Ground, Event::Full, Event::RisingEdge));
                             //e1->physics(e2);
                         }
-                        else if (h1 == Hitbox<Unit>::Defense && h2 == Hitbox<Unit>::Defense)
+                        else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
                         {
                             // Collision
                             //_input.pushEvent(e1, Event(Event::Collision, Event::Full, Event::RisingEdge));
                             //e1->physics(e2);
                         }
-                        else if (h1 == Hitbox<Unit>::Grab && h2 == Hitbox<Unit>::Grabable)
+                        else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
                         {
                             // Grab
                             _input.pushEvent(e1, Event(Event::Grab, Event::Full, Event::RisingEdge));

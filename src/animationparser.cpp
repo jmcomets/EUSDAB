@@ -12,11 +12,6 @@ using namespace boost::property_tree;
 
 namespace EUSDAB
 {
-    // Shortcuts
-    typedef Physics::Unit Unit;
-    typedef Physics::AABB<Unit> AABB;
-    typedef Physics::Hitbox<Unit> Hitbox;
-
     Animation * AnimationParser::loadAnimation(const std::string & animDir) const
     {
         Animation * animation = nullptr;
@@ -64,6 +59,11 @@ namespace EUSDAB
                 typedef Graphics::TextureManager TextureManager;
                 typedef TextureManager::TexturePtr TexturePtr;
                 TexturePtr tx = TextureManager::loadTexture(frameImagePath);
+
+                // Shortcuts
+                typedef Frame::Hitbox Hitbox;
+                typedef Hitbox::AABB AABB;
+                typedef AABB::Unit Unit;
 
                 // Parse Hitboxes
                 // List of different hitboxes

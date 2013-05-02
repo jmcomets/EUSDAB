@@ -4,14 +4,16 @@
 #include <string>
 #include <set>
 #include <stdextension.h>
-#include <movement.h>
 #include <input/speaker.h>
+#include <physics/config.h>
+#include <movement.h>
 //#include <attack.h>
 
 namespace EUSDAB
 {
     // Forward declarations
     class State;
+    class Attack;
 
     class Entity: public Input::Speaker
     {
@@ -29,11 +31,18 @@ namespace EUSDAB
             std::string name() const;
             void setName(const std::string &);
 
+            // Get the Entity's position
+            const Physics::Vector2 & position() const;
+            // ...non-const version
+            Physics::Vector2 & position();
+            // ...direct setter
+            void setPosition(const Physics::Vector2 &);
+
             // Attack module
 
             // Get/Set the attack
-            //const Attack & attack() const;
-            //void setAttack(Attack *);
+            Attack * attack() const;
+            void setAttack(Attack *);
 
             // Actually attack another entity
             void attack(Entity *); // FIXME const ? 
@@ -58,12 +67,15 @@ namespace EUSDAB
             //   state).
             void addState(State *);
 
-        protected:
+        private:
             // General
             std::string _name;
 
-            // Attack TODO
-            //Attack * _attack;
+            // Attack
+            Attack * _attack;
+
+            // Positioning
+            Physics::Vector2 _pos;
 
             // State
             State * _current;

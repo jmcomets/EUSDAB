@@ -1,137 +1,142 @@
 #ifndef PHYSICS_VECTOR2_H_
 #define PHYSICS_VECTOR2_H_
 
-#include <cctype>
+#include <cmath>
+#include <stdexcept>
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        template<typename T>
-            class Vector2
+        template <typename T>
+            class Vector2T
         {
             public:
-                Vector2(T const && x = T(), T const && y = T()):
-                    _x(x),
-                    _y(y)
+                // Access corresponding types from within 
+                //  class instanciation (don't use extra templates).
+                typedef T Unit;
+
+                Vector2T(const Unit & x, const Unit & y):
+                    _x(x), _y(y)
                 {
                 }
 
-                Vector2(Vector2 const &) = default;
-                Vector2(Vector2 &&) = default;
-                Vector2 & operator=(Vector2 const &) = default;
-                ~Vector2() = default;
+                Vector2T() = default;
+                Vector2T(Vector2T<Unit> &&) = default;
+                Vector2T(const Vector2T<Unit> &) = default;
+                ~Vector2T() = default;
+                Vector2T<Unit> & operator=(const Vector2T<Unit> &) = default;
 
-                T const & x() const
+                bool operator==(const Vector2T<Unit> & v) const
                 {
-                    return _x;
+                    return _x == v._x && _y == v._y;
                 }
 
-                T const & y() const
+                bool operator!=(const Vector2T<Unit> & v) const
                 {
-                    return _y;
+                    return !(*this == v);
                 }
 
-                void x(T const & x)
+                Vector2T<Unit> & operator+=(const Vector2T<Unit> & v)
                 {
-                    _x = x;
-                }
-
-                void y(T const & y)
-                {
-                    _y = y;
-                }
-
-                bool operator==(Vector2 const & other)
-                {
-                    return _x == other._x && _y == other._y;
-                }
-
-                bool operator!=(Vector2 const & other)
-                {
-                    return !this->operator==(other);
-                }
-
-                Vector2 & operator+=(Vector2 const & other)
-                {
-                    _x += other._x;
-                    _y += other._y;
+                    _x += v._x;
+                    _y += v._y;
                     return *this;
                 }
 
-                Vector2 & operator-=(Vector2 const & other)
+                Vector2T<Unit> & operator-=(const Vector2T<Unit> & v)
                 {
-                    _x -= other._x;
-                    _y -= other._y;
+                    _x -= v._x;
+                    _y -= v._y;
                    return *this;
                 }
 
-                Vector2 & operator*=(T const & scale)
+                Vector2T<Unit> & operator*=(const Unit & scale)
                 {
                     _x *= scale;
                     _y *= scale;
                     return *this;
                 }
 
-                Vector2 & operator/=(T const & scale)
+                Vector2T<Unit> & operator/=(const Unit & scale)
                 {
+                    if (scale == static_cast<Unit>(0))
+                    {
+                        throw std::overflow_error("Cannot divide by zero");
+                    }
                     _x /= scale;
                     _y /= scale;
                     return *this;
                 }
 
+                Vector2T<Unit> operator+(const Vector2T<Unit> & v) const
+                {
+                    return Vector2T<Unit>(*this) += v;
+                }
+
+                Vector2T<Unit> operator-(const Vector2T<Unit> & v) const
+                {
+                    return Vector2T<Unit>(*this) -= v;
+                }
+
+                Vector2T<Unit> operator*(const Unit & scale) const
+                {
+                    return Vector2T<Unit>(*this) *= scale;
+                }
+
+                Vector2T<Unit> operator/(const Unit & scale) const
+                {
+                    return Vector2T<Unit>(*this) /= scale;
+                }
+
                 template <typename U>
-                    operator Vector2<U>()
+                    operator Vector2T<U>() const
                 {
-                    Vector2<U> v;
-                    v.x(static_cast<U>(_x));
-                    v.y(static_cast<U>(_y));
-                    return v;
+                    return Vector2T<U>(static_cast<U>(_x), static_cast<U>(_y));
                 }
 
-                Vector2 & translate(T const & tx, T const & ty)
+                // Get/Set the Vector's x coordinate
+                Unit x() const
                 {
-                    _x += tx;
-                    _y += ty;
-                    return *this;
+                    return _x;
                 }
 
-                Vector2 & translate(Vector2<T> const & t)
+                void setX(const Unit & x)
                 {
-                    translate(t._x, t._y);
-                    return *this;
+                    _x = x;
+                }
+
+                // Get/Set the Vector's y coordinate
+                Unit y() const
+                {
+                    return _y;
+                }
+
+                void setY(const Unit & y)
+                {
+                    _y = y;
+                }
+
+                Vector2T<Unit> & translate(Vector2T<Unit> const & v)
+                {
+                    return *this += v;
+                }
+
+                Vector2T<Unit> & translate(const Unit & x, const Unit & y)
+                {
+                    return translate(Vector2T<Unit>(x, y));
+                }
+
+                template <typename U>
+                    U norm() const
+                {
+                    return std::sqrt(_x*_x + _y*_y);
                 }
 
             private:
-                T _x;
-                T _y;
+                Unit _x, _y;
         };
-
-        template <typename T>
-            inline Vector2<T> operator+(Vector2<T> l, Vector2<T> const & r)
-        {
-            return l += r;
-        }
-
-        template <typename T>
-            inline Vector2<T> operator-(Vector2<T> l, Vector2<T> const & r)
-        {
-            return l -= r;
-        }
-
-        template <typename T>
-            inline Vector2<T> operator*(Vector2<T> l, T const & r)
-        {
-            return l *= r;
-        }
-
-        template <typename T>
-            inline Vector2<T> operator/(Vector2<T> l, T const & r)
-        {
-            return l /= r;
-        }
     }
 }
 
 #endif
-

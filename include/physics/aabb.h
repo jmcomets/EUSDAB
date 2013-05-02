@@ -1,87 +1,101 @@
 #ifndef PHYSICS_AABB_H_
 #define PHYSICS_AABB_H_
 
+#include <physics/vector2.h>
+
 namespace EUSDAB
 {
     namespace Physics
     {
         template <typename T>
-            class AABB
+            class AABBT
         {
             public:
-                AABB(const T & x, const T & y, const T & w, const T & h):
+                // Access corresponding types from within 
+                //  class instanciation (don't use extra templates).
+                typedef T Unit;
+                typedef Vector2T<Unit> Vector2;
+
+                AABBT(const Unit & x, const Unit & y, const Unit & w, const Unit & h):
                     _x(x), _y(y),
                     _w(w), _h(h)
                 {
                 }
 
-                AABB(const AABB &) = default;
-                AABB(AABB &&) = default;
+                AABBT(AABBT &&) = default;
+                AABBT(const AABBT &) = default;
+                ~AABBT() = default;
+                AABBT & operator=(const AABBT &) = default;
 
-                AABB & operator=(const AABB &) = default;
-
-                ~AABB() = default;
-
-                const T & x() const
+                // Get/Set the AABB's x coordinate (center)
+                Unit x() const
                 {
                     return _x;
                 }
 
-                void setX(const T & x)
+                void setX(const Unit & x)
                 {
                     _x = x;
                 }
 
-                const T & y() const
+                // Get/Set the AABB's y coordinate (center)
+                Unit y() const
                 {
                     return _y;
                 }
 
-                void setY(const T & y)
+                void setY(const Unit & y)
                 {
                     _y = y;
                 }
 
-                const T & width() const
+                // Get/Set the AABB's width
+                Unit width() const
                 {
                     return _w;
                 }
 
-                void setWidth(const T & w)
+                void setWidth(const Unit & w)
                 {
                     _w = w;
                 }
 
-                const T & height() const
+                // Get/Set the AABB's height
+                Unit height() const
                 {
                     return _h;
                 }
 
-                void setHeight(const T & h)
+                void setHeight(const Unit & h)
                 {
                     _h = h;
                 }
 
-                bool collides(const AABB<T> & other) const
+                // Check if collides with another AABB
+                bool collides(const AABBT<Unit> & aabb) const
                 {
-                    return ((_x >= other._x + other._w)
-                            || (_x + _w <= other._x)
-                            || (_y >= other._y + other._h)
-                            || (_y + _h <= other._y)) == false;
+                    return ((_x >= aabb._x + aabb._w)
+                            || (_x + _w <= aabb._x)
+                            || (_y >= aabb._y + aabb._h)
+                            || (_y + _h <= aabb._y)) == false;
                 }
 
-                void translate(const T & x, const T & y)
+                void translate(const Unit & x, const Unit & y)
                 {
                     _x += x;
                     _y += y;
                 }
 
+                Vector2 center() const
+                {
+                    return Vector2(_x, _y);
+                }
+
             private:
-                T _x, _y;
-                T _w, _h;
+                Unit _x, _y;
+                Unit _w, _h;
         };
     }
 }
 
 #endif
-

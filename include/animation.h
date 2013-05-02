@@ -17,7 +17,7 @@ namespace EUSDAB
     {
         public:
             // Shortcuts
-            typedef Physics::Hitbox<Physics::Unit> Hitbox;
+            typedef Physics::Hitbox Hitbox;
             typedef std::vector<Hitbox> HitboxList;
             typedef Graphics::TextureManager::TexturePtr TexturePtr;
 
