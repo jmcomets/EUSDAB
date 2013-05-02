@@ -2,6 +2,7 @@
 #define PHYSICS_AABB_H_
 
 #include <physics/vector2.h>
+#include <cassert>
 
 namespace EUSDAB
 {
@@ -16,10 +17,27 @@ namespace EUSDAB
                 typedef T Unit;
                 typedef Vector2T<Unit> Vector2;
 
+                AABBT():
+                    _x(0), _y(0),
+                    _w(0), _h(0)
+                {
+                }
+
+                // Construct from center and dimensions
+                AABBT(const Vector2 & center, const Unit & w, const Unit & h):
+                    _x(center.x() - w / static_cast<Unit>(2)),
+                    _y(center.y() - w / static_cast<Unit>(2)),
+                    _w(w), _h(h)
+                {
+                }
+
+                // Construct from top-left position and dimensions
                 AABBT(const Unit & x, const Unit & y, const Unit & w, const Unit & h):
                     _x(x), _y(y),
                     _w(w), _h(h)
                 {
+                    assert(w >= static_cast<Unit>(0));
+                    assert(h >= static_cast<Unit>(0));
                 }
 
                 AABBT(AABBT &&) = default;
@@ -33,9 +51,10 @@ namespace EUSDAB
                     return _x;
                 }
 
-                void setX(const Unit & x)
+                AABBT<Unit> & setX(const Unit & x)
                 {
                     _x = x;
+                    return *this;
                 }
 
                 // Get/Set the AABB's y coordinate (center)
@@ -44,31 +63,45 @@ namespace EUSDAB
                     return _y;
                 }
 
-                void setY(const Unit & y)
+                AABBT<Unit> & setY(const Unit & y)
                 {
                     _y = y;
+                    return *this;
                 }
 
-                // Get/Set the AABB's width
+                // Get the AABB's width
                 Unit width() const
                 {
                     return _w;
                 }
-
-                void setWidth(const Unit & w)
+                // ...get half of width
+                Unit halfwidth() const
+                {
+                    return _w / static_cast<Unit>(2);
+                }
+                // ...set width
+                AABBT<Unit> & setWidth(const Unit & w)
                 {
                     _w = w;
+                    return *this;
                 }
+                // ...get half of width
 
-                // Get/Set the AABB's height
+                // Get the AABB's height
                 Unit height() const
                 {
                     return _h;
                 }
-
-                void setHeight(const Unit & h)
+                // ...get half of height
+                Unit halfheight() const
+                {
+                    return _h / static_cast<Unit>(2);
+                }
+                // ...set height
+                AABBT<Unit> & setHeight(const Unit & h)
                 {
                     _h = h;
+                    return *this;
                 }
 
                 // Check if collides with another AABB
@@ -80,15 +113,17 @@ namespace EUSDAB
                             || (_y + _h <= aabb._y)) == false;
                 }
 
-                void translate(const Unit & x, const Unit & y)
+                AABBT<Unit> & translate(const Unit & x, const Unit & y)
                 {
                     _x += x;
                     _y += y;
+                    return *this;
                 }
 
+                // Return the AABB's center
                 Vector2 center() const
                 {
-                    return Vector2(_x, _y);
+                    return Vector2(_x + halfwidth(), _y + halfheight());
                 }
 
             private:

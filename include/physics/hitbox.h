@@ -1,7 +1,7 @@
 #ifndef PHYSICS_HITBOX_H_
 #define PHYSICS_HITBOX_H_
 
-#include <functional>
+#include <cassert>
 #include <vector>
 #include <physics/aabb.h>
 
@@ -9,6 +9,10 @@ namespace EUSDAB
 {
     namespace Physics
     {
+        // Hitbox template class handling hitbox semantics,
+        //   also "uniquely" identified by it.
+        // This means that hitboxA == hitboxB if, and only
+        //   if their semantics are the same.
         template <class T>
             class HitboxT
         {
@@ -17,8 +21,10 @@ namespace EUSDAB
                 //  class instanciation (don't use extra templates).
                 typedef T Unit;
                 typedef AABBT<Unit> AABB;
+                typedef Vector2T<Unit> Vector2;
 
-                // Hitbox semantic (explicit...)
+                // Hitbox semantic, type must be minimized
+                //   to hold all semantic values (allowing hash).
                 enum Semantic: unsigned char
                 {
                     Attack   = 1 << 0,
@@ -28,17 +34,28 @@ namespace EUSDAB
                     Grabable = 1 << 4
                 };
 
-                HitboxT(Semantic semantic = Defense):
-                    _sem(semantic),
+                // Default constructor, setting hitbox semantic
+                //  as the "Defense" semantic.
+                HitboxT():
+                    _sem(Defense),
                     _aabbList(),
-                    _aabbGlobal(0, 0, 0, 0)
+                    _aabbGlobal()
                 {
                 }
 
-                HitboxT(HitboxT &&) = default;
-                HitboxT(HitboxT const &) = default;
+                // Value constructor, setting a particular hitbox
+                //  semantic instead of the basic "Defense" semantic.
+                HitboxT(Semantic sem):
+                    _sem(sem),
+                    _aabbList(),
+                    _aabbGlobal()
+                {
+                }
+
+                HitboxT(HitboxT<Unit> &&) = default;
+                HitboxT(HitboxT<Unit> const &) = default;
                 ~HitboxT() = default;
-                HitboxT & operator=(HitboxT const &) = default;
+                HitboxT<Unit> & operator=(HitboxT<Unit> const &) = default;
 
                 // Return if a hitbox has the asked semantic
                 bool isOfSemantic(Semantic sem) const
@@ -56,21 +73,23 @@ namespace EUSDAB
                     return *this == hb._sem;
                 }
 
-                // Allow sorting
+                // Allow sorting by semantic for identification
+                //  by Semantic (used for BST).
                 bool operator<(const HitboxT<Unit> & hb) const
                 {
                     return _sem < hb._sem;
                 }
 
-                // Add an AABBT to the hitbox, resizing the global hitbox
+                // Add an AABB to the hitbox, resizing the global hitbox
                 //   if necessary, no check is done on the relevance of
-                //   the added AABBT.
+                //   the added AABB.
                 void addAABB(AABB const & aabb)
                 {
                     _aabbList.push_back(aabb);
 
                     if (_aabbGlobal.x() == 0 && _aabbGlobal.y() == 0 
-                            && _aabbGlobal.width() == 0 && _aabbGlobal.height() == 0)
+                            && _aabbGlobal.width() == 0
+                            && _aabbGlobal.height() == 0)
                     {
                         _aabbGlobal.setX(aabb.x());
                         _aabbGlobal.setY(aabb.y());
@@ -81,13 +100,15 @@ namespace EUSDAB
                     {
                         if (aabb.x() < _aabbGlobal.x())
                         {
-                            _aabbGlobal.setWidth(_aabbGlobal.x() - aabb.x() + _aabbGlobal.width());
+                            typename AABB::Unit dw = _aabbGlobal.x() - aabb.x();
+                            _aabbGlobal.setWidth(_aabbGlobal.width() + dw);
                             _aabbGlobal.setX(aabb.x());
                         }
 
                         if (aabb.y() < _aabbGlobal.y())
                         {
-                            _aabbGlobal.setHeight(_aabbGlobal.y() - aabb.y() + _aabbGlobal.height());
+                            typename AABB::Unit dh = _aabbGlobal.y() - aabb.y();
+                            _aabbGlobal.setHeight(_aabbGlobal.height() + dh);
                             _aabbGlobal.setY(aabb.y());
                         }
 
@@ -103,43 +124,22 @@ namespace EUSDAB
                     }
                 }
 
-                void do_global()
+                // Check if collides with another Hitbox
+                bool collides(HitboxT<Unit> const & hitbox) const
                 {
-                    if (_aabbList.size() == 0)
-                    {
-                        _aabbGlobal = AABB(0, 0, 0, 0);
-                    }
-                    else
-                    {
-                        Unit minX = _aabbList[0].x();
-                        Unit maxX = _aabbList[0].x() + _aabbList[0].width();
-                        Unit minY = _aabbList[0].y();
-                        Unit maxY = _aabbList[0].y() + _aabbList[0].height();
-
-                        for (AABB & aabb : _aabbList)
-                        {
-                            minX = std::min(minX, aabb.x());
-                            maxX = std::max(maxX, aabb.x() + aabb.width());
-                            minY = std::min(minY, aabb.y());
-                            maxY = std::max(maxY, aabb.y() + aabb.height());
-                        }
-
-                        _aabbGlobal = AABB(minX, minY, maxX - minX, maxY - minY);
-                    }
-                }
-
-                bool collides(HitboxT const & other) const
-                {
-                    if (!other._aabbGlobal.collides(_aabbGlobal))
+                    // If the two hitboxes' global AABBs don't collide,
+                    //   we know that these hitboxes don't collide either
+                    if (hitbox._aabbGlobal.collides(_aabbGlobal) == false)
                     {
                         return false;
                     }
 
-                    for (AABB const & aabb : _aabbList)
+                    // Collision if any two AABBs of each hitbox collide
+                    for (const AABB & aabb : _aabbList)
                     {
-                        for(AABB const & aabb_other : other._aabbList)
+                        for (const AABB & aabb_other : hitbox._aabbList)
                         {
-                            if(aabb.collides(aabb_other))
+                            if (aabb.collides(aabb_other))
                             {
                                 return true;
                             }
@@ -147,8 +147,29 @@ namespace EUSDAB
                     }
                     return false;
                 }
+                // ...overload for direct check with AABB,
+                //   always checks with _aabbGlobal so slower than
+                //   with Hitbox for AABB list
+                bool collides(const AABB & otherAABB) const
+                {
+                    if (otherAABB.collides(_aabbGlobal) == false)
+                    {
+                        return false;
+                    }
 
-                void translate(Unit const & x, Unit const & y)
+                    for (const AABB & aabb : _aabbList)
+                    {
+                        if (otherAABB.collides(aabb))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Translate the Hitbox (takes AABB::Unit)
+                void translate(typename AABB::Unit const & x, 
+                        typename AABB::Unit const & y)
                 {
                     _aabbGlobal.translate(x, y);
                     for (AABB & aabb : _aabbList)
@@ -156,19 +177,39 @@ namespace EUSDAB
                         aabb.translate(x, y);
                     }
                 }
+                // ... overload with AABB::Vector2
+                void translate(typename AABB::Vector2 const & v)
+                {
+                    translate(v.x(), v.y());
+                }
 
+                // Get/Set the Hitbox's semantic
                 Semantic semantic() const
                 {
                     return _sem;
                 }
+                void setSemantic(Semantic sem)
+                {
+                    _sem = sem;
+                }
 
             private:
+                // Hitbox semantic
                 Semantic _sem;
+
+                // List of all actual (~small) AABBs
                 std::vector<AABB> _aabbList;
+
+                // Global AABB englobing all smaller ones,
+                //   simple performance enhancement
                 AABB _aabbGlobal;
         };
     }
 }
+
+// Specialization of std::hash<EUSDAB::Physics::Hitbox<T>>,
+// for any type T.
+#include <functional>
 
 namespace std
 {

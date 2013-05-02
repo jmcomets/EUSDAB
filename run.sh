@@ -15,6 +15,9 @@ BUILD_DIR='./build'
 TESTS_DIR='./tests'
 
 # Run script
+script_path=`readlink -f $0`
+script_dir=`dirname $script_path`
+cd "$script_dir"
 if [ "$#" -eq "0" ]; then
     if [ -f "$BUILD_DIR/$PROJECT_NAME" ]; then
         echo "Running $PROJECT_NAME"

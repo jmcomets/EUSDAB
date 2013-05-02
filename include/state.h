@@ -1,10 +1,9 @@
-#ifndef INPUT_STATE_H_
-#define INPUT_STATE_H_
+#ifndef STATE_H_
+#define STATE_H_
 
-#include <functional>
-#include <movement.h>
-#include <entity.h>
 #include <input/listener.h>
+#include <entity.h>
+#include <movement.h>
 #include <animation.h>
 
 namespace EUSDAB
@@ -57,6 +56,9 @@ namespace EUSDAB
 }
 
 // Specialization of std::hash<EUSDAB::State>
+
+#include <functional>
+
 namespace std
 {
     template <>

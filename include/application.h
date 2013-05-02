@@ -5,6 +5,10 @@
 
 namespace EUSDAB
 {
+    // Abstract class providing basic setup for our application,
+    // the 3 methods `event()`, `update()` and `render()`
+    // should be overriden in a derived class to do the
+    // corresponding game logic (game loop is the `run()` method).
     class Application
     {
         public:

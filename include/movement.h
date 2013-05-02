@@ -1,18 +1,14 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
-#include <functional>
-
 namespace EUSDAB
 {
     // Identifier-type used to define the different states
     //   accessible and their id.
-    // Specializes std::hash<Movement>
     class Movement
     {
         public:
             typedef unsigned int Flag;
-            typedef std::hash<Flag> Hash;
 
             enum Direction: Flag
             {
@@ -54,6 +50,9 @@ namespace EUSDAB
 }
 
 // Specialization of std::hash<EUSDAB::Movement>
+
+#include <functional>
+
 namespace std
 {
     template <>

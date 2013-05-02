@@ -1,5 +1,5 @@
-#ifndef TEXTURE_MANAGER_H_
-#define TEXTURE_MANAGER_H_
+#ifndef GRAPHICS_TEXTURE_MANAGER_H_
+#define GRAPHICS_TEXTURE_MANAGER_H_
 
 #include <string>
 #include <memory>

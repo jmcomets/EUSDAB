@@ -16,6 +16,7 @@ namespace EUSDAB
                 //  class instanciation (don't use extra templates).
                 typedef T Unit;
 
+                // Value constructor, set (x, y)
                 Vector2T(const Unit & x, const Unit & y):
                     _x(x), _y(y)
                 {
@@ -27,6 +28,7 @@ namespace EUSDAB
                 ~Vector2T() = default;
                 Vector2T<Unit> & operator=(const Vector2T<Unit> &) = default;
 
+                // Operate as a math vector
                 bool operator==(const Vector2T<Unit> & v) const
                 {
                     return _x == v._x && _y == v._y;
@@ -89,6 +91,7 @@ namespace EUSDAB
                     return Vector2T<Unit>(*this) /= scale;
                 }
 
+                // Convert to a vector of another type
                 template <typename U>
                     operator Vector2T<U>() const
                 {
@@ -101,9 +104,10 @@ namespace EUSDAB
                     return _x;
                 }
 
-                void setX(const Unit & x)
+                Vector2T<Unit> setX(const Unit & x)
                 {
                     _x = x;
+                    return *this;
                 }
 
                 // Get/Set the Vector's y coordinate
@@ -112,25 +116,47 @@ namespace EUSDAB
                     return _y;
                 }
 
-                void setY(const Unit & y)
+                Vector2T<Unit> setY(const Unit & y)
                 {
                     _y = y;
+                    return *this;
                 }
 
+                // Get this vector's norm
+                template <typename U>
+                    U norm() const
+                {
+                    return std::sqrt(_x*_x + _y*_y);
+                }
+
+                // Translate the vector by a given delta (works just as
+                //  well as += operator)
                 Vector2T<Unit> & translate(Vector2T<Unit> const & v)
                 {
                     return *this += v;
                 }
-
+                // ...overload with explicit coordinates
                 Vector2T<Unit> & translate(const Unit & x, const Unit & y)
                 {
                     return translate(Vector2T<Unit>(x, y));
                 }
 
-                template <typename U>
-                    U norm() const
+                // Normalize this vector
+                Vector2T<Unit> & normalize()
                 {
-                    return std::sqrt(_x*_x + _y*_y);
+                    return *this /= norm();
+                }
+
+                // Get a normalized version of this vector
+                Vector2T<Unit> unit() const
+                {
+                    return Vector2T<Unit>(*this).normalize();
+                }
+
+                // Get a perpendicular vector to this vector
+                Vector2T<Unit> perp() const
+                {
+                    return Vector2T<Unit>(_y, -_x);
                 }
 
             private:
