@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
-#include <textureManager.h>
+#include <texturemanager.h>
 
 namespace EUSDAB
 {

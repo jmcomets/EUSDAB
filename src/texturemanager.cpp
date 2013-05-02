@@ -1,4 +1,4 @@
-#include <textureManager.h>
+#include <texturemanager.h>
 #include <stdexcept>
 
 namespace EUSDAB

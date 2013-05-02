@@ -23,23 +23,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -std=c++11 -W -Wall -Wextra -W
 include_directories("include")
 
 # EUSDAB sources
-set(EUSDAB_SOURCES 
-    ${EUSDAB_SOURCE_DIR}/src/state.cpp
-    ${EUSDAB_SOURCE_DIR}/src/movement.cpp
-    ${EUSDAB_SOURCE_DIR}/src/entity.cpp
-    ${EUSDAB_SOURCE_DIR}/src/physics/controller.cpp
-    ${EUSDAB_SOURCE_DIR}/src/animation.cpp
-    ${EUSDAB_SOURCE_DIR}/src/input/controller.cpp
-    ${EUSDAB_SOURCE_DIR}/src/input/event.cpp
-    ${EUSDAB_SOURCE_DIR}/src/input/listener.cpp
-    ${EUSDAB_SOURCE_DIR}/src/input/speaker.cpp
-    ${EUSDAB_SOURCE_DIR}/src/entitywithmask.cpp
-    ${EUSDAB_SOURCE_DIR}/src/application.cpp
-    ${EUSDAB_SOURCE_DIR}/src/textureManager.cpp
-    ${EUSDAB_SOURCE_DIR}/src/entityparser.cpp
-    ${EUSDAB_SOURCE_DIR}/src/animationparser.cpp
-    ${EUSDAB_SOURCE_DIR}/src/states/idle.cpp
-    )
+file(GLOB_RECURSE EUSDAB_SOURCES ${EUSDAB_SOURCE_DIR}/src/*.cpp)
+list(REMOVE_ITEM EUSDAB_SOURCES ${EUSDAB_SOURCE_DIR}/src/main.cpp)
 set(EUSDAB_LIB "EUSDAB_lib")
 add_library(${EUSDAB_LIB} ${EUSDAB_SOURCES})
 

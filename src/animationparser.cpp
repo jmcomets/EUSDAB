@@ -5,7 +5,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <textureManager.h>
+#include <texturemanager.h>
 
 using boost::lexical_cast;
 using namespace boost::property_tree;
