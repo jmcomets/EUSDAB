@@ -1,4 +1,5 @@
 #include "testanimation.h"
+#include <stdexcept>
 #include <string>
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
@@ -7,28 +8,14 @@
 
 namespace EUSDAB
 {
-    namespace Priv
-    {
-        static void loadNyanAnimation(Animation & animation)
-        {
-            auto addAnimationFrame = [](Animation & animation,
-                    const std::string & filename) {
-                using namespace Graphics;
-                typedef TextureManager::TexturePtr TexturePtr;
-                TexturePtr tx = TextureManager::loadTexture(filename);
-                animation.addFrame(Frame(tx));
-            };
-            addAnimationFrame(animation, "nyan_cat/frame1.png");
-            addAnimationFrame(animation, "nyan_cat/frame2.png");
-            addAnimationFrame(animation, "nyan_cat/frame3.png");
-            addAnimationFrame(animation, "nyan_cat/frame4.png");
-        }
-    }
-
     AnimationTest::AnimationTest(sf::RenderWindow & window):
-        Application(window), _animation()
+        Application(window), _animParser(), _animation(nullptr)
     {
-        Priv::loadNyanAnimation(_animation);
+        _animation = _animParser.loadAnimation("nyan_cat");
+        if (_animation == nullptr)
+        {
+            throw std::runtime_error("Animation wasn't loaded");
+        }
     }
 
     AnimationTest::~AnimationTest()
@@ -48,7 +35,7 @@ namespace EUSDAB
             {
                 if (e.key.code == sf::Keyboard::Space)
                 {
-                    bool p(1 - _animation.paused());
+                    bool p(1 - _animation->paused());
                     if (p == false)
                     {
                         std::cout << "Unpausing";
@@ -58,7 +45,7 @@ namespace EUSDAB
                         std::cout << "Pausing";
                     }
                     std::cout << " animation" << std::endl;
-                    _animation.setPaused(p);
+                    _animation->setPaused(p);
                 }
             }
         }
@@ -66,11 +53,11 @@ namespace EUSDAB
 
     void AnimationTest::update()
     {
-        _animation.advance();
+        _animation->advance();
     }
 
     void AnimationTest::render()
     {
-        _window.draw(_animation.sprite());
+        _window.draw(_animation->sprite());
     }
 }

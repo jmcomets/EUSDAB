@@ -1,7 +1,8 @@
-#ifndef TEST_INPUT_H_
-#define TEST_INPUT_H_
+#ifndef TEST_ANIMATION_H_
+#define TEST_ANIMATION_H_
 
 #include <animation.h>
+#include <animationparser.h>
 #include <application.h>
 
 namespace EUSDAB
@@ -23,8 +24,11 @@ namespace EUSDAB
             void render();
 
         private:
+            // Animation parser
+            AnimationParser _animParser;
+
             // Animation
-            Animation _animation;
+            Animation * _animation;
     };
 }
 

@@ -37,6 +37,7 @@ set(EUSDAB_SOURCES
     ${EUSDAB_SOURCE_DIR}/src/application.cpp
     ${EUSDAB_SOURCE_DIR}/src/textureManager.cpp
     ${EUSDAB_SOURCE_DIR}/src/entityparser.cpp
+    ${EUSDAB_SOURCE_DIR}/src/animationparser.cpp
     ${EUSDAB_SOURCE_DIR}/src/states/idle.cpp
     )
 set(EUSDAB_LIB "EUSDAB_lib")
