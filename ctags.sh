@@ -15,7 +15,11 @@ SFML_INCLUDE="$PROJECT_ROOT/lib/SFML-2.0-rc/include"
 PROJECT_SRC="$PROJECT_ROOT/src"
 
 # List of directories
-API_DIRS="$PROJECT_INCLUDE $PROJECT_SRC $SFML_INCLUDE"
+API_DIRS="$PROJECT_INCLUDE $PROJECT_SRC"
+if [[ -n "$WITH_SFML_TAGS" ]]; then
+    echo "Including SFML 2 tags"
+    API_DIRS="$API_DIRS $SFML_INCLUDE"
+fi
 
 # Tags file, relative to this file
 TAGSFILE="./tags"

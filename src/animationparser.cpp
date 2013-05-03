@@ -12,6 +12,9 @@ using namespace boost::property_tree;
 
 namespace EUSDAB
 {
+    // Concepts:
+    //  - animDir is a valid path to the Animation's directory,
+    //      and contains no trailing slashes
     Animation * AnimationParser::loadAnimation(const std::string & animDir) const
     {
         Animation * animation = nullptr;

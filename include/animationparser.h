@@ -1,5 +1,5 @@
-#ifndef ANIMATION_PARSER_H
-#define ANIMATION_PARSER_H
+#ifndef ANIMATION_PARSER_H_
+#define ANIMATION_PARSER_H_
 
 #include <animation.h>
 

@@ -9,7 +9,7 @@ namespace EUSDAB
 {
     namespace Physics
     {
-        typedef int Unit;
+        typedef float Unit;
         typedef Vector2T<Unit> Vector2;
         typedef AABBT<Unit> AABB;
         typedef HitboxT<Unit> Hitbox;

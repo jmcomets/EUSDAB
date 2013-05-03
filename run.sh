@@ -8,11 +8,14 @@
 # The name of our project
 PROJECT_NAME='EUSDAB'
 
+# Project root directory (relative to script)
+ROOT_DIR='.'
+
 # CMake build directory
-BUILD_DIR='./build'
+BUILD_DIR="$ROOT_DIR/build"
 
 # Project tests directory storing all of our tests
-TESTS_DIR='./tests'
+TESTS_DIR="$ROOT_DIR/tests"
 
 # Run script
 script_path=`readlink -f $0`

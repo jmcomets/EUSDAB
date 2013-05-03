@@ -1,8 +1,8 @@
 #ifndef PHYSICS_HITBOX_H_
 #define PHYSICS_HITBOX_H_
 
-#include <cassert>
 #include <vector>
+#include <limits>
 #include <physics/aabb.h>
 
 namespace EUSDAB
@@ -83,13 +83,24 @@ namespace EUSDAB
                 // Add an AABB to the hitbox, resizing the global hitbox
                 //   if necessary, no check is done on the relevance of
                 //   the added AABB.
-                void addAABB(AABB const & aabb)
+                void addAABB(const AABB & aabb)
                 {
                     _aabbList.push_back(aabb);
 
-                    if (_aabbGlobal.x() == 0 && _aabbGlobal.y() == 0 
-                            && _aabbGlobal.width() == 0
-                            && _aabbGlobal.height() == 0)
+                    // FIXME check that this comparaison method actually works
+                    auto numbersEqual = [](typename AABB::Unit left,
+                            typename AABB::Unit right)
+                    {
+                        typedef typename AABB::Unit Unit;
+                        Unit diff = left - right;
+                        if (diff < static_cast<Unit>(0)) { diff = -diff; }
+                        return  diff <= std::numeric_limits<Unit>::min();
+                    };
+
+                    if (numbersEqual(_aabbGlobal.x(), 0)
+                            && numbersEqual(_aabbGlobal.y(), 0)
+                            && numbersEqual(_aabbGlobal.width(), 0)
+                            && numbersEqual(_aabbGlobal.height(), 0))
                     {
                         _aabbGlobal.setX(aabb.x());
                         _aabbGlobal.setY(aabb.y());
@@ -125,7 +136,7 @@ namespace EUSDAB
                 }
 
                 // Check if collides with another Hitbox
-                bool collides(HitboxT<Unit> const & hitbox) const
+                bool collides(const HitboxT<Unit> & hitbox) const
                 {
                     // If the two hitboxes' global AABBs don't collide,
                     //   we know that these hitboxes don't collide either
