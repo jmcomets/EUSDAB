@@ -42,13 +42,20 @@ namespace EUSDAB
     {
     }
 
-    void Animation::advance()
+    void Animation::advance(std::time_t nbFrames)
     {
-        if (!_frames.empty() && !_paused)
+        if (!_frames.empty() && _paused == false)
         {
-            _frames.splice(_frames.end(), 
-                    _frames, _frames.begin());
-            refresh();
+            if (_framesLeft <= nbFrames)
+            {
+                _framesLeft = _framesPerImage;
+                _frames.splice(_frames.end(), _frames, _frames.begin());
+                refresh();
+            }
+            else
+            {
+                _framesLeft -= nbFrames;
+            }
         }
     }
 
@@ -100,5 +107,15 @@ namespace EUSDAB
     void Animation::setPaused(bool paused)
     {
         _paused = paused;
+    }
+
+    std::time_t Animation::fpi() const
+    {
+        return _framesPerImage;
+    }
+
+    void Animation::setFPI(std::time_t fpi)
+    {
+        _framesPerImage = fpi;
     }
 }

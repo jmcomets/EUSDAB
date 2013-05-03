@@ -1,6 +1,8 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef ANIMATION_H_
+#define ANIMATION_H_
 
+#include <ctime>
+#include <cassert>
 #include <memory>
 #include <list>
 #include <SFML/Graphics/Texture.hpp>
@@ -70,7 +72,7 @@ namespace EUSDAB
                     _frames(begin, end), _sprite(_frames.front()),
                     _paused(false)
             {
-                // TODO assert for begin != end ?
+                assert(begin != end);
             }
 
             // Add a frame to the Animation
@@ -79,8 +81,9 @@ namespace EUSDAB
             // Refresh the animation
             void refresh();
 
-            // Advance the animation to the next Image/Hitbox
-            void advance();
+            // Advance the animation to the next Image/Hitbox,
+            //  takes the number of frames to advance
+            void advance(std::time_t = 1);
 
             // Get the current frame
             Frame & current();
@@ -101,10 +104,16 @@ namespace EUSDAB
             bool paused() const;
             void setPaused(bool = true);
 
+            // Get/Set the "frames per image"
+            std::time_t fpi() const;
+            void setFPI(std::time_t = 1);
+
         private:
             std::list<Frame> _frames;
             sf::Sprite _sprite;
             bool _paused;
+            std::time_t _framesPerImage,
+                _framesLeft;
     };
 }
 

@@ -16,6 +16,9 @@ namespace EUSDAB
         {
             throw std::runtime_error("Animation wasn't loaded");
         }
+        // ~1 images per second
+        _window.setFramerateLimit(20);
+        _animation->setFPI(20);
     }
 
     AnimationTest::~AnimationTest()
