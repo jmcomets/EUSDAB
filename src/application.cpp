@@ -1,4 +1,5 @@
 #include <application.h>
+#include <SFML/Window/Event.hpp>
 
 namespace EUSDAB
 {
@@ -31,6 +32,14 @@ namespace EUSDAB
 
     void Application::event()
     {
+        sf::Event e;
+        while (_window.pollEvent(e))
+        {
+            if (e.type == sf::Event::Closed)
+            {
+                _window.close();
+            }
+        }
     }
 
     void Application::update()

@@ -22,6 +22,7 @@ namespace EUSDAB
                 typedef T Unit;
                 typedef AABBT<Unit> AABB;
                 typedef Vector2T<Unit> Vector2;
+                typedef std::vector<AABB> AABBList;
 
                 // Hitbox semantic, type must be minimized
                 //   to hold all semantic values (allowing hash).
@@ -204,12 +205,26 @@ namespace EUSDAB
                     _sem = sem;
                 }
 
+                // Expose the inner AABB list, but don't allow
+                //  modification by external actors.
+                const AABBList & aabbList() const
+                {
+                    return _aabbList;
+                }
+
+                // Expose the inner global AABB, but don't allow
+                //  modification by external actors.
+                const AABB & globalAABB() const
+                {
+                    return _aabbGlobal;
+                }
+
             private:
                 // Hitbox semantic
                 Semantic _sem;
 
                 // List of all actual (~small) AABBs
-                std::vector<AABB> _aabbList;
+                AABBList _aabbList;
 
                 // Global AABB englobing all smaller ones,
                 //   simple performance enhancement
