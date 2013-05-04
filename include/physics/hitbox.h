@@ -86,54 +86,11 @@ namespace EUSDAB
                 //   the added AABB.
                 void addAABB(const AABB & aabb)
                 {
+                    // Add the AABB to the list
                     _aabbList.push_back(aabb);
 
-                    // FIXME check that this comparaison method actually works
-                    auto numbersEqual = [](typename AABB::Unit left,
-                            typename AABB::Unit right)
-                    {
-                        typedef typename AABB::Unit Unit;
-                        Unit diff = left - right;
-                        if (diff < static_cast<Unit>(0)) { diff = -diff; }
-                        return  diff <= std::numeric_limits<Unit>::min();
-                    };
-
-                    if (numbersEqual(_aabbGlobal.x(), 0)
-                            && numbersEqual(_aabbGlobal.y(), 0)
-                            && numbersEqual(_aabbGlobal.width(), 0)
-                            && numbersEqual(_aabbGlobal.height(), 0))
-                    {
-                        _aabbGlobal.setX(aabb.x());
-                        _aabbGlobal.setY(aabb.y());
-                        _aabbGlobal.setWidth(aabb.width());
-                        _aabbGlobal.setHeight(aabb.height());
-                    }
-                    else
-                    {
-                        if (aabb.x() < _aabbGlobal.x())
-                        {
-                            typename AABB::Unit dw = _aabbGlobal.x() - aabb.x();
-                            _aabbGlobal.setWidth(_aabbGlobal.width() + dw);
-                            _aabbGlobal.setX(aabb.x());
-                        }
-
-                        if (aabb.y() < _aabbGlobal.y())
-                        {
-                            typename AABB::Unit dh = _aabbGlobal.y() - aabb.y();
-                            _aabbGlobal.setHeight(_aabbGlobal.height() + dh);
-                            _aabbGlobal.setY(aabb.y());
-                        }
-
-                        if (aabb.x() + aabb.width() > _aabbGlobal.x() + _aabbGlobal.width())
-                        {
-                            _aabbGlobal.setWidth(aabb.x() + aabb.width() - _aabbGlobal.x());
-                        }
-
-                        if (aabb.y() + aabb.height() > _aabbGlobal.y() + _aabbGlobal.height())
-                        {
-                            _aabbGlobal.setHeight(aabb.y() + aabb.height() - _aabbGlobal.y());
-                        }
-                    }
+                    // Merge the global AABB with the added one
+                    _aabbGlobal.merge(aabb);
                 }
 
                 // Check if collides with another Hitbox

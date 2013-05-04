@@ -24,9 +24,11 @@ namespace EUSDAB
             void updateRectangles();
 
         private:
-            typedef std::vector<sf::RectangleShape> RectangleList;
+            typedef sf::RectangleShape Rectangle;
+            typedef std::vector<Rectangle> RectangleList;
             Physics::Hitbox _hitbox1, _hitbox2;
             RectangleList _rectList1, _rectList2;
+            Rectangle _globalRect1, _globalRect2;
     };
 }
 

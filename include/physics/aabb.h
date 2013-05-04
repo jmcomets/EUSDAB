@@ -23,15 +23,13 @@ namespace EUSDAB
                 {
                 }
 
-                // Construct from center and dimensions
                 AABBT(const Vector2 & center, const Unit & w, const Unit & h):
-                    _x(center.x() - w / static_cast<Unit>(2)),
-                    _y(center.y() - w / static_cast<Unit>(2)),
+                    _x(center.x()),
+                    _y(center.y()),
                     _w(w), _h(h)
                 {
                 }
 
-                // Construct from top-left position and dimensions
                 AABBT(const Unit & x, const Unit & y, const Unit & w, const Unit & h):
                     _x(x), _y(y),
                     _w(w), _h(h)
@@ -85,7 +83,6 @@ namespace EUSDAB
                     _w = w;
                     return *this;
                 }
-                // ...get half of width
 
                 // Get the AABB's height
                 Unit height() const
@@ -107,23 +104,87 @@ namespace EUSDAB
                 // Check if collides with another AABB
                 bool collides(const AABBT<Unit> & aabb) const
                 {
-                    return ((_x >= aabb._x + aabb._w)
-                            || (_x + _w <= aabb._x)
-                            || (_y >= aabb._y + aabb._h)
-                            || (_y + _h <= aabb._y)) == false;
+                    Vector2 topLeft = min();
+                    Vector2 aabbTopLeft = aabb.min();
+                    Vector2 bottomRight = max();
+                    Vector2 aabbBottomRight = aabb.max();
+                    return (bottomRight.x() < aabbTopLeft.x() || 
+                            bottomRight.y() < aabbTopLeft.y() || 
+                            topLeft.x() > aabbBottomRight.x() || 
+                            topLeft.y() > aabbBottomRight.y()) == false;
                 }
 
+                // Check if contains another AABB (ie: contains both
+                //  extreme corners)
+                bool contains(const AABBT<Unit> & aabb) const
+                {
+                    return contains(aabb.min()) && contains(aabb.max());
+                }
+
+                // Check if contains a point
+                bool contains(const Vector2 & p) const
+                {
+                    Vector2 topLeft = min();
+                    Vector2 bottomRight = max();
+                    return (topLeft.x() <= p.x() &&
+                            topLeft.y() <= p.y() &&
+                            p.x() <= bottomRight.x() &&
+                            p.y() <= bottomRight.y()) == false;
+                }
+
+                // Merge the AABB with another
+                void merge(const AABBT<Unit> & aabb)
+                {
+                    // Store both corners
+                    Vector2 topLeft = min();
+                    Vector2 aabbTopLeft = aabb.min();
+                    Vector2 bottomRight = max();
+                    Vector2 aabbBottomRight = aabb.max();
+
+                    // Compute new corners
+                    Unit minX = std::min(topLeft.x(), aabbTopLeft.x());
+                    Unit minY = std::min(topLeft.y(), aabbTopLeft.y());
+                    Unit maxX = std::max(bottomRight.x(), aabbBottomRight.x());
+                    Unit maxY = std::max(bottomRight.y(), aabbBottomRight.y());
+
+                    // Update data
+                    _w = maxX - minX; assert(_w >= static_cast<Unit>(0));
+                    _h = maxY - minY; assert(_h >= static_cast<Unit>(0));
+                    _x = minX + _w / static_cast<Unit>(2);
+                    _y = minY + _h / static_cast<Unit>(2);
+                }
+
+                // Translate the AABB by a given vector
                 AABBT<Unit> & translate(const Unit & x, const Unit & y)
                 {
                     _x += x;
                     _y += y;
                     return *this;
                 }
+                // ...overload with Vector2
+                AABBT<Unit> & translate(const Vector2 & v)
+                {
+                    return translate(v.x(), v.y());
+                }
 
                 // Return the AABB's center
                 Vector2 center() const
                 {
-                    return Vector2(_x + halfwidth(), _y + halfheight());
+                    return Vector2(_x, _y);
+                }
+
+                // Return the AABB's top-left corner
+                Vector2 min() const
+                {
+                    return Vector2(_x - _w / static_cast<Unit>(2),
+                            _y - _h / static_cast<Unit>(2));
+                }
+
+                // Return the AABB's bottom-right corner
+                Vector2 max() const
+                {
+                    return Vector2(_x + _w / static_cast<Unit>(2),
+                            _y + _h / static_cast<Unit>(2));
                 }
 
             private:
