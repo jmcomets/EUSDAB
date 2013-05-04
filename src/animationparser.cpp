@@ -67,7 +67,6 @@ namespace EUSDAB
                 typedef Frame::Hitbox Hitbox;
                 typedef Hitbox::AABB AABB;
                 typedef AABB::Unit Unit;
-                typedef AABB::Vector2 Vector2;
 
                 // Parse Hitboxes
                 // List of different hitboxes
@@ -99,7 +98,7 @@ namespace EUSDAB
                     else { throw std::runtime_error("Unknown hitbox semantic"); }
 
                     // Ensure Hitbox is in set and add AABB to it
-                    AABB frameAABB = AABB(Vector2(x, y), width, height);
+                    AABB frameAABB = AABB(x, y, width, height);
                     Hitbox & frameHitbox = *std::find(frameHitboxes.begin(),
                             frameHitboxes.end(), Hitbox(sem));
                     frameHitbox.addAABB(frameAABB);
