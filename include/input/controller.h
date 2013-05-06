@@ -25,7 +25,9 @@ namespace EUSDAB
 
                 template <typename InputIter>
                     Controller(InputIter begin, InputIter end):
-                        Controller()
+                        _playerList(),
+                        _allSpeakers(),
+                        _keyMapping()
                 {
                     for(; begin != end; begin++)
                     {
