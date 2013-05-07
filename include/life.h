@@ -1,22 +1,33 @@
+#ifndef LIFE_H_
 #define LIFE_H_
 
 namespace EUSDAB
 {
-	class Life
-	{
-		public:
-			Life() = delete;
-			Life(Life &&) = delete;
-			Life(const Life &) = delete;
-			Life & operator=(const Life &) = delete;
-			~Life();
+    // Interface simulating a "life component", which would
+    // allow dialog through damage / healing, and tell others
+    // if it is "alive".
+    class Life
+    {
+        public:
+            Life() = default;
+            Life(Life &&) = default;
+            Life(const Life &) = default;
+            virtual ~Life();
+            Life & operator=(const Life &) = default;
 
-		protected:
-			virtual bool isAlive() = 0;
-			virtual bool receiveDamage(unsigned int amount) = 0;
-			virtual bool healDamage(unsigned int amount) = 0;
-			virtual int getHP() = 0;
-	}
+            // Hide the underlying type for other classes
+            typedef unsigned int Amount;
+
+            // Return if the life component is currently "alive",
+            //  shouldn't modify the component.
+            virtual bool isAlive() = 0 const;
+
+            // Receive damage (increase damage requested)
+            virtual void receiveDamage(const Amount &) = 0;
+
+            // Heal damage (reduce damage requested)
+            virtual void healDamage(const Amount &) = 0;
+    };
 }
 
 #endif
