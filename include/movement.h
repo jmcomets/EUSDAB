@@ -28,7 +28,9 @@ namespace EUSDAB
                 Smash  = 1 << 9,
                 Flee   = 1 << 10,
                 Guard  = 1 << 11,
-                OnHit  = 1 << 12
+                OnHit  = 1 << 12,
+                Walk   = 1 << 13,
+                Run    = 1 << 14
             };
 
             Movement(Movement &&) = default;

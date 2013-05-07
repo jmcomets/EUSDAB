@@ -3,6 +3,7 @@ set(EUSDAB_TESTS
     "input"
     "animation"
     "hitboxes"
+    "entity"
     )
 
 # Add all defined tests
