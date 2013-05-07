@@ -40,7 +40,7 @@ else
         exe_rel_path="$TESTS_DIR/$exe_name"
         exe_full_path=`readlink -e "$BUILD_DIR/$exe_rel_path"` 
         if [ "$?" -eq "0" ]; then
-            cd "$test_rel_path"
+            (cd "$test_rel_path"
             if [ "$?" -eq "0" ]; then
                 echo "Running test $test_name"
                 "$exe_full_path"
@@ -52,6 +52,7 @@ else
                 echo "Cannot change to $test_rel_path directory"
                 exit 1
             fi
+            );
         else
             echo "Cannot find $BUILD_DIR/$exe_rel_path, consider recompiling"
         exit 1

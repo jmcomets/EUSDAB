@@ -25,15 +25,6 @@ namespace EUSDAB
             _keyMapping[sf::Keyboard::Right] = std::make_pair(_playerList[1], Event::Right);
         }
 
-        Controller::~Controller()
-        {
-            // FIXME
-            //for (auto s : _allSpeakers)
-            //{
-                //delete s;
-            //}
-        }
-
         void Controller::update()
         {
             // Handle continuous input
@@ -47,11 +38,6 @@ namespace EUSDAB
             }
 
             // TODO Joystick
-
-            //for (Speaker * s : _playerList)
-            //{
-                //s->pollEvents();
-            //}
 
             for (Speaker * s : _allSpeakers)
             {

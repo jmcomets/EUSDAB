@@ -1,5 +1,5 @@
-#ifndef INPUT_EVENT_H
-#define INPUT_EVENT_H
+#ifndef INPUT_EVENT_H_
+#define INPUT_EVENT_H_
 
 namespace EUSDAB
 {
@@ -13,7 +13,7 @@ namespace EUSDAB
         {
             typedef float Ratio;
 
-            static Ratio const Full;
+            static constexpr Ratio Full = 1;
 
             enum Id
             {
@@ -37,7 +37,7 @@ namespace EUSDAB
             ~Event() = default;
             Event & operator=(const Event &) = default;
 
-            Event(Id, Ratio, Edge);
+            Event(Id, Ratio = Full, Edge = RisingEdge);
 
             Id id;
             Ratio ratio;

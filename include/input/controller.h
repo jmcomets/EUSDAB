@@ -21,7 +21,7 @@ namespace EUSDAB
                 Controller & operator=(Controller const &) = delete;
 
                 Controller();
-                ~Controller();
+                ~Controller() = default;
 
                 template <typename InputIter>
                     Controller(InputIter begin, InputIter end):

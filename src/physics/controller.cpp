@@ -77,14 +77,14 @@ namespace EUSDAB
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
                             // Attaque
-                            _input.pushEvent(e1, Event(Event::Attack, Event::Full, Event::RisingEdge));
-                            _input.pushEvent(e2, Event(Event::Damage, Event::Full, Event::RisingEdge));
-                            //e1->attack(e2);
+                            _input.pushEvent(e1, Event(Event::Attack));
+                            _input.pushEvent(e2, Event(Event::Damage));
+                            e1->attack(e2);
                         }
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
-                            _input.pushEvent(e1, Event(Event::Ground, Event::Full, Event::RisingEdge));
+                            _input.pushEvent(e1, Event(Event::Ground));
                             //e1->physics(e2);
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
@@ -96,7 +96,7 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
                         {
                             // Grab
-                            _input.pushEvent(e1, Event(Event::Grab, Event::Full, Event::RisingEdge));
+                            _input.pushEvent(e1, Event(Event::Grab));
                             //e1->grab(e2);
                         }
                     }
