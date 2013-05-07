@@ -28,10 +28,6 @@ list(REMOVE_ITEM EUSDAB_SOURCES ${EUSDAB_SOURCE_DIR}/src/main.cpp)
 set(EUSDAB_LIB "EUSDAB_lib")
 add_library(${EUSDAB_LIB} ${EUSDAB_SOURCES})
 
-# EUSDAB main executable
-add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
-target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
-
 # Boost
 set(Boost_MIN_VERSION "1.41.0")
 find_package(Boost ${Boost_MIN_VERSION} REQUIRED)
@@ -46,7 +42,11 @@ set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
 set(SFML_LIBS sfml-system sfml-window sfml-graphics sfml-audio)
 include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/lib")
+
+# EUSDAB main executable
+add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(${EUSDAB_EXE_NAME} ${SFML_LIBS})
+target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
 
 # Tests
 add_subdirectory("tests")
