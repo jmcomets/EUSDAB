@@ -63,6 +63,7 @@ namespace EUSDAB
 
     void State::onNextFrame()
     {
+        Listener::onNextFrame();
         if (_animation != nullptr)
         {
             _animation->advance();
