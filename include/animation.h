@@ -66,18 +66,24 @@ namespace EUSDAB
             // Class constants
             static constexpr FPI DefaultFPI = 1;
 
-            Animation();
             Animation(Animation &&) = default;
             Animation(const Animation &) = default;
             ~Animation() = default;
 
             template <typename InputIter>
-                Animation(InputIter begin, InputIter end):
-                    _frames(begin, end), _sprite(_frames.front()),
-                    _paused(false), _framesPerImage(DefaultFPI)
+                Animation(InputIter begin, InputIter end,
+                        FPI fpi = DefaultFPI):
+                    _frames(begin, end),
+                    _sprite(),
+                    _paused(false),
+                    _framesPerImage(fpi),
+                    _imagesLeft(_framesPerImage)
             {
                 assert(begin != end);
+                _sprite.setTexture(*_frames.front().texture());
             }
+
+            Animation(FPI = DefaultFPI);
 
             // Add a frame to the Animation
             void addFrame(const Frame &);
