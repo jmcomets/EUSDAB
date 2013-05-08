@@ -20,7 +20,6 @@ namespace EUSDAB
 
         protected:
             void update();
-            void event();
             void render();
 
         private:

@@ -23,6 +23,7 @@ namespace EUSDAB
 
     AnimationTest::~AnimationTest()
     {
+        delete _animation;
     }
 
     void AnimationTest::event()
@@ -49,6 +50,26 @@ namespace EUSDAB
                     }
                     std::cout << " animation" << std::endl;
                     _animation->setPaused(p);
+                }
+                else if (e.key.code == sf::Keyboard::Up)
+                {
+                    Animation::FPI fpi = _animation->fpi();
+                    if (fpi + 1 > 0)
+                    {
+                        fpi++;
+                    }
+                    std::cout << "Setting FPI to " << fpi << std::endl;
+                    _animation->setFPI(fpi);
+                }
+                else if (e.key.code == sf::Keyboard::Down)
+                {
+                    Animation::FPI fpi = _animation->fpi();
+                    if (fpi - 1 > 0)
+                    {
+                        fpi--;
+                    }
+                    std::cout << "Setting FPI to " << fpi << std::endl;
+                    _animation->setFPI(fpi);
                 }
             }
         }

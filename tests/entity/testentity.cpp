@@ -16,34 +16,20 @@ namespace EUSDAB
         {
             throw std::runtime_error("Entity wasn't loaded");
         }
-        _window.setFramerateLimit(6);
     }
 
     EntityTest::~EntityTest()
     {
-    }
-
-    void EntityTest::event()
-    {
-        sf::Event e;
-        while (_window.pollEvent(e))
-        {
-            if (e.type == sf::Event::Closed)
-            {
-                _window.close();
-            }
-        }
+        delete _entity;
     }
 
     void EntityTest::update()
     {
-        // TODO: use advance directly on entity
-        _entity->state()->animation()->advance(); // Note: already done in State
+        _entity->state()->animation()->advance(); // Note: this is done in State
     }
 
     void EntityTest::render()
     {
-        // TODO: Draw directly the entity ?
-        _window.draw(_entity->state()->animation()->sprite()); // Note: Graphics::Controller does this
+        _window.draw(_entity->state()->animation()->sprite()); // Note: this is in Graphics::Painter
     }
 }

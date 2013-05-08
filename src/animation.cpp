@@ -39,9 +39,11 @@ namespace EUSDAB
 
     constexpr Animation::FPI Animation::DefaultFPI;
 
-    Animation::Animation():
+    Animation::Animation(Animation::FPI fpi):
         _frames(), _sprite(),
-        _paused(false), _framesPerImage(DefaultFPI)
+        _paused(false),
+        _framesPerImage(fpi),
+        _imagesLeft(_framesPerImage)
     {
     }
 
@@ -119,6 +121,7 @@ namespace EUSDAB
 
     void Animation::setFPI(Animation::FPI fpi)
     {
+        assert(fpi > 0);
         _framesPerImage = fpi;
     }
 }
