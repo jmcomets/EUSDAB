@@ -18,7 +18,7 @@ namespace EUSDAB
     {
         entity = _entityParser.loadEntity("../../assets/entities/rickhard");
         entity->state()->animation()->setFPI(1);
-        entity->state(Movement(Movement::Action::Attack));
+        //entity->state(Movement(Movement::Action::Attack));
         if (entity == nullptr)
         {
             throw std::runtime_error("Animation wasn't loaded");
