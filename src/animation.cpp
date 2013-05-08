@@ -122,6 +122,6 @@ namespace EUSDAB
     void Animation::setFPI(Animation::FPI fpi)
     {
         assert(fpi > 0);
-        _imagesLeft = _framesPerImage = fpi;
+        _framesPerImage = fpi;
     }
 }
