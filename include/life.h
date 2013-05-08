@@ -20,7 +20,7 @@ namespace EUSDAB
 
             // Return if the life component is currently "alive",
             //  shouldn't modify the component.
-            virtual bool isAlive() = 0 const;
+            virtual bool isAlive() const = 0;
 
             // Receive damage (increase damage requested)
             virtual void receiveDamage(const Amount &) = 0;
