@@ -23,6 +23,7 @@ namespace EUSDAB
 
     AnimationTest::~AnimationTest()
     {
+        delete _animation;
     }
 
     void AnimationTest::event()

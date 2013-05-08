@@ -285,7 +285,7 @@ class DrawableAnimation(sf.Drawable):
     delta, generic rendering (provided a function to get the drawable
     element in the "frames" element.
     """
-    def __init__(self, frames, get=lambda x: x):
+    def __init__(self, frames, fpi=1., get=lambda x: x):
         """Construct from list of frames and functor"""
         try:
             frame_it = iter(frames)
@@ -296,6 +296,7 @@ class DrawableAnimation(sf.Drawable):
         assert callable(get), 'get argument should be callable'
         self.get = get
         self.index = 0
+        self.fpi = fpi
 
     def Render(self, target):
         """sf.Drawable boilerplate for rendering."""
@@ -379,24 +380,21 @@ def load_hitboxes(animation_name, image_folder, json_file, x, y):
     """Save the animation to JSON."""
     dct = json.load(json_file)
     image_frames = []
-    for filename, hitbox_list in sorted(dct.items(), key=lambda x: x[0]):
-        try:
-            df = DrawableFrame(filename, animation_name, image_folder, x, y)
-            for hb in hitbox_list:
-                try:
-                    center_dict = hb['center']
-                    center = center_dict['x'] + x, center_dict['y'] + y
-                    width, height = hb['width'], hb['height']
-                    semantic = hb['semantic']
-                    hitbox = Hitbox(center, width, height, semantic)
-                    df.drawable_list.append(DrawableHitbox(hitbox))
-                except KeyError: pass
-            image_frames.append(df)
-        except RuntimeError as e:
-            print e
+    fpi = dct['fpi']
+    frames = dct['frames']
+    for filename, hitbox_list in sorted(frames.items(), key=lambda x: x[0]):
+        df = DrawableFrame(filename, animation_name, image_folder, x, y)
+        for hb in hitbox_list:
+            center_dict = hb['center']
+            center = center_dict['x'] + x, center_dict['y'] + y
+            width, height = hb['width'], hb['height']
+            semantic = hb['semantic']
+            hitbox = Hitbox(center, width, height, semantic)
+            df.drawable_list.append(DrawableHitbox(hitbox))
+        image_frames.append(df)
     if len(image_frames) == 0:
         raise RuntimeError('Animation not found in "%s"' % image_folder)
-    return DrawableAnimation(image_frames)
+    return DrawableAnimation(image_frames, fpi)
 
 def save_hitboxes(animation, json_file):
     """Save the animation to JSON."""
@@ -408,12 +406,13 @@ def save_hitboxes(animation, json_file):
         animation_name = frame.animation_name
         hitboxes = frame.get_hitboxes()
         filename_to_hitboxes[filename] = hitboxes
+    json_data = {'fpi': animation.fpi, 'frames': filename_to_hitboxes}
     def custom_encoder(o):
         if isinstance(o, (Point, Hitbox)):
             return o.__dict__
         raise TypeError('%s is not JSON serializable' % repr(o))
     json_file = open(json_file.name, 'w')
-    json_file.write(json.dumps(filename_to_hitboxes,
+    json_file.write(json.dumps(json_data,
         default=custom_encoder))
 
 # Semantic GUI for a nicer interface
