@@ -2,12 +2,10 @@
 #include <istream>
 #include <array>
 #include <stdexcept>
-#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <texturemanager.h>
 
-using boost::lexical_cast;
 using namespace boost::property_tree;
 
 namespace EUSDAB
@@ -48,15 +46,25 @@ namespace EUSDAB
 
         // Actual animation parsing
         Animation * animation = new Animation();
+
+        // FPI field
+        typedef Animation::FPI FPI;
+        FPI fpi = animationPt.get<FPI>("fpi", Animation::DefaultFPI);
+        animation->setFPI(fpi);
+
+        // Frames container
+        const ptree & framesPt = animationPt.get_child("frames");
+
+        // Parse frames
         try
         {
-            for (auto a : animationPt)
+            for (auto f : framesPt)
             {
                 // Animation is dict frame filename -> frame,
                 //  where the filename is relative to the
                 //  Animation's directory
-                std::string frameImagePath(animDir + "/" + a.first);
-                const ptree & hitboxesPt = a.second;
+                std::string frameImagePath(animDir + "/" + f.first);
+                const ptree & hitboxesPt = f.second;
 
                 // Load texture
                 typedef Graphics::TextureManager TextureManager;
@@ -82,10 +90,10 @@ namespace EUSDAB
                 for (auto p : hitboxesPt)
                 {
                     const ptree & hb = p.second;
-                    Unit x = lexical_cast<Unit>(hb.get<std::string>("center.x"));
-                    Unit y = lexical_cast<Unit>(hb.get<std::string>("center.y"));
-                    Unit width = lexical_cast<Unit>(hb.get<std::string>("width"));
-                    Unit height = lexical_cast<Unit>(hb.get<std::string>("height"));
+                    Unit x = hb.get<Unit>("center.x");
+                    Unit y = hb.get<Unit>("center.y");
+                    Unit width = hb.get<Unit>("width");
+                    Unit height = hb.get<Unit>("height");
 
                     // Hitbox semantic
                     Hitbox::Semantic sem;

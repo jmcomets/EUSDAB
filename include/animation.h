@@ -61,6 +61,10 @@ namespace EUSDAB
         public:
             // Shortcuts
             typedef Frame::HitboxList HitboxList;
+            typedef std::time_t FPI;
+
+            // Class constants
+            static constexpr FPI DefaultFPI = 1;
 
             Animation();
             Animation(Animation &&) = default;
@@ -70,7 +74,7 @@ namespace EUSDAB
             template <typename InputIter>
                 Animation(InputIter begin, InputIter end):
                     _frames(begin, end), _sprite(_frames.front()),
-                    _paused(false)
+                    _paused(false), _framesPerImage(DefaultFPI)
             {
                 assert(begin != end);
             }
@@ -105,15 +109,15 @@ namespace EUSDAB
             void setPaused(bool = true);
 
             // Get/Set the "frames per image"
-            std::time_t fpi() const;
-            void setFPI(std::time_t = 1);
+            FPI fpi() const;
+            void setFPI(FPI = DefaultFPI);
 
         private:
             std::list<Frame> _frames;
             sf::Sprite _sprite;
             bool _paused;
-            std::time_t _framesPerImage,
-                _framesLeft;
+            FPI _framesPerImage;
+            FPI _imagesLeft;
     };
 }
 

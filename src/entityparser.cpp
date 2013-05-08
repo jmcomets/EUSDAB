@@ -132,7 +132,8 @@ namespace EUSDAB
                     Animation * animation = _animParser.loadAnimation(entityDir + "/animations/" + animName);
                     if (animation == nullptr)
                     {
-                        throw std::runtime_error("`" + entityDir + "/animations/" + animName+ "` Entity's animation wasn't loaded");
+                        throw std::runtime_error("`" + entityDir + "/animations/"
+                                + animName + "` Entity's animation wasn't loaded");
                     }
                     state->setAnimation(animation);
 
@@ -155,7 +156,7 @@ namespace EUSDAB
                 }
             }
         }
-        catch (ptree_error e)
+        catch (ptree_error)
         {
             delete entity;
             entity = nullptr;

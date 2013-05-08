@@ -24,10 +24,10 @@ namespace EUSDAB
             void render();
 
         private:
-            // Animation parser
+            // Entity parser
             EntityParser _entityParser;
 
-            // Animation
+            // Entity
             Entity * _entity;
     };
 }

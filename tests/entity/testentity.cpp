@@ -38,12 +38,12 @@ namespace EUSDAB
     void EntityTest::update()
     {
         // TODO: use advance directly on entity
-        _entity->state()->animation()->advance();
+        _entity->state()->animation()->advance(); // Note: already done in State
     }
 
     void EntityTest::render()
     {
         // TODO: Draw directly the entity ?
-        _window.draw(_entity->state()->animation()->sprite());
+        _window.draw(_entity->state()->animation()->sprite()); // Note: Graphics::Controller does this
     }
 }
