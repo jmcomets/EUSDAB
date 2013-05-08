@@ -37,8 +37,11 @@ namespace EUSDAB
         return _hitboxList;
     }
 
+    constexpr Animation::FPI Animation::DefaultFPI;
+
     Animation::Animation():
-        _frames(), _sprite(), _paused(false)
+        _frames(), _sprite(),
+        _paused(false), _framesPerImage(DefaultFPI)
     {
     }
 
@@ -46,15 +49,15 @@ namespace EUSDAB
     {
         if (!_frames.empty() && _paused == false)
         {
-            if (_framesLeft <= nbFrames)
+            if (_imagesLeft <= nbFrames)
             {
-                _framesLeft = _framesPerImage;
+                _imagesLeft = _framesPerImage;
                 _frames.splice(_frames.end(), _frames, _frames.begin());
                 refresh();
             }
             else
             {
-                _framesLeft -= nbFrames;
+                _imagesLeft -= nbFrames;
             }
         }
     }
@@ -109,12 +112,12 @@ namespace EUSDAB
         _paused = paused;
     }
 
-    std::time_t Animation::fpi() const
+    Animation::FPI Animation::fpi() const
     {
         return _framesPerImage;
     }
 
-    void Animation::setFPI(std::time_t fpi)
+    void Animation::setFPI(Animation::FPI fpi)
     {
         _framesPerImage = fpi;
     }

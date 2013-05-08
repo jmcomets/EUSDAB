@@ -10,7 +10,27 @@
                 "direction": [ "right" ]
             },
 
-            "animation": "idle_right.json"
+            "animation": "idle_right"
+        },
+        {
+            "type": "walk",
+
+            "movement": {
+                "action": [ "walk" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "idle_right"
+        },
+        {
+            "type": "run",
+
+            "movement": {
+                "action": [ "run" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "idle_right"
         }
     ]
 }

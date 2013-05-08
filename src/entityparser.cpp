@@ -92,6 +92,8 @@ namespace EUSDAB
                     {
                         using namespace States;
                         if (stateId == "idle") { state = new States::Idle(); }
+                        else if (stateId == "walk") { state = new States::Idle(); }
+                        else if (stateId == "run") { state = new States::Idle(); }
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
@@ -103,6 +105,8 @@ namespace EUSDAB
                     {
                         const std::string & action = p.second.data();
                         if (action == "idle") { flag |= Movement::Idle; }
+                        else if (action == "walk") { flag |= Movement::Walk; }
+                        else if (action == "run") { flag |= Movement::Run; }
                         else if (action == "jump") { flag |= Movement::Jump; }
                         else if (action == "attack") { flag |= Movement::Attack; }
                         else if (action == "smash") { flag |= Movement::Smash; }
@@ -126,6 +130,11 @@ namespace EUSDAB
                     // Animation file (physics/hitbox)
                     const std::string & animName = statePt.get<std::string>("animation");
                     Animation * animation = _animParser.loadAnimation(entityDir + "/animations/" + animName);
+                    if (animation == nullptr)
+                    {
+                        throw std::runtime_error("`" + entityDir + "/animations/"
+                                + animName + "` Entity's animation wasn't loaded");
+                    }
                     state->setAnimation(animation);
 
                     // Finalize state parsing
@@ -147,7 +156,7 @@ namespace EUSDAB
                 }
             }
         }
-        catch (ptree_error e)
+        catch (ptree_error)
         {
             delete entity;
             entity = nullptr;
@@ -156,6 +165,7 @@ namespace EUSDAB
         {
             delete entity;
             entity = nullptr;
+            throw;
         }
         return entity;
     }
