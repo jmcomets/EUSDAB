@@ -1,7 +1,7 @@
 #ifndef PAINTER_H_
 #define PAINTER_H_
 
-#include <application.h>
+#include <SFML/Graphics.hpp>
 #include <entity.h>
 #include <vector>
 
@@ -22,6 +22,7 @@ namespace EUSDAB
 
                 void draw();
                 void addEntity(Entity * entity);
+                void removeEntity(Entity * entity);
 
             private:
                 sf::RenderWindow & _window;
