@@ -413,7 +413,7 @@ def save_hitboxes(animation, json_file):
         raise TypeError('%s is not JSON serializable' % repr(o))
     json_file = open(json_file.name, 'w')
     json_file.write(json.dumps(json_data,
-        default=custom_encoder))
+        default=custom_encoder, sort_keys=True))
 
 # Semantic GUI for a nicer interface
 
