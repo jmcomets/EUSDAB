@@ -7,5 +7,6 @@
 #include <states/run.h>
 #include <states/jump.h>
 #include <states/falling.h>
+#include <states/crouch.h>
 
 #endif

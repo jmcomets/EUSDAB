@@ -21,67 +21,42 @@ namespace EUSDAB
         void Jump::onDown(const Event & e)
         {
             State::onDown(e);
-            if (_mov == Movement::Left)
+            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
-                switchState(Movement::Falling | Movement::Left);
-            }
-            else if (_mov == Movement::Right)
-            {
-                switchState(Movement::Falling | Movement::Right);
+                if (_mov == Movement::Left)
+                {
+                    switchState(Movement::Falling | Movement::Left);
+                }
+                else if (_mov == Movement::Right)
+                {
+                    switchState(Movement::Falling | Movement::Right);
+                }
             }
         }
 
         void Jump::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if (_mov == Movement::Left)
+            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
-                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
-                {
-                    switchState(Movement::Jump | Movement::Left);
-                }
-                else
-                {
-                    switchState(Movement::JumpIdle | Movement::Left);
-                }
+                switchState(Movement::Jump | Movement::Left);
             }
-            else if (_mov == Movement::Right)
+            else
             {
-                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
-                {
-                    switchState(Movement::Jump | Movement::Right);
-                }
-                else
-                {
-                    switchState(Movement::JumpIdle | Movement::Right);
-                }
+                switchState(Movement::JumpIdle | Movement::Left);
             }
         }
 
         void Jump::onRight(const Event & e)
         {
             State::onRight(e);
-            if (_mov == Movement::Left)
+            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
-                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
-                {
-                    switchState(Movement::Jump | Movement::Left);
-                }
-                else
-                {
-                    switchState(Movement::JumpIdle | Movement::Left);
-                }
+                switchState(Movement::Jump | Movement::Right);
             }
-            else if (_mov == Movement::Right)
+            else
             {
-                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
-                {
-                    switchState(Movement::Jump | Movement::Right);
-                }
-                else
-                {
-                    switchState(Movement::JumpIdle | Movement::Right);
-                }
+                switchState(Movement::JumpIdle | Movement::Right);
             }
         }
 

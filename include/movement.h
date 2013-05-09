@@ -33,7 +33,8 @@ namespace EUSDAB
                 Run         = 1 << 14,
                 JumpIdle    = 1 << 15,
                 Falling     = 1 << 16,
-                FallingIdle = 1 << 17
+                FallingIdle = 1 << 17,
+                crouch      = 1 << 18
             };
 
             Movement(Movement &&) = default;
