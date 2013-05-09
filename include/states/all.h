@@ -8,5 +8,7 @@
 #include <states/jump.h>
 #include <states/falling.h>
 #include <states/crouch.h>
+#include <states/hit.h>
+#include <states/aerialHit.h>
 
 #endif

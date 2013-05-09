@@ -28,13 +28,14 @@ namespace EUSDAB
                 Smash       = 1 << 9,
                 Flee        = 1 << 10,
                 Guard       = 1 << 11,
-                OnHit       = 1 << 12,
+                Hit         = 1 << 12,
                 Walk        = 1 << 13,
                 Run         = 1 << 14,
                 JumpIdle    = 1 << 15,
                 Falling     = 1 << 16,
                 FallingIdle = 1 << 17,
-                crouch      = 1 << 18
+                Crouch      = 1 << 18,
+                AerialHit   = 1 << 19
             };
 
             Movement(Movement &&) = default;
