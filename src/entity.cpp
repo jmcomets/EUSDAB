@@ -1,6 +1,7 @@
 #include <entity.h>
 #include <stdexcept>
 #include <state.h>
+#include <iostream>
 
 namespace EUSDAB
 {

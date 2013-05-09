@@ -40,6 +40,7 @@ namespace EUSDAB
         }
         catch (ptree_error)
         {
+            std::cout << entityDir << std::endl;
             std::cerr << "Entity JSON file invalid" << std::endl;
             return nullptr;
         }
@@ -94,6 +95,8 @@ namespace EUSDAB
                         if (stateId == "idle") { state = new States::Idle(); }
                         else if (stateId == "walk") { state = new States::Walk(); }
                         else if (stateId == "run") { state = new States::Run(); }
+                        else if (stateId == "jump") { state = new States::Jump(); }
+                        else if (stateId == "falling") { state = new States::Falling();}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
@@ -113,6 +116,7 @@ namespace EUSDAB
                         else if (action == "flee") { flag |= Movement::Flee; }
                         else if (action == "guard") { flag |= Movement::Guard; }
                         else if (action == "onhit") { flag |= Movement::OnHit; }
+                        else if (action == "falling") { flag |= Movement::Falling; }
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");

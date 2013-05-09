@@ -32,7 +32,7 @@ namespace EUSDAB
             }
             else
             {
-                switchState(Movement::FallingIdle | Movement::Left);
+                //switchState(Movement::FallingIdle | Movement::Left);
             }
         }
 
@@ -45,7 +45,7 @@ namespace EUSDAB
             }
             else
             {
-                switchState(Movement::FallingIdle | Movement::Right);
+                //switchState(Movement::FallingIdle | Movement::Right);
             }
         }
 

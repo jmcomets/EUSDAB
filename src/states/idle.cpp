@@ -16,6 +16,22 @@ namespace EUSDAB
         void Idle::onUp(const Event & e)
         {
             State::onUp(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if (_mvt.flag() & Movement::Left)
+                {
+                    switchState(Movement::Jump | Movement::Left);
+                }
+                else if (_mvt.flag() & Movement::Right)
+                {
+                    switchState(Movement::Jump | Movement::Right);
+                }
+                else
+                {
+                    switchState(Movement::Jump | Movement::Left);
+                }
+            }
+
         }
 
         void Idle::onDown(const Event & e)
@@ -23,13 +39,13 @@ namespace EUSDAB
             State::onDown(e);
             if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
-                if (_mvt == Movement::Left)
+                if (_mvt.flag() & Movement::Left)
                 {
-                    switchState(Movement::Crouch | Movement::Left);
+                    //switchState(Movement::Crouch | Movement::Left);
                 }
-                else if (_mvt == Movement::Right)
+                else if (_mvt.flag() & Movement::Right)
                 {
-                    switchState(Movement::Crouch | Movement::Right);
+                    //switchState(Movement::Crouch | Movement::Right);
                 }
             }
         }

@@ -6,6 +6,7 @@
 #include <texturemanager.h>
 #include <movement.h>
 #include <state.h>
+#include <input/event.h>
 
 namespace EUSDAB
 {
@@ -54,13 +55,13 @@ namespace EUSDAB
                         << _entity->name() << std::endl;
                     _painter.addEntity(_entity);
                 }
-                else if (e.key.code == sf::Keyboard::Z)
+                else if (e.key.code == sf::Keyboard::R)
                 {
                     std::cout << "Removing entity "
                         << _entity->name() << std::endl;
                     _painter.removeEntity(_entity);
                 }
-                else if (e.key.code == sf::Keyboard::Space)
+                else if (e.key.code == sf::Keyboard::P)
                 {
                     Animation * a = _entity->state()->animation();
                     a->setPaused(1 - a->paused());
@@ -68,26 +69,49 @@ namespace EUSDAB
                 }
                 else if (e.key.code == sf::Keyboard::Right)
                 {
-                    Movement mvt = _entity->state()->movement();
-                    Movement new_mvt;
-                    if (mvt.flag() & Movement::Idle)
-                    {
-                        std::cout << "Setting state to Walk" << std::endl;
-                        new_mvt.setFlag(Movement::Walk | Movement::Right);
-                        _entity->setState(new_mvt);
-                    }
+                    Input::Event event(Input::Event::Right, Input::Event::Full, Input::Event::RisingEdge);
+                    _entity->state()->onRight(event);
                 }
                 else if (e.key.code == sf::Keyboard::Left)
                 {
-                    Movement mvt = _entity->state()->movement();
-                    Movement new_mvt;
-                    if (mvt.flag() & Movement::Idle || true)
-                    {
-                        std::cout << "Setting state to Walk" << std::endl;
-                        new_mvt.setFlag(Movement::Run | Movement::Left);
-                        _entity->setState(new_mvt);
-                    }
+                    Input::Event event(Input::Event::Left, Input::Event::Full, Input::Event::RisingEdge);
+                    _entity->state()->onLeft(event);
                 }
+                else if (e.key.code == sf::Keyboard::Down)
+                {
+                    Input::Event event(Input::Event::Down, Input::Event::Full, Input::Event::RisingEdge);
+                    _entity->state()->onDown(event);
+                }
+                else if (e.key.code == sf::Keyboard::Space)
+                {
+                    Input::Event event(Input::Event::Up, Input::Event::Full, Input::Event::RisingEdge);
+                    _entity->state()->onUp(event);
+                }
+            }
+            else if (e.type == sf::Event::KeyReleased)
+            {
+                if (e.key.code == sf::Keyboard::D)
+                {
+                    Input::Event event(Input::Event::Right, Input::Event::Full, Input::Event::FallingEdge);
+                    _entity->state()->onRight(event);
+                }
+                else if (e.key.code == sf::Keyboard::Q)
+                {
+                    Input::Event event(Input::Event::Left, Input::Event::Full, Input::Event::FallingEdge);
+                    _entity->state()->onLeft(event);
+                }
+                else if (e.key.code == sf::Keyboard::Z)
+                {
+                    Input::Event event(Input::Event::Up, Input::Event::Full, Input::Event::FallingEdge);
+                    _entity->state()->onUp(event);
+                }
+                else if (e.key.code == sf::Keyboard::S)
+                {
+                    Input::Event event(Input::Event::Down, Input::Event::Full, Input::Event::FallingEdge);
+                    _entity->state()->onDown(event);
+                }
+
+
             }
         }
     }

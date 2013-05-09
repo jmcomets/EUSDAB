@@ -31,6 +31,76 @@
             },
 
             "animation": "run_right"
+        },
+        {
+            "type": "idle",
+
+            "movement": {
+                "action": [ "idle" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "idle_left"
+        },
+        {
+            "type": "walk",
+
+            "movement": {
+                "action": [ "walk" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "walk_left"
+        },
+        {
+            "type": "run",
+
+            "movement": {
+                "action": [ "run" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "run_left"
+        },
+	{
+            "type": "jump",
+
+            "movement": {
+                "action": [ "jump" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "jump_right"
+        },
+	{
+            "type": "jump",
+
+            "movement": {
+                "action": [ "jump" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "jump_left"
+        },
+	{
+            "type": "falling",
+
+            "movement": {
+                "action": [ "falling" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "falling_right"
+        },
+	{
+            "type": "falling",
+
+            "movement": {
+                "action": [ "falling" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "falling_left"
         }
     ]
 }

@@ -1,4 +1,5 @@
 #include <states/jump.h>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -21,13 +22,13 @@ namespace EUSDAB
         void Jump::onDown(const Event & e)
         {
             State::onDown(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if (e.edge == Event::RisingEdge)
             {
-                if (_mvt == Movement::Left)
+                if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Falling | Movement::Left);
                 }
-                else if (_mvt == Movement::Right)
+                else if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Falling | Movement::Right);
                 }
@@ -43,7 +44,7 @@ namespace EUSDAB
             }
             else
             {
-                switchState(Movement::JumpIdle | Movement::Left);
+                //switchState(Movement::JumpIdle | Movement::Left);
             }
         }
 
@@ -56,7 +57,7 @@ namespace EUSDAB
             }
             else
             {
-                switchState(Movement::JumpIdle | Movement::Right);
+                //switchState(Movement::JumpIdle | Movement::Right);
             }
         }
 
