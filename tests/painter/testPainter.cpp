@@ -6,22 +6,26 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
 #include <texturemanager.h>
+#include <movement.h>
+#include <state.h>
 
 
 namespace EUSDAB
 {
+    Entity * entity;
     PainterTest::PainterTest(sf::RenderWindow & window):
         Application(window), _entityParser(), _painter(window)
     {
-        Entity * entity = _entityParser.loadEntity("../../asset/entities/Rickhard");
+        entity = _entityParser.loadEntity("../../assets/entities/rickhard");
+        entity->state()->animation()->setFPI(1);
+        //entity->state(Movement(Movement::Action::Attack));
         if (entity == nullptr)
         {
             throw std::runtime_error("Animation wasn't loaded");
         }
         _painter.addEntity(entity);
-        // ~1 images per second
-        _window.setFramerateLimit(20);
-        //_animation->setFPI(20);
+        _window.setFramerateLimit(30);
+        _window.setVerticalSyncEnabled(true);
     }
 
     PainterTest::~PainterTest()
@@ -41,17 +45,7 @@ namespace EUSDAB
             {
                 if (e.key.code == sf::Keyboard::Space)
                 {
-                    //bool p(1 - _animation->paused());
-                    //if (p == false)
-                    //{
-                        //std::cout << "Unpausing";
-                    //}
-                    //else
-                    //{
-                        //std::cout << "Pausing";
-                    //}
-                    //std::cout << " animation" << std::endl;
-                    //_animation->setPaused(p);
+                    _painter.removeEntity(entity);
                 }
             }
         }
@@ -59,8 +53,6 @@ namespace EUSDAB
 
     void PainterTest::update()
     {
-        //_animation->advance();
-        //_painter.update();
     }
 
     void PainterTest::render()

@@ -24,9 +24,7 @@ namespace EUSDAB
             void render();
 
         private:
-            // Animation parser
             EntityParser _entityParser;
-
             Graphics::Painter _painter;
     };
 }
