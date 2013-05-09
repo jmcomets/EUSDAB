@@ -1,36 +1,36 @@
-#include <states/idle.h>
+#include <states/run.h>
 
 namespace EUSDAB
 {
     namespace States
     {
-        Idle::Idle():
+        Run::Run():
             State()
         {
         }
 
-        Idle::~Idle()
+        Run::~Run()
         {
         }
 
-        void Idle::onUp(const Event & e)
+        void Run::onUp(const Event & e)
         {
             State::onUp(e);
         }
 
-        void Idle::onDown(const Event & e)
+        void Run::onDown(const Event & e)
         {
             State::onDown(e);
         }
 
-        void Idle::onLeft(const Event & e)
+        void Run::onLeft(const Event & e)
         {
             State::onLeft(e);
             if (_mov == Movement::Left)
             {
                 if (e.edge == Event::RisingEdge)
                 {
-                    switchState(Movement::walk | Movement::Left);
+                    switchState(Movement::Run | Movement::Left);
                 }
                 else
                 {
@@ -48,18 +48,16 @@ namespace EUSDAB
                     switchState(Movement::Idle | Movement::Right);
                 }
             }
-            
-            
         }
 
-        void Idle::onRight(const Event & e)
+        void Run::onRight(const Event & e)
         {
             State::onRight(e);
             if (_mov == Movement::Left)
             {
                 if (e.edge == Event::RisingEdge)
                 {
-                    switchState(Movement::walk | Movement::Left);
+                    switchState(Movement::Walk | Movement::Left);
                 }
                 else
                 {
@@ -70,7 +68,7 @@ namespace EUSDAB
             {
                 if (e.edge == Event::RisingEdge)
                 {
-                    switchState(Movement::Walk | Movement::Right);
+                    switchState(Movement::Run | Movement::Right);
                 }
                 else
                 {
@@ -79,7 +77,7 @@ namespace EUSDAB
             }
         }
 
-        void Idle::onNextFrame()
+        void Run::onNextFrame()
         {
             State::onNextFrame();
         }

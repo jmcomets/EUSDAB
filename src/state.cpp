@@ -35,6 +35,11 @@ namespace EUSDAB
         }
         _entity->setState(s);
     }
+    
+    void State::switchState(Movement::Flag const & f)
+    {
+        switchState(Movement(f));
+    }
 
     Movement State::movement() const
     {
