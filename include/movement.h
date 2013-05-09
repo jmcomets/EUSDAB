@@ -28,7 +28,7 @@ namespace EUSDAB
                 Smash       = 1 << 9,
                 Flee        = 1 << 10,
                 Guard       = 1 << 11,
-                Hit         = 1 << 12,
+                OnHit       = 1 << 12,
                 Walk        = 1 << 13,
                 Run         = 1 << 14,
                 JumpIdle    = 1 << 15,

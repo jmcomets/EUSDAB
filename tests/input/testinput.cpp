@@ -1,6 +1,7 @@
 #include "testinput.h"
 #include <movement.h>
 #include <iostream>
+#include <input/keyboardmapping.h>
 
 namespace EUSDAB
 {
@@ -16,7 +17,8 @@ namespace EUSDAB
     InputTest::InputTest(sf::RenderWindow & window):
         Application(window),
         _playerList(),
-        _input(nullptr)
+        _input(nullptr),
+        _mapping()
     {
         // Creating players
         Entity * player1 = new Entity();
@@ -41,14 +43,17 @@ namespace EUSDAB
         _playerList.emplace_back(player1);
         _playerList.emplace_back(player2);
 
+        _mapping = new Input::KeyboardMapping(_playerList.begin(), _playerList.end());
+
         // Controller creation
-        _input = new Input::Controller(_playerList.begin(), _playerList.end());
+        _input = new Input::Controller(_playerList.begin(), _playerList.end(), _mapping);
     }
 
     InputTest::~InputTest()
     {
         // Controller delete
         delete _input;
+        //delete _mapping;
 
         // Entities delete
         for (auto p : _playerList)
@@ -69,15 +74,20 @@ namespace EUSDAB
             }
             else if (e.type == sf::Event::KeyPressed)
             {
+                std::cout << "Key pressed" << std::endl;
                 eventList.push_back(e);
             }
             else if (e.type == sf::Event::KeyReleased)
             {
+                std::cout << "Key released" << std::endl;
                 eventList.push_back(e);
             }
         }
+        std::cout << "Push event" << std::endl;
         _input->pushEvent(eventList.begin(), eventList.end());
+        std::cout << "Event pushed" << std::endl;
         _input->nextFrame();
+        std::cout << "Next frame" << std::endl;
     }
 
     void InputTest::update()

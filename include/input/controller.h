@@ -8,6 +8,7 @@
 #include <input/event.h>
 #include <input/speaker.h>
 #include <state.h>
+#include <input/mapping.h>
 
 namespace EUSDAB
 {
@@ -24,18 +25,15 @@ namespace EUSDAB
                 ~Controller() = default;
 
                 template <typename InputIter>
-                    Controller(InputIter begin, InputIter end):
-                        _playerList(),
+                    Controller(InputIter begin, InputIter end, Mapping * mapping):
                         _allSpeakers(),
-                        _keyMapping()
+                        _mapping(mapping)
                 {
                     for(; begin != end; begin++)
                     {
                         Speaker * s = *begin;
                         addSpeaker(s);
-                        _playerList.push_back(s);
                     }
-                    initMappings();
                 }
 
                 // Add an speaker to the controller
@@ -64,15 +62,10 @@ namespace EUSDAB
                 void update();
 
             protected:
-                // Initialize mappings (ugly ugly ugly)
-                void initMappings();
 
             private:
-                std::vector<Speaker *> _playerList;
                 std::set<Speaker *> _allSpeakers;
-
-                std::map<sf::Keyboard::Key, 
-                    std::pair<Speaker *, Event::Id>> _keyMapping;
+                Mapping * _mapping;
         };
     }
 }

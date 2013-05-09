@@ -6,6 +6,7 @@
 #include <application.h>
 #include <state.h>
 #include <input/controller.h>
+#include <input/mapping.h>
 
 namespace EUSDAB
 {
@@ -30,6 +31,7 @@ namespace EUSDAB
 
             // Controller
             Input::Controller * _input;
+            Input::Mapping * _mapping;
     };
 
     class InputTestState: public State

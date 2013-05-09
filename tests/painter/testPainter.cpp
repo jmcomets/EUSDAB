@@ -74,8 +74,19 @@ namespace EUSDAB
                     {
                         std::cout << "Setting state to Walk" << std::endl;
                         new_mvt.setFlag(Movement::Walk | Movement::Right);
+                        _entity->setState(new_mvt);
                     }
-                    _entity->setState(new_mvt);
+                }
+                else if (e.key.code == sf::Keyboard::Left)
+                {
+                    Movement mvt = _entity->state()->movement();
+                    Movement new_mvt;
+                    if (mvt.flag() & Movement::Idle || true)
+                    {
+                        std::cout << "Setting state to Walk" << std::endl;
+                        new_mvt.setFlag(Movement::Run | Movement::Left);
+                        _entity->setState(new_mvt);
+                    }
                 }
             }
         }
