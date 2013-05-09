@@ -92,8 +92,8 @@ namespace EUSDAB
                     {
                         using namespace States;
                         if (stateId == "idle") { state = new States::Idle(); }
-                        else if (stateId == "walk") { state = new States::Idle(); }
-                        else if (stateId == "run") { state = new States::Idle(); }
+                        else if (stateId == "walk") { state = new States::Walk(); }
+                        else if (stateId == "run") { state = new States::Run(); }
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 

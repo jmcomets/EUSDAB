@@ -20,7 +20,7 @@
                 "direction": [ "right" ]
             },
 
-            "animation": "idle_right"
+            "animation": "walk_right"
         },
         {
             "type": "run",
@@ -30,7 +30,7 @@
                 "direction": [ "right" ]
             },
 
-            "animation": "idle_right"
+            "animation": "run_right"
         }
     ]
 }
