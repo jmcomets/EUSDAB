@@ -1,7 +1,5 @@
 #include "testPainter.h"
-
 #include <stdexcept>
-#include <string>
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
@@ -9,27 +7,33 @@
 #include <movement.h>
 #include <state.h>
 
-
 namespace EUSDAB
 {
-    Entity * entity;
     PainterTest::PainterTest(sf::RenderWindow & window):
         Application(window), _entityParser(), _painter(window)
     {
-        entity = _entityParser.loadEntity("../../assets/entities/rickhard");
-        entity->state()->animation()->setFPI(1);
-        //entity->state(Movement(Movement::Action::Attack));
-        if (entity == nullptr)
+        _entity = _entityParser.loadEntity("../../assets/entities/rickhard");
+        if (_entity == nullptr)
         {
-            throw std::runtime_error("Animation wasn't loaded");
+            throw std::runtime_error("Entity wasn't loaded");
         }
-        _painter.addEntity(entity);
-        _window.setFramerateLimit(30);
-        _window.setVerticalSyncEnabled(true);
+        std::cout << "Loaded Entity " << _entity->name() << std::endl;
+        _painter.addEntity(_entity);
+
+        auto setupAnimation = [] (Animation * a)
+        {
+            std::cout << "Setting up animation :" << std::endl;
+            constexpr float sX = 50, sY = 50;
+            std::cout << "- moving sprite to (" << sX << ", " 
+                << sY << ")" << std::endl;
+            a->sprite().setPosition(sX, sY);
+        };
+        setupAnimation(_entity->state()->animation());
     }
 
     PainterTest::~PainterTest()
     {
+        delete _entity;
     }
 
     void PainterTest::event()
@@ -43,9 +47,23 @@ namespace EUSDAB
             }
             else if (e.type == sf::Event::KeyPressed)
             {
-                if (e.key.code == sf::Keyboard::Space)
+                if (e.key.code == sf::Keyboard::A)
                 {
-                    _painter.removeEntity(entity);
+                    std::cout << "Adding entity "
+                        << _entity->name() << std::endl;
+                    _painter.addEntity(_entity);
+                }
+                else if (e.key.code == sf::Keyboard::Z)
+                {
+                    std::cout << "Removing entity "
+                        << _entity->name() << std::endl;
+                    _painter.removeEntity(_entity);
+                }
+                else if (e.key.code == sf::Keyboard::Space)
+                {
+                    Animation * a = _entity->state()->animation();
+                    a->setPaused(1 - a->paused());
+                    std::cout << "Toggling animation pause" << std::endl;
                 }
             }
         }
@@ -53,6 +71,7 @@ namespace EUSDAB
 
     void PainterTest::update()
     {
+        _entity->state()->onNextFrame();
     }
 
     void PainterTest::render()

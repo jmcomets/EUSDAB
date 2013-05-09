@@ -1,9 +1,9 @@
 #ifndef PAINTER_H_
 #define PAINTER_H_
 
-#include <SFML/Graphics.hpp>
+#include <set>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <entity.h>
-#include <vector>
 
 namespace EUSDAB
 {
@@ -13,20 +13,34 @@ namespace EUSDAB
         {
             public:
                 Painter() = delete;
-                Painter(Painter &&) = delete;
-                Painter(const Painter &) = delete;
-                Painter & operator=(const Painter &) = delete;
+                Painter(Painter &&) = default;
+                Painter(const Painter &) = default;
+                ~Painter() = default;
+                Painter & operator=(const Painter &) = default;
 
-                Painter(sf::RenderWindow &);
-                ~Painter();
+                Painter(sf::RenderTarget &);
 
+                // Draw the Painter to its currently set target
                 void draw();
+
+                // Add an Entity to the Painter
                 void addEntity(Entity * entity);
+                // ...range version
+                template <typename InputIter>
+                    void addEntity(InputIter begin, InputIter end)
+                {
+                    for (; begin != end ; begin++)
+                    {
+                        addEntity(*begin);
+                    }
+                }
+
+                // Remove an Entity from the Painter
                 void removeEntity(Entity * entity);
 
             private:
-                sf::RenderWindow & _window;
-                std::vector<Entity *> _entities;
+                sf::RenderTarget & _target;
+                std::set<Entity *> _entities;
         };
     }
 }

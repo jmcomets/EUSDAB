@@ -2,8 +2,8 @@
 #define TEST_PAINTER_H_
 
 #include <entityparser.h>
-#include "painter.h"
 #include <application.h>
+#include "painter.h"
 
 namespace EUSDAB
 {
@@ -26,6 +26,7 @@ namespace EUSDAB
         private:
             EntityParser _entityParser;
             Graphics::Painter _painter;
+            Entity * _entity;
     };
 }
 
