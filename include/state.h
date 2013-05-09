@@ -24,6 +24,8 @@ namespace EUSDAB
 
             // Helper for subclasses
             void switchState(Movement const &);
+            // ...shortcut version
+            void switchState(Movement::Flag const &);
 
             // Get/Set the state's movement
             Movement movement() const;
