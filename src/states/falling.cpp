@@ -1,83 +1,83 @@
-#include <states/run.h>
+#include <states/falling.h>
 
 namespace EUSDAB
 {
     namespace States
     {
-        Run::Run():
+        Falling::Falling():
             State()
         {
         }
 
-        Run::~Run()
+        Falling::~Falling()
         {
         }
 
-        void Run::onUp(const Event & e)
+        void Falling::onUp(const Event & e)
         {
             State::onUp(e);
         }
 
-        void Run::onDown(const Event & e)
+        void Falling::onDown(const Event & e)
         {
             State::onDown(e);
         }
 
-        void Run::onLeft(const Event & e)
+        void Falling::onLeft(const Event & e)
         {
             State::onLeft(e);
             if (_mov == Movement::Left)
             {
                 if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
-                    switchState(Movement::Run | Movement::Left);
+                    switchState(Movement::Falling | Movement::Left);
                 }
                 else
                 {
-                    switchState(Movement::Idle | Movement::Left);
+                    switchState(Movement::FallingIdle | Movement::Left);
                 }
             }
             else if (_mov == Movement::Right)
             {
                 if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
-                    switchState(Movement::Walk | Movement::Right);
+                    switchState(Movement::Falling | Movement::Right);
                 }
                 else
                 {
-                    switchState(Movement::Idle | Movement::Right);
+                    switchState(Movement::FallingIdle | Movement::Right);
                 }
             }
         }
 
-        void Run::onRight(const Event & e)
+        void Falling::onRight(const Event & e)
         {
             State::onRight(e);
             if (_mov == Movement::Left)
             {
                 if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
-                    switchState(Movement::Walk | Movement::Left);
+                    switchState(Movement::Falling | Movement::Left);
                 }
                 else
                 {
-                    switchState(Movement::Idle | Movement::Left);
+                    switchState(Movement::FallingIdle | Movement::Left);
                 }
             }
             else if (_mov == Movement::Right)
             {
                 if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
-                    switchState(Movement::Run | Movement::Right);
+                    switchState(Movement::Falling | Movement::Right);
                 }
                 else
                 {
-                    switchState(Movement::Idle | Movement::Right);
+                    switchState(Movement::FallingIdle | Movement::Right);
                 }
             }
         }
 
-        void Run::onNextFrame()
+        void Falling::onNextFrame()
         {
             State::onNextFrame();
         }

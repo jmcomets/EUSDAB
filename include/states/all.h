@@ -5,5 +5,7 @@
 #include <states/idle.h>
 #include <states/walk.h>
 #include <states/run.h>
+#include <states/jump.h>
+#include <states/falling.h>
 
 #endif

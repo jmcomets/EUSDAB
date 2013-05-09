@@ -21,16 +21,19 @@ namespace EUSDAB
 
             enum Action: Flag
             {
-                Noop   = 1 << 5,
-                Idle   = 1 << 6,
-                Jump   = 1 << 7,
-                Attack = 1 << 8,
-                Smash  = 1 << 9,
-                Flee   = 1 << 10,
-                Guard  = 1 << 11,
-                OnHit  = 1 << 12,
-                Walk   = 1 << 13,
-                Run    = 1 << 14
+                Noop        = 1 << 5,
+                Idle        = 1 << 6,
+                Jump        = 1 << 7,
+                Attack      = 1 << 8,
+                Smash       = 1 << 9,
+                Flee        = 1 << 10,
+                Guard       = 1 << 11,
+                OnHit       = 1 << 12,
+                Walk        = 1 << 13,
+                Run         = 1 << 14,
+                JumpIdle    = 1 << 15,
+                Falling     = 1 << 16,
+                FallingIdle = 1 << 17
             };
 
             Movement(Movement &&) = default;

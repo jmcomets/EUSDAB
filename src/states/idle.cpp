@@ -28,7 +28,7 @@ namespace EUSDAB
             State::onLeft(e);
             if (_mov == Movement::Left)
             {
-                if (e.edge == Event::RisingEdge)
+                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
                     switchState(Movement::walk | Movement::Left);
                 }
@@ -39,7 +39,7 @@ namespace EUSDAB
             }
             else if (_mov == Movement::Right)
             {
-                if (e.edge == Event::RisingEdge)
+                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
                     switchState(Movement::Walk | Movement::Right);
                 }
@@ -57,7 +57,7 @@ namespace EUSDAB
             State::onRight(e);
             if (_mov == Movement::Left)
             {
-                if (e.edge == Event::RisingEdge)
+                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
                     switchState(Movement::walk | Movement::Left);
                 }
@@ -68,7 +68,7 @@ namespace EUSDAB
             }
             else if (_mov == Movement::Right)
             {
-                if (e.edge == Event::RisingEdge)
+                if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
                 {
                     switchState(Movement::Walk | Movement::Right);
                 }
