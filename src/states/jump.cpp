@@ -23,11 +23,11 @@ namespace EUSDAB
             State::onDown(e);
             if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
-                if (_mov == Movement::Left)
+                if (_mvt == Movement::Left)
                 {
                     switchState(Movement::Falling | Movement::Left);
                 }
-                else if (_mov == Movement::Right)
+                else if (_mvt == Movement::Right)
                 {
                     switchState(Movement::Falling | Movement::Right);
                 }
