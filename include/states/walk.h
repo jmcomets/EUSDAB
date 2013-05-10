@@ -22,7 +22,7 @@ namespace EUSDAB
                 void onLeft(const Event &);
                 void onRight(const Event &);
 
-                //void onA(const Event &);
+                void onA(const Event &);
                 //void onB(const Event &);
                 //void onX(const Event &);
                 //void onY(const Event &);

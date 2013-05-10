@@ -1,5 +1,5 @@
-#ifndef STATES_IDLE_H
-#define STATES_IDLE_H
+#ifndef STATES_ATTACK_H
+#define STATES_ATTACK_H
 
 #include <state.h>
 
@@ -7,22 +7,22 @@ namespace EUSDAB
 {
     namespace States
     {
-        class Idle: public State
+        class Attack: public State
         {
             public:
-                Idle(Idle &&) = default;
-                Idle(const Idle &) = delete;
-                Idle & operator=(const Idle &) = delete;
+                Attack(Attack &&) = default;
+                Attack(const Attack &) = delete;
+                Attack & operator=(const Attack &) = delete;
 
-                Idle();
-                virtual ~Idle();
+                Attack();
+                virtual ~Attack();
 
                 void onUp(const Event &);
                 void onDown(const Event &);
                 void onLeft(const Event &);
                 void onRight(const Event &);
 
-                void onA(const Event &);
+                //void onA(const Event &);
                 //void onB(const Event &);
                 //void onX(const Event &);
                 //void onY(const Event &);
@@ -36,8 +36,9 @@ namespace EUSDAB
 
                 //void onGround(const Event &);
 
-                //void onEnter();
-                //void onLeave();
+                void onEnter();
+                void onLeave();
+                
         };
     }
 }

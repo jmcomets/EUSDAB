@@ -35,7 +35,8 @@ namespace EUSDAB
                 Falling     = 1 << 16,
                 FallingIdle = 1 << 17,
                 Crouch      = 1 << 18,
-                AerialHit   = 1 << 19
+                AerialHit   = 1 << 19,
+                Attack      = 1 << 20 
             };
 
             Movement(Movement &&) = default;

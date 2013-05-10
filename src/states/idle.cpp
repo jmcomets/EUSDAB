@@ -82,6 +82,26 @@ namespace EUSDAB
                 }
             }
         }
+        
+        void onA(const Event & e)
+        {
+            State::onA(e);
+            if ((e.edge == Event::RisingEdge))
+            {
+                if (_mvt.flag() & Movement::Left)
+                {
+                    switchState(Movement::Attack | Movement::Left);
+                }
+                else if (_mvt.flag() & Movement::Right)
+                {
+                    switchState(Movement::Attack | Movement::Right);
+                }
+                else
+                {
+                    //switchState(Movement::Attack | Movement::Left);
+                }
+            }
+        }
 
         void Idle::onNextFrame()
         {
