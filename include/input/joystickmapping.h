@@ -75,10 +75,11 @@ namespace EUSDAB
 
             private:
                 //FIXME change int into Button + add sfButtonToButton method
-                std::map<int, std::pair<Speaker *, Event::Id>> _keyMapping;
-                std::map<Axis,
-                    std::pair<Speaker *, Event::Id>> _axisMapping;
-                //std::vector<int, std::map<Axis, 
+                //std::map<int, std::pair<Speaker *, Event::Id>> _keyMapping;
+                std::vector<std::pair<Speaker *, std::map<int, Event::Id>>> _keyMapping;
+                //std::map<Axis,
+                    //std::pair<Speaker *, Event::Id>> _axisMapping;
+                std::vector<std::pair<Speaker *, std::map<Axis, Event::Id>>> _axisMapping;
 
                 std::map<sf::Joystick::Axis, 
                     std::pair<std::string, bool (*)(float const &)>> _axis;

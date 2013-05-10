@@ -32,14 +32,19 @@ namespace EUSDAB
 
         // Creating players
         Entity * player1 = entityParser.loadEntity("../../assets/entities/rickhard");
-        Entity * player2 = new Entity();
+        //Entity * player1 = new Entity();
+        //Entity * player2 = entityParser.loadEntity("../../assets/entities/rickhard2");
         
-        if (player1 == nullptr)
+        if (player1 == nullptr || player2 == nullptr)
         {
             throw std::runtime_error("Entity wasn't loaded");
         }
         std::cout << "Loaded Entity " << player1->name() << std::endl;
+        std::cout << "Loaded Entity " << player2->name() << std::endl;
+
+        //player2->state()->animation.sprite()->setPosition(300, 250);
         _painter.addEntity(player1);
+        //_painter.addEntity(player2);
 
 
         // JoystickTestState state bundle
@@ -68,6 +73,8 @@ namespace EUSDAB
 
         // Controller creation
         _input = new Input::Controller(_playerList.begin(), _playerList.end(), _mapping);
+        //_input = new Input::Controller(_playerList.begin() + 1, _playerList.end(), _mapping);
+        //_input = new Input::Controller(_playerList.begin(), _playerList.end() - 1, _mapping);
     }
 
     JoystickTest::~JoystickTest()
