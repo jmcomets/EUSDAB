@@ -37,6 +37,11 @@ namespace EUSDAB
         return _hitboxList;
     }
 
+
+//*******************************************************************//
+//****************ANIMATION FONCTIONS AND PROCEDURES*****************//
+
+
     constexpr Animation::FPI Animation::DefaultFPI;
 
     Animation::Animation(Animation::FPI fpi):
@@ -47,14 +52,22 @@ namespace EUSDAB
     {
     }
 
-    void Animation::advance(std::time_t nbFrames)
+    bool Animation::advance(std::time_t nbFrames)
     {
+        bool animationEnd=false;
         if (!_frames.empty() && _paused == false)
         {
             if (_imagesLeft <= nbFrames)
             {
+                
                 _imagesLeft = _framesPerImage;
-                _frames.splice(_frames.end(), _frames, _frames.begin());
+                //_frames.splice(_frames.end(), _frames, _frames.begin());
+                _curPosition+=nbFrames;
+                if (_curposition>=_frames.size())
+                {
+                    _curposition!=(_frames.size()-1);
+                    animationEnd=true;
+                }
                 refresh();
             }
             else
@@ -62,16 +75,22 @@ namespace EUSDAB
                 _imagesLeft -= nbFrames;
             }
         }
+        return animationEnd;
     }
 
     void Animation::refresh()
     {
-        _sprite.setTexture(*_frames.front().texture());
+        _sprite.setTexture(*current().texture());
     }
 
     Frame & Animation::current()
     {
-        return _frames.front();
+        return _frames[_curPosition];
+    }
+    
+    std::list<Frame> & Animation::listFrame()
+    {
+        return _frames;
     }
 
     void Animation::addFrame(const Frame & frame)
@@ -81,7 +100,12 @@ namespace EUSDAB
 
     const Frame & Animation::current() const
     {
-        return _frames.front();
+        return _frames[_curPosition];
+    }
+    
+    const std::list<Frame> & Animation::listFrame() const
+    {
+        return _frames;
     }
 
     sf::Sprite & Animation::sprite()
@@ -123,5 +147,27 @@ namespace EUSDAB
     {
         assert(fpi > 0);
         _framesPerImage = fpi;
+    }
+    
+    void Animation::resetAnimation()
+    {
+        _curPosition=0;
+    }
+    
+    void Animation::setCurPosition(int position)
+    {
+        if (_curposition<_frames.size())
+        {
+            _curPosition=position;
+        }
+        else
+        {
+            _curposition!=(_frames.size()-1);
+        }    
+    }
+    
+    int Animation::position()
+    {
+        return _curPosition;
     }
 }

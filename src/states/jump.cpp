@@ -38,9 +38,12 @@ namespace EUSDAB
         void Jump::onLeft(const Event & e)
         {
             State::onLeft(e);
+            
             if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
                 switchState(Movement::Jump | Movement::Left);
+                _entity->State()->animation().setCurPosition(animation().position());;
+                
             }
             else
             {
@@ -54,6 +57,7 @@ namespace EUSDAB
             if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
                 switchState(Movement::Jump | Movement::Right);
+                _entity->State()->animation().setCurPosition(animation().position());;
             }
             else
             {
@@ -65,5 +69,17 @@ namespace EUSDAB
         {
             State::onNextFrame();
         }
+        
+        void onEnter()
+        {
+        
+        }
+        
+        void onLeave()
+        {
+            
+        }
+        
+      
     }
 }

@@ -5,6 +5,7 @@
 #include <cassert>
 #include <memory>
 #include <list>
+#include <vector>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <physics/config.h>
@@ -81,6 +82,7 @@ namespace EUSDAB
             {
                 assert(begin != end);
                 _sprite.setTexture(*_frames.front().texture());
+                resetAnimation();
             }
 
             Animation(FPI = DefaultFPI);
@@ -93,12 +95,17 @@ namespace EUSDAB
 
             // Advance the animation to the next Image/Hitbox,
             //  takes the number of frames to advance
-            void advance(std::time_t = 1);
+            bool advance(std::time_t = 1);
 
             // Get the current frame
             Frame & current();
             // ...const version
             const Frame & current() const;
+            
+            // Get the list of the frames
+            std::vect<Frame> & listFrame();
+            // ...const version
+            const std::vect<Frame> & listFrame() const;
 
             // Get the current sprite
             sf::Sprite & sprite();
@@ -117,13 +124,24 @@ namespace EUSDAB
             // Get/Set the "frames per image"
             FPI fpi() const;
             void setFPI(FPI = DefaultFPI);
+            
+            //reset the animation
+            void resetAnimation();
+            
+            //this function permit to go anywhere in the animation
+            void setCurPosition(int = 0);
+            //getter of the position
+            int position();
+            
 
         private:
-            std::list<Frame> _frames;
+            std::vect<Frame> _frames;
             sf::Sprite _sprite;
             bool _paused;
+            int _curPosition;//position inside the annmation nbr of the frame
             FPI _framesPerImage;
             FPI _imagesLeft;
+            
     };
 }
 

@@ -35,6 +35,7 @@ namespace EUSDAB
             throw std::runtime_error("Undefined State");
         }
         _entity->setState(s);
+        s->onEnter();
     }
     
     void State::switchState(Movement::Flag const & f)
@@ -74,5 +75,10 @@ namespace EUSDAB
         {
             _animation->advance();
         }
+    }
+    
+    void State::onEnter()
+    {
+        _animation.resetAnimation();
     }
 }
