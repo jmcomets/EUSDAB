@@ -43,19 +43,19 @@ namespace EUSDAB
 
 
         // JoystickTestState state bundle
-        Movement testMovement(Movement::Idle | Movement::Left);
+        //Movement testMovement(Movement::Idle | Movement::Left);
         //JoystickTestState * player1testState = new JoystickTestState();
         //player1testState->setMovement(testMovement);
-        JoystickTestState * player2testState = new JoystickTestState();
-        player2testState->setMovement(testMovement);
+        //JoystickTestState * player2testState = new JoystickTestState();
+        //player2testState->setMovement(testMovement);
 
         // Adding player states
         //player1->addState(player1testState);
-        player2->addState(player2testState);
+        //player2->addState(player2testState);
 
         // Setting player states
         //player1->setState(testMovement);
-        player2->setState(testMovement);
+        //player2->setState(testMovement);
 
         //Loading sprites
 
@@ -119,7 +119,6 @@ namespace EUSDAB
     void JoystickTest::update()
     {
         _input->update();
-        //_entity->state()->onNextFrame();
     }
 
     void JoystickTest::render()

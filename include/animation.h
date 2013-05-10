@@ -11,6 +11,7 @@
 #include <physics/config.h>
 #include <physics/hitbox.h>
 #include <texturemanager.h>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -78,11 +79,11 @@ namespace EUSDAB
                     _sprite(),
                     _paused(false),
                     _framesPerImage(fpi),
-                    _imagesLeft(_framesPerImage)
+                    _imagesLeft(_framesPerImage),
+                    _curPosition(0)
             {
                 assert(begin != end);
-                _sprite.setTexture(*_frames.front().texture());
-                resetAnimation();
+                _sprite.setTexture(*_frames[0].texture());
             }
 
             Animation(FPI = DefaultFPI);
@@ -101,12 +102,7 @@ namespace EUSDAB
             Frame & current();
             // ...const version
             const Frame & current() const;
-            
-            // Get the list of the frames
-            std::vect<Frame> & listFrame();
-            // ...const version
-            const std::vect<Frame> & listFrame() const;
-
+           
             // Get the current sprite
             sf::Sprite & sprite();
             // ...const version
@@ -130,12 +126,13 @@ namespace EUSDAB
             
             //this function permit to go anywhere in the animation
             void setCurPosition(int = 0);
+
             //getter of the position
             int position();
             
 
         private:
-            std::vect<Frame> _frames;
+            std::vector<Frame> _frames;
             sf::Sprite _sprite;
             bool _paused;
             int _curPosition;//position inside the annmation nbr of the frame

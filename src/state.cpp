@@ -79,6 +79,6 @@ namespace EUSDAB
     
     void State::onEnter()
     {
-        _animation.resetAnimation();
+        _animation->resetAnimation();
     }
 }

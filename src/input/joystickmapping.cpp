@@ -105,6 +105,7 @@ namespace EUSDAB
             _keyMapping[Button::Y] = std::make_pair(_playerList.at(0), Event::Y);
             _keyMapping[Button::LT] = std::make_pair(_playerList.at(0), Event::Trigger);
             _keyMapping[Button::RT] = std::make_pair(_playerList.at(0), Event::Trigger);
+            _keyMapping[Button::Start] = std::make_pair(_playerList.at(0), Event::Ground);
 
             //_keyMapping[Button::A] = std::make_pair(_playerList.at(0), Event::Up);
             //_keyMapping[Button::B] = std::make_pair(_playerList.at(0), Event::Down);
@@ -113,8 +114,8 @@ namespace EUSDAB
 
 
 
-            //_axisMapping[Axis::LStickUp]    = std::make_pair(_playerList.at(0), Event::Up);
-            //_axisMapping[Axis::LStickDown]  = std::make_pair(_playerList.at(0), Event::Down);
+            _axisMapping[Axis::LStickUp]    = std::make_pair(_playerList.at(0), Event::Up);
+            _axisMapping[Axis::LStickDown]  = std::make_pair(_playerList.at(0), Event::Down);
             _axisMapping[Axis::LStickLeft]  = std::make_pair(_playerList.at(0), Event::Left);
             _axisMapping[Axis::LStickRight] = std::make_pair(_playerList.at(0), Event::Right);
         }
@@ -150,10 +151,10 @@ namespace EUSDAB
         {
             switch(axis)
             {
-                case LStickUp   : return (pos > -33); // && (pos < 0);
-                case LStickDown : return (pos <  33); // && (pos > 0);
-                case LStickLeft : return (pos > -33); // && (pos < 0);
-                case LStickRight: return (pos <  33); // && (pos > 0);
+                case LStickUp   : return (pos > -33) && (pos < 0);
+                case LStickDown : return (pos <  33) && (pos > 0);
+                case LStickLeft : return (pos > -33) && (pos < 0);
+                case LStickRight: return (pos <  33) && (pos > 0);
                 default: return false;
             }
         }

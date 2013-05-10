@@ -48,7 +48,8 @@ namespace EUSDAB
         _frames(), _sprite(),
         _paused(false),
         _framesPerImage(fpi),
-        _imagesLeft(_framesPerImage)
+        _imagesLeft(_framesPerImage),
+        _curPosition(0)
     {
     }
 
@@ -59,13 +60,12 @@ namespace EUSDAB
         {
             if (_imagesLeft <= nbFrames)
             {
-                
                 _imagesLeft = _framesPerImage;
                 //_frames.splice(_frames.end(), _frames, _frames.begin());
-                _curPosition+=nbFrames;
-                if (_curposition>=_frames.size())
+                _curPosition += nbFrames;
+                if (_curPosition>=_frames.size())
                 {
-                    _curposition!=(_frames.size()-1);
+                    _curPosition = (_frames.size()-1);
                     animationEnd=true;
                 }
                 refresh();
@@ -87,13 +87,7 @@ namespace EUSDAB
     {
         return _frames[_curPosition];
     }
-    
-    std::list<Frame> & Animation::listFrame()
-    {
-        return _frames;
-    }
-
-    void Animation::addFrame(const Frame & frame)
+       void Animation::addFrame(const Frame & frame)
     {
         _frames.push_back(frame);
     }
@@ -101,11 +95,6 @@ namespace EUSDAB
     const Frame & Animation::current() const
     {
         return _frames[_curPosition];
-    }
-    
-    const std::list<Frame> & Animation::listFrame() const
-    {
-        return _frames;
     }
 
     sf::Sprite & Animation::sprite()
@@ -156,13 +145,13 @@ namespace EUSDAB
     
     void Animation::setCurPosition(int position)
     {
-        if (_curposition<_frames.size())
+        if (position < _frames.size())
         {
             _curPosition=position;
         }
         else
         {
-            _curposition!=(_frames.size()-1);
+            _curPosition = (_frames.size()-1);
         }    
     }
     
