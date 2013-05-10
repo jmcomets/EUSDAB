@@ -17,6 +17,21 @@ namespace EUSDAB
         void Run::onUp(const Event & e)
         {
             State::onUp(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if (_mvt.flag() & Movement::Left)
+                {
+                    switchState(Movement::Jump | Movement::Left);
+                }
+                else if (_mvt.flag() & Movement::Right)
+                {
+                    switchState(Movement::Jump | Movement::Right);
+                }
+                else
+                {
+                    switchState(Movement::Jump | Movement::Left);
+                }
+            }
         }
 
         void Run::onDown(const Event & e)

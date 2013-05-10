@@ -49,6 +49,22 @@ namespace EUSDAB
             }
         }
 
+        void Falling::onGround(const Event & e)
+        {
+            State::onGround(e);
+            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            {
+                if (_mvt.flag() & Movement::Left)
+                {
+                    switchState(Movement::Idle | Movement::Left);
+                }
+                else if (_mvt.flag() & Movement::Right)
+                {
+                    switchState(Movement::Idle | Movement::Right);
+                }
+            }
+        }
+
         void Falling::onNextFrame()
         {
             State::onNextFrame();

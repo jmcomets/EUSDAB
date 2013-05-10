@@ -87,6 +87,11 @@ namespace EUSDAB
                     Input::Event event(Input::Event::Up, Input::Event::Full, Input::Event::RisingEdge);
                     _entity->state()->onUp(event);
                 }
+                else if (e.key.code == sf::Keyboard::G)
+                {
+                    Input::Event event(Input::Event::Ground, Input::Event::Full, Input::Event::RisingEdge);
+                    _entity->state()->onGround(event);
+                }
             }
             else if (e.type == sf::Event::KeyReleased)
             {

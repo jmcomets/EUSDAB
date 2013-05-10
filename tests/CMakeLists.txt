@@ -5,6 +5,7 @@ set(EUSDAB_TESTS
     "hitboxes"
     "painter"
     "entity"
+    "joystick"
     )
 
 # Add all defined tests

@@ -2,6 +2,7 @@
 #include <movement.h>
 #include <iostream>
 #include <input/keyboardmapping.h>
+#include <input/joystickmapping.h>
 
 namespace EUSDAB
 {
@@ -43,7 +44,8 @@ namespace EUSDAB
         _playerList.emplace_back(player1);
         _playerList.emplace_back(player2);
 
-        _mapping = new Input::KeyboardMapping(_playerList.begin(), _playerList.end());
+        //_mapping = new Input::KeyboardMapping(_playerList.begin(), _playerList.end());
+        _mapping = new Input::JoystickMapping(_playerList.begin(), _playerList.end());
 
         // Controller creation
         _input = new Input::Controller(_playerList.begin(), _playerList.end(), _mapping);
@@ -53,7 +55,7 @@ namespace EUSDAB
     {
         // Controller delete
         delete _input;
-        //delete _mapping;
+        delete _mapping;
 
         // Entities delete
         for (auto p : _playerList)
@@ -80,6 +82,11 @@ namespace EUSDAB
             else if (e.type == sf::Event::KeyReleased)
             {
                 std::cout << "Key released" << std::endl;
+                eventList.push_back(e);
+            }
+            else if(e.type == sf::Event::JoystickButtonPressed
+                    || e.type == sf::Event::JoystickMoved)
+            {
                 eventList.push_back(e);
             }
         }
