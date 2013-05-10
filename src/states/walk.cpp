@@ -86,7 +86,16 @@ namespace EUSDAB
 
         void Walk::onNextFrame()
         {
-            State::onNextFrame();
+            Listener::onNextFrame();
+            bool animationEnd=false;
+            if (_animation != nullptr)
+            {
+                animationEnd=_animation->advance();
+            }
+            if (animationEnd)
+            {
+                 _animation->resetAnimation(); 
+            }  
         }
     }
 }
