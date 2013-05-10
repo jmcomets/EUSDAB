@@ -53,29 +53,33 @@ namespace EUSDAB
         void Idle::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if ((e.edge == Event::RisingEdge))
             {
-                switchState(Movement::Walk | Movement::Left);
+                if(e.ratio > 0.75)
+                {
+                    switchState(Movement::Run | Movement::Left);
+                }
+                else
+                {
+                    switchState(Movement::Walk | Movement::Left);
+                }
             }
-            else
-            {
-                switchState(Movement::Idle | Movement::Left);
-            }
-        
-            
         }
 
         void Idle::onRight(const Event & e)
         {
             State::onRight(e);
             
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if ((e.edge == Event::RisingEdge))
             {
-                switchState(Movement::Walk | Movement::Right);
-            }
-            else
-            {
-                switchState(Movement::Idle | Movement::Right);
+                if(e.ratio > 0.75)
+                {
+                    switchState(Movement::Run | Movement::Right);
+                }
+                else
+                {
+                    switchState(Movement::Walk | Movement::Right);
+                }
             }
         }
 

@@ -71,7 +71,7 @@ namespace EUSDAB
                 void initMappings();
                 Axis sfAxisToAxis(sf::Joystick::Axis const & axis, float pos);
                 sf::Joystick::Axis axisToSfAxis(Axis const &);
-                bool isAxisMoved(unsigned int joystick, Axis const & axis);
+                bool isInDeadZone(Axis const & axis, float pos);
 
             private:
                 //FIXME change int into Button + add sfButtonToButton method

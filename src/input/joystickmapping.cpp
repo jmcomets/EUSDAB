@@ -1,5 +1,6 @@
 #include <input/joystickmapping.h>
 #include <cassert>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -19,11 +20,25 @@ namespace EUSDAB
             {
                 sf::Joystick::Axis axis = e.joystickMove.axis;
                 float p = sf::Joystick::getAxisPosition(e.joystickButton.joystickId, axis);
-                auto it = _axisMapping.find(sfAxisToAxis(axis, p));
+                Axis a = sfAxisToAxis(axis, p);
+                auto it = _axisMapping.find(a);
                 if(it != _axisMapping.end())
                 {
-                    Event event(it->second.second, Event::Full, Event::RisingEdge);
-                    it->second.first->push(event);
+                    if(isInDeadZone(a, p))
+                    {
+                        std::cout << "IS IN DEAD ZONE : " << p << std::endl;
+                        Event event(it->second.second, Event::Full, Event::FallingEdge);
+                        it->second.first->push(event);
+                    }
+                    else
+                    {
+                        Event event(it->second.second, (p > 0 ? p : -p) / 100, Event::RisingEdge);
+                        it->second.first->push(event);
+                    }
+                }
+                else if(a == Axis::None)
+                {
+                    std::cout << "Axis::None" << std::endl;
                 }
             }
             else if(e.type == sf::Event::JoystickButtonPressed)
@@ -32,6 +47,15 @@ namespace EUSDAB
                 if(it != _keyMapping.end())
                 {
                     Event event(it->second.second, Event::Full, Event::RisingEdge);
+                    it->second.first->push(event);
+                }
+            }
+            else if(e.type == sf::Event::JoystickButtonReleased)
+            {
+                auto it = _keyMapping.find(e.joystickButton.button);
+                if(it != _keyMapping.end())
+                {
+                    Event event(it->second.second, Event::Full, Event::FallingEdge);
                     it->second.first->push(event);
                 }
             }
@@ -50,7 +74,9 @@ namespace EUSDAB
             }
             for (auto p : _axisMapping)
             {
-                if (isAxisMoved(0, p.first))
+                float pos = sf::Joystick::getAxisPosition(0,
+                    axisToSfAxis(p.first));
+                if(!isInDeadZone(p.first, pos))
                 {
                     Event event(p.second.second, Event::Full, Event::ContinuousEdge);
                     p.second.first->push(event);
@@ -73,20 +99,22 @@ namespace EUSDAB
             //_axis[sf::Joystick::PovY] = std::make_pair("povY", [](float const & x) { return std::abs(x) > 20; });
      
 
-            //_keyMapping[Button::A] = std::make_pair(_playerList.at(0), Event::A);
-            //_keyMapping[Button::B] = std::make_pair(_playerList.at(0), Event::B);
-            //_keyMapping[Button::X] = std::make_pair(_playerList.at(0), Event::X);
-            //_keyMapping[Button::Y] = std::make_pair(_playerList.at(0), Event::Y);
+            _keyMapping[Button::A] = std::make_pair(_playerList.at(0), Event::A);
+            _keyMapping[Button::B] = std::make_pair(_playerList.at(0), Event::B);
+            _keyMapping[Button::X] = std::make_pair(_playerList.at(0), Event::X);
+            _keyMapping[Button::Y] = std::make_pair(_playerList.at(0), Event::Y);
+            _keyMapping[Button::LT] = std::make_pair(_playerList.at(0), Event::Trigger);
+            _keyMapping[Button::RT] = std::make_pair(_playerList.at(0), Event::Trigger);
 
-            _keyMapping[Button::A] = std::make_pair(_playerList.at(0), Event::Up);
-            _keyMapping[Button::B] = std::make_pair(_playerList.at(0), Event::Down);
-            _keyMapping[Button::X] = std::make_pair(_playerList.at(0), Event::Left);
-            _keyMapping[Button::Y] = std::make_pair(_playerList.at(0), Event::Right);
+            //_keyMapping[Button::A] = std::make_pair(_playerList.at(0), Event::Up);
+            //_keyMapping[Button::B] = std::make_pair(_playerList.at(0), Event::Down);
+            //_keyMapping[Button::X] = std::make_pair(_playerList.at(0), Event::Left);
+            //_keyMapping[Button::Y] = std::make_pair(_playerList.at(0), Event::Right);
 
 
 
-            _axisMapping[Axis::LStickUp]    = std::make_pair(_playerList.at(0), Event::Up);
-            _axisMapping[Axis::LStickDown]  = std::make_pair(_playerList.at(0), Event::Down);
+            //_axisMapping[Axis::LStickUp]    = std::make_pair(_playerList.at(0), Event::Up);
+            //_axisMapping[Axis::LStickDown]  = std::make_pair(_playerList.at(0), Event::Down);
             _axisMapping[Axis::LStickLeft]  = std::make_pair(_playerList.at(0), Event::Left);
             _axisMapping[Axis::LStickRight] = std::make_pair(_playerList.at(0), Event::Right);
         }
@@ -97,13 +125,10 @@ namespace EUSDAB
             switch(axis)
             {
                 case sf::Joystick::X:
-                    //FIXME add a deadzone method instead of (pos > 20 || pos < -20)
-                    return (pos > 20 || pos < -20) ? ((pos < 0) ?
-                            Axis::LStickLeft : Axis::LStickRight) : Axis::None;
+                    return (pos < 0) ? Axis::LStickLeft : Axis::LStickRight;
                     break;
                 case sf::Joystick::Y:
-                    return (pos > 20 || pos < -20) ? ((pos < 0) ?
-                            Axis::LStickUp : Axis::LStickDown) : Axis::None;
+                    return (pos < 0) ? Axis::LStickUp : Axis::LStickDown;
                     break;
                 default:
                     return Axis::None;
@@ -121,17 +146,14 @@ namespace EUSDAB
             }
         }
 
-        bool JoystickMapping::isAxisMoved(unsigned int joystick, 
-            JoystickMapping::Axis const & axis)
+        bool JoystickMapping::isInDeadZone(Axis const & axis, float pos)
         {
-            float pos = sf::Joystick::getAxisPosition(joystick,
-                axisToSfAxis(axis));
             switch(axis)
             {
-                case LStickUp: return pos < -20;
-                case LStickDown: return pos > 20;
-                case LStickLeft: return pos < -25;
-                case LStickRight: return pos > 25;
+                case LStickUp   : return (pos > -33); // && (pos < 0);
+                case LStickDown : return (pos <  33); // && (pos > 0);
+                case LStickLeft : return (pos > -33); // && (pos < 0);
+                case LStickRight: return (pos <  33); // && (pos > 0);
                 default: return false;
             }
         }

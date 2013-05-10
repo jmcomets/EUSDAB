@@ -48,13 +48,14 @@ namespace EUSDAB
                 {
                     switchState(Movement::Walk | Movement::Left);
                 }
-                else if(_mvt.flag() & Movement::Left)
+                else if((_mvt.flag() & Movement::Left) && e.ratio > 0.75)
                 {
-                    switchState(Movement::Run| Movement::Left);
+                    switchState(Movement::Run | Movement::Left);
                 }
             }
             else if(e.edge == Event::FallingEdge)
             {
+                std::cout << "<Walk::onLeft> : Movement::Left | FallingEdge" << std::endl;
                 switchState(Movement::Idle | Movement::Left);
             }
         }
@@ -70,14 +71,15 @@ namespace EUSDAB
                     switchState(Movement::Walk | Movement::Right);
                     std::cout << "<Walk::onRight> : Movement::Left" << std::endl;
                 }
-                else if(_mvt.flag() & Movement::Right)
+                else if((_mvt.flag() & Movement::Right) && e.ratio > 0.75)
                 {
-                    switchState(Movement::Run| Movement::Right);
+                    switchState(Movement::Run | Movement::Right);
                     std::cout << "<Walk::onRight> : Movement::Right" << std::endl;
                 }
             }
             else if(e.edge == Event::FallingEdge)
             {
+                std::cout << "<Walk::onRight> : Movement::Right | FallingEdge" << std::endl;
                 switchState(Movement::Idle | Movement::Right);
             }
         }

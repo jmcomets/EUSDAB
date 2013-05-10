@@ -1,75 +1,351 @@
 #include "testJoystick.h"
 #include <SFML/Window/Event.hpp>
+#include <movement.h>
 #include <iostream>
 #include <map>
+#include <input/keyboardmapping.h>
+#include <input/joystickmapping.h>
+#include <entityparser.h>
+#include "painter.h"
+
 
 namespace EUSDAB
 {
-    JoystickTest::JoystickTest(sf::RenderWindow & window):
-        Application(window)
+    namespace Priv
     {
+        static std::size_t uniqueId()
+        {
+            static std::size_t id = 0;
+            return id++;
+        }
+    }
+
+
+    JoystickTest::JoystickTest(sf::RenderWindow & window):
+        Application(window),
+        _playerList(),
+        _input(nullptr),
+        _mapping(),
+        _painter(window)
+    {
+        EntityParser entityParser;
+
+        // Creating players
+        Entity * player1 = entityParser.loadEntity("../../assets/entities/rickhard");
+        Entity * player2 = new Entity();
         
+        if (player1 == nullptr)
+        {
+            throw std::runtime_error("Entity wasn't loaded");
+        }
+        std::cout << "Loaded Entity " << player1->name() << std::endl;
+        _painter.addEntity(player1);
+
+
+        // JoystickTestState state bundle
+        Movement testMovement(Movement::Idle | Movement::Left);
+        //JoystickTestState * player1testState = new JoystickTestState();
+        //player1testState->setMovement(testMovement);
+        JoystickTestState * player2testState = new JoystickTestState();
+        player2testState->setMovement(testMovement);
+
+        // Adding player states
+        //player1->addState(player1testState);
+        player2->addState(player2testState);
+
+        // Setting player states
+        //player1->setState(testMovement);
+        player2->setState(testMovement);
+
+        //Loading sprites
+
+        // Adding players
+        _playerList.emplace_back(player1);
+        //_playerList.emplace_back(player2);
+
+        //_mapping = new Input::KeyboardMapping(_playerList.begin(), _playerList.end());
+        _mapping = new Input::JoystickMapping(_playerList.begin(), _playerList.end());
+
+        // Controller creation
+        _input = new Input::Controller(_playerList.begin(), _playerList.end(), _mapping);
     }
 
     JoystickTest::~JoystickTest()
     {
+    // Controller delete
+        delete _input;
+        delete _mapping;
+
+        // Entities delete
+        for (auto p : _playerList)
+        {
+            delete p;
+        }
     }
 
     void JoystickTest::event()
     {
-        std::map<sf::Joystick::Axis, std::pair<std::string, bool (*)(float const &)>> axis;
-        axis[sf::Joystick::X] = std::make_pair("x", [](float const & x) { return std::abs(x) > 20; });
-        axis[sf::Joystick::Y] = std::make_pair("y", [](float const & x) { return std::abs(x) > 20; });
-        axis[sf::Joystick::Z] = std::make_pair("z", [](float const & x) { return x > -98; });
-        axis[sf::Joystick::R] = std::make_pair("r", [](float const & x) { return std::abs(x) > 20; });
-        axis[sf::Joystick::U] = std::make_pair("u", [](float const & x) { return std::abs(x) > 20; });
-        axis[sf::Joystick::V] = std::make_pair("v", [](float const & x) { return std::abs(x) > 20; });
-        axis[sf::Joystick::PovX] = std::make_pair("povX", [](float const & x) { return std::abs(x) > 20; });
-        axis[sf::Joystick::PovY] = std::make_pair("povY", [](float const & x) { return std::abs(x) > 20; });
         sf::Event e;
+        std::vector<sf::Event> eventList;
         while (_window.pollEvent(e))
         {
             if (e.type == sf::Event::Closed)
             {
                 _window.close();
             }
-            else if (e.type == sf::Event::JoystickMoved)
+            else if (e.type == sf::Event::KeyPressed)
             {
-                for(auto it = axis.begin(); it != axis.end(); ++it)
-                {
-                    if(sf::Joystick::hasAxis(e.joystickButton.joystickId, it->first))
-                    {
-                        if(e.joystickMove.axis == it->first)
-                        {
-                            float x = sf::Joystick::getAxisPosition(e.joystickButton.joystickId, it->first);
-                            if(it->second.second(x))
-                            {
-                                std::cout << it->second.first << " : " << x << std::endl;
-                            }
-                            break;
-                        }
-                    }
-                }
+                std::cout << "Key pressed" << std::endl;
+                eventList.push_back(e);
             }
-            else if(e.type == sf::Event::JoystickButtonPressed)
+            else if (e.type == sf::Event::KeyReleased)
             {
-                if(sf::Joystick::isConnected(0))
-                {
-                    std::cout << "joystick id: " << e.joystickButton.joystickId << std::endl;
-                    std::cout << "button: " << e.joystickButton.button << std::endl;
-                }
+                std::cout << "Key released" << std::endl;
+                eventList.push_back(e);
             }
-
+            else if(e.type == sf::Event::JoystickButtonPressed
+                    || e.type == sf::Event::JoystickMoved)
+            {
+                eventList.push_back(e);
+            }
         }
+        //std::cout << "Push event" << std::endl;
+        _input->pushEvent(eventList.begin(), eventList.end());
+        //std::cout << "Event pushed" << std::endl;
+        _input->nextFrame();
+        //std::cout << "Next frame" << std::endl;
     }
 
     void JoystickTest::update()
     {
+        _input->update();
         //_entity->state()->onNextFrame();
     }
 
     void JoystickTest::render()
     {
-        //_painter.draw();
+        _painter.draw();
+    }
+
+//*****************************************************************************
+    JoystickTestState::JoystickTestState():
+        State(),
+        _x(0), _y(0),
+        _id(Priv::uniqueId())
+    {
+    }
+
+    JoystickTestState::~JoystickTestState()
+    {
+    }
+
+    void JoystickTestState::onUp(const Event & e)
+    {
+        State::onUp(e);
+        std::cout << "[" << _id << "] - " << "UP - ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _y += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _y << std::endl;
+    }
+
+    void JoystickTestState::onDown(const Event & e)
+    {
+        State::onDown(e);
+        std::cout << "[" << _id << "] - " << "DOWN - ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _y -= e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _y << std::endl;
+    }
+
+    void JoystickTestState::onLeft(const Event & e)
+    {
+        State::onLeft(e);
+        std::cout << "[" << _id << "] - " << "LEFT - ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+    void JoystickTestState::onRight(const Event & e)
+    {
+        State::onRight(e);
+        std::cout << "[" << _id << "] - " << "RIGHT - ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+    void JoystickTestState::onA(Event const & e)
+    {
+        State::onA(e);
+        std::cout << "[" << _id << "] - " << "A- ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+    void JoystickTestState::onB(Event const & e)
+    {
+        State::onB(e);
+        std::cout << "[" << _id << "] - " << "B- ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+
+    }
+
+    void JoystickTestState::onX(Event const & e)
+    {
+        State::onX(e);
+        std::cout << "[" << _id << "] - " << "X- ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+    void JoystickTestState::onY(Event const & e)
+    {
+        State::onY(e);
+        std::cout << "[" << _id << "] - " << "Y- ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+    void JoystickTestState::onZ(Event const & e)
+    {
+        State::onZ(e);
+        std::cout << "[" << _id << "] - " << "Z- ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+    void JoystickTestState::onTrigger(Event const & e)
+    {
+        State::onTrigger(e);
+        std::cout << "[" << _id << "] - " << "Trigger- ";
+        if (e.edge == Event::RisingEdge)
+        {
+            _x += e.ratio;
+            std::cout << "MONTANT";
+        }
+        else if (e.edge == Event::FallingEdge)
+        {
+            std::cout << "DESCENDANT";
+        }
+        else if (e.edge == Event::ContinuousEdge)
+        {
+            std::cout << "CONTINU";
+        }
+        std::cout << " - " << e.ratio << " " << _x << std::endl;
+    }
+
+
+
+    void JoystickTestState::onNextFrame()
+    {
+        State::onNextFrame();
+        //std::cout << "[" << _id << "] - " << "[NEXT] - Heure " 
+            //<< _time << std::endl;
     }
 }
