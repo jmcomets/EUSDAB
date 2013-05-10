@@ -1,5 +1,5 @@
-#ifndef STATES_ATTACK_H
-#define STATES_ATTACK_H
+#ifndef STATES_SPECIAL_H
+#define STATES_SPECIAL_H
 
 #include <state.h>
 
@@ -7,15 +7,15 @@ namespace EUSDAB
 {
     namespace States
     {
-        class Attack: public State
+        class Special: public State
         {
             public:
-                Attack(Attack &&) = default;
-                Attack(const Attack &) = delete;
-                Attack & operator=(const Attack &) = delete;
+                Special(Special &&) = default;
+                Special(const Special &) = delete;
+                Special & operator=(const Special &) = delete;
 
-                Attack();
-                virtual ~Attack();
+                Special();
+                virtual ~Special();
 
                 void onUp(const Event &);
                 void onDown(const Event &);
