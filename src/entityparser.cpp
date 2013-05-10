@@ -97,6 +97,8 @@ namespace EUSDAB
                         else if (stateId == "run") { state = new States::Run(); }
                         else if (stateId == "jump") { state = new States::Jump(); }
                         else if (stateId == "falling") { state = new States::Falling();}
+                        else if (stateId == "attack") { state = new States::Attack();}
+                        else if (stateId == "special") { state = new States::Special();}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
@@ -117,6 +119,8 @@ namespace EUSDAB
                         else if (action == "guard") { flag |= Movement::Guard; }
                         else if (action == "onhit") { flag |= Movement::OnHit; }
                         else if (action == "falling") { flag |= Movement::Falling; }
+                        else if (action == "special") { flag |= Movement::Special; }
+                        else if (action == "specialidle") { flag |= Movement::SpecialIdle; }
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");

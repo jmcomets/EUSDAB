@@ -118,6 +118,14 @@ namespace EUSDAB
             _axisMapping[Axis::LStickDown]  = std::make_pair(_playerList.at(0), Event::Down);
             _axisMapping[Axis::LStickLeft]  = std::make_pair(_playerList.at(0), Event::Left);
             _axisMapping[Axis::LStickRight] = std::make_pair(_playerList.at(0), Event::Right);
+            //_axisMapping[Axis::RStickUp]    = std::make_pair(_playerList.at(0), Event::Up);
+            //_axisMapping[Axis::RStickDown]  = std::make_pair(_playerList.at(0), Event::Down);
+            //_axisMapping[Axis::RStickLeft]  = std::make_pair(_playerList.at(0), Event::Left);
+            //_axisMapping[Axis::RStickRight] = std::make_pair(_playerList.at(0), Event::Right);
+            //_axisMapping[Axis::DPadUp]    = std::make_pair(_playerList.at(0), Event::Up);
+            //_axisMapping[Axis::DPadDown]  = std::make_pair(_playerList.at(0), Event::Down);
+            //_axisMapping[Axis::DPadLeft]  = std::make_pair(_playerList.at(0), Event::Left);
+            //_axisMapping[Axis::DPadRight] = std::make_pair(_playerList.at(0), Event::Right);
         }
 
         JoystickMapping::Axis
@@ -127,10 +135,20 @@ namespace EUSDAB
             {
                 case sf::Joystick::X:
                     return (pos < 0) ? Axis::LStickLeft : Axis::LStickRight;
-                    break;
                 case sf::Joystick::Y:
                     return (pos < 0) ? Axis::LStickUp : Axis::LStickDown;
-                    break;
+                case sf::Joystick::Z:
+                    return Axis::None;
+                case sf::Joystick::R:
+                    return Axis::None;
+                case sf::Joystick::U:
+                    return (pos < 0) ? Axis::RStickLeft : Axis::RStickRight;
+                case sf::Joystick::V:
+                    return (pos < 0) ? Axis::RStickUp : Axis::RStickDown;
+                case sf::Joystick::PovX:
+                    return (pos < 0) ? Axis::DPadLeft : Axis::DPadRight;
+                case sf::Joystick::PovY:
+                    return (pos < 0) ? Axis::DPadUp : Axis::DPadDown;
                 default:
                     return Axis::None;
             }
@@ -151,11 +169,19 @@ namespace EUSDAB
         {
             switch(axis)
             {
-                case LStickUp   : return (pos > -33) && (pos < 0);
-                case LStickDown : return (pos <  33) && (pos > 0);
-                case LStickLeft : return (pos > -33) && (pos < 0);
-                case LStickRight: return (pos <  33) && (pos > 0);
-                default: return false;
+                case LStickUp   :
+                case LStickLeft : 
+                case RStickUp   :
+                case RStickLeft : return (pos > -33); // && (pos < 0);
+                case LStickDown :
+                case LStickRight:
+                case RStickDown :
+                case RStickRight: return (pos < 33) ; //&& (pos > 0);
+                case DPadLeft   :
+                case DPadRight  :
+                case DPadUp     :
+                case DPadDown   : return false;
+                default: return true;
             }
         }
 

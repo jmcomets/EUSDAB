@@ -10,5 +10,7 @@
 #include <states/crouch.h>
 #include <states/hit.h>
 #include <states/aerialHit.h>
+#include <states/attack.h>
+#include <states/special.h>
 
 #endif

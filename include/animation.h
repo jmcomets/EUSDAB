@@ -80,7 +80,7 @@ namespace EUSDAB
                     _paused(false),
                     _framesPerImage(fpi),
                     _imagesLeft(_framesPerImage),
-                    _curPosition(0)
+                    _currentFrame(0)
             {
                 assert(begin != end);
                 _sprite.setTexture(*_frames[0].texture());
@@ -125,17 +125,17 @@ namespace EUSDAB
             void resetAnimation();
             
             //this function permit to go anywhere in the animation
-            void setCurPosition(int = 0);
+            void currentFrame(int frame);
 
-            //getter of the position
-            int position();
+            //getter of the currentFrame
+            int currentFrame();
             
 
         private:
             std::vector<Frame> _frames;
             sf::Sprite _sprite;
             bool _paused;
-            int _curPosition;//position inside the annmation nbr of the frame
+            int _currentFrame;//currentFrame inside the annmation nbr of the frame
             FPI _framesPerImage;
             FPI _imagesLeft;
             

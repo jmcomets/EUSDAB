@@ -61,12 +61,12 @@ namespace EUSDAB
         
         void Attack::onEnter()
         {
-        
+            State::onEnter();
         }
         
         void Attack::onLeave()
         {
-            
+            State::onLeave();
         }
         
       

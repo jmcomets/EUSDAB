@@ -49,24 +49,24 @@ namespace EUSDAB
         _paused(false),
         _framesPerImage(fpi),
         _imagesLeft(_framesPerImage),
-        _curPosition(0)
+        _currentFrame(0)
     {
     }
 
     bool Animation::advance(std::time_t nbFrames)
     {
-        bool animationEnd=false;
+        bool animationEnd = false;
         if (!_frames.empty() && _paused == false)
         {
             if (_imagesLeft <= nbFrames)
             {
                 _imagesLeft = _framesPerImage;
                 //_frames.splice(_frames.end(), _frames, _frames.begin());
-                _curPosition += nbFrames;
-                if (_curPosition>=_frames.size())
+                _currentFrame += nbFrames;
+                if (_currentFrame >= _frames.size())
                 {
-                    _curPosition = (_frames.size()-1);
-                    animationEnd=true;
+                    _currentFrame = (_frames.size()-1);
+                    animationEnd = true;
                 }
                 refresh();
             }
@@ -85,7 +85,7 @@ namespace EUSDAB
 
     Frame & Animation::current()
     {
-        return _frames[_curPosition];
+        return _frames[_currentFrame];
     }
        void Animation::addFrame(const Frame & frame)
     {
@@ -94,7 +94,7 @@ namespace EUSDAB
 
     const Frame & Animation::current() const
     {
-        return _frames[_curPosition];
+        return _frames[_currentFrame];
     }
 
     sf::Sprite & Animation::sprite()
@@ -140,23 +140,23 @@ namespace EUSDAB
     
     void Animation::resetAnimation()
     {
-        _curPosition=0;
+        _currentFrame=0;
     }
     
-    void Animation::setCurPosition(int position)
+    void Animation::currentFrame(int frame)
     {
-        if (position < _frames.size())
+        if (frame < _frames.size())
         {
-            _curPosition=position;
+            _currentFrame = frame;
         }
         else
         {
-            _curPosition = (_frames.size()-1);
+            _currentFrame = _frames.size() - 1;
         }    
     }
     
-    int Animation::position()
+    int Animation::currentFrame()
     {
-        return _curPosition;
+        return _currentFrame;
     }
 }

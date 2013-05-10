@@ -101,6 +101,67 @@
             },
 
             "animation": "falling_left"
+        },
+	{
+            "type": "attack",
+
+            "movement": {
+                "action": [ "attack" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "sideA_left"
+        },
+	{
+            "type": "attack",
+
+            "movement": {
+                "action": [ "attack" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "sideA_right"
+        },
+	{
+            "type": "special",
+
+            "movement": {
+                "action": [ "special" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "sideB_left"
+        },
+	{
+            "type": "special",
+
+            "movement": {
+                "action": [ "special" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "sideB_right"
+        },
+	{
+            "type": "special",
+
+            "movement": {
+                "action": [ "specialidle" ],
+                "direction": [ "right" ]
+            },
+
+            "animation": "vomit_right"
+        },
+	{
+            "type": "special",
+
+            "movement": {
+                "action": [ "specialidle" ],
+                "direction": [ "left" ]
+            },
+
+            "animation": "vomit_left"
         }
+
     ]
 }

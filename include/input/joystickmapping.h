@@ -33,19 +33,19 @@ namespace EUSDAB
 
                 enum Axis: JoystickInput
                 {
-                    None        = 0,
-                    LStickUp    = 1,
-                    LStickDown  = 2,
-                    LStickRight = 3,
-                    LStickLeft  = 4,
-                    RStickUp    = 5,
-                    RStickDown  = 6,
-                    RStickRight = 7,
-                    RStickLeft  = 8,
-                    PadUp       = 9,
-                    PadDown     = 10,
-                    PadRight    = 11,
-                    PadLeft     = 12
+                    None         = 0,
+                    LStickUp     = 1,
+                    LStickDown   = 2,
+                    LStickRight  = 3,
+                    LStickLeft   = 4,
+                    RStickUp     = 5,
+                    RStickDown   = 6,
+                    RStickRight  = 7,
+                    RStickLeft   = 8,
+                    DPadUp       = 9,
+                    DPadDown     = 10,
+                    DPadRight    = 11,
+                    DPadLeft     = 12
                 };
 
 
@@ -78,6 +78,7 @@ namespace EUSDAB
                 std::map<int, std::pair<Speaker *, Event::Id>> _keyMapping;
                 std::map<Axis,
                     std::pair<Speaker *, Event::Id>> _axisMapping;
+                //std::vector<int, std::map<Axis, 
 
                 std::map<sf::Joystick::Axis, 
                     std::pair<std::string, bool (*)(float const &)>> _axis;

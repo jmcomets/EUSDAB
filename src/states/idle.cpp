@@ -110,11 +110,11 @@ namespace EUSDAB
             {
                 if (_mvt.flag() & Movement::Left)
                 {
-                    switchState(Movement::Special | Movement::Left);
+                    switchState(Movement::SpecialIdle | Movement::Left);
                 }
                 else if (_mvt.flag() & Movement::Right)
                 {
-                    switchState(Movement::Special | Movement::Right);
+                    switchState(Movement::SpecialIdle | Movement::Right);
                 }
                 else
                 {

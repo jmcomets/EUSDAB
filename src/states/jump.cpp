@@ -42,7 +42,7 @@ namespace EUSDAB
             if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
                 switchState(Movement::Jump | Movement::Left);
-                _entity->state()->animation()->setCurPosition(animation()->position());;
+                _entity->state()->animation()->currentFrame(animation()->currentFrame());;
                 
             }
             else
@@ -57,7 +57,7 @@ namespace EUSDAB
             if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
             {
                 switchState(Movement::Jump | Movement::Right);
-                _entity->state()->animation()->setCurPosition(animation()->position());;
+                _entity->state()->animation()->currentFrame(animation()->currentFrame());;
             }
             else
             {
