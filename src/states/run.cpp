@@ -125,15 +125,10 @@ namespace EUSDAB
         void Run::onNextFrame()
         {
             Listener::onNextFrame();
-            bool animationEnd=false;
             if (_animation != nullptr)
             {
-                animationEnd=_animation->advance();
+                _animation->advance();
             }
-            if (animationEnd)
-            {
-                 _animation->resetAnimation(); 
-            }  
         }
     }
 }

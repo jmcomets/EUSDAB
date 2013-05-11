@@ -3,15 +3,11 @@
 
 #include <ctime>
 #include <cassert>
-#include <memory>
-#include <list>
 #include <vector>
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <physics/config.h>
 #include <physics/hitbox.h>
 #include <texturemanager.h>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -64,6 +60,8 @@ namespace EUSDAB
             // Shortcuts
             typedef Frame::HitboxList HitboxList;
             typedef std::time_t FPI;
+            typedef std::vector<Frame> FrameList;
+            typedef FrameList::size_type FrameListSize;
 
             // Class constants
             static constexpr FPI DefaultFPI = 1;
@@ -78,9 +76,9 @@ namespace EUSDAB
                     _frames(begin, end),
                     _sprite(),
                     _paused(false),
+                    _currentFrame(0),
                     _framesPerImage(fpi),
-                    _imagesLeft(_framesPerImage),
-                    _currentFrame(0)
+                    _imagesLeft(_framesPerImage)
             {
                 assert(begin != end);
                 _sprite.setTexture(*_frames[0].texture());
@@ -96,7 +94,7 @@ namespace EUSDAB
 
             // Advance the animation to the next Image/Hitbox,
             //  takes the number of frames to advance
-            bool advance(std::time_t = 1);
+            void advance(FPI = 1);
 
             // Get the current frame
             Frame & current();
@@ -121,22 +119,30 @@ namespace EUSDAB
             FPI fpi() const;
             void setFPI(FPI = DefaultFPI);
             
-            //reset the animation
-            void resetAnimation();
+            // Reset the animation
+            void reset();
             
-            //this function permit to go anywhere in the animation
-            void currentFrame(int frame);
-
-            //getter of the currentFrame
-            int currentFrame();
+            //Get/Set the current animation frame
+            FrameListSize currentFrame() const;
+            void setCurrentFrame(FrameListSize frame);
             
-
         private:
-            std::vector<Frame> _frames;
+            // List of frames
+            FrameList _frames;
+
+            // Animation SFML drawable
             sf::Sprite _sprite;
+
+            // Flag telling if animation is paused
             bool _paused;
-            int _currentFrame;//currentFrame inside the annmation nbr of the frame
+
+            // Current animation frame
+            FrameListSize _currentFrame;
+
+            // Current FPI
             FPI _framesPerImage;
+
+            // Countdown to next frame advance
             FPI _imagesLeft;
             
     };

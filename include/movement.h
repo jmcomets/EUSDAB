@@ -1,6 +1,10 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
+#ifdef DEBUG
+#  include <sstream>
+#endif
+
 namespace EUSDAB
 {
     // Identifier-type used to define the different states
@@ -12,32 +16,33 @@ namespace EUSDAB
 
             enum Direction: Flag
             {
-                None  = 1 << 0,
-                Up    = 1 << 1,
-                Down  = 1 << 2,
-                Left  = 1 << 3,
-                Right = 1 << 4
+                Up    = 1 << 0,
+                Down  = 1 << 1,
+                Left  = 1 << 2,
+                Right = 1 << 3,
+
+                // Used to lookup the size
+                None  = 1 << 4,
             };
 
             enum Action: Flag
             {
-                Noop        = 1 << 5,
-                Idle        = 1 << 6,
-                Jump        = 1 << 7,
-                Attack      = 1 << 8,
-                Smash       = 1 << 9,
-                Flee        = 1 << 10,
-                Guard       = 1 << 11,
-                OnHit       = 1 << 12,
-                Walk        = 1 << 13,
-                Run         = 1 << 14,
-                JumpIdle    = 1 << 15,
-                Falling     = 1 << 16,
-                FallingIdle = 1 << 17,
-                Crouch      = 1 << 18,
-                AerialHit   = 1 << 19,
-                Special     = 1 << 20,
-                SpecialIdle = 1 << 21
+                Idle        = 1 << 5 ,
+                Jump        = 1 << 6 ,
+                Attack      = 1 << 7 ,
+                Smash       = 1 << 8 ,
+                Flee        = 1 << 9 ,
+                Guard       = 1 << 10,
+                OnHit       = 1 << 11,
+                Walk        = 1 << 12,
+                Run         = 1 << 13,
+                Falling     = 1 << 14,
+                Crouch      = 1 << 15,
+                AerialHit   = 1 << 16,
+                Special     = 1 << 17,
+
+                // Used to lookup the size
+                Noop        = 1 << 18 
             };
 
             Movement(Movement &&) = default;
@@ -46,15 +51,39 @@ namespace EUSDAB
             Movement & operator=(const Movement &) = default;
 
             Movement(Flag = 0);
+            Movement(Action, Direction);
 
+            // Get/Set the flag
             Flag flag() const;
             void setFlag(Flag);
+
+            // Convert Flag -> Action
+            Action toAction(Flag) const;
+
+            // Convert Flag -> Direction
+            Direction toDirection(Flag) const;
+
+            // Get/Set the action
+            Action action() const;
+            void setAction(Action);
+
+            // Get/Set the direction
+            Direction direction() const;
+            void setDirection(Direction);
 
             operator Flag() const;
             bool operator<(const Movement &) const;
 
+#ifdef DEBUG
+            std::string debug() const;
+            std::string debugAction(Action) const;
+            std::string debugDirection(Direction) const;
+            std::string debugFlag(Flag) const;
+#endif
+
         private:
-            Flag _flag;
+            Action _action;
+            Direction _direction;
     };
 }
 

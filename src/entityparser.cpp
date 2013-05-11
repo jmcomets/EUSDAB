@@ -120,7 +120,6 @@ namespace EUSDAB
                         else if (action == "onhit") { flag |= Movement::OnHit; }
                         else if (action == "falling") { flag |= Movement::Falling; }
                         else if (action == "special") { flag |= Movement::Special; }
-                        else if (action == "specialidle") { flag |= Movement::SpecialIdle; }
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");

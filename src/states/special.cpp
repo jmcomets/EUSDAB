@@ -36,27 +36,15 @@ namespace EUSDAB
 
         void Special::onNextFrame()
         {
-            Listener::onNextFrame();
-            bool animationEnd=false;
-            if (_animation != nullptr)
-            {
-                animationEnd=_animation->advance();
-            }
-            if (animationEnd)
-            {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Idle | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Idle | Movement::Right);
-                }
-                else
-                {
-                    switchState(Movement::Idle | Movement::Left);
-                } 
-            }  
+            State::onNextFrame();
+        }
+
+        void Special::onAnimationEnd()
+        {
+            State::onAnimationEnd();
+            Movement newMvt(_mvt);
+            newMvt.setAction(Movement::Idle);
+            switchState(newMvt);
         }
         
         void Special::onEnter()

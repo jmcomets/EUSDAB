@@ -45,8 +45,11 @@ namespace EUSDAB
             // onNextFrame -> advance Animation
             virtual void onNextFrame();
             
-            // onEnter ->used to reset animation at the start of a state
+            // onEnter -> used to reset animation at the start of a state
             virtual void onEnter();
+
+            // onAnimationEnd -> fired when animation ends
+            virtual void onAnimationEnd();
 
         protected:
             // Movement (identification)
