@@ -22,8 +22,8 @@ namespace EUSDAB
                     B      = 1,
                     X      = 2,
                     Y      = 3,
-                    LT     = 4,
-                    RT     = 5,
+                    LB     = 4,
+                    RB     = 5,
                     Back   = 6,
                     Start  = 7,
                     Menu   = 8,
@@ -45,7 +45,9 @@ namespace EUSDAB
                     DPadUp       = 9,
                     DPadDown     = 10,
                     DPadRight    = 11,
-                    DPadLeft     = 12
+                    DPadLeft     = 12,
+                    LTrigger     = 13,
+                    RTrigger     = 14
                 };
 
 
@@ -74,11 +76,8 @@ namespace EUSDAB
                 bool isInDeadZone(Axis const & axis, float pos);
 
             private:
-                std::vector<std::pair<Speaker *, std::map<int,  Event::Id>>> _btnMapping;
+                std::vector<std::pair<Speaker *, std::map<int, Event::Id>>> _btnMapping;
                 std::vector<std::pair<Speaker *, std::map<Axis, Event::Id>>> _axisMapping;
-
-                std::map<sf::Joystick::Axis, 
-                    std::pair<std::string, bool (*)(float const &)>> _axis;
         };
     }
 }

@@ -92,17 +92,6 @@ namespace EUSDAB
 
         void JoystickMapping::initMappings()
         {
-            //assert (_playerList.size() > 1);
-
-            //_axis[sf::Joystick::X] = std::make_pair("x", [](float const & x) { return std::abs(x) > 20; });
-            //_axis[sf::Joystick::Y] = std::make_pair("y", [](float const & x) { return std::abs(x) > 20; });
-            //_axis[sf::Joystick::Z] = std::make_pair("z", [](float const & x) { return x > -98; });
-            //_axis[sf::Joystick::R] = std::make_pair("r", [](float const & x) { return std::abs(x) > 20; });
-            //_axis[sf::Joystick::U] = std::make_pair("u", [](float const & x) { return std::abs(x) > 20; });
-            //_axis[sf::Joystick::V] = std::make_pair("v", [](float const & x) { return std::abs(x) > 20; });
-            //_axis[sf::Joystick::PovX] = std::make_pair("povX", [](float const & x) { return std::abs(x) > 20; });
-            //_axis[sf::Joystick::PovY] = std::make_pair("povY", [](float const & x) { return std::abs(x) > 20; });
-     
             for(unsigned int i = 0; i < _playerList.size(); ++i)
             {
                 _btnMapping.push_back(std::make_pair(_playerList.at(i), 
@@ -112,26 +101,26 @@ namespace EUSDAB
                 _btnMapping[i].second[Button::B] = Event::B;
                 _btnMapping[i].second[Button::X] = Event::X;
                 _btnMapping[i].second[Button::Y] = Event::Y;
-                _btnMapping[i].second[Button::LT] = Event::Trigger;
-                _btnMapping[i].second[Button::RT] = Event::Trigger;
                 _btnMapping[i].second[Button::Start] = Event::Ground;
 
 
                 _axisMapping.push_back(std::make_pair(_playerList.at(i), 
                         std::map<Axis, Event::Id>()));
 
-                _axisMapping[i].second[Axis::LStickUp]    = Event::Up;
-                _axisMapping[i].second[Axis::LStickDown]  = Event::Down;
-                _axisMapping[i].second[Axis::LStickLeft]  = Event::Left;
-                _axisMapping[i].second[Axis::LStickRight] = Event::Right;
+                _axisMapping[i].second[Axis::LStickUp]      = Event::Up;
+                _axisMapping[i].second[Axis::LStickDown]    = Event::Down;
+                _axisMapping[i].second[Axis::LStickLeft]    = Event::Left;
+                _axisMapping[i].second[Axis::LStickRight]   = Event::Right;
                 //_axisMapping[i].second[Axis::RStickUp]    = Event::Up;
                 //_axisMapping[i].second[Axis::RStickDown]  = Event::Down;
                 //_axisMapping[i].second[Axis::RStickLeft]  = Event::Left;
                 //_axisMapping[i].second[Axis::RStickRight] = Event::Right;
-                //_axisMapping[i].second[Axis::DPadUp]    = Event::Up;
-                //_axisMapping[i].second[Axis::DPadDown]  = Event::Down;
-                //_axisMapping[i].second[Axis::DPadLeft]  = Event::Left;
-                //_axisMapping[i].second[Axis::DPadRight] = Event::Right;
+                //_axisMapping[i].second[Axis::DPadUp]      = Event::Up;
+                //_axisMapping[i].second[Axis::DPadDown]    = Event::Down;
+                //_axisMapping[i].second[Axis::DPadLeft]    = Event::Left;
+                //_axisMapping[i].second[Axis::DPadRight]   = Event::Right;
+                _axisMapping[i].second[Axis::LTrigger]      = Event::Trigger;
+                _axisMapping[i].second[Axis::RTrigger]      = Event::Trigger;
             }
         }
 
@@ -145,9 +134,9 @@ namespace EUSDAB
                 case sf::Joystick::Y:
                     return (pos < 0) ? Axis::LStickUp : Axis::LStickDown;
                 case sf::Joystick::Z:
-                    return Axis::None;
+                    return Axis::LTrigger;
                 case sf::Joystick::R:
-                    return Axis::None;
+                    return Axis::RTrigger;
                 case sf::Joystick::U:
                     return (pos < 0) ? Axis::RStickLeft : Axis::RStickRight;
                 case sf::Joystick::V:
@@ -172,6 +161,8 @@ namespace EUSDAB
                 case RStickUp   : case RStickDown: return sf::Joystick::V;
                 case DPadRight  : case DPadLeft  : return sf::Joystick::PovX;
                 case DPadUp     : case DPadDown  : return sf::Joystick::PovY;
+                case LTrigger   : return sf::Joystick::Z;
+                case RTrigger   : return sf::Joystick::R;
                 case None       :
                 default: return sf::Joystick::PovX;
             }
@@ -193,6 +184,8 @@ namespace EUSDAB
                 case DPadRight  :
                 case DPadUp     :
                 case DPadDown   : return false;
+                case LTrigger   :
+                case RTrigger   : return (pos < 75);
                 case None       :
                 default: return true;
             }
