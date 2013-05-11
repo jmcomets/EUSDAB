@@ -1,5 +1,4 @@
 #include <input/controller.h>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -27,7 +26,6 @@ namespace EUSDAB
         void Controller::pushEvent(const sf::Event & event)
         {
             _mapping->pushEvent(event);
-            std::cout << "EVENT PUSHED" << std::endl;
         }
 
         void Controller::pushEvent(Speaker * s, Event const & event)

@@ -1,4 +1,5 @@
 #include <states/walk.h>
+#include <constants.h>
 #include <iostream>
 
 namespace EUSDAB
@@ -48,7 +49,7 @@ namespace EUSDAB
                 {
                     switchState(Movement::Walk | Movement::Left);
                 }
-                else if((_mvt.flag() & Movement::Left) && e.ratio > 0.75)
+                else if((_mvt.flag() & Movement::Left) && e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Left);
                 }
@@ -71,7 +72,7 @@ namespace EUSDAB
                     switchState(Movement::Walk | Movement::Right);
                     std::cout << "<Walk::onRight> : Movement::Left" << std::endl;
                 }
-                else if((_mvt.flag() & Movement::Right) && e.ratio > 0.75)
+                else if((_mvt.flag() & Movement::Right) && e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Right);
                     std::cout << "<Walk::onRight> : Movement::Right" << std::endl;
