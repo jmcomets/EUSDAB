@@ -31,6 +31,8 @@ namespace EUSDAB
 
                 void onNextFrame();
 
+                void onAnimationEnd();
+
                 //void onAttack(const Event &);
                 //void onDamage(const Event &);
 

@@ -110,11 +110,11 @@ namespace EUSDAB
             {
                 if (_mvt.flag() & Movement::Left)
                 {
-                    switchState(Movement::SpecialIdle | Movement::Left);
+                    switchState(Movement::Special | Movement::Idle | Movement::Left);
                 }
                 else if (_mvt.flag() & Movement::Right)
                 {
-                    switchState(Movement::SpecialIdle | Movement::Right);
+                    switchState(Movement::Special | Movement::Idle | Movement::Right);
                 }
                 else
                 {
@@ -125,16 +125,7 @@ namespace EUSDAB
 
         void Idle::onNextFrame()
         {
-            Listener::onNextFrame();
-            bool animationEnd=false;
-            if (_animation != nullptr)
-            {
-                animationEnd=_animation->advance();
-            }
-            if (animationEnd)
-            {
-                 _animation->resetAnimation(); 
-            }  
+            State::onNextFrame();
         }
     }
 }

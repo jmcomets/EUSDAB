@@ -107,7 +107,7 @@ namespace EUSDAB
         void Walk::onB(const Event & e)
         {
             State::onB(e);
-            if ((e.edge == Event::RisingEdge))
+            if (e.edge == Event::RisingEdge)
             {
                 if (_mvt.flag() & Movement::Left)
                 {
@@ -126,16 +126,7 @@ namespace EUSDAB
 
         void Walk::onNextFrame()
         {
-            Listener::onNextFrame();
-            bool animationEnd=false;
-            if (_animation != nullptr)
-            {
-                animationEnd=_animation->advance();
-            }
-            if (animationEnd)
-            {
-                 _animation->resetAnimation(); 
-            }  
+            State::onNextFrame();
         }
     }
 }

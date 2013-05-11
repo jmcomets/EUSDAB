@@ -1,7 +1,7 @@
 #include <state.h>
 #include <entity.h>
 #include <stdexcept>
-#include <iostream>
+#include <string>
 
 namespace EUSDAB
 {
@@ -32,7 +32,14 @@ namespace EUSDAB
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
-            throw std::runtime_error("Undefined State");
+            std::string msg("Undefined State");
+#ifdef DEBUG
+            msg += " of movement ";
+            msg += mvt.debug();
+            msg += " current state movement is ";
+            msg += _entity->state()->movement().debug();
+#endif
+            throw std::runtime_error(msg);
         }
         _entity->setState(s);
         s->onEnter();
@@ -73,12 +80,21 @@ namespace EUSDAB
         Listener::onNextFrame();
         if (_animation != nullptr)
         {
+            Animation::FrameListSize old = _animation->currentFrame();
             _animation->advance();
+            if (old > _animation->currentFrame())
+            {
+                onAnimationEnd();
+            }
         }
     }
     
     void State::onEnter()
     {
-        _animation->resetAnimation();
+        _animation->reset();
+    }
+
+    void State::onAnimationEnd()
+    {
     }
 }

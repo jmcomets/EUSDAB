@@ -37,37 +37,26 @@ namespace EUSDAB
         return _hitboxList;
     }
 
-
-//*******************************************************************//
-//****************ANIMATION FONCTIONS AND PROCEDURES*****************//
-
-
+    // Definition of member constant
     constexpr Animation::FPI Animation::DefaultFPI;
 
     Animation::Animation(Animation::FPI fpi):
         _frames(), _sprite(),
         _paused(false),
+        _currentFrame(0),
         _framesPerImage(fpi),
-        _imagesLeft(_framesPerImage),
-        _currentFrame(0)
+        _imagesLeft(_framesPerImage)
     {
     }
 
-    bool Animation::advance(std::time_t nbFrames)
+    void Animation::advance(Animation::FPI nbFrames)
     {
-        bool animationEnd = false;
         if (!_frames.empty() && _paused == false)
         {
             if (_imagesLeft <= nbFrames)
             {
                 _imagesLeft = _framesPerImage;
-                //_frames.splice(_frames.end(), _frames, _frames.begin());
-                _currentFrame += nbFrames;
-                if (_currentFrame >= _frames.size())
-                {
-                    _currentFrame = (_frames.size()-1);
-                    animationEnd = true;
-                }
+                _currentFrame = (_currentFrame + nbFrames) % _frames.size();
                 refresh();
             }
             else
@@ -75,7 +64,6 @@ namespace EUSDAB
                 _imagesLeft -= nbFrames;
             }
         }
-        return animationEnd;
     }
 
     void Animation::refresh()
@@ -87,6 +75,7 @@ namespace EUSDAB
     {
         return _frames[_currentFrame];
     }
+
        void Animation::addFrame(const Frame & frame)
     {
         _frames.push_back(frame);
@@ -138,12 +127,14 @@ namespace EUSDAB
         _framesPerImage = fpi;
     }
     
-    void Animation::resetAnimation()
+    void Animation::reset()
     {
-        _currentFrame=0;
+        _currentFrame = 0;
+        _imagesLeft = _framesPerImage;
+        refresh();
     }
     
-    void Animation::currentFrame(int frame)
+    void Animation::setCurrentFrame(Animation::FrameListSize frame)
     {
         if (frame < _frames.size())
         {
@@ -155,7 +146,7 @@ namespace EUSDAB
         }    
     }
     
-    int Animation::currentFrame()
+    Animation::FrameListSize Animation::currentFrame() const
     {
         return _currentFrame;
     }

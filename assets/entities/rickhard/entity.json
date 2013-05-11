@@ -1,167 +1,200 @@
 {
-    "name": "Rick Hard",
-    "start": "idle",
+    "name": "Rick Hard", 
+    "start": "idle", 
     "states": [
         {
-            "type": "idle",
-
+            "animation": "idle_right", 
             "movement": {
-                "action": [ "idle" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "idle_right"
-        },
+                "action": [
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "idle"
+        }, 
         {
-            "type": "walk",
-
+            "animation": "walk_right", 
             "movement": {
-                "action": [ "walk" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "walk_right"
-        },
+                "action": [
+                    "walk"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "walk"
+        }, 
         {
-            "type": "run",
-
+            "animation": "run_right", 
             "movement": {
-                "action": [ "run" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "run_right"
-        },
+                "action": [
+                    "run"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "run"
+        }, 
         {
-            "type": "idle",
-
+            "animation": "idle_left", 
             "movement": {
-                "action": [ "idle" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "idle_left"
-        },
+                "action": [
+                    "idle"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "idle"
+        }, 
         {
-            "type": "walk",
-
+            "animation": "walk_left", 
             "movement": {
-                "action": [ "walk" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "walk_left"
-        },
+                "action": [
+                    "walk"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "walk"
+        }, 
         {
-            "type": "run",
-
+            "animation": "run_left", 
             "movement": {
-                "action": [ "run" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "run_left"
-        },
-	{
-            "type": "jump",
-
+                "action": [
+                    "run"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "run"
+        }, 
+        {
+            "animation": "jump_right", 
             "movement": {
-                "action": [ "jump" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "jump_right"
-        },
-	{
-            "type": "jump",
-
+                "action": [
+                    "jump"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "jump"
+        }, 
+        {
+            "animation": "jump_left", 
             "movement": {
-                "action": [ "jump" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "jump_left"
-        },
-	{
-            "type": "falling",
-
+                "action": [
+                    "jump"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "jump"
+        }, 
+        {
+            "animation": "falling_right", 
             "movement": {
-                "action": [ "falling" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "falling_right"
-        },
-	{
-            "type": "falling",
-
+                "action": [
+                    "falling"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "falling"
+        }, 
+        {
+            "animation": "falling_left", 
             "movement": {
-                "action": [ "falling" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "falling_left"
-        },
-	{
-            "type": "attack",
-
+                "action": [
+                    "falling"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "falling"
+        }, 
+        {
+            "animation": "sideA_left", 
             "movement": {
-                "action": [ "attack" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "sideA_left"
-        },
-	{
-            "type": "attack",
-
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideA_right", 
             "movement": {
-                "action": [ "attack" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "sideA_right"
-        },
-	{
-            "type": "special",
-
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideB_left", 
             "movement": {
-                "action": [ "special" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "sideB_left"
-        },
-	{
-            "type": "special",
-
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "sideB_right", 
             "movement": {
-                "action": [ "special" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "sideB_right"
-        },
-	{
-            "type": "special",
-
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "vomit_right", 
             "movement": {
-                "action": [ "specialidle" ],
-                "direction": [ "right" ]
-            },
-
-            "animation": "vomit_right"
-        },
-	{
-            "type": "special",
-
+                "action": [
+                    "special",
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "vomit_left", 
             "movement": {
-                "action": [ "specialidle" ],
-                "direction": [ "left" ]
-            },
-
-            "animation": "vomit_left"
+                "action": [
+                    "special",
+                    "idle"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "special"
         }
-
     ]
 }
