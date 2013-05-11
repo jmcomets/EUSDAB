@@ -21,25 +21,26 @@ namespace EUSDAB
 
         // Creating players
         Entity * player1 = entityParser.loadEntity("../../assets/entities/rickhard");
-        //Entity * player1 = new Entity();
         Entity * player2 = entityParser.loadEntity("../../assets/entities/rickhard");
-        //Entity * player2 = new Entity();
-        
-        if (player1 == nullptr)
-        {
-            throw std::runtime_error("Entity wasn't loaded");
-        }
-        std::cout << "Loaded Entity " << player1->name() << std::endl;
-        //std::cout << "Loaded Entity " << player2->name() << std::endl;
+        Entity * player3 = entityParser.loadEntity("../../assets/entities/rickhard");
+        Entity * player4 = entityParser.loadEntity("../../assets/entities/rickhard");
 
-        //player2->state()->animation.sprite()->setPosition(300, 250);
+        player1->state()->animation()->sprite().setPosition(100, 0);
+        player2->state()->animation()->sprite().setPosition(400, 0);
+        player3->state()->animation()->sprite().setPosition(100, 250);
+        player4->state()->animation()->sprite().setPosition(400, 250);
+
         _painter.addEntity(player1);
         _painter.addEntity(player2);
+        _painter.addEntity(player3);
+        _painter.addEntity(player4);
 
 
         // Adding players
         _playerList.emplace_back(player1);
         _playerList.emplace_back(player2);
+        _playerList.emplace_back(player3);
+        _playerList.emplace_back(player4);
 
         //_mapping = new Input::KeyboardMapping(_playerList.begin(), _playerList.end());
         _mapping = new Input::JoystickMapping(_playerList.begin(), _playerList.end());
