@@ -57,7 +57,7 @@ namespace EUSDAB
 
                 template <typename InputIter>
                     JoystickMapping(InputIter begin, InputIter end):
-                    Mapping(begin, end), _keyMapping(), _axisMapping()
+                    Mapping(begin, end), _btnMapping(), _axisMapping()
                 {
                     initMappings();
                 }
@@ -74,11 +74,7 @@ namespace EUSDAB
                 bool isInDeadZone(Axis const & axis, float pos);
 
             private:
-                //FIXME change int into Button + add sfButtonToButton method
-                //std::map<int, std::pair<Speaker *, Event::Id>> _keyMapping;
-                std::vector<std::pair<Speaker *, std::map<int, Event::Id>>> _keyMapping;
-                //std::map<Axis,
-                    //std::pair<Speaker *, Event::Id>> _axisMapping;
+                std::vector<std::pair<Speaker *, std::map<int,  Event::Id>>> _btnMapping;
                 std::vector<std::pair<Speaker *, std::map<Axis, Event::Id>>> _axisMapping;
 
                 std::map<sf::Joystick::Axis, 

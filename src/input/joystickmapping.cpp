@@ -6,7 +6,7 @@ namespace EUSDAB
 {
     namespace Input
     {
-        JoystickMapping::JoystickMapping() : Mapping(), _keyMapping()
+        JoystickMapping::JoystickMapping() : Mapping(), _btnMapping()
         {
         }
 
@@ -44,35 +44,35 @@ namespace EUSDAB
             }
             else if(e.type == sf::Event::JoystickButtonPressed)
             {
-                auto it = _keyMapping[id].second.find(e.joystickButton.button);
-                if(it != _keyMapping[id].second.end())
+                auto it = _btnMapping[id].second.find(e.joystickButton.button);
+                if(it != _btnMapping[id].second.end())
                 {
                     Event event(it->second, Event::Full, Event::RisingEdge);
-                    _keyMapping[id].first->push(event);
+                    _btnMapping[id].first->push(event);
                 }
             }
             else if(e.type == sf::Event::JoystickButtonReleased)
             {
-                auto it = _keyMapping[id].second.find(e.joystickButton.button);
-                if(it != _keyMapping[id].second.end())
+                auto it = _btnMapping[id].second.find(e.joystickButton.button);
+                if(it != _btnMapping[id].second.end())
                 {
                     Event event(it->second, Event::Full, Event::FallingEdge);
-                    _keyMapping[id].first->push(event);
+                    _btnMapping[id].first->push(event);
                 }
             }
         }
 
         void JoystickMapping::update()
         {
-            for(int i = 0; i < _playerList.size(); ++i)
+            for(unsigned int i = 0; i < _playerList.size(); ++i)
             {
                 // Handle continuous input
-                for (auto p : _keyMapping[i].second)
+                for (auto p : _btnMapping[i].second)
                 {
                     if (sf::Joystick::isButtonPressed(i, p.first))
                     {
                         Event event(p.second, Event::Full, Event::ContinuousEdge);
-                        _keyMapping[i].first->push(event);
+                        _btnMapping[i].first->push(event);
                     }
                 }
 
@@ -92,8 +92,6 @@ namespace EUSDAB
 
         void JoystickMapping::initMappings()
         {
-
-           std::cout << "INITMAPPING : " << _playerList.size() << std::endl;
             //assert (_playerList.size() > 1);
 
             //_axis[sf::Joystick::X] = std::make_pair("x", [](float const & x) { return std::abs(x) > 20; });
@@ -105,18 +103,18 @@ namespace EUSDAB
             //_axis[sf::Joystick::PovX] = std::make_pair("povX", [](float const & x) { return std::abs(x) > 20; });
             //_axis[sf::Joystick::PovY] = std::make_pair("povY", [](float const & x) { return std::abs(x) > 20; });
      
-            for(int i = 0; i < _playerList.size(); ++i)
+            for(unsigned int i = 0; i < _playerList.size(); ++i)
             {
-                _keyMapping.push_back(std::make_pair(_playerList.at(i), 
+                _btnMapping.push_back(std::make_pair(_playerList.at(i), 
                         std::map<int, Event::Id>()));
 
-                _keyMapping[i].second[Button::A] = Event::A;
-                _keyMapping[i].second[Button::B] = Event::B;
-                _keyMapping[i].second[Button::X] = Event::X;
-                _keyMapping[i].second[Button::Y] = Event::Y;
-                _keyMapping[i].second[Button::LT] = Event::Trigger;
-                _keyMapping[i].second[Button::RT] = Event::Trigger;
-                _keyMapping[i].second[Button::Start] = Event::Ground;
+                _btnMapping[i].second[Button::A] = Event::A;
+                _btnMapping[i].second[Button::B] = Event::B;
+                _btnMapping[i].second[Button::X] = Event::X;
+                _btnMapping[i].second[Button::Y] = Event::Y;
+                _btnMapping[i].second[Button::LT] = Event::Trigger;
+                _btnMapping[i].second[Button::RT] = Event::Trigger;
+                _btnMapping[i].second[Button::Start] = Event::Ground;
 
 
                 _axisMapping.push_back(std::make_pair(_playerList.at(i), 
@@ -135,7 +133,6 @@ namespace EUSDAB
                 //_axisMapping[i].second[Axis::DPadLeft]  = Event::Left;
                 //_axisMapping[i].second[Axis::DPadRight] = Event::Right;
             }
-           std::cout << "INITMAPPING END" << std::endl;
         }
 
         JoystickMapping::Axis
@@ -170,7 +167,12 @@ namespace EUSDAB
             switch(axis)
             {
                 case LStickRight: case LStickLeft: return sf::Joystick::X;
-                case LStickUp: case LStickDown: return sf::Joystick::Y;
+                case LStickUp   : case LStickDown: return sf::Joystick::Y;
+                case RStickRight: case RStickLeft: return sf::Joystick::U;
+                case RStickUp   : case RStickDown: return sf::Joystick::V;
+                case DPadRight  : case DPadLeft  : return sf::Joystick::PovX;
+                case DPadUp     : case DPadDown  : return sf::Joystick::PovY;
+                case None       :
                 default: return sf::Joystick::PovX;
             }
         }
@@ -182,15 +184,16 @@ namespace EUSDAB
                 case LStickUp   :
                 case LStickLeft : 
                 case RStickUp   :
-                case RStickLeft : return (pos > -33); // && (pos < 0);
+                case RStickLeft : return (pos > -33);
                 case LStickDown :
                 case LStickRight:
                 case RStickDown :
-                case RStickRight: return (pos < 33) ; //&& (pos > 0);
+                case RStickRight: return  (pos < 33);
                 case DPadLeft   :
                 case DPadRight  :
                 case DPadUp     :
                 case DPadDown   : return false;
+                case None       :
                 default: return true;
             }
         }

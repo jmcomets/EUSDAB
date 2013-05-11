@@ -10,16 +10,6 @@
 
 namespace EUSDAB
 {
-    namespace Priv
-    {
-        static std::size_t uniqueId()
-        {
-            static std::size_t id = 0;
-            return id++;
-        }
-    }
-
-
     JoystickTest::JoystickTest(sf::RenderWindow & window):
         Application(window),
         _playerList(),
