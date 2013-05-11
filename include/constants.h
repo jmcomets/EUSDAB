@@ -1,14 +1,15 @@
 #ifndef CONSTANTS_H_
 #define CONSTANTS_H_
 
+#include <input/event.h>
+
 namespace EUSDAB 
 {
     namespace Constants
     {
-            typedef float Ratio;
-
-            static constexpr Ratio OnRunRatio = 0.85;
+        typedef Input::Event::Ratio Ratio;
+        static constexpr Ratio OnRunRatio = static_cast<Ratio>(0.85);
     }
 }
 
-#endif //CONSTANTS_H_
+#endif
