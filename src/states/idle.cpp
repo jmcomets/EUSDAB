@@ -55,7 +55,7 @@ namespace EUSDAB
             State::onLeft(e);
             if ((e.edge == Event::RisingEdge))
             {
-                if(e.ratio > 0.75)
+                if(e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Left);
                 }
@@ -72,7 +72,7 @@ namespace EUSDAB
             
             if ((e.edge == Event::RisingEdge))
             {
-                if(e.ratio > 0.75)
+                if(e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Right);
                 }
