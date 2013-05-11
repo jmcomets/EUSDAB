@@ -1,7 +1,10 @@
 #include <state.h>
 #include <entity.h>
 #include <stdexcept>
-#include <string>
+#ifdef DEBUG
+#  include <string>
+#  include <iostream>
+#endif
 
 namespace EUSDAB
 {
@@ -29,6 +32,9 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
+#ifdef DEBUG
+        std::cout << "Setting state to " << mvt.debug() << std::endl;
+#endif
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {

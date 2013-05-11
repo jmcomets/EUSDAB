@@ -1,4 +1,5 @@
 #include <movement.h>
+#include <cstddef>
 #ifdef DEBUG
 #  include <iostream>
 #  include <sstream>
@@ -6,6 +7,13 @@
 
 namespace EUSDAB
 {
+    // Check that Flag can contain every Action / Direction
+    static constexpr std::size_t NoopIndex = static_cast<std::size_t>(18);
+    static_assert(Movement::Noop == (1 << NoopIndex),
+            "NoopIndex must be the index of the Movement::Noop bit");
+    static_assert(sizeof(Movement::Flag) * 8 >= NoopIndex, 
+            "Overflow in Movement::Flag, consider using a bigger integer");
+
     Movement::Movement(Movement::Flag f):
         _action(static_cast<Action>(0)),
         _direction(static_cast<Direction>(0))
@@ -42,7 +50,8 @@ namespace EUSDAB
     void Movement::setAction(Movement::Action act)
     {
 #ifdef DEBUG
-        std::cout << "Setting action to " << debugAction(act) << std::endl;
+        std::cout << "Setting action from " << debugAction(_action) 
+            << " to " << debugAction(act) << std::endl;
 #endif
         _action = act;
     }
@@ -50,12 +59,13 @@ namespace EUSDAB
     void Movement::setDirection(Movement::Direction dir)
     {
 #ifdef DEBUG
-        std::cout << "Setting direction to " << debugDirection(dir) << std::endl;
+        std::cout << "Setting direction from " << debugDirection(_direction)
+            << "to " << debugDirection(dir) << std::endl;
 #endif
         _direction = dir;
     }
 
-    static constexpr int NoneIndex = 4;
+    static constexpr std::size_t NoneIndex = static_cast<std::size_t>(4);
     static_assert(Movement::None == (1 << NoneIndex),
             "NoneIndex must be the index of the Movement::None bit");
     static constexpr Movement::Flag SeparationMask = ~static_cast<Movement::Flag>(0) 

@@ -2,6 +2,7 @@
 #define MOVEMENT_H_
 
 #ifdef DEBUG
+#  include <string>
 #  include <sstream>
 #endif
 
@@ -12,6 +13,7 @@ namespace EUSDAB
     class Movement
     {
         public:
+            // Flag combining both Action and Direction
             typedef unsigned int Flag;
 
             enum Direction: Flag
@@ -21,7 +23,7 @@ namespace EUSDAB
                 Left  = 1 << 2,
                 Right = 1 << 3,
 
-                // Used to lookup the size
+                // Used to lookup the size, as well as for initialization
                 None  = 1 << 4,
             };
 
@@ -41,7 +43,7 @@ namespace EUSDAB
                 AerialHit   = 1 << 16,
                 Special     = 1 << 17,
 
-                // Used to lookup the size
+                // Used to lookup the size, as well as for initialization
                 Noop        = 1 << 18 
             };
 
@@ -50,7 +52,7 @@ namespace EUSDAB
             ~Movement() = default;
             Movement & operator=(const Movement &) = default;
 
-            Movement(Flag = 0);
+            Movement(Flag = static_cast<Flag>(0));
             Movement(Action, Direction);
 
             // Get/Set the flag
