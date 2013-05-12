@@ -1,25 +1,32 @@
 #include <physics/controller.h>
 #include <physics/hitbox.h>
+#include <algorithm>
+#include <cassert>
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        Controller::Controller(Input::Controller & input_controller):
+        Controller::Controller(Input::Controller & input_controller,
+                World * world):
             _input(input_controller),
+            _world(world),
             _entityList()
         {
+            assert(_world != nullptr);
         }
 
         void Controller::addEntity(Entity * e)
         {
-            _entityList.emplace_back(e);
+            assert(e != nullptr);
+            _entityList.push_back(e);
         }
 
         void Controller::update()
         {
             for (Entity * e1 : _entityList)
             {
+                handleWorldEntity(e1);
                 for (Entity * e2 : _entityList)
                 {
                     if (e1 != e2)
@@ -32,6 +39,10 @@ namespace EUSDAB
 
         void Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
+            // Concept check
+            assert(e1 != nullptr);
+            assert(e2 != nullptr);
+
             State * s1 = e1->state();
             if (s1 == nullptr)
             {
@@ -85,13 +96,11 @@ namespace EUSDAB
                         {
                             // Atterissage
                             _input.pushEvent(e1, Event(Event::Ground));
-                            //e1->physics(e2);
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
                         {
                             // Collision
-                            //_input.pushEvent(e1, Event(Event::Collision, Event::Full, Event::RisingEdge));
-                            //e1->physics(e2);
+                            _input.pushEvent(e1, Event(Event::Collide));
                         }
                         else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
                         {
@@ -99,6 +108,36 @@ namespace EUSDAB
                             _input.pushEvent(e1, Event(Event::Grab));
                             //e1->grab(e2);
                         }
+                    }
+                }
+            }
+        }
+
+        void Controller::handleWorldEntity(Entity * e)
+        {
+            // Concept check
+            assert(e != nullptr);
+
+            State * s = e->state();
+            if (s != nullptr)
+            {
+                Animation * a = s->animation();
+                if (a != nullptr)
+                {
+                    // Instanciation of lambda for containment-check
+                    //  for all physical entities
+                    auto containedInWorld = [&](const Hitbox & hb)
+                    {
+                        return _world->contains(hb);
+                    };
+
+                    // If the entity isn't contained in the world,
+                    //  fire a onExitWorld call on its State
+                    const Animation::HitboxList & hitboxList = a->hitboxList();
+                    if (std::all_of(hitboxList.begin(), hitboxList.end(),
+                            containedInWorld) == false)
+                    {
+                        s->onExitWorld();
                     }
                 }
             }

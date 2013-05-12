@@ -5,6 +5,7 @@
 #include <entity.h>
 #include <input/controller.h>
 #include <physics/config.h>
+#include <physics/world.h>
 
 namespace EUSDAB
 {
@@ -22,7 +23,7 @@ namespace EUSDAB
                 // Pass Input Controller when constructing, allowing
                 // the Physics Controller to send input signals
                 // to all its handled entities
-                Controller(Input::Controller &);
+                Controller(Input::Controller &, World *);
 
                 // Add an Entity to the controller
                 void addEntity(Entity *);
@@ -41,14 +42,20 @@ namespace EUSDAB
                 void update();
 
             protected:
-                // Helper method to reduce code concentration
+                // Collision of two entities
                 void handleEntityCollision(Entity *, Entity *);
+
+                // Life of entities in world
+                void handleWorldEntity(Entity *);
 
             private:
                 // Input Controller
                 Input::Controller & _input;
-                
+
                 // Physics world
+                World * _world;
+                
+                // Reference to Entities
                 std::vector<Entity *> _entityList;
         };
     }

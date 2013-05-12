@@ -97,10 +97,18 @@ namespace EUSDAB
     
     void State::onEnter()
     {
-        _animation->reset();
+        if (_animation != nullptr)
+        {
+            _animation->reset();
+        }
     }
 
     void State::onAnimationEnd()
     {
+    }
+
+    void onExitWorld()
+    {
+        // TODO
     }
 }

@@ -12,7 +12,7 @@ namespace EUSDAB
             class AABBT
         {
             public:
-                // Access corresponding types from within 
+                // Access corresponding types from within
                 //  class instanciation (don't use extra templates).
                 typedef T Unit;
                 typedef Vector2T<Unit> Vector2;
@@ -23,14 +23,18 @@ namespace EUSDAB
                 {
                 }
 
-                AABBT(const Vector2 & center, const Unit & w, const Unit & h):
+                AABBT(const Vector2 & center,
+                        const Unit & w, const Unit & h):
                     _x(center.x()),
                     _y(center.y()),
                     _w(w), _h(h)
                 {
+                    assert(w >= static_cast<Unit>(0));
+                    assert(h >= static_cast<Unit>(0));
                 }
 
-                AABBT(const Unit & x, const Unit & y, const Unit & w, const Unit & h):
+                AABBT(const Unit & x, const Unit & y,
+                        const Unit & w, const Unit & h):
                     _x(x), _y(y),
                     _w(w), _h(h)
                 {
@@ -80,6 +84,7 @@ namespace EUSDAB
                 // ...set width
                 AABBT<Unit> & setWidth(const Unit & w)
                 {
+                    assert(w >= static_cast<Unit>(0));
                     _w = w;
                     return *this;
                 }
@@ -97,8 +102,16 @@ namespace EUSDAB
                 // ...set height
                 AABBT<Unit> & setHeight(const Unit & h)
                 {
+                    assert(h >= static_cast<Unit>(0));
                     _h = h;
                     return *this;
+                }
+
+                // Check if excludes another AABB (ie: doesn't
+                //  contain or overlap)
+                bool excludes(const AABBT<Unit> & aabb) const
+                {
+                    return collides(aabb) == false;
                 }
 
                 // Check if collides with another AABB
@@ -108,9 +121,9 @@ namespace EUSDAB
                     Vector2 aabbTopLeft = aabb.min();
                     Vector2 bottomRight = max();
                     Vector2 aabbBottomRight = aabb.max();
-                    return (bottomRight.x() < aabbTopLeft.x() || 
-                            bottomRight.y() < aabbTopLeft.y() || 
-                            topLeft.x() > aabbBottomRight.x() || 
+                    return (bottomRight.x() < aabbTopLeft.x() ||
+                            bottomRight.y() < aabbTopLeft.y() ||
+                            topLeft.x() > aabbBottomRight.x() ||
                             topLeft.y() > aabbBottomRight.y()) == false;
                 }
 

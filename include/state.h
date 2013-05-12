@@ -51,6 +51,9 @@ namespace EUSDAB
             // onAnimationEnd -> fired when animation ends
             virtual void onAnimationEnd();
 
+            // onExitWorld -> fired when off the physical world
+            virtual void onExitWorld();
+
         protected:
             // Movement (identification)
             Movement _mvt;
