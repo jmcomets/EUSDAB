@@ -4,11 +4,15 @@ namespace EUSDAB
 {
     namespace Physics
     {
-        World::World(const Unit &, const Unit &, const Unit &, const Unit &)
+        World::World(const Unit & x, const Unit & y,
+                const Unit & w, const Unit & h):
+            _aabb(x, y, w, h)
         {
         }
 
-        World::World(const Vector2 &, const Unit & w, const Unit & h)
+        World::World(const Vector2 & pos,
+                const Unit & w, const Unit & h):
+            _aabb(pos, w, h)
         {
         }
 
