@@ -36,11 +36,10 @@ namespace EUSDAB
                     None
                 };
 
+                JoystickMapping() = delete;
                 JoystickMapping(JoystickMapping &&) = default;
                 JoystickMapping(const JoystickMapping &) = delete;
                 JoystickMapping & operator=(const JoystickMapping &) = delete;
-
-                JoystickMapping();
 
                 template <typename InputIter>
                     JoystickMapping(InputIter begin, InputIter end):

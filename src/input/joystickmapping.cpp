@@ -7,19 +7,19 @@ namespace EUSDAB
 {
     namespace Input
     {
-        JoystickMapping::JoystickMapping():
-            Mapping(),
-            _btnMapping(),
-            _axisMapping()
-        {
-        }
-
         static constexpr float STICK_DEAD_ZONE_BOUNDARY = 33;
         static constexpr float TRIGGER_DEAD_ZONE_BOUNDARY = 75;
 
         void JoystickMapping::pushEvent(const sf::Event & e)
         {
+            // Store current joystick id
             int id = e.joystickButton.joystickId;
+
+            // Check assertions
+            assert(0 < id);
+            assert(static_cast<std::size_t>(id) < _axisMapping.size());
+            assert(static_cast<std::size_t>(id) < _btnMapping.size());
+
             if (e.type == sf::Event::JoystickMoved)
             {
                 const sf::Joystick::Axis & sfAxis = e.joystickMove.axis;
@@ -103,8 +103,8 @@ namespace EUSDAB
         {
             for (unsigned int i = 0; i < _playerList.size(); i++)
             {
-                _btnMapping.push_back(std::make_pair(_playerList[i], 
-                        std::map<int, Event::Id>()));
+                _btnMapping.emplace_back(_playerList[i],
+                        std::map<int, Event::Id>());
 
                 _btnMapping[i].second[Button::A] = Event::A;
                 _btnMapping[i].second[Button::B] = Event::B;
@@ -112,8 +112,8 @@ namespace EUSDAB
                 _btnMapping[i].second[Button::Y] = Event::Y;
                 _btnMapping[i].second[Button::Start] = Event::Ground;
 
-                _axisMapping.push_back(std::make_pair(_playerList[i], 
-                        std::map<Axis, Event::Id>()));
+                _axisMapping.emplace_back(_playerList[i], 
+                        std::map<Axis, Event::Id>());
 
                 _axisMapping[i].second[Axis::LStickUp]      = Event::Up;
                 _axisMapping[i].second[Axis::LStickDown]    = Event::Down;
