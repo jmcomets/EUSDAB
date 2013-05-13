@@ -107,7 +107,7 @@ namespace EUSDAB
     {
     }
 
-    void onExitWorld()
+    void State::onExitWorld()
     {
         // TODO
     }
