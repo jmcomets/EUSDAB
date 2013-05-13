@@ -1,60 +1,71 @@
 #include <input/joystickmapping.h>
 #include <cassert>
 #include <iostream>
+#include <cmath>
 
 namespace EUSDAB
 {
     namespace Input
     {
-        JoystickMapping::JoystickMapping() : Mapping(), _btnMapping()
+        JoystickMapping::JoystickMapping():
+            Mapping(),
+            _btnMapping(),
+            _axisMapping()
         {
         }
 
-        JoystickMapping::~JoystickMapping()
-        {
-        }
+        static constexpr float STICK_DEAD_ZONE_BOUNDARY = 33;
+        static constexpr float TRIGGER_DEAD_ZONE_BOUNDARY = 75;
 
-        void JoystickMapping::pushEvent(sf::Event const & e)
+        void JoystickMapping::pushEvent(const sf::Event & e)
         {
             int id = e.joystickButton.joystickId;
             if (e.type == sf::Event::JoystickMoved)
             {
-                sf::Joystick::Axis axis = e.joystickMove.axis;
-                float p = sf::Joystick::getAxisPosition(e.joystickButton.joystickId, axis);
-                Axis a = sfAxisToAxis(axis, p);
-                auto it = _axisMapping[id].second.find(a);
-                if(it != _axisMapping[id].second.end())
+                const sf::Joystick::Axis & sfAxis = e.joystickMove.axis;
+                float joystickPos = sf::Joystick::getAxisPosition(id, sfAxis);
+                Axis axis = sfAxisToAxis(sfAxis, joystickPos);
+                auto it = _axisMapping[id].second.find(axis);
+                if (it != _axisMapping[id].second.end())
                 {
-                    if(isInDeadZone(a, p))
+                    if (isInDeadZone(axis, joystickPos))
                     {
-                        std::cout << "IS IN DEAD ZONE : " << p << std::endl;
+                        std::cout << "DEAD ZONE " << std::abs(joystickPos)
+                            << " < " << STICK_DEAD_ZONE_BOUNDARY << std::endl;
+
+                        // Push as FallingEdge event
                         Event event(it->second, Event::Full, Event::FallingEdge);
                         _axisMapping[id].first->push(event);
                     }
                     else
                     {
-                        Event event(it->second, (p > 0 ? p : -p) / 100, Event::RisingEdge);
+                        // Explicitly convert the given parameter
+                        //  to an Event::Ratio
+                        static auto r = [](Event::Ratio r) { return r; };
+
+                        // Push as RisingEdge event
+                        Event event(it->second, r(std::abs(joystickPos)) / r(100));
                         _axisMapping[id].first->push(event);
                     }
                 }
-                else if(a == Axis::None)
+                else if (axis == Axis::None)
                 {
                     std::cout << "Axis::None" << std::endl;
                 }
             }
-            else if(e.type == sf::Event::JoystickButtonPressed)
+            else if (e.type == sf::Event::JoystickButtonPressed)
             {
                 auto it = _btnMapping[id].second.find(e.joystickButton.button);
-                if(it != _btnMapping[id].second.end())
+                if (it != _btnMapping[id].second.end())
                 {
                     Event event(it->second, Event::Full, Event::RisingEdge);
                     _btnMapping[id].first->push(event);
                 }
             }
-            else if(e.type == sf::Event::JoystickButtonReleased)
+            else if (e.type == sf::Event::JoystickButtonReleased)
             {
                 auto it = _btnMapping[id].second.find(e.joystickButton.button);
-                if(it != _btnMapping[id].second.end())
+                if (it != _btnMapping[id].second.end())
                 {
                     Event event(it->second, Event::Full, Event::FallingEdge);
                     _btnMapping[id].first->push(event);
@@ -64,9 +75,8 @@ namespace EUSDAB
 
         void JoystickMapping::update()
         {
-            for(unsigned int i = 0; i < _playerList.size(); ++i)
+            for (unsigned int i = 0; i < _playerList.size(); ++i)
             {
-                // Handle continuous input
                 for (auto p : _btnMapping[i].second)
                 {
                     if (sf::Joystick::isButtonPressed(i, p.first))
@@ -80,7 +90,7 @@ namespace EUSDAB
                 {
                     float pos = sf::Joystick::getAxisPosition(i,
                         axisToSfAxis(p.first));
-                    if(!isInDeadZone(p.first, pos))
+                    if (!isInDeadZone(p.first, pos))
                     {
                         Event event(p.second, Event::Full, Event::ContinuousEdge);
                         _axisMapping[i].first->push(event);
@@ -89,12 +99,11 @@ namespace EUSDAB
             }
         }
         
-
         void JoystickMapping::initMappings()
         {
-            for(unsigned int i = 0; i < _playerList.size(); ++i)
+            for (unsigned int i = 0; i < _playerList.size(); i++)
             {
-                _btnMapping.push_back(std::make_pair(_playerList.at(i), 
+                _btnMapping.push_back(std::make_pair(_playerList[i], 
                         std::map<int, Event::Id>()));
 
                 _btnMapping[i].second[Button::A] = Event::A;
@@ -103,8 +112,7 @@ namespace EUSDAB
                 _btnMapping[i].second[Button::Y] = Event::Y;
                 _btnMapping[i].second[Button::Start] = Event::Ground;
 
-
-                _axisMapping.push_back(std::make_pair(_playerList.at(i), 
+                _axisMapping.push_back(std::make_pair(_playerList[i], 
                         std::map<Axis, Event::Id>()));
 
                 _axisMapping[i].second[Axis::LStickUp]      = Event::Up;
@@ -124,36 +132,43 @@ namespace EUSDAB
             }
         }
 
-        JoystickMapping::Axis
-            JoystickMapping::sfAxisToAxis(sf::Joystick::Axis const & axis, float pos)
+        JoystickMapping::Axis JoystickMapping::sfAxisToAxis(const sf::Joystick::Axis & axis, float pos)
         {
-            switch(axis)
+            switch (axis)
             {
                 case sf::Joystick::X:
                     return (pos < 0) ? Axis::LStickLeft : Axis::LStickRight;
+
                 case sf::Joystick::Y:
                     return (pos < 0) ? Axis::LStickUp : Axis::LStickDown;
+
                 case sf::Joystick::Z:
                     return Axis::LTrigger;
+
                 case sf::Joystick::R:
                     return Axis::RTrigger;
+
                 case sf::Joystick::U:
                     return (pos < 0) ? Axis::RStickLeft : Axis::RStickRight;
+
                 case sf::Joystick::V:
                     return (pos < 0) ? Axis::RStickUp : Axis::RStickDown;
+
                 case sf::Joystick::PovX:
                     return (pos < 0) ? Axis::DPadLeft : Axis::DPadRight;
+
                 case sf::Joystick::PovY:
                     return (pos < 0) ? Axis::DPadUp : Axis::DPadDown;
+
                 default:
                     return Axis::None;
             }
         }
 
         sf::Joystick::Axis
-            JoystickMapping::axisToSfAxis(JoystickMapping::Axis const & axis)
+            JoystickMapping::axisToSfAxis(const JoystickMapping::Axis & axis)
         {
-            switch(axis)
+            switch (axis)
             {
                 case LStickRight: case LStickLeft: return sf::Joystick::X;
                 case LStickUp   : case LStickDown: return sf::Joystick::Y;
@@ -168,29 +183,28 @@ namespace EUSDAB
             }
         }
 
-        bool JoystickMapping::isInDeadZone(Axis const & axis, float pos)
+        bool JoystickMapping::isInDeadZone(const Axis & axis, float pos)
         {
-            switch(axis)
+            switch (axis)
             {
-                case LStickUp   :
-                case LStickLeft : 
-                case RStickUp   :
-                case RStickLeft : return (pos > -33);
-                case LStickDown :
-                case LStickRight:
-                case RStickDown :
-                case RStickRight: return  (pos < 33);
-                case DPadLeft   :
-                case DPadRight  :
-                case DPadUp     :
-                case DPadDown   : return false;
-                case LTrigger   :
-                case RTrigger   : return (pos < 75);
-                case None       :
-                default: return true;
+                case DPadUp: case DPadDown:
+                case DPadLeft: case DPadRight:
+                    return false;
+
+                case LStickUp: case LStickLeft: 
+                case RStickUp: case RStickLeft:
+                    return -pos < STICK_DEAD_ZONE_BOUNDARY;
+
+                case LStickDown: case LStickRight:
+                case RStickDown: case RStickRight:
+                    return pos < STICK_DEAD_ZONE_BOUNDARY;
+
+                case LTrigger: case RTrigger:
+                    return pos < TRIGGER_DEAD_ZONE_BOUNDARY;
+
+                case None: default:
+                    return true;
             }
         }
-
-
     }
 }

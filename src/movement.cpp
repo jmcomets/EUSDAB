@@ -1,9 +1,5 @@
 #include <movement.h>
 #include <cstddef>
-#ifdef DEBUG
-#  include <iostream>
-#  include <sstream>
-#endif
 
 namespace EUSDAB
 {
@@ -49,19 +45,11 @@ namespace EUSDAB
 
     void Movement::setAction(Movement::Action act)
     {
-#ifdef DEBUG
-        std::cout << "Setting action from " << debugAction(_action) 
-            << " to " << debugAction(act) << std::endl;
-#endif
         _action = act;
     }
 
     void Movement::setDirection(Movement::Direction dir)
     {
-#ifdef DEBUG
-        std::cout << "Setting direction from " << debugDirection(_direction)
-            << "to " << debugDirection(dir) << std::endl;
-#endif
         _direction = dir;
     }
 
@@ -80,63 +68,4 @@ namespace EUSDAB
     {
         return static_cast<Direction>(f & ~SeparationMask);
     }
-
-#ifdef DEBUG
-    std::string Movement::debug() const
-    {
-        std::ostringstream oss;
-        oss << "<Movement address=" << this << ", action=[";
-        oss << " " << debugAction(_action) << " ](" << _action 
-            << "), direction=[" << debugDirection(_direction);
-        oss << " ](" << _direction << ")>";
-        return oss.str();
-    }
-
-    static auto addToRepr = [](std::string & repr,
-            const std::string & str)
-    {
-        if (repr.empty() == false) { repr += " | "; }
-        repr += str;
-    };
-
-    std::string Movement::debugAction(Movement::Action act) const
-    {
-        std::string repr;
-        if ((act & Idle)        != 0) { addToRepr(repr, "Idle"); }
-        if ((act & Jump)        != 0) { addToRepr(repr, "Jump"); }
-        if ((act & Attack)      != 0) { addToRepr(repr, "Attack"); }
-        if ((act & Smash)       != 0) { addToRepr(repr, "Smash"); }
-        if ((act & Flee)        != 0) { addToRepr(repr, "Flee"); }
-        if ((act & Guard)       != 0) { addToRepr(repr, "Guard"); }
-        if ((act & OnHit)       != 0) { addToRepr(repr, "OnHit"); }
-        if ((act & Walk)        != 0) { addToRepr(repr, "Walk"); }
-        if ((act & Run)         != 0) { addToRepr(repr, "Run"); }
-        if ((act & Falling)     != 0) { addToRepr(repr, "Falling"); }
-        if ((act & Crouch)      != 0) { addToRepr(repr, "Crouch"); }
-        if ((act & AerialHit)   != 0) { addToRepr(repr, "AerialHit"); }
-        if ((act & Special)     != 0) { addToRepr(repr, "Special"); }
-        return repr;
-    }
-
-    std::string Movement::debugDirection(Movement::Direction dir) const
-    {
-        std::string repr;
-        if ((dir & Up)    != 0) { addToRepr(repr, "Up"); }
-        if ((dir & Down)  != 0) { addToRepr(repr, "Down"); }
-        if ((dir & Left)  != 0) { addToRepr(repr, "Left"); }
-        if ((dir & Right) != 0) { addToRepr(repr, "Right"); }
-        return repr;
-    }
-
-    std::string Movement::debugFlag(Movement::Flag f) const
-    {
-        std::string repr;
-        repr += "(action = [";
-        repr += debugAction(toAction(f));
-        repr += "], direction = [";
-        repr += debugDirection(toDirection(f));
-        repr += "])";
-        return repr;
-    }
-#endif
 }

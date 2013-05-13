@@ -6,6 +6,7 @@
 namespace EUSDAB
 {
     Entity::Entity():
+        Input::Speaker(),
         _name(),
         //_attack(nullptr),
         _current(nullptr),

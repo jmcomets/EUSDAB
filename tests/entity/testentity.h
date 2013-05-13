@@ -1,6 +1,7 @@
 #ifndef TEST_ENTITY_H_
 #define TEST_ENTITY_H_
 
+#include <vector>
 #include <application.h>
 #include <input/controller.h>
 #include <physics/controller.h>
@@ -26,6 +27,9 @@ namespace EUSDAB
             void event();
 
         private:
+            // List of entities to control
+            std::vector<Entity *> _entityList;
+
             // Input
             Input::Controller _input;
 
@@ -34,9 +38,6 @@ namespace EUSDAB
 
             // Graphics
             Graphics::Controller _graphics;
-
-            // Single Entity to control
-            Entity * _entity;
     };
 }
 

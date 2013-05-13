@@ -44,10 +44,6 @@ namespace EUSDAB
 
         void Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
-            // Concept check
-            assert(e1 != nullptr);
-            assert(e2 != nullptr);
-
             State * s1 = e1->state();
             if (s1 == nullptr)
             {
@@ -120,9 +116,6 @@ namespace EUSDAB
 
         void Controller::handleWorldEntity(Entity * e)
         {
-            // Concept check
-            assert(e != nullptr);
-
             State * s = e->state();
             if (s != nullptr)
             {

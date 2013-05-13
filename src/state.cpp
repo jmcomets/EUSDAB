@@ -1,10 +1,6 @@
 #include <state.h>
 #include <entity.h>
 #include <stdexcept>
-#ifdef DEBUG
-#  include <string>
-#  include <iostream>
-#endif
 
 namespace EUSDAB
 {
@@ -32,20 +28,10 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
-#ifdef DEBUG
-        std::cout << "Setting state to " << mvt.debug() << std::endl;
-#endif
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
-            std::string msg("Undefined State");
-#ifdef DEBUG
-            msg += " of movement ";
-            msg += mvt.debug();
-            msg += " current state movement is ";
-            msg += _entity->state()->movement().debug();
-#endif
-            throw std::runtime_error(msg);
+            throw std::runtime_error("Undefined State");
         }
         _entity->setState(s);
         s->onEnter();

@@ -3,71 +3,70 @@
 #include <stdexcept>
 #include <entityparser.h>
 #include <state.h>
-#include <input/keyboardmapping.h>
+#include <input/joystickmapping.h>
 #include <physics/world.h>
 
 namespace EUSDAB
 {
-    static Input::Mapping * makeMapping(Entity * e)
-    {
-        std::list<Entity *> mockPlayerList{e};
-        return new Input::KeyboardMapping(mockPlayerList.begin(), mockPlayerList.end());
-    }
-
-    static Physics::World * makeWorld()
-    {
-        return new Physics::World(0, 0, 800, 600); // FIXME
-    }
-
-    EntityTest::EntityTest(sf::RenderWindow & window):
-        Application(window),
-        _input(makeMapping(_entity)),
-        _physics(_input, makeWorld()),
-        _graphics(_window),
-        _entity(nullptr)
+    template <typename Container>
+        static void initEntities(Container & cont)
     {
         EntityParser entityParser;
-        _entity = entityParser.loadEntity("../../assets/entities/rickhard");
-        if (_entity == nullptr)
+
+        Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
+        if (e == nullptr)
         {
             throw std::runtime_error("Rick Hard entity wasn't loaded");
         }
+        cont.push_back(e);
 
-        _input.addSpeaker(_entity);
-        _graphics.addEntity(_entity);
-        //_physics.addEntity(_entity);
+        // Add extra (mock) entities
+        static auto makeMockEntity = []
+        {
+            Entity * e = nullptr;
+            e->addState(new State(Movement::None));
+            e->setState(Movement::Noop);
+            return e;
+        };
+        cont.push_back(makeMockEntity());
+        cont.push_back(makeMockEntity());
+        cont.push_back(makeMockEntity());
+    }
+
+    EntityTest::EntityTest(sf::RenderWindow & window):
+        Application(window), _entityList(),
+        _input(new Input::JoystickMapping(_entityList.begin(), _entityList.end())),
+        _physics(_input, new Physics::World(0, 0, 800, 600)),
+        _graphics(_window)
+    {
+        initEntities(_entityList);
+        _input.addSpeaker(_entityList.begin(), _entityList.end());
+        _graphics.addEntity(_entityList.begin(), _entityList.end());
+        //_physics.addEntity(_entityList.begin(), _entityList.end());
     }
 
     EntityTest::~EntityTest()
     {
-        delete _entity;
+        for (Entity * e : _entityList)
+        {
+            delete e;
+        }
     }
 
     void EntityTest::event()
     {
         sf::Event e;
-        std::vector<sf::Event> eventList;
         while (_window.pollEvent(e))
         {
             if (e.type == sf::Event::Closed)
             {
                 _window.close();
             }
-            else if (e.type == sf::Event::KeyPressed)
+            else
             {
-                eventList.push_back(e);
-            }
-            else if (e.type == sf::Event::KeyReleased)
-            {
-                eventList.push_back(e);
-            }
-            else if(e.type == sf::Event::JoystickButtonPressed
-                    || e.type == sf::Event::JoystickMoved)
-            {
-                eventList.push_back(e);
+                _input.pushEvent(e);
             }
         }
-        _input.pushEvent(eventList.begin(), eventList.end());
         _input.nextFrame();
     }
 

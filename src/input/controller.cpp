@@ -18,7 +18,6 @@ namespace EUSDAB
 
         void Controller::update()
         {
-            assert(_mapping != nullptr);
             _mapping->update();
             for (Speaker * s : _allSpeakers)
             {
@@ -28,12 +27,12 @@ namespace EUSDAB
 
         void Controller::addSpeaker(Speaker * s)
         {
+            assert(s != nullptr);
             _allSpeakers.insert(s);
         }
 
         void Controller::pushEvent(const sf::Event & event)
         {
-            assert(_mapping != nullptr);
             _mapping->pushEvent(event);
         }
 

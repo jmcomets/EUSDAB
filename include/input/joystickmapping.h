@@ -13,47 +13,32 @@ namespace EUSDAB
         class JoystickMapping: public Mapping
         {
             public:
-
                 typedef unsigned int JoystickInput;
-                
+
                 enum Button: JoystickInput
                 {
-                    A      = 0,
-                    B      = 1,
-                    X      = 2,
-                    Y      = 3,
-                    LB     = 4,
-                    RB     = 5,
-                    Back   = 6,
-                    Start  = 7,
-                    Menu   = 8,
-                    LStick = 9,
-                    RStick = 10
+                    A, B,
+                    X, Y,
+                    LB, RB,
+                    LStick, RStick,
+                    Back, Start, Menu
                 };
 
                 enum Axis: JoystickInput
                 {
-                    None         = 0,
-                    LStickUp     = 1,
-                    LStickDown   = 2,
-                    LStickRight  = 3,
-                    LStickLeft   = 4,
-                    RStickUp     = 5,
-                    RStickDown   = 6,
-                    RStickRight  = 7,
-                    RStickLeft   = 8,
-                    DPadUp       = 9,
-                    DPadDown     = 10,
-                    DPadRight    = 11,
-                    DPadLeft     = 12,
-                    LTrigger     = 13,
-                    RTrigger     = 14
+                    LStickUp, LStickDown,
+                    LStickRight, LStickLeft,
+                    RStickUp, RStickDown,
+                    RStickRight, RStickLeft,
+                    DPadUp, DPadDown,
+                    DPadRight, DPadLeft,
+                    LTrigger, RTrigger,
+                    None
                 };
 
-
                 JoystickMapping(JoystickMapping &&) = default;
-                JoystickMapping(JoystickMapping const &) = delete;
-                JoystickMapping & operator=(JoystickMapping const &) = delete;
+                JoystickMapping(const JoystickMapping &) = delete;
+                JoystickMapping & operator=(const JoystickMapping &) = delete;
 
                 JoystickMapping();
 
@@ -64,16 +49,29 @@ namespace EUSDAB
                     initMappings();
                 }
 
-                virtual ~JoystickMapping();
+                ~JoystickMapping() = default;
 
-                virtual void pushEvent(sf::Event const & event);
-                virtual void update();
+                // Event-based input, mapping SFML events to
+                //  EUSDAB events, using a predefined mapping
+                void pushEvent(const sf::Event & event);
+
+                // Continuous input using the same mapping
+                //  as for the event-based version
+                void update();
 
             protected:
+                // Setup the mappings (ugly s**t)
                 void initMappings();
-                Axis sfAxisToAxis(sf::Joystick::Axis const & axis, float pos);
-                sf::Joystick::Axis axisToSfAxis(Axis const &);
-                bool isInDeadZone(Axis const & axis, float pos);
+
+                // SFML Joystick axis -> EUSDAB Joystick axis
+                Axis sfAxisToAxis(const sf::Joystick::Axis &, float);
+
+                // EUSDAB Joystick axis -> SFML Joystick axis
+                sf::Joystick::Axis axisToSfAxis(const Axis &);
+
+                // Return if the given axis event is in the "dead" zone,
+                //  that is if it should be considered as at rest
+                bool isInDeadZone(const Axis &, float);
 
             private:
                 std::vector<std::pair<Speaker *, std::map<int, Event::Id>>> _btnMapping;

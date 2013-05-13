@@ -39,6 +39,15 @@ namespace EUSDAB
 
                 // Add an speaker to the controller
                 void addSpeaker(Speaker *);
+                // ...range version
+                template <typename InputIter>
+                    void addSpeaker(InputIter begin, InputIter end)
+                {
+                    for (; begin != end; begin++)
+                    {
+                        addSpeaker(*begin);
+                    }
+                }
 
                 // Push an event to the controller
                 // ...SFML event

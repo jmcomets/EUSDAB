@@ -1,11 +1,6 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
-#ifdef DEBUG
-#  include <string>
-#  include <sstream>
-#endif
-
 namespace EUSDAB
 {
     // Identifier-type used to define the different states
@@ -75,13 +70,6 @@ namespace EUSDAB
 
             operator Flag() const;
             bool operator<(const Movement &) const;
-
-#ifdef DEBUG
-            std::string debug() const;
-            std::string debugAction(Action) const;
-            std::string debugDirection(Direction) const;
-            std::string debugFlag(Flag) const;
-#endif
 
         private:
             Action _action;
