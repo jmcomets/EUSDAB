@@ -1,4 +1,4 @@
-#include <view/controller.h>
+#include <graphics/controller.h>
 #include <state.h>
 #include <animation.h>
 

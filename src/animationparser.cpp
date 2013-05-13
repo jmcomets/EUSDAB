@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <texturemanager.h>
+#include <graphics/texturemanager.h>
 
 using namespace boost::property_tree;
 

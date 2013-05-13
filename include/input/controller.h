@@ -21,15 +21,16 @@ namespace EUSDAB
                 Controller(Controller const &) = delete;
                 Controller & operator=(Controller const &) = delete;
 
-                Controller();
-                ~Controller() = default;
+                Controller(Mapping *);
+                ~Controller();
 
                 template <typename InputIter>
                     Controller(InputIter begin, InputIter end, Mapping * mapping):
                         _allSpeakers(),
                         _mapping(mapping)
                 {
-                    for(; begin != end; begin++)
+                    assert(_mapping != nullptr);
+                    for (; begin != end; begin++)
                     {
                         Speaker * s = *begin;
                         addSpeaker(s);
@@ -60,8 +61,6 @@ namespace EUSDAB
                 // Update all speakers with current event context,
                 //   must be called only once per frame.
                 void update();
-
-            protected:
 
             private:
                 std::set<Speaker *> _allSpeakers;

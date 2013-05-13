@@ -4,13 +4,21 @@ namespace EUSDAB
 {
     namespace Input
     {
-        Controller::Controller():
-            _allSpeakers()
+        Controller::Controller(Mapping * m):
+            _allSpeakers(),
+            _mapping(m)
         {
+            assert(m != nullptr);
+        }
+
+        Controller::~Controller()
+        {
+            delete _mapping;
         }
 
         void Controller::update()
         {
+            assert(_mapping != nullptr);
             _mapping->update();
             for (Speaker * s : _allSpeakers)
             {
@@ -25,6 +33,7 @@ namespace EUSDAB
 
         void Controller::pushEvent(const sf::Event & event)
         {
+            assert(_mapping != nullptr);
             _mapping->pushEvent(event);
         }
 

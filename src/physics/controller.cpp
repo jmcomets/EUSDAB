@@ -16,6 +16,11 @@ namespace EUSDAB
             assert(_world != nullptr);
         }
 
+        Controller::~Controller()
+        {
+            delete _world;
+        }
+
         void Controller::addEntity(Entity * e)
         {
             assert(e != nullptr);
@@ -90,7 +95,7 @@ namespace EUSDAB
                             // Attaque
                             _input.pushEvent(e1, Event(Event::Attack));
                             _input.pushEvent(e2, Event(Event::Damage));
-                            e1->attack(e2);
+                            //e1->attack(e2);
                         }
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {

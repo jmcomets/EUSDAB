@@ -13,6 +13,7 @@ namespace EUSDAB
         {
             public:
                 Controller() = delete;
+
                 Controller(Controller &&) = default;
                 Controller(const Controller &) = default;
                 ~Controller() = default;

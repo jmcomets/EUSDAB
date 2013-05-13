@@ -24,7 +24,7 @@ namespace EUSDAB
                 Right = 1 << 3,
 
                 // Used to lookup the size, as well as for initialization
-                None  = 1 << 4,
+                None  = 1 << 4
             };
 
             enum Action: Flag

@@ -1,9 +1,11 @@
-#ifndef TEST_ENTITY_H
-#define TEST_ENTITY_H
+#ifndef TEST_ENTITY_H_
+#define TEST_ENTITY_H_
 
-#include <entity.h>
-#include <entityparser.h>
 #include <application.h>
+#include <input/controller.h>
+#include <physics/controller.h>
+#include <graphics/controller.h>
+#include <entity.h>
 
 namespace EUSDAB
 {
@@ -23,10 +25,16 @@ namespace EUSDAB
             void render();
 
         private:
-            // Entity parser
-            EntityParser _entityParser;
+            // Input
+            Input::Controller _input;
 
-            // Entity
+            // Physics
+            Physics::Controller _physics;
+
+            // Graphics
+            Graphics::Controller _graphics;
+
+            // Single Entity to control
             Entity * _entity;
     };
 }

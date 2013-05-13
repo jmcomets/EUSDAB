@@ -17,13 +17,15 @@ namespace EUSDAB
                 Controller() = delete;
                 Controller(Controller &&) = default;
                 Controller(const Controller &) = delete;
-                ~Controller() = default;
                 Controller & operator=(Controller const &) = delete;
 
                 // Pass Input Controller when constructing, allowing
                 // the Physics Controller to send input signals
                 // to all its handled entities
                 Controller(Input::Controller &, World *);
+
+                // Delete world along with Controller
+                ~Controller();
 
                 // Add an Entity to the controller
                 void addEntity(Entity *);

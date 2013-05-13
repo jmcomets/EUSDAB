@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <physics/config.h>
 #include <physics/hitbox.h>
-#include <texturemanager.h>
+#include <graphics/texturemanager.h>
 
 namespace EUSDAB
 {

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Event.hpp>
-#include <texturemanager.h>
+#include <graphics/texturemanager.h>
 #include <movement.h>
 #include <state.h>
 #include <input/event.h>
