@@ -55,7 +55,6 @@ namespace EUSDAB
     {
         // Controller delete
         delete _input;
-        delete _mapping;
 
         // Entities delete
         for (auto p : _playerList)

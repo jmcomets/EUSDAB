@@ -51,12 +51,16 @@ namespace EUSDAB
 
         void KeyboardMapping::initMappings()
         {
-            assert (_playerList.size() > 1);
+            //assert (_playerList.size() > 1);
+
+            if (_playerList.empty()) { return; }
 
             _keyMapping[sf::Keyboard::Z] = std::make_pair(_playerList.at(0), Event::Up);
             _keyMapping[sf::Keyboard::S] = std::make_pair(_playerList.at(0), Event::Down);
             _keyMapping[sf::Keyboard::Q] = std::make_pair(_playerList.at(0), Event::Left);
             _keyMapping[sf::Keyboard::D] = std::make_pair(_playerList.at(0), Event::Right);
+
+            if (_playerList.size() < 2) { return; }
 
             _keyMapping[sf::Keyboard::Up]    = std::make_pair(_playerList.at(1), Event::Up);
             _keyMapping[sf::Keyboard::Down]  = std::make_pair(_playerList.at(1), Event::Down);

@@ -23,6 +23,7 @@ namespace EUSDAB
         protected:
             void update();
             void render();
+            void event();
 
         private:
             // Input

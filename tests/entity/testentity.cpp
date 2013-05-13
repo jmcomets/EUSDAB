@@ -16,7 +16,7 @@ namespace EUSDAB
 
     static Physics::World * makeWorld()
     {
-        return new Physics::World(0, 0, 800, 600);
+        return new Physics::World(0, 0, 800, 600); // FIXME
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
@@ -34,8 +34,8 @@ namespace EUSDAB
         }
 
         _input.addSpeaker(_entity);
+        _graphics.addEntity(_entity);
         //_physics.addEntity(_entity);
-        //_graphics.addEntity(_entity);
     }
 
     EntityTest::~EntityTest()
@@ -43,11 +43,42 @@ namespace EUSDAB
         delete _entity;
     }
 
+    void EntityTest::event()
+    {
+        sf::Event e;
+        std::vector<sf::Event> eventList;
+        while (_window.pollEvent(e))
+        {
+            if (e.type == sf::Event::Closed)
+            {
+                _window.close();
+            }
+            else if (e.type == sf::Event::KeyPressed)
+            {
+                eventList.push_back(e);
+            }
+            else if (e.type == sf::Event::KeyReleased)
+            {
+                eventList.push_back(e);
+            }
+            else if(e.type == sf::Event::JoystickButtonPressed
+                    || e.type == sf::Event::JoystickMoved)
+            {
+                eventList.push_back(e);
+            }
+        }
+        _input.pushEvent(eventList.begin(), eventList.end());
+        _input.nextFrame();
+    }
+
     void EntityTest::update()
     {
+        _physics.update();
+        _input.update();
     }
 
     void EntityTest::render()
     {
+        _graphics.draw();
     }
 }
