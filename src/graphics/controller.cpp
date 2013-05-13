@@ -1,6 +1,7 @@
 #include <graphics/controller.h>
 #include <state.h>
 #include <animation.h>
+#include <cassert>
 
 namespace EUSDAB
 {
@@ -15,12 +16,22 @@ namespace EUSDAB
         {
             for (auto e : _entities)
             {
-                _target.draw(e->state()->animation()->sprite());
+                // Check that entity's state is non-nil
+                State * s = e->state();
+                if (s == nullptr) { continue; }
+
+                // Check that state's animation is non-nil
+                Animation * a = s->animation();
+                if (a == nullptr) { continue; }
+
+                // All is ok, draw animation's sprite
+                _target.draw(a->sprite());
             }
         }
 
         void Controller::addEntity(Entity * entity)
         {
+            assert(entity != nullptr);
             _entities.insert(entity);
         }
 

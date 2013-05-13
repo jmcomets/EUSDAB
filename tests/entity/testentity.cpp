@@ -23,9 +23,10 @@ namespace EUSDAB
         // Add extra (mock) entities
         static auto makeMockEntity = []
         {
-            Entity * e = nullptr;
-            e->addState(new State(Movement::None));
-            e->setState(Movement::Noop);
+            static Movement mockMvt(Movement::Noop, Movement::None);
+            Entity * e = new Entity();
+            e->addState(new State(mockMvt));
+            e->setState(mockMvt);
             return e;
         };
         cont.push_back(makeMockEntity());
