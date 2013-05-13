@@ -86,10 +86,11 @@ namespace EUSDAB
                     || e.type == sf::Event::JoystickMoved)
             {
                 eventList.push_back(e);
+                _input->pushEvent(eventList.begin(), eventList.end());
             }
         }
         //std::cout << "Push event" << std::endl;
-        _input->pushEvent(eventList.begin(), eventList.end());
+        //_input->pushEvent(eventList.begin(), eventList.end());
         //std::cout << "Event pushed" << std::endl;
         _input->nextFrame();
         //std::cout << "Next frame" << std::endl;
