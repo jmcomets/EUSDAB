@@ -31,10 +31,10 @@ namespace EUSDAB
             std::vector<Entity *> _entityList;
 
             // Input
-            Input::Controller _input;
+            Input::Controller * _input;
 
             // Physics
-            Physics::Controller _physics;
+            Physics::Controller * _physics;
 
             // Graphics
             Graphics::Controller _graphics;
