@@ -58,6 +58,11 @@ namespace EUSDAB
         return _transform;
     }
 
+    Physics::Transform & State::transformation()
+    {
+        return _transform;
+    }
+
     void State::setTransformation(Physics::Transform const & tr)
     {
         _transform = tr;

@@ -28,6 +28,8 @@ namespace EUSDAB
                 Vector2 const & acceleration() const;
                 Vector2 & acceleration();
 
+                void apply(Transform const &);
+
                 void update();
 
             private:

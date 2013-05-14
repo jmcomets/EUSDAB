@@ -35,6 +35,7 @@ namespace EUSDAB
 
             // Get/Set the state's transformation
             Transform const & transformation() const;
+            Transform & transformation();
             void setTransformation(Transform const &);
 
             // Compare States by Movement

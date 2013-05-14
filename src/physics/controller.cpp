@@ -31,6 +31,7 @@ namespace EUSDAB
         {
             for (Entity * e1 : _entityList)
             {
+                handleEntityTransform(e1);
                 handleWorldEntity(e1);
                 for (Entity * e2 : _entityList)
                 {
@@ -111,6 +112,19 @@ namespace EUSDAB
                         }
                     }
                 }
+            }
+        }
+
+        void Controller::handleEntityTransform(Entity * e)
+        {
+            State * s = e->state();
+            if (s != nullptr)
+            {
+                s->transformation().update();
+                e->physics().apply(s->transformation());
+                e->physics().apply(Transform(Vector2(),
+                        _world->gravity(),
+                        Vector2()));
             }
         }
 

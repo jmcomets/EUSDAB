@@ -50,6 +50,9 @@ namespace EUSDAB
                 // Life of entities in world
                 void handleWorldEntity(Entity *);
 
+                // Update entities' transformation
+                void handleEntityTransform(Entity * e);
+
             private:
                 // Input Controller
                 Input::Controller & _input;
