@@ -14,6 +14,7 @@ namespace EUSDAB
                 Transform(Transform const &) = delete;
                 Transform operator=(Transform const &) = delete;
 
+                Transform() = default;
                 Transform(Vector2 const & pos = Vector2(),
                         Vector2 const & vel = Vector2(),
                         Vector2 const & acc = Vector2());
