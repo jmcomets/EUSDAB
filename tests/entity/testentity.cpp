@@ -1,4 +1,6 @@
 #include "testentity.h"
+#include <iostream>
+#include <sstream>
 #include <list>
 #include <stdexcept>
 #include <cassert>
@@ -10,6 +12,21 @@
 
 namespace EUSDAB
 {
+    static auto hbStr = [] (const Physics::Hitbox & hb)
+    {
+        std::ostringstream oss;
+        oss << "Hitbox[ ";
+        for (const Physics::Hitbox::AABB & aabb : hb.aabbList())
+        {
+            oss << "AABB(x = " << aabb.x() << ", y = "
+                << aabb.y() << ", width = "
+                << aabb.width() << ", height = "
+                << aabb.height() << ") ";
+        }
+        oss << "]";
+        return oss.str();
+    };
+
     template <typename Container>
         static void initPlayerEntities(Container & cont)
     {
@@ -20,12 +37,20 @@ namespace EUSDAB
 
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
-            Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
+            Entity * e = entityParser.loadEntity("../../assets/entities/nyan_cat");
             if (e == nullptr)
             {
-                throw std::runtime_error("Rick Hard entity wasn't loaded");
+                throw std::runtime_error("Nyan Cat entity wasn't loaded");
             }
             cont.push_back(e);
+
+            Animation * a = e->state()->animation();
+            const Animation::HitboxList & hbList = a->hitboxList();
+            std::cout << "Displaying " << hbList.size() << " map hitboxes" << std::endl;
+            for (Physics::Hitbox const & hb : hbList)
+            {
+                std::cout << hbStr(hb) << std::endl;
+            }
         }
     }
 
@@ -36,6 +61,14 @@ namespace EUSDAB
         if (map == nullptr)
         {
             throw std::runtime_error("Map entity wasn't loaded");
+        }
+
+        Animation * a = map->state()->animation();
+        const Animation::HitboxList & hbList = a->hitboxList();
+        std::cout << "Displaying " << hbList.size() << " map hitboxes" << std::endl;
+        for (Physics::Hitbox const & hb : hbList)
+        {
+            std::cout << hbStr(hb) << std::endl;
         }
 
         // Shorten halfwidth / halfheight
@@ -50,21 +83,13 @@ namespace EUSDAB
         sf::Vector2<Size> size = window.getSize();
         map->position() = Physics::Vector2(h(size.x), h(size.y));
 
-        // Get texture
-        //State * s = map->state();                      assert(s  != nullptr);
-        //Animation * a = s->animation();                assert(a  != nullptr);
-        //Frame::TexturePtr tx = a->current().texture(); assert(tx != nullptr);
-
-        // Set window size to map size
-        //window.setSize(tx->getSize());
-
         return map;
     }
 
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        return new World(AABB(0, 0, 800, 600), Vector2(0, 0.0));
+        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):

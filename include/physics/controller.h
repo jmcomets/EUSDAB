@@ -59,7 +59,7 @@ namespace EUSDAB
 
                 // Physics world
                 World * _world;
-                
+
                 // Reference to Entities
                 std::vector<Entity *> _entityList;
         };

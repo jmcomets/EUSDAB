@@ -1,4 +1,5 @@
 #include <physics/world.h>
+#include <algorithm>
 
 namespace EUSDAB
 {
@@ -13,19 +14,18 @@ namespace EUSDAB
 
         bool World::contains(const Hitbox & hb) const
         {
-            if (_aabb.contains(hb.globalAABB()) == false)
+            if (_aabb.contains(hb.globalAABB()))
             {
-                return false;
+                return true;
             }
-
-            for (Hitbox::AABB aabb : hb.aabbList())
+            else
             {
-                if (_aabb.contains(aabb) == false)
-                {
-                    return false;
-                }
+                return std::any_of(hb.aabbList().begin(), hb.aabbList().end(),
+                        [&] (const Hitbox::AABB & aabb)
+                    {
+                        return _aabb.collides(aabb);
+                    });
             }
-            return true;
         }
 
         const AABB & World::aabb() const

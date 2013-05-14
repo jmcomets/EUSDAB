@@ -19,8 +19,8 @@ namespace EUSDAB
                 // Construct from world box and gravity vector
                 World(const AABB &, const Vector2 &);
 
-                // Return if an Hitbox is (entirely) contained within the
-                //  world, using the underlying AABB
+                // Return if an Hitbox is (by at least overlapping)
+                // contained within the world, using the underlying AABB
                 bool contains(const Hitbox &) const;
 
                 // Get underlying AABB
