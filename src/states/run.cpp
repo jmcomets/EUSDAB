@@ -120,10 +120,20 @@ namespace EUSDAB
                 if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Special | Movement::Left);
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(-10.0 , 0);
+                    }
                 }
                 else if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Special | Movement::Right);
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(10.0 , 0);
+                    }
                 }
                 else
                 {

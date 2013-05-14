@@ -64,7 +64,7 @@ namespace EUSDAB
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        return new World(AABB(0, 0, 800, 600), Vector2(0, 7.0));
+        return new World(AABB(0, 0, 800, 600), Vector2(0, 0.0));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):

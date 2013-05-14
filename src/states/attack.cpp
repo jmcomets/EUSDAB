@@ -1,4 +1,5 @@
 #include <states/attack.h>
+#include <cmath>
 #include <iostream>
 
 namespace EUSDAB
@@ -38,13 +39,12 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
-            // FIXME
-            _transform.velocity() /= 1.04;
-            if(_transform.velocity().norm() < 0.01)
+            _transform.velocity().setX(
+                    _transform.velocity().x() / 1.04);
+            if(std::abs(_transform.velocity().x()) < 0.01)
             {
-                _transform.velocity() = Physics::Vector2();
+                _transform.velocity().setX(0.0);
             }
-            std::cout << _transform.velocity().x() << std::endl;
         }
 
         void Attack::onAnimationEnd()
