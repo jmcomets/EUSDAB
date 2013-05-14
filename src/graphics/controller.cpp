@@ -1,7 +1,7 @@
 #include <graphics/controller.h>
+#include <cassert>
 #include <state.h>
 #include <animation.h>
-#include <cassert>
 
 namespace EUSDAB
 {
@@ -25,7 +25,10 @@ namespace EUSDAB
                 if (a == nullptr) { continue; }
 
                 // All is ok, draw animation's sprite
-                _target.draw(a->sprite());
+                sf::Sprite & sp = a->sprite();
+                const Physics::Vector2 & p = e->position();
+                sp.setPosition(p.x(), p.y());
+                _target.draw(sp);
             }
         }
 
