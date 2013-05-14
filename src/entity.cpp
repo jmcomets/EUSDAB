@@ -8,7 +8,8 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        //_attack(nullptr),
+        _attack(nullptr),
+        _physics(),
         _current(nullptr),
         _states()
     {
