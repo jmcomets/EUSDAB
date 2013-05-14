@@ -16,7 +16,7 @@ namespace EUSDAB
             int id = e.joystickButton.joystickId;
 
             // Check assertions
-            assert(0 < id);
+            assert(0 <= id);
             assert(static_cast<std::size_t>(id) < _axisMapping.size());
             assert(static_cast<std::size_t>(id) < _btnMapping.size());
 
@@ -30,9 +30,6 @@ namespace EUSDAB
                 {
                     if (isInDeadZone(axis, joystickPos))
                     {
-                        std::cout << "DEAD ZONE " << std::abs(joystickPos)
-                            << " < " << STICK_DEAD_ZONE_BOUNDARY << std::endl;
-
                         // Push as FallingEdge event
                         Event event(it->second, Event::Full, Event::FallingEdge);
                         _axisMapping[id].first->push(event);
@@ -88,6 +85,8 @@ namespace EUSDAB
 
                 for (auto p : _axisMapping[i].second)
                 {
+                    if (sf::Joystick::isConnected(i) == false) { continue; }
+
                     float pos = sf::Joystick::getAxisPosition(i,
                         axisToSfAxis(p.first));
                     if (!isInDeadZone(p.first, pos))
@@ -192,12 +191,10 @@ namespace EUSDAB
                     return false;
 
                 case LStickUp: case LStickLeft: 
-                case RStickUp: case RStickLeft:
-                    return -pos < STICK_DEAD_ZONE_BOUNDARY;
-
                 case LStickDown: case LStickRight:
+                case RStickUp: case RStickLeft:
                 case RStickDown: case RStickRight:
-                    return pos < STICK_DEAD_ZONE_BOUNDARY;
+                    return std::abs(pos) < STICK_DEAD_ZONE_BOUNDARY;
 
                 case LTrigger: case RTrigger:
                     return pos < TRIGGER_DEAD_ZONE_BOUNDARY;
