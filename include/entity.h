@@ -6,6 +6,7 @@
 #include <stdextension.h>
 #include <input/speaker.h>
 #include <physics/config.h>
+#include <physics/component.h>
 #include <movement.h>
 //#include <attack.h>
 
@@ -35,8 +36,6 @@ namespace EUSDAB
             const Physics::Vector2 & position() const;
             // ...non-const version
             Physics::Vector2 & position();
-            // ...direct setter
-            void setPosition(const Physics::Vector2 &);
 
             // Attack module
 
@@ -75,7 +74,7 @@ namespace EUSDAB
             Attack * _attack;
 
             // Positioning
-            Physics::Vector2 _pos;
+            Physics::Component _physics;
 
             // State
             State * _current;

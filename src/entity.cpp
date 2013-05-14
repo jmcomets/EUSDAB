@@ -68,4 +68,14 @@ namespace EUSDAB
         }
         state->setEntity(this);
     }
+
+    const Physics::Vector2 & Entity::position() const
+    {
+        return _physics.position();
+    }
+
+    Physics::Vector2 & Entity::position()
+    {
+        return _physics.position();
+    }
 }
