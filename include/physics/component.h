@@ -14,8 +14,9 @@ namespace EUSDAB
                 Component(Component const &) = delete;
                 Component operator=(Component const &) = delete;
 
-                Component();
-                Component(Vector2 const & pos = Vector2, Vector2 const & vel = Vector2, Vector2 const & acc = Vector2);
+                Component(Vector2 const & pos = Vector2(),
+                        Vector2 const & vel = Vector2(),
+                        Vector2 const & acc = Vector2());
                 ~Component() = default;
 
                 Vector2 const & position() const;

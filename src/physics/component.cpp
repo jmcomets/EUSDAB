@@ -4,10 +4,12 @@ namespace EUSDAB
 {
     namespace Physics
     {
-        Component::Component() :
-            _pos(),
-            _vel(),
-            _acc()
+        Component(Vector2 const & pos,
+                Vector2 const & vel,
+                Vector2 const & acc);
+            _pos(pos),
+            _vel(vel),
+            _acc(acc)
         {
         }
 
@@ -21,7 +23,6 @@ namespace EUSDAB
             return _pos;
         }
 
-
         Vector2 const & Component::velocity() const
         {
             return _vel;
@@ -32,7 +33,6 @@ namespace EUSDAB
             return _vel;
         }
 
-
         Vector2 const & Component::acceleration() const
         {
             return _acc;
@@ -42,7 +42,6 @@ namespace EUSDAB
         {
             return _acc;
         }
-
 
         void Component::update()
         {
