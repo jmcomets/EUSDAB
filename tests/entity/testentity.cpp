@@ -50,6 +50,7 @@ namespace EUSDAB
         // Physics
         Physics::World * world = makePhysicsWorld();
         _physics = new Physics::Controller(*_input, world);
+        _physics->addEntity(_entityList.begin(), _entityList.end());
     }
 
     EntityTest::~EntityTest()
