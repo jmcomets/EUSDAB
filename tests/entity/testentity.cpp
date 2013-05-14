@@ -6,33 +6,27 @@
 #include <state.h>
 #include <input/joystickmapping.h>
 #include <physics/world.h>
+#include <SFML/Window/Joystick.hpp>
 
 namespace EUSDAB
 {
-    static std::vector<Entity *> makeEntities()
+    static EntityTest::EntityList makeEntities()
     {
         EntityParser entityParser;
 
-        Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
-        if (e == nullptr)
-        {
-            throw std::runtime_error("Rick Hard entity wasn't loaded");
-        }
-        std::vector<Entity *> cont;
-        cont.push_back(e);
+        // Type returned by sf::Joystick::
+        typedef unsigned int Size;
 
-        // Add extra (mock) entities
-        typedef std::vector<Entity *>::size_type Size;
-        constexpr Size nbMockEntities = 4;
-        static Movement mockMvt(Movement::Noop, Movement::None);
-        for (Size i = 0; i < nbMockEntities - 1; i++)
+        EntityTest::EntityList cont;
+        for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
-            Entity * e = new Entity();
-            e->addState(new State(mockMvt));
-            e->setState(mockMvt);
+            Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
+            if (e == nullptr)
+            {
+                throw std::runtime_error("Rick Hard entity wasn't loaded");
+            }
             cont.push_back(e);
-        };
-
+        }
         return cont;
     }
 

@@ -21,6 +21,8 @@ namespace EUSDAB
             EntityTest(sf::RenderWindow &);
             ~EntityTest();
 
+            typedef std::vector<Entity *> EntityList;
+
         protected:
             void update();
             void render();
@@ -28,7 +30,7 @@ namespace EUSDAB
 
         private:
             // List of entities to control
-            std::vector<Entity *> _entityList;
+            EntityTest::EntityList _entityList;
 
             // Input
             Input::Controller * _input;
