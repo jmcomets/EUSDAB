@@ -1,14 +1,13 @@
-#include <transform.h>
+#include <physics/transform.h>
 
 namespace EUSDAB
 {
     namespace Physics
     {
         Transform::Transform(Vector2 const & pos, Vector2 const & vel, Vector2 const & acc) :
-            _pos(),
-            _vel(),
-            _acc()
-        {
+            _pos(pos),
+            _vel(vel),
+            _acc(acc)
         }
 
         Vector2 const & Transform::position() const
@@ -21,7 +20,6 @@ namespace EUSDAB
             return _pos;
         }
 
-
         Vector2 const & Transform::velocity() const
         {
             return _vel;
@@ -32,7 +30,6 @@ namespace EUSDAB
             return _vel;
         }
 
-
         Vector2 const & Transform::acceleration() const
         {
             return _acc;
@@ -42,7 +39,6 @@ namespace EUSDAB
         {
             return _acc;
         }
-
 
         void Transform::update()
         {

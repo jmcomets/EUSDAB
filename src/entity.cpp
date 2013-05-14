@@ -8,7 +8,8 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        //_attack(nullptr),
+        _attack(nullptr),
+        _physics(),
         _current(nullptr),
         _states()
     {
@@ -67,5 +68,15 @@ namespace EUSDAB
             throw std::runtime_error("Entity's states should be unique");
         }
         state->setEntity(this);
+    }
+
+    const Physics::Vector2 & Entity::position() const
+    {
+        return _physics.position();
+    }
+
+    Physics::Vector2 & Entity::position()
+    {
+        return _physics.position();
     }
 }

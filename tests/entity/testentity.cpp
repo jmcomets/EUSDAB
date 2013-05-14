@@ -34,10 +34,16 @@ namespace EUSDAB
         cont.push_back(makeMockEntity());
     }
 
+    Physics::World * makePhysicsWorld()
+    {
+        using namespace Physics;
+        return new World(AABB(0, 0, 800, 600), Vector2(0, 0));
+    }
+
     EntityTest::EntityTest(sf::RenderWindow & window):
         Application(window), _entityList(),
         _input(new Input::JoystickMapping(_entityList.begin(), _entityList.end())),
-        _physics(_input, new Physics::World(0, 0, 800, 600)),
+        _physics(_input, makePhysicsWorld()),
         _graphics(_window)
     {
         initEntities(_entityList);

@@ -16,16 +16,11 @@ namespace EUSDAB
                 ~World() = default;
                 World & operator=(const World &) = default;
 
-                // Construct from center (x, y) coordinantes, as well as
-                //  width and height of world box.
-                World(const Unit &, const Unit &, const Unit &, const Unit &);
+                // Construct from world box and gravity vector
+                World(const AABB &, const Vector2 &);
 
-                // Construct from center point, as well as
-                //  width and height of world box.
-                World(const Vector2 &, const Unit & w, const Unit & h);
-
-                // Return a Hitbox's physical state:
-                //  delegate to underlying AABB
+                // Return if an Hitbox is (entirely) contained within the
+                //  world, using the underlying AABB
                 bool contains(const Hitbox &) const;
 
                 // Get underlying AABB
@@ -33,7 +28,13 @@ namespace EUSDAB
                 // ...non-const version
                 AABB & aabb();
 
+                // Get underlying gravity vector
+                const Vector2 & gravity() const;
+                // ...non-const version
+                Vector2 & gravity();
+
             private:
+                Vector2 _gravity;
                 AABB _aabb;
         };
     }
