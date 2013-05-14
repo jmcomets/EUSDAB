@@ -1,12 +1,12 @@
-#include <component.h>
+#include <physics/component.h>
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        Component(Vector2 const & pos,
+        Component::Component(Vector2 const & pos,
                 Vector2 const & vel,
-                Vector2 const & acc);
+                Vector2 const & acc):
             _pos(pos),
             _vel(vel),
             _acc(acc)
@@ -18,7 +18,7 @@ namespace EUSDAB
             return _pos;
         }
 
-        Vector2 & Component::position();
+        Vector2 & Component::position()
         {
             return _pos;
         }
