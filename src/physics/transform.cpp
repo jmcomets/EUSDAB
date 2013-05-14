@@ -1,49 +1,46 @@
-#include <physics/component.h>
+#include <physics/transform.h>
 
 namespace EUSDAB
 {
     namespace Physics
     {
-        Component::Component(Vector2 const & pos,
-                Vector2 const & vel,
-                Vector2 const & acc):
+        Transform::Transform(Vector2 const & pos, Vector2 const & vel, Vector2 const & acc) :
             _pos(pos),
             _vel(vel),
             _acc(acc)
-        {
         }
 
-        Vector2 const & Component::position() const
-        {
-            return _pos;
-        }
-
-        Vector2 & Component::position()
+        Vector2 const & Transform::position() const
         {
             return _pos;
         }
 
-        Vector2 const & Component::velocity() const
+        Vector2 & Transform::position()
+        {
+            return _pos;
+        }
+
+        Vector2 const & Transform::velocity() const
         {
             return _vel;
         }
 
-        Vector2 & Component::velocity()
+        Vector2 & Transform::velocity()
         {
             return _vel;
         }
 
-        Vector2 const & Component::acceleration() const
+        Vector2 const & Transform::acceleration() const
         {
             return _acc;
         }
 
-        Vector2 & Component::acceleration()
+        Vector2 & Transform::acceleration()
         {
             return _acc;
         }
 
-        void Component::update()
+        void Transform::update()
         {
             _vel += _acc;
             _pos += _vel;

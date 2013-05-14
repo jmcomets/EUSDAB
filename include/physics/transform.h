@@ -1,5 +1,5 @@
-#ifndef PHYSICS_COMPONENT_H_
-#define PHYSICS_COMPONENT_H_
+#ifndef PHYSICS_TRANSFORME_H_
+#define PHYSICS_TRANSFORME_H_
 
 #include <physics/config.h>
 
@@ -7,17 +7,16 @@ namespace EUSDAB
 {
     namespace Physics
     {
-        class Component
+        class Transform
         {
             public:
-                Component(Component &&) = delete;
-                Component(Component const &) = delete;
-                Component operator=(Component const &) = delete;
+                Transform(Transform &&) = delete;
+                Transform(Transform const &) = delete;
+                Transform operator=(Transform const &) = delete;
 
-                Component(Vector2 const & pos = Vector2(),
-                        Vector2 const & vel = Vector2(),
-                        Vector2 const & acc = Vector2());
-                ~Component() = default;
+                Transform() = delete;
+                Transform(Vector2 const & pos = Vector2, Vector2 const & vel = Vector2, Vector2 const & acc = Vector2);
+                ~Transform() = default;
 
                 Vector2 const & position() const;
                 Vector2 & position();
