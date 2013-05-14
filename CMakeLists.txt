@@ -13,9 +13,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 message(STATUS "Building in '${CMAKE_BUILD_TYPE}' mode")
 
-# Executable name
-set(EUSDAB_EXE_NAME "EUSDAB")
-
 # Compile flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -std=c++0x -W -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-align -Wconversion -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -Wunused-parameter")
 
@@ -49,9 +46,18 @@ include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/lib")
 
 # EUSDAB main executable
+set(EUSDAB_EXE_NAME "EUSDAB")
 add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(${EUSDAB_EXE_NAME} ${SFML_LIBS})
 target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
+
+# CTags target
+set(CTAGS_TARGET_NAME "tags")
+set(CTAGS_SCRIPT "ctags.sh")
+set(CTAGS_CMD ${CMAKE_CURRENT_SOURCE_DIR}/${CTAGS_SCRIPT})
+add_custom_target(
+    ${CTAGS_TARGET_NAME}
+    COMMAND ${CTAGS_CMD})
 
 # Tests
 add_subdirectory("tests")
