@@ -10,14 +10,14 @@
 
 namespace EUSDAB
 {
-    static EntityTest::EntityList makeEntities()
+    template <typename Container>
+        static void initPlayerEntities(Container & cont)
     {
         EntityParser entityParser;
 
         // Type returned by sf::Joystick::
         typedef unsigned int Size;
 
-        EntityTest::EntityList cont;
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
             Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
@@ -27,7 +27,38 @@ namespace EUSDAB
             }
             cont.push_back(e);
         }
-        return cont;
+    }
+
+    static Entity * makeMapEntity(sf::RenderWindow & window)
+    {
+        EntityParser entityParser;
+        Entity * map = entityParser.loadEntity("../../assets/entities/map_demo");
+        if (map == nullptr)
+        {
+            throw std::runtime_error("Map entity wasn't loaded");
+        }
+
+        // Shorten halfwidth / halfheight
+        typedef unsigned int Size;
+        static auto h = [](const Size & v)
+        {
+            typedef Physics::Unit U;
+            return static_cast<U>(v) / static_cast<U>(2);
+        };
+
+        // Move map to center
+        sf::Vector2<Size> size = window.getSize();
+        map->position() = Physics::Vector2(h(size.x), h(size.y));
+
+        // Get texture
+        //State * s = map->state();                      assert(s  != nullptr);
+        //Animation * a = s->animation();                assert(a  != nullptr);
+        //Frame::TexturePtr tx = a->current().texture(); assert(tx != nullptr);
+
+        // Set window size to map size
+        //window.setSize(tx->getSize());
+
+        return map;
     }
 
     Physics::World * makePhysicsWorld()
@@ -37,20 +68,26 @@ namespace EUSDAB
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
-        Application(window), _entityList(makeEntities()),
+        Application(window), _entityList(),
         _graphics(_window)
     {
-        // Graphics
-        _graphics.addEntity(_entityList.begin(), _entityList.end());
+        // Map
+        _entityList.push_back(makeMapEntity(window));
+
+        // Players
+        initPlayerEntities(_entityList);
 
         // Input
-        Input::Mapping * mapping = new Input::JoystickMapping(_entityList.begin(), _entityList.end());
-        _input = new Input::Controller(_entityList.begin(), _entityList.end(), mapping);
+        Input::Mapping * mapping = new Input::JoystickMapping(_entityList.begin() + 1, _entityList.end());
+        _input = new Input::Controller(_entityList.begin() + 1, _entityList.end(), mapping);
 
         // Physics
         Physics::World * world = makePhysicsWorld();
         _physics = new Physics::Controller(*_input, world);
         _physics->addEntity(_entityList.begin(), _entityList.end());
+
+        // Graphics
+        _graphics.addEntity(_entityList.begin(), _entityList.end());
     }
 
     EntityTest::~EntityTest()
