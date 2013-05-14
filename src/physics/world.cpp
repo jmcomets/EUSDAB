@@ -37,5 +37,15 @@ namespace EUSDAB
         {
             return _aabb;
         }
+
+        const Vector2 & World::gravity() const
+        {
+            return _gravity;
+        }
+
+        Vector2 & World::gravity()
+        {
+            return _gravity;
+        }
     }
 }
