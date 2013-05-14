@@ -1,37 +1,33 @@
 #include "testentity.h"
 #include <list>
 #include <stdexcept>
+#include <cassert>
 #include <entityparser.h>
 #include <state.h>
 #include <input/joystickmapping.h>
 #include <physics/world.h>
+#include <SFML/Window/Joystick.hpp>
 
 namespace EUSDAB
 {
-    template <typename Container>
-        static void initEntities(Container & cont)
+    static EntityTest::EntityList makeEntities()
     {
         EntityParser entityParser;
 
-        Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
-        if (e == nullptr)
-        {
-            throw std::runtime_error("Rick Hard entity wasn't loaded");
-        }
-        cont.push_back(e);
+        // Type returned by sf::Joystick::
+        typedef unsigned int Size;
 
-        // Add extra (mock) entities
-        static auto makeMockEntity = []
+        EntityTest::EntityList cont;
+        for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
-            static Movement mockMvt(Movement::Noop, Movement::None);
-            Entity * e = new Entity();
-            e->addState(new State(mockMvt));
-            e->setState(mockMvt);
-            return e;
-        };
-        cont.push_back(makeMockEntity());
-        cont.push_back(makeMockEntity());
-        cont.push_back(makeMockEntity());
+            Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
+            if (e == nullptr)
+            {
+                throw std::runtime_error("Rick Hard entity wasn't loaded");
+            }
+            cont.push_back(e);
+        }
+        return cont;
     }
 
     Physics::World * makePhysicsWorld()
@@ -41,19 +37,26 @@ namespace EUSDAB
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
-        Application(window), _entityList(),
-        _input(new Input::JoystickMapping(_entityList.begin(), _entityList.end())),
-        _physics(_input, makePhysicsWorld()),
+        Application(window), _entityList(makeEntities()),
         _graphics(_window)
     {
-        initEntities(_entityList);
-        _input.addSpeaker(_entityList.begin(), _entityList.end());
+        // Graphics
         _graphics.addEntity(_entityList.begin(), _entityList.end());
-        //_physics.addEntity(_entityList.begin(), _entityList.end());
+
+        // Input
+        Input::Mapping * mapping = new Input::JoystickMapping(_entityList.begin(), _entityList.end());
+        _input = new Input::Controller(_entityList.begin(), _entityList.end(), mapping);
+
+        // Physics
+        Physics::World * world = makePhysicsWorld();
+        _physics = new Physics::Controller(*_input, world);
+        _physics->addEntity(_entityList.begin(), _entityList.end());
     }
 
     EntityTest::~EntityTest()
     {
+        delete _input;
+        delete _physics;
         for (Entity * e : _entityList)
         {
             delete e;
@@ -71,16 +74,16 @@ namespace EUSDAB
             }
             else
             {
-                _input.pushEvent(e);
+                _input->pushEvent(e);
             }
         }
-        _input.nextFrame();
+        _input->nextFrame();
     }
 
     void EntityTest::update()
     {
-        _physics.update();
-        _input.update();
+        _physics->update();
+        _input->update();
     }
 
     void EntityTest::render()

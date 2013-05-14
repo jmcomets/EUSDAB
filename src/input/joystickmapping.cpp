@@ -15,6 +15,17 @@ namespace EUSDAB
             // Store current joystick id
             int id = e.joystickButton.joystickId;
 
+            // Bug fix
+            if ((e.type == sf::Event::JoystickButtonPressed
+                    || e.type == sf::Event::JoystickButtonReleased
+                    || e.type == sf::Event::JoystickConnected
+                    || e.type == sf::Event::JoystickDisconnected
+                    || e.type == sf::Event::JoystickMoved) == false)
+                { return; }
+
+            // Don't f**king care about disconnected joysticks
+            if (sf::Joystick::isConnected(id) == false) { return; }
+
             // Check assertions
             assert(0 <= id);
             assert(static_cast<std::size_t>(id) < _axisMapping.size());
