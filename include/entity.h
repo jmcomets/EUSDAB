@@ -6,7 +6,7 @@
 #include <stdextension.h>
 #include <input/speaker.h>
 #include <physics/config.h>
-#include <physics/component.h>
+#include <physics/transform.h>
 #include <movement.h>
 //#include <attack.h>
 
@@ -32,10 +32,17 @@ namespace EUSDAB
             std::string name() const;
             void setName(const std::string &);
 
+            // Physics
+
             // Get the Entity's position
             const Physics::Vector2 & position() const;
             // ...non-const version
             Physics::Vector2 & position();
+
+            // Get the Entity's physical transform
+            const Physics::Vector2 & physics() const;
+            // ...non-const version
+            Physics::Vector2 & physics();
 
             // Attack module
 
@@ -73,8 +80,9 @@ namespace EUSDAB
             // Attack
             Attack * _attack;
 
-            // Positioning
-            Physics::Component _physics;
+            // Physics : positioning and physics transform
+            Physics::Transform _physics;
+            Physics::Vector2 _position;
 
             // State
             State * _current;
