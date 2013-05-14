@@ -7,7 +7,8 @@ namespace EUSDAB
     State::State(const Movement & mvt, 
             Entity * entity, Animation * anim):
         _mvt(mvt), _entity(entity),
-        _animation(anim)
+        _animation(anim),
+        _transform()
     {
     }
 
@@ -20,7 +21,7 @@ namespace EUSDAB
     {
         return _entity;
     }
-    
+
     void State::setEntity(Entity * e)
     {
         _entity = e;
@@ -50,6 +51,16 @@ namespace EUSDAB
     void State::setMovement(const Movement & mvt)
     {
         _mvt = mvt;
+    }
+
+    Physics::Transform const & State::transformation() const
+    {
+        return _transform;
+    }
+
+    void State::setTransformation(Physics::Transform const & tr)
+    {
+        _transform = tr;
     }
 
     bool State::operator<(const State & st) const
