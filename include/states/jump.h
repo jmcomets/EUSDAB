@@ -31,14 +31,18 @@ namespace EUSDAB
 
                 void onNextFrame();
 
+                void onAnimationEnd();
+
                 //void onAttack(const Event &);
                 //void onDamage(const Event &);
 
-                //void onGround(const Event &);
+                void onGround(const Event &);
 
                 void onEnter();
-                void onLeave();
-                
+
+            protected:
+                // Explicit helper method :)
+                void setNextStateAnimationFrameToCurrentFrame() const;
         };
     }
 }

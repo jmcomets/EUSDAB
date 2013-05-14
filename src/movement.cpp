@@ -68,4 +68,14 @@ namespace EUSDAB
     {
         return static_cast<Direction>(f & ~SeparationMask);
     }
+
+    Movement::Direction Movement::direction() const
+    {
+        return _direction;
+    }
+
+    Movement::Action Movement::action() const
+    {
+        return _action;
+    }
 }

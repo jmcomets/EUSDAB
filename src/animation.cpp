@@ -55,15 +55,20 @@ namespace EUSDAB
         {
             if (_imagesLeft <= nbFrames)
             {
-                _imagesLeft = _framesPerImage;
-                _currentFrame = (_currentFrame + nbFrames) % _frames.size();
-                refresh();
+                explicitAdvance(nbFrames);
             }
             else
             {
                 _imagesLeft -= nbFrames;
             }
         }
+    }
+
+    void Animation::explicitAdvance(Animation::FPI nbFrames)
+    {
+        _imagesLeft = _framesPerImage;
+        _currentFrame = (_currentFrame + nbFrames) % _frames.size();
+        refresh();
     }
 
     void Animation::refresh()

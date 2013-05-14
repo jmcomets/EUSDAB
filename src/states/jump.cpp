@@ -1,5 +1,4 @@
 #include <states/jump.h>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -24,44 +23,46 @@ namespace EUSDAB
             State::onDown(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Falling | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Falling | Movement::Right);
-                }
+                switchState(Movement::Falling | _mvt.direction());
+            }
+        }
+
+        void Jump::onGround(const Event & e)
+        {
+            State::onGround(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                switchState(Movement::Idle | _mvt.direction());
             }
         }
 
         void Jump::onLeft(const Event & e)
         {
             State::onLeft(e);
-            
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+
+            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 switchState(Movement::Jump | Movement::Left);
-                _entity->state()->animation()->setCurrentFrame(animation()->currentFrame()); // FIXME wtf is this used for ?
-                
+                setNextStateAnimationFrameToCurrentFrame();
             }
             else
             {
-                //switchState(Movement::JumpIdle | Movement::Left);
+                //switchState(Movement::Jump | Movement::Idle | Movement::Left);
             }
         }
 
         void Jump::onRight(const Event & e)
         {
             State::onRight(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+
+            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 switchState(Movement::Jump | Movement::Right);
-                _entity->state()->animation()->setCurrentFrame(animation()->currentFrame()); // FIXME wtf is this used for ?
+                setNextStateAnimationFrameToCurrentFrame();
             }
             else
             {
-                //switchState(Movement::JumpIdle | Movement::Right);
+                //switchState(Movement::Jump | Movement::Idle | Movement::Right);
             }
         }
 
@@ -72,14 +73,25 @@ namespace EUSDAB
         
         void Jump::onEnter()
         {
-        
+            // TODO add vertical impulse
+            _animation->setPaused(false);
         }
-        
-        void Jump::onLeave()
+
+        void Jump::onAnimationEnd()
         {
-            
+            _animation->setPaused();
+            _animation->explicitAdvance(-1);
         }
-        
-      
+
+        void Jump::setNextStateAnimationFrameToCurrentFrame() const
+        {
+            // Continue animation from current frame in next state
+            State * s = _entity->state();
+            if (s == nullptr) { return; }
+
+            Animation * a = s->animation();
+            if (a == nullptr) { return; }
+            a->setCurrentFrame(_animation->currentFrame());
+        }
     }
 }

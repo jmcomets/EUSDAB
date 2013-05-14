@@ -93,8 +93,14 @@ namespace EUSDAB
             void refresh();
 
             // Advance the animation to the next Image/Hitbox,
-            //  takes the number of frames to advance
+            //  takes the number of frames to advance, using
+            //  the FPI to ponder by the speed
             void advance(FPI = 1);
+
+            // Advance the animation to the next Image/Hitbox,
+            //  takes the number of frames to advance,
+            //  without pondering by the FPI
+            void explicitAdvance(FPI = 1);
 
             // Get the current frame
             Frame & current();
