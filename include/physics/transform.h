@@ -12,7 +12,7 @@ namespace EUSDAB
             public:
                 Transform(Transform &&) = delete;
                 Transform(Transform const &) = delete;
-                Transform operator=(Transform const &) = delete;
+                Transform & operator=(Transform const &) = default;
 
                 Transform(Vector2 const & pos = Vector2(),
                         Vector2 const & vel = Vector2(),
