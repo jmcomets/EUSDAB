@@ -4,7 +4,9 @@ namespace EUSDAB
 {
     namespace Physics
     {
-        Transform::Transform(Vector2 const & pos, Vector2 const & vel, Vector2 const & acc) :
+        Transform::Transform(Vector2 const & pos,
+                Vector2 const & vel,
+                Vector2 const & acc):
             _pos(pos),
             _vel(vel),
             _acc(acc)

@@ -1,5 +1,5 @@
-#ifndef PHYSICS_TRANSFORME_H_
-#define PHYSICS_TRANSFORME_H_
+#ifndef PHYSICS_TRANSFORM_H_
+#define PHYSICS_TRANSFORM_H_
 
 #include <physics/config.h>
 
@@ -15,7 +15,9 @@ namespace EUSDAB
                 Transform operator=(Transform const &) = delete;
 
                 Transform() = delete;
-                Transform(Vector2 const & pos = Vector2, Vector2 const & vel = Vector2, Vector2 const & acc = Vector2);
+                Transform(Vector2 const & pos = Vector2(),
+                        Vector2 const & vel = Vector2(),
+                        Vector2 const & acc = Vector2());
                 ~Transform() = default;
 
                 Vector2 const & position() const;
