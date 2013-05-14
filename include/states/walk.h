@@ -36,7 +36,7 @@ namespace EUSDAB
 
                 //void onGround(const Event &);
 
-                //void onEnter();
+                void onEnter();
                 //void onLeave();
         };
     }

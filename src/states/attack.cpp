@@ -37,6 +37,14 @@ namespace EUSDAB
         void Attack::onNextFrame()
         {
             State::onNextFrame();
+
+            // FIXME
+            _transform.velocity() /= 1.04;
+            if(_transform.velocity().norm() < 0.01)
+            {
+                _transform.velocity() = Physics::Vector2();
+            }
+            std::cout << _transform.velocity().x() << std::endl;
         }
 
         void Attack::onAnimationEnd()

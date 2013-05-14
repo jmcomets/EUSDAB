@@ -1,6 +1,7 @@
 #include <physics/controller.h>
 #include <physics/hitbox.h>
 #include <algorithm>
+#include <iostream>
 #include <cassert>
 
 namespace EUSDAB

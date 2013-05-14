@@ -9,10 +9,6 @@ namespace EUSDAB
         Walk::Walk():
             State()
         {
-            if(_mvt.flag() & Movement::Left)
-                _transform.velocity() += Physics::Vector2(-1.0 , 0);
-            if(_mvt.flag() & Movement::Right)
-                _transform.velocity() += Physics::Vector2(1.0 , 0);
         }
 
         Walk::~Walk()
@@ -132,6 +128,16 @@ namespace EUSDAB
         void Walk::onNextFrame()
         {
             State::onNextFrame();
+        }
+
+        void Walk::onEnter()
+        {
+            State::onEnter();
+
+            if(_mvt.flag() & Movement::Left)
+                _transform.velocity() = Physics::Vector2(-1.0 , 0);
+            if(_mvt.flag() & Movement::Right)
+                _transform.velocity() = Physics::Vector2(1.0 , 0);
         }
     }
 }
