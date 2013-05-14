@@ -77,12 +77,16 @@ namespace EUSDAB
         if (txPtr == nullptr) { return; }
 
         // Explicitely convert to float when halfing
-        static auto half = [] (float v) { return v / static_cast<float>(2); }
+        typedef unsigned int Size;
+        static auto half = [] (Size v)
+        {
+            return static_cast<float>(v) / static_cast<float>(2);
+        };
 
         // Transform sprite correctly
-        sf::Vector2u size = tx->getSize();
+        sf::Vector2<Size> size = txPtr->getSize();
         _sprite.setOrigin(half(size.x), half(size.y));
-        _sprite.setTexture(*tx);
+        _sprite.setTexture(*txPtr);
     }
 
     Frame & Animation::current()

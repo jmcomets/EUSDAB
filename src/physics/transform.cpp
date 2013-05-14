@@ -10,6 +10,7 @@ namespace EUSDAB
             _pos(pos),
             _vel(vel),
             _acc(acc)
+        {
         }
 
         Vector2 const & Transform::position() const

@@ -40,9 +40,9 @@ namespace EUSDAB
             Physics::Vector2 & position();
 
             // Get the Entity's physical transform
-            const Physics::Vector2 & physics() const;
+            const Physics::Transform & physics() const;
             // ...non-const version
-            Physics::Vector2 & physics();
+            Physics::Transform & physics();
 
             // Attack module
 
