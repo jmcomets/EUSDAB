@@ -72,11 +72,21 @@ namespace EUSDAB
 
     const Physics::Vector2 & Entity::position() const
     {
-        return _physics.position();
+        return _position;
     }
 
     Physics::Vector2 & Entity::position()
     {
-        return _physics.position();
+        return position;
+    }
+
+    const Physics::Vector2 & Entity::physics() const
+    {
+        return _physics;
+    }
+
+    Physics::Vector2 & Entity::physics()
+    {
+        return _physics;
     }
 }

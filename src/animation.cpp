@@ -73,7 +73,16 @@ namespace EUSDAB
 
     void Animation::refresh()
     {
-        _sprite.setTexture(*current().texture());
+        Frame::TexturePtr txPtr = current().texture();
+        if (txPtr == nullptr) { return; }
+
+        // Explicitely convert to float when halfing
+        static auto half = [] (float v) { return v / static_cast<float>(2); }
+
+        // Transform sprite correctly
+        sf::Vector2u size = tx->getSize();
+        _sprite.setOrigin(half(size.x), half(size.y));
+        _sprite.setTexture(*tx);
     }
 
     Frame & Animation::current()
