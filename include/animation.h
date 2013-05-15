@@ -30,7 +30,7 @@ namespace EUSDAB
             Frame(const TexturePtr &);
 
             template <typename InputIter>
-                Frame(const TexturePtr & texture, 
+                Frame(const TexturePtr & texture,
                         InputIter begin, InputIter end):
                     _texture(texture),
                     _hitboxList(begin, end)
@@ -48,6 +48,10 @@ namespace EUSDAB
             HitboxList & hitboxList();
             // ...const version
             const HitboxList & hitboxList() const;
+
+            // Get flipped version of this Frame,
+            //  flipping both texture and hitboxes
+            Frame flipped() const;
 
         private:
             TexturePtr _texture;
@@ -86,6 +90,9 @@ namespace EUSDAB
 
             Animation(FPI = DefaultFPI);
 
+            // Get flipped (right/left) animation, flipping all frames
+            Animation flipped() const;
+
             // Add a frame to the Animation
             void addFrame(const Frame &);
 
@@ -106,7 +113,7 @@ namespace EUSDAB
             Frame & current();
             // ...const version
             const Frame & current() const;
-           
+
             // Get the current sprite
             sf::Sprite & sprite();
             // ...const version
@@ -124,14 +131,14 @@ namespace EUSDAB
             // Get/Set the "frames per image"
             FPI fpi() const;
             void setFPI(FPI = DefaultFPI);
-            
+
             // Reset the animation
             void reset();
-            
+
             //Get/Set the current animation frame
             FrameListSize currentFrame() const;
             void setCurrentFrame(FrameListSize frame);
-            
+
         private:
             // List of frames
             FrameList _frames;
@@ -150,7 +157,7 @@ namespace EUSDAB
 
             // Countdown to next frame advance
             FPI _imagesLeft;
-            
+
     };
 }
 
