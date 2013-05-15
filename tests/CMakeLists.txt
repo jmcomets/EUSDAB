@@ -1,10 +1,10 @@
 # List of all tests
 set(EUSDAB_TESTS
-    "input"
-    "animation"
-    "hitboxes"
+    #"input"
+    #"animation"
+    #"hitboxes"
     "entity"
-    "joystick"
+    #"joystick"
     )
 
 # Add all defined tests

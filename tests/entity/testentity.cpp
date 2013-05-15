@@ -37,7 +37,7 @@ namespace EUSDAB
 
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
-            Entity * e = entityParser.loadEntity("../../assets/entities/nyan_cat");
+            Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
             if (e == nullptr)
             {
                 throw std::runtime_error("Nyan Cat entity wasn't loaded");
@@ -89,7 +89,8 @@ namespace EUSDAB
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
+        //return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
+        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.0));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):

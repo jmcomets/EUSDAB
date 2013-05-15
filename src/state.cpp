@@ -86,6 +86,7 @@ namespace EUSDAB
     void State::onNextFrame()
     {
         Listener::onNextFrame();
+
         if (_animation != nullptr)
         {
             Animation::FrameListSize old = _animation->currentFrame();
@@ -99,10 +100,13 @@ namespace EUSDAB
     
     void State::onEnter()
     {
+        Listener::onEnter();
+
         if (_animation != nullptr)
         {
             _animation->reset();
         }
+        _transform = Transform();
     }
 
     void State::onAnimationEnd()
