@@ -129,5 +129,15 @@ namespace EUSDAB
         {
             State::onNextFrame();
         }
+
+        void Walk::onEnter()
+        {
+            State::onEnter();
+
+            if(_mvt.flag() & Movement::Left)
+                _transform.velocity() = Physics::Vector2(-1.0 , 0);
+            if(_mvt.flag() & Movement::Right)
+                _transform.velocity() = Physics::Vector2(1.0 , 0);
+        }
     }
 }

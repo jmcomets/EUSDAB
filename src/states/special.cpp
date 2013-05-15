@@ -1,4 +1,5 @@
 #include <states/special.h>
+#include <cmath>
 #include <iostream>
 
 namespace EUSDAB
@@ -37,6 +38,13 @@ namespace EUSDAB
         void Special::onNextFrame()
         {
             State::onNextFrame();
+
+            _transform.velocity().setX(
+                    _transform.velocity().x() / 1.04);
+            if(std::abs(_transform.velocity().x()) < 0.01)
+            {
+                _transform.velocity().setX(0.0);
+            }
         }
 
         void Special::onAnimationEnd()

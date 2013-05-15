@@ -26,20 +26,20 @@ namespace EUSDAB
         void Falling::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 switchState(Movement::Falling | Movement::Left);
             }
             else
             {
-                //switchState(Movement::FallingIdle | Movement::Left);
+                //switchState(Movement::Falling | Movement::Idle | Movement::Left);
             }
         }
 
         void Falling::onRight(const Event & e)
         {
             State::onRight(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 switchState(Movement::Falling | Movement::Right);
             }
@@ -52,16 +52,9 @@ namespace EUSDAB
         void Falling::onGround(const Event & e)
         {
             State::onGround(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Idle | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Idle | Movement::Right);
-                }
+                switchState(Movement::Idle | _mvt.direction());
             }
         }
 

@@ -19,18 +19,7 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Jump | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Jump | Movement::Right);
-                }
-                else
-                {
-                    switchState(Movement::Jump | Movement::Left);
-                }
+                switchState(Movement::Jump | _mvt.direction());
             }
 
         }
@@ -38,25 +27,18 @@ namespace EUSDAB
         void Idle::onDown(const Event & e)
         {
             State::onDown(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    //switchState(Movement::Crouch | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    //switchState(Movement::Crouch | Movement::Right);
-                }
+                //switchState(Movement::Crouch | _mvt.direction());
             }
         }
 
         void Idle::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if ((e.edge == Event::RisingEdge))
+            if (e.edge == Event::RisingEdge)
             {
-                if(e.ratio > Constants::OnRunRatio)
+                if (e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Left);
                 }
@@ -71,9 +53,9 @@ namespace EUSDAB
         {
             State::onRight(e);
             
-            if ((e.edge == Event::RisingEdge))
+            if (e.edge == Event::RisingEdge)
             {
-                if(e.ratio > Constants::OnRunRatio)
+                if (e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Right);
                 }
@@ -107,20 +89,9 @@ namespace EUSDAB
         void Idle::onB(const Event & e)
         {
             State::onB(e);
-            if ((e.edge == Event::RisingEdge))
+            if (e.edge == Event::RisingEdge)
             {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Special | Movement::Idle | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Special | Movement::Idle | Movement::Right);
-                }
-                else
-                {
-                    //switchState(Movement::Attack | Movement::Left);
-                }
+                switchState(Movement::Special | Movement::Idle | _mvt.direction());
             }
         }
 

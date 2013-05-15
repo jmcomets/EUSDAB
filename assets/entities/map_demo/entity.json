@@ -1,0 +1,14 @@
+{
+    "name": "Forever Alone", 
+    "start": "idle", 
+    "states": [
+        {
+            "animation": "forever_alone", 
+            "movement": {
+                "action": [], 
+                "direction": []
+            }, 
+            "type": "idle"
+        }
+    ]
+}

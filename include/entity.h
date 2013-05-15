@@ -82,7 +82,6 @@ namespace EUSDAB
 
             // Physics : positioning and physics transform
             Physics::Transform _physics;
-            Physics::Vector2 _position;
 
             // State
             State * _current;

@@ -26,14 +26,11 @@ namespace EUSDAB
         void AerialHit::onLeft(const Event & e)
         {
             State::onLeft(e);
-        
-            
         }
 
         void AerialHit::onRight(const Event & e)
         {
             State::onRight(e);
-            
         }
 
         void AerialHit::onNextFrame()

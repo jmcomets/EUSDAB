@@ -43,6 +43,12 @@ namespace EUSDAB
             return _acc;
         }
 
+        void Transform::apply(Transform const & t)
+        {
+            _pos += t._vel;
+            _vel += t._acc;
+        }
+
         void Transform::update()
         {
             _vel += _acc;

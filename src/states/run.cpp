@@ -90,10 +90,20 @@ namespace EUSDAB
                 if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Attack | Movement::Left);
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(-6.0 , 0);
+                    }
                 }
                 else if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Attack | Movement::Right);
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(6.0 , 0);
+                    }
                 }
                 else
                 {
@@ -110,10 +120,20 @@ namespace EUSDAB
                 if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Special | Movement::Left);
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(-10.0 , 0);
+                    }
                 }
                 else if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Special | Movement::Right);
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(10.0 , 0);
+                    }
                 }
                 else
                 {
@@ -129,6 +149,16 @@ namespace EUSDAB
             {
                 _animation->advance();
             }
+        }
+
+        void Run::onEnter()
+        {
+            State::onEnter();
+
+            if(_mvt.flag() & Movement::Left)
+                _transform.velocity() = Physics::Vector2(-6.0 , 0);
+            if(_mvt.flag() & Movement::Right)
+                _transform.velocity() = Physics::Vector2(6.0 , 0);
         }
     }
 }

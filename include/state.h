@@ -2,6 +2,7 @@
 #define STATE_H_
 
 #include <input/listener.h>
+#include <physics/transform.h>
 #include <entity.h>
 #include <movement.h>
 #include <animation.h>
@@ -13,6 +14,7 @@ namespace EUSDAB
         public:
             // Shortcuts for subclasses
             typedef Input::Event Event;
+            typedef Physics::Transform Transform;
 
             State(State &&) = default;
             State(State const &) = delete;
@@ -31,6 +33,11 @@ namespace EUSDAB
             Movement movement() const;
             void setMovement(const Movement &);
 
+            // Get/Set the state's transformation
+            Transform const & transformation() const;
+            Transform & transformation();
+            void setTransformation(Transform const &);
+
             // Compare States by Movement
             bool operator<(const State &) const;
 
@@ -44,7 +51,7 @@ namespace EUSDAB
 
             // onNextFrame -> advance Animation
             virtual void onNextFrame();
-            
+
             // onEnter -> used to reset animation at the start of a state
             virtual void onEnter();
 
@@ -63,6 +70,9 @@ namespace EUSDAB
 
             // Animation (graphics/physics)
             Animation * _animation;
+
+            // Trasnformation
+            Transform _transform;
     };
 }
 

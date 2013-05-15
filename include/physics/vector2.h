@@ -123,7 +123,7 @@ namespace EUSDAB
                 }
 
                 // Get this vector's norm
-                template <typename U>
+                template <typename U = decltype(std::sqrt(T()))>
                     U norm() const
                 {
                     return std::sqrt(_x*_x + _y*_y);

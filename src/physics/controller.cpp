@@ -1,6 +1,8 @@
 #include <physics/controller.h>
 #include <physics/hitbox.h>
 #include <algorithm>
+#include <iostream>
+#include <sstream>
 #include <cassert>
 
 namespace EUSDAB
@@ -31,6 +33,7 @@ namespace EUSDAB
         {
             for (Entity * e1 : _entityList)
             {
+                handleEntityTransform(e1);
                 handleWorldEntity(e1);
                 for (Entity * e2 : _entityList)
                 {
@@ -85,6 +88,24 @@ namespace EUSDAB
                         // Shorten code a little
                         using Input::Event;
 
+                        static auto hbStr = [] (const Hitbox & hb)
+                        {
+                            std::ostringstream oss;
+                            oss << "Hitbox[ ";
+                            for (const Hitbox::AABB & aabb : hb.aabbList())
+                            {
+                                oss << "AABB(x = " << aabb.x() << ", y = "
+                                    << aabb.y() << ", width = "
+                                    << aabb.width() << ", height = "
+                                    << aabb.height() << ") ";
+                            }
+                            oss << "]";
+                            return oss.str();
+                        };
+
+                        std::cout << "collision between " << hbStr(h1)
+                            << " and " << hbStr(h2) << std::endl;
+
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
@@ -114,6 +135,33 @@ namespace EUSDAB
             }
         }
 
+        void Controller::handleEntityTransform(Entity * e)
+        {
+            State * s = e->state();
+            if (s != nullptr)
+            {
+                Physics::Vector2 p = e->position();
+
+                s->transformation().update();
+                e->physics().apply(s->transformation());
+                e->physics().velocity() += _world->gravity();
+                e->physics().update();
+
+                Animation * a = s->animation();
+                if (a != nullptr)
+                {
+                    Physics::Vector2 v = e->position() - p;
+                    if (v.norm())
+                    {
+                        for (Hitbox & hb : a->hitboxList())
+                        {
+                            hb.translate(v);
+                        }
+                    }
+                }
+            }
+        }
+
         void Controller::handleWorldEntity(Entity * e)
         {
             State * s = e->state();
@@ -124,17 +172,19 @@ namespace EUSDAB
                 {
                     // Instanciation of lambda for containment-check
                     //  for all physical entities
-                    auto containedInWorld = [&](const Hitbox & hb)
+                    auto notContainedInWorld = [&](const Hitbox & hb)
                     {
-                        return _world->contains(hb);
+                        return _world->contains(hb) == false;
                     };
 
                     // If the entity isn't contained in the world,
+                    //  ie : all of its hitboxes aren't in the world
                     //  fire a onExitWorld call on its State
                     const Animation::HitboxList & hitboxList = a->hitboxList();
                     if (std::all_of(hitboxList.begin(), hitboxList.end(),
-                            containedInWorld) == false)
+                            notContainedInWorld))
                     {
+                        // TODO does not work !
                         s->onExitWorld();
                     }
                 }
