@@ -49,6 +49,10 @@ namespace EUSDAB
             // ...const version
             const HitboxList & hitboxList() const;
 
+            // Get flipped version of this Frame,
+            //  flipping both texture and hitboxes
+            Frame flipped() const;
+
         private:
             TexturePtr _texture;
             HitboxList _hitboxList;
@@ -85,6 +89,9 @@ namespace EUSDAB
             }
 
             Animation(FPI = DefaultFPI);
+
+            // Get flipped (right/left) animation, flipping all frames
+            Animation flipped() const;
 
             // Add a frame to the Animation
             void addFrame(const Frame &);
