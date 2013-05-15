@@ -83,14 +83,17 @@ namespace EUSDAB
         sf::Vector2<Size> size = window.getSize();
         map->position() = Physics::Vector2(h(size.x), h(size.y));
 
+        // Map is not gravitable
+        map->gravitable() = false;
+
         return map;
     }
 
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        //return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
-        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.0));
+        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
+        //return new World(AABB(0, 0, 600, 480), Vector2(0, 0.0));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
@@ -110,7 +113,7 @@ namespace EUSDAB
         // Physics
         Physics::World * world = makePhysicsWorld();
         _physics = new Physics::Controller(*_input, world);
-        _physics->addEntity(_entityList.begin() + 1, _entityList.end());
+        _physics->addEntity(_entityList.begin(), _entityList.end());
 
         // Graphics
         _graphics.addEntity(_entityList.begin(), _entityList.end());
