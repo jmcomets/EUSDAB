@@ -42,6 +42,7 @@ namespace EUSDAB
                         handleEntityCollision(e1, e2);
                     }
                 }
+                handleEntityMovement(e1);
             }
         }
 
@@ -103,9 +104,6 @@ namespace EUSDAB
                             return oss.str();
                         };
 
-                        std::cout << "collision between " << hbStr(h1)
-                            << " and " << hbStr(h2) << std::endl;
-
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
@@ -117,6 +115,10 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
+                            std::cout << "collision between " << hbStr(h1)
+                                << " and " << hbStr(h2) << std::endl;
+                            e1->physics().velocity().setY(0);
+
                             _input.pushEvent(e1, Event(Event::Ground));
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
@@ -140,11 +142,20 @@ namespace EUSDAB
             State * s = e->state();
             if (s != nullptr)
             {
-                Physics::Vector2 p = e->position();
-
                 s->transformation().update();
                 e->physics().apply(s->transformation());
-                e->physics().velocity() += _world->gravity();
+                if(e->gravitable())
+                    e->physics().velocity() += _world->gravity();
+            }
+        }
+
+        void Controller::handleEntityMovement(Entity * e)
+        {
+            State * s = e->state();
+            if (s != nullptr)
+            {
+                Physics::Vector2 p = e->position();
+                std::cout << p.y() << std::endl;
                 e->physics().update();
 
                 Animation * a = s->animation();
@@ -182,7 +193,7 @@ namespace EUSDAB
                     //  fire a onExitWorld call on its State
                     const Animation::HitboxList & hitboxList = a->hitboxList();
                     if (std::all_of(hitboxList.begin(), hitboxList.end(),
-                            notContainedInWorld))
+                                notContainedInWorld))
                     {
                         // TODO does not work !
                         s->onExitWorld();
