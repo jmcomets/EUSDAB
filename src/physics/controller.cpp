@@ -60,7 +60,7 @@ namespace EUSDAB
                 return;
             }
 
-            for (Hitbox const & h1 : a1->hitboxList())
+            for (Hitbox h1 : a1->hitboxList())
             {
                 // Do not collide if entity state is not defined
                 State * s2 = e2->state();
@@ -76,14 +76,16 @@ namespace EUSDAB
                     continue;
                 }
 
+                h1.translate(e1->position());
                 // All is good, handle collision
-                for (Hitbox const & h2 : a2->hitboxList())
+                for (Hitbox h2 : a2->hitboxList())
                 {
                     // TODO: Gestion de la sémentique dans les collision
                     // Exemple de regle de sémentique :
                     // Attack & Defense
                     // Grab & Grabable
                     // Foot & Defense
+                    h2.translate(e2->position());
                     if (h1.collides(h2))
                     {
                         // Shorten code a little
