@@ -1,4 +1,6 @@
 #include <animation.h>
+#include <stdexcept>
+#include <SFML/Graphics/RenderTexture.hpp>
 
 namespace EUSDAB
 {
@@ -35,6 +37,48 @@ namespace EUSDAB
     const Frame::HitboxList & Frame::hitboxList() const
     {
         return _hitboxList;
+    }
+
+    Frame Frame::flipped() const
+    {
+        // Cannot flip invalid Frame (with nil texture)
+        assert(_texture != nullptr);
+
+        // Flip sf::Texture
+        sf::RenderTexture destTx;
+        typedef unsigned int Size;
+        sf::Vector2<Size> srcSize = _texture->getSize();
+        Size srcWidth = srcSize.x, srcHeight = srcSize.y;
+        if (destTx.create(srcSize.x, srcSize.y) == false)
+        {
+            throw std::runtime_error("Texture couldn't be flipped");
+        }
+
+        sf::Sprite sprite(*_texture);
+        sprite.setTextureRect(sf::IntRect(srcWidth, 0, -srcWidth, srcHeight));
+        destTx.draw(sprite);
+        destTx.display();
+
+        // Flip frame hitboxes
+        Frame f(TexturePtr(new sf::Texture(destTx.getTexture())));
+        for (const Hitbox & hb : _hitboxList)
+        {
+            Hitbox hbCopy;
+            typedef Hitbox::AABB AABB;
+            for (const AABB & aabb : hb.aabbList())
+            {
+                AABB aabbCopy(aabb);
+                typedef AABB::Unit Unit;
+                static auto negate = [] (const Unit & v)
+                {
+                    return v * static_cast<Unit>(-1);
+                };
+                aabbCopy.setX(negate(aabbCopy.x()));
+                hbCopy.addAABB(aabbCopy);
+            }
+            f.addHitbox(hbCopy);
+        }
+        return f;
     }
 
     // Definition of member constant
@@ -167,5 +211,15 @@ namespace EUSDAB
     Animation::FrameListSize Animation::currentFrame() const
     {
         return _currentFrame;
+    }
+
+    Animation Animation::flipped() const
+    {
+        Animation a(_framesPerImage);
+        for (const Frame & f : _frames)
+        {
+            a.addFrame(f.flipped());
+        }
+        return a;
     }
 }

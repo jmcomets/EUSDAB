@@ -446,8 +446,8 @@ def main(json_file, animation_folder, image_folder):
     image_files = os.listdir(animation_folder_full)
 
     # main window
-    window = sf.RenderWindow(sf.VideoMode(800, 600), \
-            'HitboxMaker', sf.Style.Close)
+    window = sf.RenderWindow(sf.VideoMode.GetMode(0), \
+            'HitboxMaker', sf.Style.Close | sf.Style.Resize)
     window_center = window.GetWidth() / 2., window.GetHeight() / 2.
 
     # mouse start click
@@ -494,6 +494,15 @@ def main(json_file, animation_folder, image_folder):
         image_frames = sorted(image_frames, key=lambda x: x.filename)
         animation = DrawableAnimation(image_frames)
 
+    # camera setup
+    camera = sf.View()
+    #camera.SetCenter(0, 0)
+    camera.SetHalfSize(*window_center)
+
+    # helper for mouse querying
+    def get_mouse_position(x, y):
+        return window.ConvertCoords(x, y)
+
     # program loop
     while window.IsOpened():
         # continuous input
@@ -504,11 +513,16 @@ def main(json_file, animation_folder, image_folder):
         while window.GetEvent(event):
             if event.Type == sf.Event.Closed: # close window when requested
                 window.Close()
+            elif event.Type == sf.Event.Resized: # resize view when requested
+                width, height = window.GetWidth(), window.GetHeight()
+                print 'Window resized to', width, height
+                camera.SetHalfSize(width / 2., height / 2.)
             else:
                 # mouse events
                 if event.Type == sf.Event.MouseButtonPressed:
                     button = event.MouseButton.Button
-                    x, y = event.MouseButton.X, event.MouseButton.Y
+                    pos = event.MouseButton.X, event.MouseButton.Y
+                    x, y = get_mouse_position(*pos)
                     if button == sf.Mouse.Left:
                         if input_.IsKeyDown(sf.Key.LControl) \
                                 or input_.IsKeyDown(sf.Key.RControl):
@@ -518,7 +532,8 @@ def main(json_file, animation_folder, image_folder):
                             start = x, y
                 elif event.Type == sf.Event.MouseButtonReleased:
                     button = event.MouseButton.Button
-                    x, y = event.MouseButton.X, event.MouseButton.Y
+                    pos = event.MouseButton.X, event.MouseButton.Y
+                    x, y = get_mouse_position(*pos)
                     if button == sf.Mouse.Left:
                         if semantic is not None and start is not None:
                             hitbox = make_hitbox(start, (x, y), semantic)
@@ -570,12 +585,12 @@ def main(json_file, animation_folder, image_folder):
                         print 'Unselecting selected hitboxes'
                         drawable_list = animation.current().drawable_list
                         selected = drawable_list.clear_selection()
-                    elif key == sf.Key.Left: # previous frame
+                    elif key == sf.Key.B: # previous frame
                         print 'Previous frame'
                         drawable_list = animation.current().drawable_list
                         animation.advance(-1)
                         selected = drawable_list.clear_selection()
-                    elif key == sf.Key.Right: # next frame
+                    elif key == sf.Key.N: # next frame
                         print 'Next frame'
                         drawable_list = animation.current().drawable_list
                         animation.advance(1)
@@ -584,6 +599,19 @@ def main(json_file, animation_folder, image_folder):
 
         # get mouse position (relative to window)
         mouse = input_.GetMouseX(), input_.GetMouseY()
+        mouse = get_mouse_position(*mouse)
+
+        # move camera by continuous input
+        camera_motion = [0, 0]
+        if input_.IsKeyDown(sf.Key.Left):  camera_motion[0] -= 1
+        if input_.IsKeyDown(sf.Key.Right): camera_motion[0] += 1
+        if input_.IsKeyDown(sf.Key.Up):    camera_motion[1] -= 1
+        if input_.IsKeyDown(sf.Key.Down):  camera_motion[1] += 1
+        camera_motion = map(lambda x: x * 5, camera_motion)
+        camera.Move(*camera_motion)
+
+        # apply view
+        window.SetView(camera)
 
         # draw animation
         window.Draw(animation)
@@ -607,47 +635,26 @@ def main(json_file, animation_folder, image_folder):
 
 def ExistingFolderType(x):
     """argparse extension as 'type' field, handling a readable folder.
-    Returns the same object if it exists.
+    Returns the same string without trailing slashes if it exists.
     """
     if not os.path.exists(x):
         raise argparse.ArgumentError("%s doesn't exist" % x)
     elif not os.path.isdir(x):
         raise argparse.ArgumentError("%s isn't a folder" % x)
-    return x
-
-def WritableFileType(x):
-    """argparse extension as 'type' field, handling an output file,
-    created if it does not yet exist. Returns a file object open in 'rw' mode.
-    """
-    if os.path.exists(x):
-        return open(x, 'r+')
-    else:
-        try:
-            return open(x, 'w+')
-        except IOError:
-            raise argparse.ArgumentError("%s couldn't be created" % x)
+    return x.rstrip(os.path.sep)
 
 if __name__ == '__main__':
     # command-line arguments
     parser = argparse.ArgumentParser(
-            prog='hitbox_maker',
+            prog='HitboxMaker',
             description='Generate a hitbox descriptor for an animation')
-    parser.add_argument('-i', '--image-folder',
-            dest='image_folder',
+    parser.add_argument(dest='folder', metavar='animation-folder',
             type=ExistingFolderType,
-            required=False,
-            default='.',
-            help='Full path to folder containing animation folder')
-    parser.add_argument('-a', '--animation-folder',
-            dest='animation_folder',
-            type=str,
-            required=True,
-            help='Basename of folder holding animation frame images')
-    parser.add_argument('-o', '--output-file',
-            dest='json_file',
-            default=sys.stdout,
-            type=WritableFileType,
-            required=False,
-            help='Full path to the JSON hitbox descriptor')
+            help='Full path to the animation folder')
     parsed_args = parser.parse_args()
-    main(**vars(parsed_args))
+    animation_folder = parsed_args.folder
+    json_filename = os.path.join(animation_folder, 'animation.json')
+    mode = 'r+' if os.path.exists(json_filename) else 'w+'
+    json_file = open(json_filename, mode)
+    image_folder, animation_folder = os.path.split(animation_folder)
+    main(json_file, animation_folder, image_folder)

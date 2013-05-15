@@ -1,0 +1,14 @@
+{
+    "name": "Forever Alone", 
+    "start": "idle", 
+    "states": [
+        {
+            "animation": "map_bazar", 
+            "movement": {
+                "action": [], 
+                "direction": []
+            }, 
+            "type": "idle"
+        }
+    ]
+}

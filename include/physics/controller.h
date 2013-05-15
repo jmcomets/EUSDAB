@@ -53,6 +53,9 @@ namespace EUSDAB
                 // Update entities' transformation
                 void handleEntityTransform(Entity * e);
 
+                // Update entities' movement
+                void handleEntityMovement(Entity * e);
+
             private:
                 // Input Controller
                 Input::Controller & _input;

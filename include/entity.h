@@ -44,6 +44,11 @@ namespace EUSDAB
             // ...non-const version
             Physics::Transform & physics();
 
+            // get if the entity is gravitable
+            bool gravitable() const;
+            // ...non-const version
+            bool & gravitable();
+
             // Attack module
 
             // Get/Set the attack
@@ -82,6 +87,7 @@ namespace EUSDAB
 
             // Physics : positioning and physics transform
             Physics::Transform _physics;
+            bool _gravitable;
 
             // State
             State * _current;

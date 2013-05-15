@@ -42,6 +42,7 @@ namespace EUSDAB
                         handleEntityCollision(e1, e2);
                     }
                 }
+                handleEntityMovement(e1);
             }
         }
 
@@ -59,7 +60,7 @@ namespace EUSDAB
                 return;
             }
 
-            for (Hitbox const & h1 : a1->hitboxList())
+            for (Hitbox h1 : a1->hitboxList())
             {
                 // Do not collide if entity state is not defined
                 State * s2 = e2->state();
@@ -75,14 +76,16 @@ namespace EUSDAB
                     continue;
                 }
 
+                h1.translate(e1->position());
                 // All is good, handle collision
-                for (Hitbox const & h2 : a2->hitboxList())
+                for (Hitbox h2 : a2->hitboxList())
                 {
                     // TODO: Gestion de la sémentique dans les collision
                     // Exemple de regle de sémentique :
                     // Attack & Defense
                     // Grab & Grabable
                     // Foot & Defense
+                    h2.translate(e2->position());
                     if (h1.collides(h2))
                     {
                         // Shorten code a little
@@ -103,9 +106,6 @@ namespace EUSDAB
                             return oss.str();
                         };
 
-                        std::cout << "collision between " << hbStr(h1)
-                            << " and " << hbStr(h2) << std::endl;
-
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
@@ -117,6 +117,10 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
+                            std::cout << "collision between " << hbStr(h1)
+                                << " and " << hbStr(h2) << std::endl;
+                            e1->physics().velocity().setY(0);
+
                             _input.pushEvent(e1, Event(Event::Ground));
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
@@ -140,25 +144,21 @@ namespace EUSDAB
             State * s = e->state();
             if (s != nullptr)
             {
-                Physics::Vector2 p = e->position();
-
                 s->transformation().update();
                 e->physics().apply(s->transformation());
-                e->physics().velocity() += _world->gravity();
-                e->physics().update();
+                if(e->gravitable())
+                    e->physics().velocity() += _world->gravity();
+            }
+        }
 
-                Animation * a = s->animation();
-                if (a != nullptr)
-                {
-                    Physics::Vector2 v = e->position() - p;
-                    if (v.norm())
-                    {
-                        for (Hitbox & hb : a->hitboxList())
-                        {
-                            hb.translate(v);
-                        }
-                    }
-                }
+        void Controller::handleEntityMovement(Entity * e)
+        {
+            State * s = e->state();
+            if (s != nullptr)
+            {
+                Physics::Vector2 p = e->position();
+                std::cout << p.y() << std::endl;
+                e->physics().update();
             }
         }
 
@@ -182,7 +182,7 @@ namespace EUSDAB
                     //  fire a onExitWorld call on its State
                     const Animation::HitboxList & hitboxList = a->hitboxList();
                     if (std::all_of(hitboxList.begin(), hitboxList.end(),
-                            notContainedInWorld))
+                                notContainedInWorld))
                     {
                         // TODO does not work !
                         s->onExitWorld();

@@ -10,6 +10,7 @@ namespace EUSDAB
         _name(),
         _attack(nullptr),
         _physics(),
+        _gravitable(true),
         _current(nullptr),
         _states()
     {
@@ -88,5 +89,15 @@ namespace EUSDAB
     Physics::Transform & Entity::physics()
     {
         return _physics;
+    }
+
+    bool Entity::gravitable() const
+    {
+        return _gravitable;
+    }
+
+    bool & Entity::gravitable()
+    {
+        return _gravitable;
     }
 }
