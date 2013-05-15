@@ -57,7 +57,7 @@ namespace EUSDAB
     static Entity * makeMapEntity(sf::RenderWindow & window)
     {
         EntityParser entityParser;
-        Entity * map = entityParser.loadEntity("../../assets/entities/map_demo");
+        Entity * map = entityParser.loadEntity("../../assets/entities/map_bazar");
         if (map == nullptr)
         {
             throw std::runtime_error("Map entity wasn't loaded");
@@ -93,7 +93,7 @@ namespace EUSDAB
     {
         using namespace Physics;
         return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
-        //return new World(AABB(0, 0, 600, 480), Vector2(0, 0.0));
+        // return new World(AABB(0, 0, 600, 480), Vector2(0, 0.0));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
