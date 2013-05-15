@@ -157,19 +157,6 @@ namespace EUSDAB
                 Physics::Vector2 p = e->position();
                 std::cout << p.y() << std::endl;
                 e->physics().update();
-
-                Animation * a = s->animation();
-                if (a != nullptr)
-                {
-                    Physics::Vector2 v = e->position() - p;
-                    if (v.norm())
-                    {
-                        for (Hitbox & hb : a->hitboxList())
-                        {
-                            hb.translate(v);
-                        }
-                    }
-                }
             }
         }
 
