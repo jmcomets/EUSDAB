@@ -36,10 +36,10 @@ namespace EUSDAB
                 handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
-                Vector2 oldPos = e1->position();
                 bool canMoveX = true;
                 bool canMoveY = true;
-                Vector2 newPos = e1->position();
+
+                Transform oldTrans = e1->physics();
 
                 // TODO faire un transformation de test.
                 // Si il n'y a pas de collision, on garde cette transformation
@@ -52,14 +52,52 @@ namespace EUSDAB
                 // depuis la méthode handleEntityCollision.
                 // Gérer la réponse dans cette méthode.
 
+                e1->physics().updateX();
                 for (Entity * e2 : _entityList)
                 {
                     if (e1 != e2)
                     {
-                        handleEntityCollision(e1, e2);
-                        e1->physics().velocity().x = static_cast<Unit>(0);
+                        if(handleEntityCollision(e1, e2))
+                        {
+                            canMoveX = false;
+                        }
                     }
                 }
+                if(canMoveX == false)
+                {
+                    e1->physics() = oldTrans;
+                    e1->physics().velocity().x /= 2;
+                    e1->physics().acceleration().x /= 2;
+
+                    if(e1->physics().velocity().y < 0.5)
+                        e1->physics().velocity().y = 0;
+                    if(e1->physics().acceleration().y < 0.5)
+                        e1->physics().acceleration().y = 0;
+                }
+
+                e1->physics().updateY();
+                for (Entity * e2 : _entityList)
+                {
+                    if (e1 != e2)
+                    {
+                        if(handleEntityCollision(e1, e2))
+                        {
+                            canMoveY = false;
+                        }
+                    }
+                }
+                if(canMoveY == false)
+                {
+                    e1->physics() = oldTrans;
+                    e1->physics().velocity().y /= 2;
+                    e1->physics().acceleration().y /= 2;
+
+                    if(e1->physics().velocity().y < 0.5)
+                        e1->physics().velocity().y = 0;
+                    if(e1->physics().acceleration().y < 0.5)
+                        e1->physics().acceleration().y = 0;
+                }
+
                 std::cout << e1 << " " << e1->position().x << " " << e1->position().y << std::endl;
                 handleEntityMovement(e1);
             }

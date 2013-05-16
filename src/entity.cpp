@@ -91,6 +91,20 @@ namespace EUSDAB
         return _physics;
     }
 
+    void Entity::setPhysicsX(Physics::Transform const & tr)
+    {
+        _physics.position().x = tr.position().x;
+        _physics.velocity().x = tr.velocity().x;
+        _physics.acceleration().x = tr.acceleration().x;
+    }
+
+    void Entity::setPhysicsY(Physics::Transform const & tr)
+    {
+        _physics.position().y = tr.position().y;
+        _physics.velocity().y = tr.velocity().y;
+        _physics.acceleration().y = tr.acceleration().y;
+    }
+
     bool Entity::gravitable() const
     {
         return _gravitable;
