@@ -39,7 +39,7 @@ namespace EUSDAB
             Physics::Controller * _physics;
 
             // Graphics
-            Graphics::Controller _graphics;
+            Graphics::Controller * _graphics;
     };
 }
 
