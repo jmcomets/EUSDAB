@@ -1,4 +1,7 @@
+#ifndef PERCENTAGELIFE_H_
 #define PERCENTAGELIFE_H_
+
+#include <life.h>
 
 namespace EUSDAB
 {
@@ -9,13 +12,14 @@ namespace EUSDAB
 			PercentageLife(PercentageLife &&) = delete;
 			PercentageLife(const PercentageLife &) = delete;
 			PercentageLife & operator=(const PercentageLife &) =  delete;
-			~InfiniteLife();
+			~PercentageLife();
 
 		protected:
-			virtual bool isAlive();
-			virtual bool receiveDamage(const Life::Amount & dmg);
-			virtual bool healDamage(const Life::Amount & heal);
-	}
+			virtual bool isAlive() const;
+			virtual void receiveDamage(const Life::Amount & dmg);
+			virtual void healDamage(const Life::Amount & heal);
+			Life::Amount percentage;
+	};
 }
 
 #endif

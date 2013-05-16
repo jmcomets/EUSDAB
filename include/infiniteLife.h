@@ -1,4 +1,7 @@
+#ifndef INFINITELIFE_H_
 #define INFINITELIFE_H_
+
+#include <life.h>
 
 namespace EUSDAB
 {
@@ -12,10 +15,10 @@ namespace EUSDAB
 			~InfiniteLife();
 
 		protected:
-			virtual bool isAlive();
-			virtual bool receiveDamage(const Life::Amount & dmg);
-			virtual bool healDamage(const Life::Amount & heal);
-	}
+			virtual bool isAlive() const;
+			virtual void receiveDamage(const Life::Amount & dmg);
+			virtual void healDamage(const Life::Amount & heal);
+	};
 }
 
 #endif

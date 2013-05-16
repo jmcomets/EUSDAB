@@ -2,22 +2,22 @@
 
 namespace EUSDAB
 {
-	percentageLife::PercentageLife()
+	PercentageLife::PercentageLife()
 	{
-		hp = 100;
+		percentage = 0;
 	}
 
-	PercentageLife::isAlive()
+	bool PercentageLife::isAlive() const
 	{
 		return true;
 	}
 
-	HPLife::receiveDamage(const Life::Amount & dmg)
+	void PercentageLife::receiveDamage(const Life::Amount & dmg)
 	{
 		percentage+=dmg;
 	}
 
-	HPLife::healDamage(const Life::Amount & heal)
+	void PercentageLife::healDamage(const Life::Amount & heal)
 	{
 		if (percentage > heal)
 		{

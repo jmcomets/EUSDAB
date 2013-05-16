@@ -7,7 +7,7 @@ namespace EUSDAB
 		hp = 100;
 	}
 
-	HPLife::isAlive()
+	bool HPLife::isAlive() const
 	{
 		if (hp > 0)
 		{
@@ -19,12 +19,12 @@ namespace EUSDAB
 		}
 	}
 
-	HPLife::receiveDamage(const Life::Amount & dmg)
+	void HPLife::receiveDamage(const Life::Amount & dmg)
 	{
 		hp-=dmg;
 	}
 
-	HPLife::healDamage(const Life::Amount & heal)
+	void HPLife::healDamage(const Life::Amount & heal)
 	{
 		if (hp < 100-heal)
 		{
@@ -33,6 +33,6 @@ namespace EUSDAB
 		else
 		{
 			hp = 100;
-		}
+		}	
 	}
 }

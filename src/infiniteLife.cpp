@@ -2,16 +2,16 @@
 
 namespace EUSDAB
 {
-	InfiniteLife::isAlive()
+	bool InfiniteLife::isAlive() const
 	{
 		return true;
 	}
 
-	InfiniteLife::receiveDamage(const Life::Amount & dmg)
+	void InfiniteLife::receiveDamage(const Life::Amount & dmg)
 	{
 	}
 
-	InfiniteLife::healDamage(const Life::amount & heal)
+	void InfiniteLife::healDamage(const Life::Amount & heal)
 	{
 	}
 }
