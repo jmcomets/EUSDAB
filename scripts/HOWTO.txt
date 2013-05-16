@@ -1,0 +1,3 @@
+python HitboxMaker.py -i ../assets/entities/<nom_de_l_entite>/animations # absolu                    \
+    -o ../assets/entities/<nom_de_l_entite>/animations/<nom_de_l_animation>/animation.json # absolu  \
+    -a <nom_de_l_animation> # relatif au chemin de -i
