@@ -1,6 +1,6 @@
 #include <HPLife.h>
 #include <cassert>
-#include <cmath>
+#include <algorithm>
 
 namespace EUSDAB
 {
@@ -21,7 +21,7 @@ namespace EUSDAB
 	void HPLife::receiveDamage(const HPLife::Amount & dmg)
 	{
         assert(dmg >= 0);
-		_hp = std::max(hp - dmg, _min);
+		_hp = std::max(_hp - dmg, _min);
 	}
 
 	void HPLife::healDamage(const HPLife::Amount & heal)
