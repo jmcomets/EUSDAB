@@ -1,6 +1,7 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
+#include <array>
 #include <set>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <entity.h>
@@ -18,6 +19,25 @@ namespace EUSDAB
                 Controller(const Controller &) = default;
                 ~Controller() = default;
                 Controller & operator=(const Controller &) = default;
+
+                // Camera structure, used for view
+                //  on Controller's entities
+                struct Camera
+                {
+                    // Dimension type
+                    typedef float Size;
+
+                    // Zoom-Per-Frame type
+                    typedef float ZPF;
+
+                    // Minimum/Maximum zoom dimensions (width, height),
+                    //  must be positive values
+                    std::array<Size, 2> min, max;
+
+                    // Zoom-Per-Frame amount,
+                    //  must be in (0, 1) open interval
+                    ZPF zpf;
+                } camera;
 
                 Controller(sf::RenderTarget &);
 

@@ -39,27 +39,40 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
-            static auto trajectoryY = [] (std::time_t t) {
-                Physics::Unit t0 = static_cast<Physics::Unit>(t);
-                static const Physics::Unit height = 10.0;
-                static const Physics::Unit time_max = 10.0;
+            // Shorten code !
+            using Physics::Unit;
 
-                if(t0 > time_max)
-                    return Physics::Unit(0);
+            static auto trajectoryY = [] (std::time_t t)
+            {
+                // Be explicit
+                const Unit t0 = static_cast<Unit>(t);
+                constexpr Unit height = static_cast<Unit>(10.0);
+                constexpr Unit time_max = static_cast<Unit>(10.0);
+
+                if (t0 > time_max)
+                {
+                    return static_cast<Unit>(0);
+                }
                 return -t0 * height / time_max;
             };
 
-            _transform.velocity().setX(
-                    _transform.velocity().x() / 1.04);
-            if(std::abs(_transform.velocity().x()) < 0.01)
+            // Sliding config
+            constexpr Unit sliding_ratio = static_cast<Unit>(1.04);
+            constexpr Unit sliding_min = static_cast<Unit>(0.01);
+
+            // Sliding code
+            _transform.velocity().x /= sliding_ratio;
+            if (std::abs(_transform.velocity().x) < sliding_min)
             {
-                _transform.velocity().setX(0.0);
+                _transform.velocity().x = static_cast<Unit>(0);
             }
 
-            if((_mvt.flag() & Movement::Left
+            if ((_mvt.flag() & Movement::Left
                     || _mvt.flag() & Movement::Right)
                     && !(_mvt.flag() & Movement::Idle))
-                _transform.velocity().setY(trajectoryY(_time));
+            {
+                _transform.velocity().y = trajectoryY(_time);
+            }
         }
 
         void Special::onAnimationEnd()
@@ -68,6 +81,11 @@ namespace EUSDAB
             Movement newMvt(_mvt);
             newMvt.setAction(Movement::Idle);
             switchState(newMvt);
+        }
+
+        void Special::onGround(const Event & e)
+        {
+            State::onGround(e);
         }
         
         void Special::onEnter()

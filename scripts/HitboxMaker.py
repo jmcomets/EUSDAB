@@ -285,7 +285,7 @@ class DrawableAnimation(sf.Drawable):
     delta, generic rendering (provided a function to get the drawable
     element in the "frames" element.
     """
-    def __init__(self, frames, fpi=1., get=lambda x: x):
+    def __init__(self, frames, fpi=3, get=lambda x: x):
         """Construct from list of frames and functor"""
         try:
             frame_it = iter(frames)
@@ -383,15 +383,17 @@ def load_hitboxes(animation_name, image_folder, json_file, x, y):
     fpi = dct['fpi']
     frames = dct['frames']
     for filename, hitbox_list in sorted(frames.items(), key=lambda x: x[0]):
-        df = DrawableFrame(filename, animation_name, image_folder, x, y)
-        for hb in hitbox_list:
-            center_dict = hb['center']
-            center = center_dict['x'] + x, center_dict['y'] + y
-            width, height = hb['width'], hb['height']
-            semantic = hb['semantic']
-            hitbox = Hitbox(center, width, height, semantic)
-            df.drawable_list.append(DrawableHitbox(hitbox))
-        image_frames.append(df)
+        try:
+            df = DrawableFrame(filename, animation_name, image_folder, x, y)
+            for hb in hitbox_list:
+                center_dict = hb['center']
+                center = center_dict['x'] + x, center_dict['y'] + y
+                width, height = hb['width'], hb['height']
+                semantic = hb['semantic']
+                hitbox = Hitbox(center, width, height, semantic)
+                df.drawable_list.append(DrawableHitbox(hitbox))
+            image_frames.append(df)
+        except RuntimeError: pass
     if len(image_frames) == 0:
         raise RuntimeError('Animation not found in "%s"' % image_folder)
     return DrawableAnimation(image_frames, fpi)
@@ -496,12 +498,21 @@ def main(json_file, animation_folder, image_folder):
 
     # camera setup
     camera = sf.View()
-    #camera.SetCenter(0, 0)
+    camera.SetCenter(*window_center)
     camera.SetHalfSize(*window_center)
 
     # helper for mouse querying
-    def get_mouse_position(x, y):
-        return window.ConvertCoords(x, y)
+    real_mouse_position = lambda x, y: window.ConvertCoords(x, y)
+
+    # helper for zooming
+    def zoomBy(delta):
+        assert delta != 0, 'Cannot zoom by 0'
+        zoom_ratio = 1.2
+        if delta > 0:
+            zoom_factor = zoom_ratio
+        else:
+            zoom_factor = 1. / zoom_ratio
+        camera.Zoom(zoom_factor)
 
     # program loop
     while window.IsOpened():
@@ -515,14 +526,13 @@ def main(json_file, animation_folder, image_folder):
                 window.Close()
             elif event.Type == sf.Event.Resized: # resize view when requested
                 width, height = window.GetWidth(), window.GetHeight()
-                print 'Window resized to', width, height
                 camera.SetHalfSize(width / 2., height / 2.)
             else:
                 # mouse events
                 if event.Type == sf.Event.MouseButtonPressed:
                     button = event.MouseButton.Button
                     pos = event.MouseButton.X, event.MouseButton.Y
-                    x, y = get_mouse_position(*pos)
+                    x, y = real_mouse_position(*pos)
                     if button == sf.Mouse.Left:
                         if input_.IsKeyDown(sf.Key.LControl) \
                                 or input_.IsKeyDown(sf.Key.RControl):
@@ -533,7 +543,7 @@ def main(json_file, animation_folder, image_folder):
                 elif event.Type == sf.Event.MouseButtonReleased:
                     button = event.MouseButton.Button
                     pos = event.MouseButton.X, event.MouseButton.Y
-                    x, y = get_mouse_position(*pos)
+                    x, y = real_mouse_position(*pos)
                     if button == sf.Mouse.Left:
                         if semantic is not None and start is not None:
                             hitbox = make_hitbox(start, (x, y), semantic)
@@ -544,6 +554,10 @@ def main(json_file, animation_folder, image_folder):
                                 drawable_list.append(dhb)
                             semantic = None
                             start = None
+                elif event.Type == sf.Event.MouseWheelMoved \
+                        and input_.IsKeyDown(sf.Key.LControl) \
+                        or input_.IsKeyDown(sf.Key.RControl):
+                    zoomBy(event.MouseWheel.Delta)
 
                 # key events
                 if event.Type == sf.Event.KeyPressed:
@@ -563,7 +577,7 @@ def main(json_file, animation_folder, image_folder):
                             drawable_list = animation.current().drawable_list
                             for c in copied:
                                 cp = c.copy()
-                                print 'Pasting hitbox', repr(cp)
+                                print 'Pasting hitbox', repr(cp.hitbox)
                                 drawable_list.append(cp)
                     elif key in semantic_mapping: # change semantic
                         new_semantic = semantic_mapping[key]
@@ -599,7 +613,7 @@ def main(json_file, animation_folder, image_folder):
 
         # get mouse position (relative to window)
         mouse = input_.GetMouseX(), input_.GetMouseY()
-        mouse = get_mouse_position(*mouse)
+        mouse = real_mouse_position(*mouse)
 
         # move camera by continuous input
         camera_motion = [0, 0]

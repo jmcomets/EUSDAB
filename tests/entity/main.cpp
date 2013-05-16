@@ -2,8 +2,8 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 480),
-            "EUSDAB", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(),
+            "EUSDAB", sf::Style::Close | sf::Style::Resize);
     EUSDAB::Application * app = new EUSDAB::EntityTest(window);
     app->run();
     return 0;

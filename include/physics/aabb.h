@@ -121,10 +121,10 @@ namespace EUSDAB
                     Vector2 aabbTopLeft = aabb.min();
                     Vector2 bottomRight = max();
                     Vector2 aabbBottomRight = aabb.max();
-                    return (bottomRight.x() < aabbTopLeft.x() ||
-                            bottomRight.y() < aabbTopLeft.y() ||
-                            topLeft.x() > aabbBottomRight.x() ||
-                            topLeft.y() > aabbBottomRight.y()) == false;
+                    return (bottomRight.x < aabbTopLeft.x ||
+                            bottomRight.y < aabbTopLeft.y ||
+                            topLeft.x > aabbBottomRight.x ||
+                            topLeft.y > aabbBottomRight.y) == false;
                 }
 
                 // Check if contains another AABB (ie: contains both
@@ -139,10 +139,10 @@ namespace EUSDAB
                 {
                     Vector2 topLeft = min();
                     Vector2 bottomRight = max();
-                    return (topLeft.x() <= p.x() &&
-                            topLeft.y() <= p.y() &&
-                            p.x() <= bottomRight.x() &&
-                            p.y() <= bottomRight.y()) == false;
+                    return (topLeft.x <= p.x &&
+                            topLeft.y <= p.y &&
+                            p.x <= bottomRight.x &&
+                            p.y <= bottomRight.y) == false;
                 }
 
                 // Merge the AABB with another
@@ -155,10 +155,10 @@ namespace EUSDAB
                     Vector2 aabbBottomRight = aabb.max();
 
                     // Compute new corners
-                    Unit minX = std::min(topLeft.x(), aabbTopLeft.x());
-                    Unit minY = std::min(topLeft.y(), aabbTopLeft.y());
-                    Unit maxX = std::max(bottomRight.x(), aabbBottomRight.x());
-                    Unit maxY = std::max(bottomRight.y(), aabbBottomRight.y());
+                    Unit minX = std::min(topLeft.x, aabbTopLeft.x);
+                    Unit minY = std::min(topLeft.y, aabbTopLeft.y);
+                    Unit maxX = std::max(bottomRight.x, aabbBottomRight.x);
+                    Unit maxY = std::max(bottomRight.y, aabbBottomRight.y);
 
                     // Update data
                     _w = maxX - minX; assert(_w >= static_cast<Unit>(0));

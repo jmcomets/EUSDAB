@@ -44,6 +44,9 @@ namespace EUSDAB
             // ...non-const version
             Physics::Transform & physics();
 
+            void setPhysicsX(Physics::Transform const & tr);
+            void setPhysicsY(Physics::Transform const & tr);
+
             // get if the entity is gravitable
             bool gravitable() const;
             // ...non-const version

@@ -12,21 +12,6 @@
 
 namespace EUSDAB
 {
-    static auto hbStr = [] (const Physics::Hitbox & hb)
-    {
-        std::ostringstream oss;
-        oss << "Hitbox[ ";
-        for (const Physics::Hitbox::AABB & aabb : hb.aabbList())
-        {
-            oss << "AABB(x = " << aabb.x() << ", y = "
-                << aabb.y() << ", width = "
-                << aabb.width() << ", height = "
-                << aabb.height() << ") ";
-        }
-        oss << "]";
-        return oss.str();
-    };
-
     template <typename Container>
         static void initPlayerEntities(Container & cont)
     {
@@ -35,22 +20,22 @@ namespace EUSDAB
         // Type returned by sf::Joystick::
         typedef unsigned int Size;
 
+        // Number of players before joystick adding
+        auto old_size = cont.size();
+
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
             Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
             if (e == nullptr)
             {
-                throw std::runtime_error("Nyan Cat entity wasn't loaded");
+                throw std::runtime_error("Rick Hard entity wasn't loaded");
             }
             cont.push_back(e);
+        }
 
-            Animation * a = e->state()->animation();
-            const Animation::HitboxList & hbList = a->hitboxList();
-            std::cout << "Displaying " << hbList.size() << " map hitboxes" << std::endl;
-            for (Physics::Hitbox const & hb : hbList)
-            {
-                std::cout << hbStr(hb) << std::endl;
-            }
+        if (cont.size() == old_size)
+        {
+            throw std::runtime_error("No joysticks detected");
         }
     }
 
@@ -63,23 +48,15 @@ namespace EUSDAB
             throw std::runtime_error("Map entity wasn't loaded");
         }
 
-        Animation * a = map->state()->animation();
-        const Animation::HitboxList & hbList = a->hitboxList();
-        std::cout << "Displaying " << hbList.size() << " map hitboxes" << std::endl;
-        for (Physics::Hitbox const & hb : hbList)
-        {
-            std::cout << hbStr(hb) << std::endl;
-        }
-
         // Shorten halfwidth / halfheight
         typedef unsigned int Size;
         static auto h = [](const Size & v)
         {
-            typedef Physics::Unit U;
-            return static_cast<U>(v) / static_cast<U>(2);
+            return static_cast<Physics::Unit>(v) 
+                / static_cast<Physics::Unit>(2);
         };
 
-        // Move map to center
+        // Move map to center of window to start with
         sf::Vector2<Size> size = window.getSize();
         map->position() = Physics::Vector2(h(size.x), h(size.y));
 
@@ -92,13 +69,11 @@ namespace EUSDAB
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.8));
-        // return new World(AABB(0, 0, 600, 480), Vector2(0, 0.0));
+        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.01));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
-        Application(window), _entityList(),
-        _graphics(_window)
+        Application(window), _entityList()
     {
         // Map
         _entityList.push_back(makeMapEntity(window));
@@ -107,8 +82,8 @@ namespace EUSDAB
         initPlayerEntities(_entityList);
 
         // Input
-        Input::Mapping * mapping = new Input::JoystickMapping(_entityList.begin() + 1, _entityList.end());
-        _input = new Input::Controller(_entityList.begin() + 1, _entityList.end(), mapping);
+        _input = new Input::Controller(_entityList.begin() + 1, _entityList.end(), 
+                new Input::JoystickMapping(_entityList.begin() + 1, _entityList.end()));
 
         // Physics
         Physics::World * world = makePhysicsWorld();
@@ -116,13 +91,15 @@ namespace EUSDAB
         _physics->addEntity(_entityList.begin(), _entityList.end());
 
         // Graphics
-        _graphics.addEntity(_entityList.begin(), _entityList.end());
+        _graphics = new Graphics::Controller(_window);
+        _graphics->addEntity(_entityList.begin(), _entityList.end());
     }
 
     EntityTest::~EntityTest()
     {
         delete _input;
         delete _physics;
+        delete _graphics;
         for (Entity * e : _entityList)
         {
             delete e;
@@ -154,6 +131,6 @@ namespace EUSDAB
 
     void EntityTest::render()
     {
-        _graphics.draw();
+        _graphics->draw();
     }
 }
