@@ -57,10 +57,10 @@ namespace EUSDAB
                     if (e1 != e2)
                     {
                         handleEntityCollision(e1, e2);
-                        e1->physics().velocity().setY(0);
+                        e1->physics().velocity().x = static_cast<Unit>(0);
                     }
                 }
-                std::cout << e1 << " " << e1->position().x() << " " << e1->position().y() << std::endl;
+                std::cout << e1 << " " << e1->position().x << " " << e1->position().y << std::endl;
                 handleEntityMovement(e1);
             }
         }
@@ -109,21 +109,6 @@ namespace EUSDAB
                     {
                         // Shorten code a little
                         using Input::Event;
-
-                        static auto hbStr = [] (const Hitbox & hb)
-                        {
-                            std::ostringstream oss;
-                            oss << "Hitbox[ ";
-                            for (const Hitbox::AABB & aabb : hb.aabbList())
-                            {
-                                oss << "AABB(x = " << aabb.x() << ", y = "
-                                    << aabb.y() << ", width = "
-                                    << aabb.width() << ", height = "
-                                    << aabb.height() << ") ";
-                            }
-                            oss << "]";
-                            return oss.str();
-                        };
 
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)

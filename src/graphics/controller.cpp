@@ -30,7 +30,7 @@ namespace EUSDAB
                 // All is ok, draw animation's sprite
                 sf::Sprite & sp = a->sprite();
                 const Physics::Vector2 & p = e->position();
-                sp.setPosition(p.x(), p.y());
+                sp.setPosition(p.x, p.y);
                 _target.draw(sp);
 
                 // Add position vector to barycenter
@@ -38,10 +38,16 @@ namespace EUSDAB
             }
 
             // Convert to barycenter by dividing by number of entities
-            barycenter /= _entities.size();
-            sf::Vector2f sfBarycenter(barycenter.x(), barycenter.y());
+            barycenter /= static_cast<Physics::Unit>(_entities.size());
+            sf::Vector2f sfBarycenter(barycenter.x, barycenter.y);
             sf::View view = _target.getView();
             view.move(sfBarycenter - view.getCenter());
+
+            // Zoom camera
+            //Camera::ZPF factor = 1.f;
+            //view.zoom(factor);
+
+            // Set final view
             _target.setView(view);
         }
 

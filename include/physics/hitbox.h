@@ -149,7 +149,7 @@ namespace EUSDAB
                 // ... overload with AABB::Vector2
                 void translate(typename AABB::Vector2 const & v)
                 {
-                    translate(v.x(), v.y());
+                    translate(v.x, v.y);
                 }
 
                 // Get/Set the Hitbox's semantic
