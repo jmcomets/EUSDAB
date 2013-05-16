@@ -40,7 +40,7 @@ namespace EUSDAB
             Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
             if (e == nullptr)
             {
-                throw std::runtime_error("Nyan Cat entity wasn't loaded");
+                throw std::runtime_error("Rick Hard entity wasn't loaded");
             }
             cont.push_back(e);
 
@@ -52,6 +52,7 @@ namespace EUSDAB
                 std::cout << hbStr(hb) << std::endl;
             }
         }
+        std::cout << "Il y a " << cont.size() << " joueurs." << std::endl;
     }
 
     static Entity * makeMapEntity(sf::RenderWindow & window)

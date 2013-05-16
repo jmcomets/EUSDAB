@@ -69,6 +69,11 @@ namespace EUSDAB
             newMvt.setAction(Movement::Idle);
             switchState(newMvt);
         }
+
+        void Special::onGround(const Event & e)
+        {
+            State::onGround(e);
+        }
         
         void Special::onEnter()
         {

@@ -45,7 +45,7 @@ namespace EUSDAB
 
             protected:
                 // Collision of two entities
-                void handleEntityCollision(Entity *, Entity *);
+                bool handleEntityCollision(Entity *, Entity *);
 
                 // Life of entities in world
                 void handleWorldEntity(Entity *);
