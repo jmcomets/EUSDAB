@@ -79,8 +79,8 @@ namespace EUSDAB
         initPlayerEntities(_entityList);
 
         // Input
-        _input = new Input::Controller(_entityList.begin(), _entityList.end(), 
-                new Input::JoystickMapping(_entityList.begin(), _entityList.end()));
+        _input = new Input::Controller(_entityList.begin() + 1, _entityList.end(), 
+                new Input::JoystickMapping(_entityList.begin() + 1, _entityList.end()));
 
         // Physics
         Physics::World * world = makePhysicsWorld();
