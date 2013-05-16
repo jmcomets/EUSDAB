@@ -1,38 +1,32 @@
 #include <HPLife.h>
+#include <cassert>
+#include <algorithm>
 
 namespace EUSDAB
 {
-	HPLife::HPLife()
+	HPLife::HPLife(const HPLife::Amount & min,
+            const HPLife::Amount & max):
+        Life(),
+        _min(min), _max(max),
+        _hp(max)
 	{
-		hp = 100;
+        assert(_min <= _max);
 	}
 
 	bool HPLife::isAlive() const
 	{
-		if (hp > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return _hp > _min;
 	}
 
-	void HPLife::receiveDamage(const Life::Amount & dmg)
+	void HPLife::receiveDamage(const HPLife::Amount & dmg)
 	{
-		hp-=dmg;
+        assert(dmg >= 0);
+		_hp = std::max(_hp - dmg, _min);
 	}
 
-	void HPLife::healDamage(const Life::Amount & heal)
+	void HPLife::healDamage(const HPLife::Amount & heal)
 	{
-		if (hp < 100-heal)
-		{
-			hp+=heal;
-		}
-		else
-		{
-			hp = 100;
-		}	
+        assert(heal >= 0);
+        _hp = std::min(_hp + heal, _max);
 	}
 }

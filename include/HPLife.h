@@ -5,21 +5,24 @@
 
 namespace EUSDAB
 {
-	class HPLife : public Life
+	class HPLife: public Life
 	{
 		public:
-			HPLife();
-			HPLife(HPLife &&) = delete;
-			HPLife(const HPLife &) = delete;
-			HPLife & operator=(const HPLife &) =  delete;
+			HPLife(HPLife &&) = default;
+			HPLife(const HPLife &) = default;
+			HPLife & operator=(const HPLife &) = default;
+
 			~HPLife();
 
-		
-			virtual bool isAlive() const;
-			virtual void receiveDamage(const Life::Amount & dmg);
-			virtual void healDamage(const Life::Amount & heal);
-		protected:
-			Life::Amount hp;
+			HPLife(const Amount & max,
+                    const Amount & min = static_cast<Amount>(0));
+
+			bool isAlive() const;
+			void receiveDamage(const Amount &);
+			void healDamage(const Amount &);
+
+        private:
+			Amount _min, _hp, _max;
 	};
 }
 
