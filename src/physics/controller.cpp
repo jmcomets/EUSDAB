@@ -70,13 +70,13 @@ namespace EUSDAB
             State * s1 = e1->state();
             if (s1 == nullptr)
             {
-                return;
+                return false;
             }
 
             Animation * a1 = s1->animation();
             if (a1 == nullptr)
             {
-                return;
+                return false;
             }
 
             for (Hitbox h1 : a1->hitboxList())
