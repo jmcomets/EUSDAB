@@ -57,7 +57,9 @@ namespace EUSDAB
                 {
                     if (e1 != e2)
                     {
-                        if(handleEntityCollision(e1, e2))
+                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                        if(s & Hitbox::Defense
+                                || s & Hitbox::Grab)
                         {
                             canMoveX = false;
                         }
@@ -80,7 +82,9 @@ namespace EUSDAB
                 {
                     if (e1 != e2)
                     {
-                        if(handleEntityCollision(e1, e2))
+                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                        if(s & Hitbox::Grab
+                                || s & Hitbox::Foot)
                         {
                             canMoveY = false;
                         }
@@ -103,19 +107,21 @@ namespace EUSDAB
             }
         }
 
-        bool Controller::handleEntityCollision(Entity * e1, Entity * e2)
+        Hitbox::Semantic_type Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
             State * s1 = e1->state();
             if (s1 == nullptr)
             {
-                return false;
+                return Hitbox::Nothing;
             }
 
             Animation * a1 = s1->animation();
             if (a1 == nullptr)
             {
-                return false;
+                return Hitbox::Nothing;
             }
+
+            Hitbox::Semantic_type flag = Hitbox::Nothing;
 
             for (Hitbox h1 : a1->hitboxList())
             {
@@ -155,29 +161,33 @@ namespace EUSDAB
                             _input.pushEvent(e1, Event(Event::Attack));
                             _input.pushEvent(e2, Event(Event::Damage));
                             //e1->attack(e2);
+
+                            flag |= Hitbox::Attack;
                         }
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
                             _input.pushEvent(e1, Event(Event::Ground));
-                            return true;
+                            flag |= Hitbox::Foot;
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
                         {
                             // Collision
                             _input.pushEvent(e1, Event(Event::Collide));
-                            return true;
+                            flag |= Hitbox::Defense;
                         }
                         else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
                         {
                             // Grab
                             _input.pushEvent(e1, Event(Event::Grab));
                             //e1->grab(e2);
+
+                            flag |= Hitbox::Grab;
                         }
                     }
                 }
             }
-            return false;
+            return flag;
         }
 
         void Controller::handleEntityTransform(Entity * e)

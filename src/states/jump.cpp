@@ -70,6 +70,25 @@ namespace EUSDAB
         void Jump::onNextFrame()
         {
             State::onNextFrame();
+
+            // Shorten code !
+            using Physics::Unit;
+
+            static auto trajectoryY = [] (std::time_t t)
+            {
+                // Be explicit
+                const Unit t0 = static_cast<Unit>(t);
+                constexpr Unit height = static_cast<Unit>(40.0);
+                constexpr Unit time_max = static_cast<Unit>(17.0);
+
+                if (t0 > time_max)
+                {
+                    return static_cast<Unit>(0);
+                }
+                return -t0 * height / time_max;
+            };
+
+            _transform.velocity().y = trajectoryY(_time);
         }
         
         void Jump::onEnter()
