@@ -20,6 +20,9 @@ namespace EUSDAB
         // Type returned by sf::Joystick::
         typedef unsigned int Size;
 
+        // Number of players before joystick adding
+        auto old_size = cont.size();
+
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
             Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
@@ -30,7 +33,7 @@ namespace EUSDAB
             cont.push_back(e);
         }
 
-        if (cont.empty())
+        if (cont.size() == old_size)
         {
             throw std::runtime_error("No joysticks detected");
         }
