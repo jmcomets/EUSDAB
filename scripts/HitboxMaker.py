@@ -502,8 +502,17 @@ def main(json_file, animation_folder, image_folder):
     camera.SetHalfSize(*window_center)
 
     # helper for mouse querying
-    def real_mouse_position(x, y):
-        return window.ConvertCoords(x, y)
+    real_mouse_position = lambda x, y: window.ConvertCoords(x, y)
+
+    # helper for zooming
+    def zoomBy(delta):
+        assert delta != 0, 'Cannot zoom by 0'
+        zoom_ratio = 1.2
+        if delta > 0:
+            zoom_factor = zoom_ratio
+        else:
+            zoom_factor = 1. / zoom_ratio
+        camera.Zoom(zoom_factor)
 
     # program loop
     while window.IsOpened():
@@ -545,6 +554,10 @@ def main(json_file, animation_folder, image_folder):
                                 drawable_list.append(dhb)
                             semantic = None
                             start = None
+                elif event.Type == sf.Event.MouseWheelMoved \
+                        and input_.IsKeyDown(sf.Key.LControl) \
+                        or input_.IsKeyDown(sf.Key.RControl):
+                    zoomBy(event.MouseWheel.Delta)
 
                 # key events
                 if event.Type == sf.Event.KeyPressed:
