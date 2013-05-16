@@ -5,7 +5,7 @@
 
 namespace EUSDAB
 {
-	class PercentageLife : public Life
+	class PercentageLife: public Life
 	{
 		public:
 			PercentageLife();
@@ -14,11 +14,12 @@ namespace EUSDAB
 			PercentageLife & operator=(const PercentageLife &) =  delete;
 			~PercentageLife();
 
+			bool isAlive() const;
+			void receiveDamage(const Amount &);
+			void healDamage(const Amount &);
+
 		protected:
-			virtual bool isAlive() const;
-			virtual void receiveDamage(const Life::Amount & dmg);
-			virtual void healDamage(const Life::Amount & heal);
-			Life::Amount percentage;
+			Amount percentage;
 	};
 }
 
