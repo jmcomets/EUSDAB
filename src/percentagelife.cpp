@@ -1,10 +1,16 @@
 #include <percentageLife.h>
+#include <cassert>
+#include <cmath>
 
 namespace EUSDAB
 {
-	PercentageLife::PercentageLife()
+	PercentageLife::PercentageLife(const PercentageLife::Amount & min,
+const PercentageLife::Amount & max):
+	Life(),
+	_min(min), _max(max),
+	_percentage(max)
 	{
-		percentage = 0;
+	assert(_min <= _max);
 	}
 
 	bool PercentageLife::isAlive() const
@@ -12,20 +18,15 @@ namespace EUSDAB
 		return true;
 	}
 
-	void PercentageLife::receiveDamage(const Life::Amount & dmg)
+	void PercentageLife::receiveDamage(const PercentageLife::Amount & dmg)
 	{
-		percentage+=dmg;
+	assert(dmg >= 0);
+		_hp = std::min(percantage + dmg, _max);
 	}
 
 	void PercentageLife::healDamage(const Life::Amount & heal)
 	{
-		if (percentage > heal)
-		{
-			percentage-=heal;
-		}
-		else
-		{
-			percentage = 0;
-		}
+        assert(heal >= 0);
+        _hp = std::max(_hp + heal, _min);
 	}
 }

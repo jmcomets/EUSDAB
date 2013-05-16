@@ -8,18 +8,20 @@ namespace EUSDAB
 	class PercentageLife: public Life
 	{
 		public:
-			PercentageLife();
-			PercentageLife(PercentageLife &&) = delete;
-			PercentageLife(const PercentageLife &) = delete;
-			PercentageLife & operator=(const PercentageLife &) =  delete;
+			PercentageLife(PercentageLife &&) = default;
+			PercentageLife(const PercentageLife &) = default;
+			PercentageLife & operator=(const PercentageLife &) =  default;
 			~PercentageLife();
+
+			PercentageLife(const Amount & max,
+                    const Amount & min = static_cast<Amount>(0));
 
 			bool isAlive() const;
 			void receiveDamage(const Amount &);
 			void healDamage(const Amount &);
 
-		protected:
-			Amount percentage;
+		private:
+			Amount _min, _percentage, _max;
 	};
 }
 
