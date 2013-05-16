@@ -1,23 +1,23 @@
-#ifndef INFINITELIFE_H_
-#define INFINITELIFE_H_
+#ifndef INFINITE_LIFE_H_
+#define INFINITE_LIFE_H_
 
 #include <life.h>
 
 namespace EUSDAB
 {
-	class InfiniteLife : public Life
+	class InfiniteLife: public Life
 	{
 		public:
-			InfiniteLife();
 			InfiniteLife(InfiniteLife &&) = delete;
 			InfiniteLife(const InfiniteLife &) = delete;
 			InfiniteLife & operator=(const InfiniteLife &) =  delete;
+
+			InfiniteLife();
 			~InfiniteLife();
 
-		protected:
-			virtual bool isAlive() const;
-			virtual void receiveDamage(const Life::Amount & dmg);
-			virtual void healDamage(const Life::Amount & heal);
+			bool isAlive() const;
+			void receiveDamage(const Life::Amount &);
+			void healDamage(const Life::Amount &);
 	};
 }
 
