@@ -35,18 +35,37 @@ namespace EUSDAB
             {
                 handleEntityTransform(e1);
                 handleWorldEntity(e1);
+
+                Vector2 oldPos = e1->position();
+                bool canMoveX = true;
+                bool canMoveY = true;
+                Vector2 newPos = e1->position();
+
+                // TODO faire un transformation de test.
+                // Si il n'y a pas de collision, on garde cette transformation
+                // Si il y a une collision, on revient à la précédente
+                // et on divise la vitesse par 2 selon la direction
+                // A faire pour l'axe X et l'axe Y
+                // Créer une méthode applyX/applyY pour entity ?
+
+                // TODO récupérer la sémantique de la collision
+                // depuis la méthode handleEntityCollision.
+                // Gérer la réponse dans cette méthode.
+
                 for (Entity * e2 : _entityList)
                 {
                     if (e1 != e2)
                     {
                         handleEntityCollision(e1, e2);
+                        e1->physics().velocity().setY(0);
                     }
                 }
+                std::cout << e1 << " " << e1->position().x() << " " << e1->position().y() << std::endl;
                 handleEntityMovement(e1);
             }
         }
 
-        void Controller::handleEntityCollision(Entity * e1, Entity * e2)
+        bool Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
             State * s1 = e1->state();
             if (s1 == nullptr)
@@ -117,16 +136,14 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
-                            std::cout << "collision between " << hbStr(h1)
-                                << " and " << hbStr(h2) << std::endl;
-                            e1->physics().velocity().setY(0);
-
                             _input.pushEvent(e1, Event(Event::Ground));
+                            return true;
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
                         {
                             // Collision
                             _input.pushEvent(e1, Event(Event::Collide));
+                            return true;
                         }
                         else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
                         {
@@ -137,6 +154,7 @@ namespace EUSDAB
                     }
                 }
             }
+            return false;
         }
 
         void Controller::handleEntityTransform(Entity * e)
@@ -156,8 +174,6 @@ namespace EUSDAB
             State * s = e->state();
             if (s != nullptr)
             {
-                Physics::Vector2 p = e->position();
-                std::cout << p.y() << std::endl;
                 e->physics().update();
             }
         }
