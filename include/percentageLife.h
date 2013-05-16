@@ -14,10 +14,10 @@ namespace EUSDAB
 			PercentageLife & operator=(const PercentageLife &) =  delete;
 			~PercentageLife();
 
-		protected:
 			virtual bool isAlive() const;
 			virtual void receiveDamage(const Life::Amount & dmg);
 			virtual void healDamage(const Life::Amount & heal);
+		protected:
 			Life::Amount percentage;
 	};
 }

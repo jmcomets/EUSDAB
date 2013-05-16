@@ -14,7 +14,6 @@ namespace EUSDAB
 			InfiniteLife & operator=(const InfiniteLife &) =  delete;
 			~InfiniteLife();
 
-		protected:
 			virtual bool isAlive() const;
 			virtual void receiveDamage(const Life::Amount & dmg);
 			virtual void healDamage(const Life::Amount & heal);

@@ -14,11 +14,11 @@ namespace EUSDAB
 			HPLife & operator=(const HPLife &) =  delete;
 			~HPLife();
 
-		protected:
+		
 			virtual bool isAlive() const;
 			virtual void receiveDamage(const Life::Amount & dmg);
 			virtual void healDamage(const Life::Amount & heal);
-
+		protected:
 			Life::Amount hp;
 	};
 }
