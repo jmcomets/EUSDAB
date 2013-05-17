@@ -5,18 +5,26 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <graphics/texturemanager.h>
+#include <util/filename.h>
 
 using namespace boost::property_tree;
 
 namespace EUSDAB
 {
+    using namespace Util;
+
+    AnimationParser::AnimationParser(const std::string & baseDirectory):
+        _baseDirectory(Filename::clean(baseDirectory))
+    {
+    }
+
     // Concepts:
     //  - animDir is a valid path to the Animation's directory,
     //      and contains no trailing slashes
     Animation * AnimationParser::loadAnimation(const std::string & animDir) const
     {
         Animation * animation = nullptr;
-        std::string animFilename(animDir + "/animation.json");
+        std::string animFilename(Filename::join("/", _baseDirectory, animDir, "animation.json"));
         std::ifstream animFile(animFilename.c_str());
         if (animFile.good())
         {
@@ -28,6 +36,7 @@ namespace EUSDAB
     // Concepts:
     //  - is is a "good" std::istream
     //  - animDir is a valid path to the Animation's directory,
+    //      relative to the base directory,
     //      and contains no trailing slashes
     Animation * AnimationParser::readAnimation(std::istream & is,
             const std::string & animDir) const
@@ -71,7 +80,8 @@ namespace EUSDAB
                 // Animation is dict frame filename -> frame,
                 //  where the filename is relative to the
                 //  Animation's directory
-                std::string frameImagePath(animDir + "/" + f.first);
+                std::string frameImagePath(Filename::join("/", _baseDirectory,
+                            animDir, f.first));
                 const ptree & hitboxesPt = f.second;
 
                 // Load texture
@@ -131,5 +141,10 @@ namespace EUSDAB
             animation = nullptr;
         }
         return animation;
+    }
+
+    std::string AnimationParser::baseDirectory() const
+    {
+        return _baseDirectory;
     }
 }

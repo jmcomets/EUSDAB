@@ -8,17 +8,26 @@ namespace EUSDAB
     class AnimationParser
     {
         public:
-            AnimationParser() = default;
             AnimationParser(AnimationParser &&) = default;
             AnimationParser(const AnimationParser &) = default;
             ~AnimationParser() = default;
             AnimationParser & operator=(const AnimationParser &) = default;
 
-            // Load from Animation directory
+            AnimationParser(const std::string &);
+
+            // Load from Animation directory, relative to base directory
             Animation * loadAnimation(const std::string &) const;
 
-            // Read from stream with Animation directory given
+            // Read from stream with Animation directory given,
+            //  relative to base directory
             Animation * readAnimation(std::istream &, const std::string &) const;
+
+            // Get base directory
+            std::string baseDirectory() const;
+
+        private:
+            std::string _baseDirectory;
+            std::map<std::string, Animation> _animations;
     };
 }
 
