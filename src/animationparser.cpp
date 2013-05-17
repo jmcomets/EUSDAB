@@ -74,7 +74,7 @@ namespace EUSDAB
             }
             else
             {
-                Animation * a = new Animation(to_flip->flipped());
+                Animation * a = addSharedAnimation(animDir, to_flip->flipped());
                 delete to_flip;
                 return a;
             }
