@@ -27,7 +27,7 @@ namespace EUSDAB
     Entity * EntityParser::loadEntity(const std::string & entityDir)
     {
         Entity * entity = nullptr;
-        std::string absEntityDir = Filename::join("/", _baseDirectory, entityDir, "entity.json");
+        std::string absEntityDir = Filename::join(_baseDirectory, entityDir, "entity.json");
         std::string entityFilename(absEntityDir);
         std::ifstream entityFile(entityFilename.c_str());
         if (entityFile.good())
@@ -89,7 +89,7 @@ namespace EUSDAB
         const std::string & entityStartStateId = entityPt.get<std::string>("start");
 
         // Entity's own animation parser
-        std::string animDir(Filename::join("/", _baseDirectory, entityDir, "animations"));
+        std::string animDir(Filename::join(_baseDirectory, entityDir, "animations"));
         AnimationParser & animParser = _animationParsers.insert(
                 std::make_pair(animDir, AnimationParser(animDir))).first->second;
 

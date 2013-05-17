@@ -28,25 +28,19 @@ namespace EUSDAB
                 return trimmedOfAll.empty() == false ? trimmedOfAll : "/";
             }
 
-            std::string join(const std::string & sep, const std::string & str)
+            std::string join(const std::string & str)
             {
-                std::string ret_str = String::ltrim(str, sep);
-                std::cout << "basic join(\"" << sep << "\", \"" << str
-                    << "\") -> \"" << ret_str << "\"" << std::endl;
-                return ret_str;
+                return String::ltrim(str);
             }
 
-            std::string join(const std::string & sep, const char * str)
+            std::string join(const char * str)
             {
-                return join(sep, std::string(str));
+                return join(std::string(str));
             }
 
-            std::string join(const std::string & sep)
+            std::string join()
             {
-                std::string str = "";
-                std::cout << "empty join(\"" << sep << "\", \""
-                    << "\") -> " << str << std::endl;
-                return str;
+                return "";
             }
         }
     }

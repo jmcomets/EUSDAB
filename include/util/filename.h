@@ -3,7 +3,6 @@
 
 #include <string>
 #include <util/string.h>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -14,25 +13,21 @@ namespace EUSDAB
             // Cleanup a filename
             extern std::string clean(const std::string &);
 
+            const std::string Separator = "/";
+
             // Variadic template : join (right, left...)
-            //  by sep, eliminating duplicates and whitespace
-            extern std::string join(const std::string &);
+            //  by OS separator, eliminating duplicates and whitespace
+            extern std::string join();
             // ...overload for specialization
-            extern std::string join(const std::string & sep,
-                    const std::string & str);
+            extern std::string join(const std::string & str);
             // ...also for c-string
-            extern std::string join(const std::string & sep,
-                    const char * str);
+            extern std::string join(const char * str);
             // ...variadic template
             template <typename... Args>
-                std::string join(const std::string & sep,
-                        const std::string & left, Args ... args)
+                std::string join(const std::string & left, Args ... args)
             {
-                std::string str = String::rtrim(left, sep + String::Whitespace)
-                    + sep + join(sep, args...);
-                std::cout << "variadic join(\"" << sep << "\", \"" << "\""
-                    << left << "\", args...) -> \"" << str << "\"" << std::endl;
-                return str;
+                return String::rtrim(left, Separator + String::Whitespace)
+                    + Separator + join(args...);
             }
         }
     }
