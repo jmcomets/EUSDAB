@@ -44,6 +44,14 @@ namespace EUSDAB
             return nullptr;
         }
 
+        // Flip field
+        std::string flip_from = animationPt.get<std::string>("flip", "");
+        if(flip_from != "")
+        {
+            Animation * to_flip = loadAnimation(animDir + "/" + flip_from);
+            return new Animation(to_flip->flipped());
+        }
+
         // Actual animation parsing
         Animation * animation = new Animation();
 
