@@ -1,11 +1,12 @@
-#ifndef ATTACk_H_
-#define ATTACk_H_
+#ifndef ATTACK_H_
+#define ATTACK_H_
 
 #include <entity.h>
 #include <life.h>
 
 namespace EUSDAB
 {
+    class Entity;
     class Attack
     {
         public:
