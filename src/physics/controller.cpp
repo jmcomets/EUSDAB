@@ -1,7 +1,6 @@
 #include <physics/controller.h>
 #include <physics/hitbox.h>
 #include <algorithm>
-#include <iostream>
 #include <sstream>
 #include <cassert>
 
@@ -36,6 +35,7 @@ namespace EUSDAB
                 handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
+                // Handle speed / acceleration 
                 bool canMoveX = true;
                 bool canMoveY = true;
 
@@ -66,7 +66,10 @@ namespace EUSDAB
                 e1->physics().updateY();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 != e2)
+                    if (e1 == e2) { continue; }
+
+                    Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                    if (s & Hitbox::Defense || s & Hitbox::Grab)
                     {
                         Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                         if(s & Hitbox::Grab
@@ -103,7 +106,10 @@ namespace EUSDAB
                 e1->physics().updateX();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 != e2)
+                    if (e1 != e2) { continue; }
+
+                    Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                    if (s & Hitbox::Grab || s & Hitbox::Foot)
                     {
                         Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                         if(s & Hitbox::Defense
@@ -152,17 +158,11 @@ namespace EUSDAB
             {
                 // Do not collide if entity state is not defined
                 State * s2 = e2->state();
-                if (s2 == nullptr)
-                {
-                    continue;
-                }
+                if (s2 == nullptr) { continue; }
 
                 // Do not collide if state animation is not defined
                 Animation * a2 = s2->animation();
-                if (a2 == nullptr)
-                {
-                    continue;
-                }
+                if (a2 == nullptr) { continue; }
 
                 h1.translate(e1->position());
                 // All is good, handle collision
@@ -185,7 +185,7 @@ namespace EUSDAB
                             // Attaque
                             _input.pushEvent(e1, Event(Event::Attack));
                             _input.pushEvent(e2, Event(Event::Damage));
-                            //e1->attack(e2);
+                            e1->attack(e2);
 
                             flag |= Hitbox::Attack;
                         }

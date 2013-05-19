@@ -12,6 +12,7 @@ namespace EUSDAB
     {
         class JoystickMapping: public Mapping
         {
+            
             public:
                 typedef unsigned int JoystickInput;
 
@@ -38,21 +39,21 @@ namespace EUSDAB
 
                 JoystickMapping() = delete;
                 JoystickMapping(JoystickMapping &&) = default;
-                JoystickMapping(const JoystickMapping &) = delete;
-                JoystickMapping & operator=(const JoystickMapping &) = delete;
+                JoystickMapping(JoystickMapping const &) = delete;
+                JoystickMapping & operator=(JoystickMapping const &) = delete;
 
                 template <typename InputIter>
                     JoystickMapping(InputIter begin, InputIter end):
-                    Mapping(begin, end), _btnMapping(), _axisMapping()
+                    Mapping(begin, end), _mappings()
                 {
                     initMappings();
                 }
 
-                ~JoystickMapping() = default;
+                ~JoystickMapping();
 
                 // Event-based input, mapping SFML events to
                 //  EUSDAB events, using a predefined mapping
-                void pushEvent(const sf::Event & event);
+                void pushEvent(sf::Event const & event);
 
                 // Continuous input using the same mapping
                 //  as for the event-based version
@@ -63,18 +64,26 @@ namespace EUSDAB
                 void initMappings();
 
                 // SFML Joystick axis -> EUSDAB Joystick axis
-                Axis sfAxisToAxis(const sf::Joystick::Axis &, float);
+                Axis sfAxisToAxis(sf::Joystick::Axis const &, float);
 
                 // EUSDAB Joystick axis -> SFML Joystick axis
-                sf::Joystick::Axis axisToSfAxis(const Axis &);
+                sf::Joystick::Axis axisToSfAxis(Axis const &);
 
                 // Return if the given axis event is in the "dead" zone,
                 //  that is if it should be considered as at rest
-                bool isInDeadZone(const Axis &, float);
+                bool isInDeadZone(Axis const &, float);
 
             private:
-                std::vector<std::pair<Speaker *, std::map<int, Event::Id>>> _btnMapping;
-                std::vector<std::pair<Speaker *, std::map<Axis, Event::Id>>> _axisMapping;
+                struct PlayerMapping
+                {
+                    typedef JoystickMapping::Axis Axis;
+
+                    Speaker * player;
+                    std::map<int, Event::Id> btnMapping;
+                    std::map<Axis, Event::Id> axisMapping;
+                };
+
+                std::vector<PlayerMapping *> _mappings;
         };
     }
 }

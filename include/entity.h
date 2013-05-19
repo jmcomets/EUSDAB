@@ -8,13 +8,16 @@
 #include <physics/config.h>
 #include <physics/transform.h>
 #include <movement.h>
-//#include <attack.h>
+#include <life.h>
+#include <attack.h>
 
 namespace EUSDAB
 {
     // Forward declarations
     class State;
     class Attack;
+
+    typedef unsigned int ZIndex;
 
     class Entity: public Input::Speaker
     {
@@ -54,10 +57,6 @@ namespace EUSDAB
 
             // Attack module
 
-            // Get/Set the attack
-            Attack * attack() const;
-            void setAttack(Attack *);
-
             // Actually attack another entity
             void attack(Entity *); // FIXME const ? 
 
@@ -81,12 +80,29 @@ namespace EUSDAB
             //   state).
             void addState(State *);
 
+            void setLife(Life * life);
+            
+            Life * life() const;
+
+            void setZIndex(ZIndex const & zIndex);
+            
+            ZIndex const & zIndex() const;
+            
+            //return a boolean value telling if a jump is possible
+            bool canJump();
+            
+            //les getters et les setters pr le nbr de jump et le nbr max
+            int nbrJump();
+            int nbrJumpMax(); 
+            void setNbrJump(int);
+            
+            //getter et setter pour jump possible
+            bool jumpPossible();
+            void setJumpPossible(bool);
+
         private:
             // General
             std::string _name;
-
-            // Attack
-            Attack * _attack;
 
             // Physics : positioning and physics transform
             Physics::Transform _physics;
@@ -95,6 +111,17 @@ namespace EUSDAB
             // State
             State * _current;
             std::set<State *, std::less_ptr<State>> _states;
+            
+            // Life
+            Life * _life;
+
+            //Z-Index
+            ZIndex _zIndex;
+            
+            // Infomartion for the jumps
+            typedef int NbJumps;
+            NbJumps _nbrJumpLeft, _nbrJumpMax;
+            bool _jumpPossible;
     };
 }
 

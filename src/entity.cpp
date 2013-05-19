@@ -8,11 +8,14 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        _attack(nullptr),
         _physics(),
         _gravitable(true),
         _current(nullptr),
-        _states()
+        _states(),
+        _life(),
+        _nbrJumpMax(2),
+        _nbrJumpLeft(2),        
+        _zIndex(0)
     {
     }
 
@@ -114,4 +117,72 @@ namespace EUSDAB
     {
         return _gravitable;
     }
+
+    void Entity::setLife(Life * life)
+    {
+        _life = life;
+    }
+
+    Life * Entity::life() const
+    {
+        return _life;
+    }
+
+    void Entity::setZIndex(ZIndex const & zIndex)
+    {
+        _zIndex = zIndex;
+    }
+
+    ZIndex const & Entity::zIndex() const
+    {
+        return _zIndex;
+    }
+
+    void Entity::attack(Entity * entity)
+    {
+        assert(entity != nullptr);
+        assert(_current != nullptr);
+
+        Attack * attack = _current->attack();
+
+        if(attack != nullptr)
+        {
+           entity->life()->receiveDamage(attack->damage()); 
+           entity->_physics.velocity() = attack->direction();
+        }
+        else
+        {
+            std::cerr << "You fail to attack.. Loser." << std::endl;
+        }
+    }
+    
+    bool Entity::canJump()
+    {
+        return _nbrJumpLeft > 0;
+    }
+    
+    Entity::NbJumps Entity::nbrJump()
+    {
+        return _nbrJumpLeft;
+    }
+    Entity::NbJumps Entity::nbrJumpMax()
+    {
+        return _nbrJumpMax;
+    }
+    
+    void Entity::setNbrJump(Entity::NbJumps nbr)
+    {
+        _nbrJumpLeft = nbr;
+    }
+    
+    bool Entity::jumpPossible()
+    {
+        return _jumpPossible;
+    }
+            
+    void Entity::setJumpPossible(bool value)
+    {
+        _jumpPossible = value;
+    }
 }
+

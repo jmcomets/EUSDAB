@@ -1,4 +1,5 @@
 #include "testentity.h"
+#include <string>
 #include <iostream>
 #include <sstream>
 #include <list>
@@ -7,42 +8,69 @@
 #include <entityparser.h>
 #include <state.h>
 #include <input/joystickmapping.h>
+#include <input/keyboardmapping.h>
 #include <physics/world.h>
 #include <SFML/Window/Joystick.hpp>
 
 namespace EUSDAB
 {
     template <typename Container>
-        static void initPlayerEntities(Container & cont)
+        static Input::Mapping * initPlayerEntities(Container & cont)
     {
-        EntityParser entityParser;
+        static auto loadRickHard = []
+        {
+            static EntityParser entityParser("../../assets/entities");
+            Entity * e = entityParser.loadEntity("rickhard");
+            if (e == nullptr)
+            {
+                throw std::runtime_error("Rick Hard entity wasn't loaded");
+            }
+            typedef unsigned int Size;
+            static auto h = [](const Size & v)
+            {
+                return static_cast<Physics::Unit>(v) 
+                    / static_cast<Physics::Unit>(2);
+            };
+            e->position() = Physics::Vector2(h(500), h(0));
+            return e;
+        };
 
-        // Type returned by sf::Joystick::
+        // Type used by sf::Joystic
         typedef unsigned int Size;
 
         // Number of players before joystick adding
         auto old_size = cont.size();
 
+        // Players
+        std::vector<Entity *> players;
+        auto addPlayer = [&] (Entity * e)
+        {
+            cont.push_back(e);
+            players.push_back(e);
+        };
+
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
-            Entity * e = entityParser.loadEntity("../../assets/entities/rickhard");
-            if (e == nullptr)
-            {
-                throw std::runtime_error("Rick Hard entity wasn't loaded");
-            }
-            cont.push_back(e);
+            addPlayer(loadRickHard());
         }
 
         if (cont.size() == old_size)
         {
-            throw std::runtime_error("No joysticks detected");
+            std::cout << "No joysticks detected, using keyboard mapping"
+                << std::endl;
+            addPlayer(loadRickHard());
+            return new Input::KeyboardMapping(players.begin(), players.end());
+        }
+        else
+        {
+            return new Input::JoystickMapping(players.begin(), players.end());
         }
     }
 
     static Entity * makeMapEntity(sf::RenderWindow & window)
     {
-        EntityParser entityParser;
-        Entity * map = entityParser.loadEntity("../../assets/entities/map_bazar");
+        EntityParser entityParser("../../assets/entities");
+        Entity * map = entityParser.loadEntity("map_bazar");
         if (map == nullptr)
         {
             throw std::runtime_error("Map entity wasn't loaded");
@@ -69,7 +97,7 @@ namespace EUSDAB
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.01));
+        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.1f));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
@@ -78,12 +106,13 @@ namespace EUSDAB
         // Map
         _entityList.push_back(makeMapEntity(window));
 
+        auto nbNonPlayers = _entityList.size();
+
         // Players
-        initPlayerEntities(_entityList);
+        Input::Mapping * mapping = initPlayerEntities(_entityList);
 
         // Input
-        _input = new Input::Controller(_entityList.begin() + 1, _entityList.end(), 
-                new Input::JoystickMapping(_entityList.begin() + 1, _entityList.end()));
+        _input = new Input::Controller(_entityList.begin(), _entityList.end(), mapping);
 
         // Physics
         Physics::World * world = makePhysicsWorld();
@@ -91,8 +120,10 @@ namespace EUSDAB
         _physics->addEntity(_entityList.begin(), _entityList.end());
 
         // Graphics
-        _graphics = new Graphics::Controller(_window);
-        _graphics->addEntity(_entityList.begin(), _entityList.end());
+        auto playersBegin = _entityList.begin() + nbNonPlayers;
+        _graphics = new Graphics::Controller(_window,
+                playersBegin, _entityList.end());
+        _graphics->addEntity(_entityList.begin(), playersBegin);
     }
 
     EntityTest::~EntityTest()
