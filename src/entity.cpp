@@ -14,6 +14,8 @@ namespace EUSDAB
         _current(nullptr),
         _states(),
         _life(),
+        _nbrJumpMax(2),
+        _nbrJumpLeft(2),        
         _zIndex(0)
     {
     }
