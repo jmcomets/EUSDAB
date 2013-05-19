@@ -144,16 +144,16 @@ namespace EUSDAB
         return _nbrJumpLeft > 0;
     }
     
-    int Entity::nbrJump()
+    Entity::NbJumps Entity::nbrJump()
     {
         return _nbrJumpLeft;
     }
-    int Entity::nbrJumpMax()
+    Entity::NbJumps Entity::nbrJumpMax()
     {
         return _nbrJumpMax;
     }
     
-    void Entity::setNbrJump(int nbr)
+    void Entity::setNbrJump(Entity::NbJumps nbr)
     {
         _nbrJumpLeft = nbr;
     }

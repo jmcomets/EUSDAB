@@ -125,9 +125,9 @@ namespace EUSDAB
             //Z-Index
             ZIndex _zIndex;
             
-            //infomartion for the jumps
-            int _nbrJumpLeft;
-            int _nbrJumpMax;
+            // Infomartion for the jumps
+            typedef int NbJumps;
+            NbJumps _nbrJumpLeft, _nbrJumpMax;
             bool _jumpPossible;
     };
 }
