@@ -17,6 +17,13 @@ namespace EUSDAB
         void Jump::onUp(const Event & e)
         {
             State::onUp(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if (entity()->canJump()&&entity()->jumpPossible())
+                {
+                    switchState(Movement::Jump | _mvt.direction());
+                }
+            }
         }
 
         void Jump::onDown(const Event & e)
@@ -25,6 +32,7 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge)
             {
                 switchState(Movement::Falling | _mvt.direction());
+                entity()->setJumpPossible(true);
             }
         }
 
@@ -34,6 +42,8 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge)
             {
                 switchState(Movement::Idle | _mvt.direction());
+                entity()->setJumpPossible(true);
+                entity()->setNbrJump(entity()->nbrJumpMax());
             }
         }
 
@@ -77,6 +87,7 @@ namespace EUSDAB
             if (_transform.velocity().y < 0)
             {
                 switchState(Movement::Falling | _mvt.direction());
+                entity()->setJumpPossible(true);
             }
             
             if (_transform.velocity().y < _jumpValue / 2)
