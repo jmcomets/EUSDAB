@@ -32,6 +32,9 @@ namespace EUSDAB
                 void onNextFrame();
 
                 void onAnimationEnd();
+                
+                void onMiddleOfJump();
+                void onJumpEnd();
 
                 //void onAttack(const Event &);
                 //void onDamage(const Event &);
@@ -39,10 +42,21 @@ namespace EUSDAB
                 void onGround(const Event &);
 
                 void onEnter();
+                
+                
+                
+                
+                
+            
 
             protected:
                 // Explicit helper method :)
                 void setNextStateAnimationFrameToCurrentFrame() const;
+                
+                int _jumpValue;
+                
+                
+                
         };
     }
 }

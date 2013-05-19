@@ -136,4 +136,33 @@ namespace EUSDAB
     {
         return _zIndex;
     }
+    
+    bool Entity::canJump()
+    {
+        return _nbrJumpLeft>0;
+    }
+    
+    int Entity::nbrJump()
+    {
+        return _nbrJumpLeft;
+    }
+    int Entity::nbrJumpMax()
+    {
+        return _nbrJumpMax;
+    }
+    
+    void Entity::setNbrJump(int nbr)
+    {
+        _nbrJumpLeft=nbr;
+    }
+    
+    bool Entity::jumpPossible()
+    {
+        return _jumpPossible;
+    }
+            
+    void Entity::setJumpPossible(bool value)
+    {
+        _jumpPossible=value;
+    }
 }

@@ -91,6 +91,18 @@ namespace EUSDAB
             void setZIndex(ZIndex const & zIndex);
             
             ZIndex const & zIndex() const;
+            
+            //return a boolean value telling if a jump is possible
+            bool canJump();
+            
+            //les getters et les setters pr le nbr de jump et le nbr max
+            int nbrJump();
+            int nbrJumpMax(); 
+            void setNbrJump(int);
+            
+            //getter et setter pour jump possible
+            bool jumpPossible();
+            void setJumpPossible(bool);
 
         private:
             // General
@@ -112,6 +124,11 @@ namespace EUSDAB
 
             //Z-Index
             ZIndex _zIndex;
+            
+            //infomartion for the jumps
+            int _nbrJumpLeft;
+            int _nbrJumpMax;
+            bool _jumpPossible;
     };
 }
 

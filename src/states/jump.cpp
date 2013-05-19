@@ -43,7 +43,7 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Jump | Movement::Left);
+                onChangeSide(Movement::Jump | Movement::Left);
                 setNextStateAnimationFrameToCurrentFrame();
             }
             else
@@ -58,7 +58,7 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Jump | Movement::Right);
+                onChangeSide(Movement::Jump | Movement::Right);
                 setNextStateAnimationFrameToCurrentFrame();
             }
             else
@@ -88,14 +88,30 @@ namespace EUSDAB
                 return -t0 * height / time_max;
             };
 
-            _transform.velocity().y = trajectoryY(_time);
+            if (_transform.velocity().y<0)
+            {
+                switchState(Movement::Falling | _mvt.direction());
+            }
+            
+            if (_transform.velocity().y<(_jumpValue/2))
+            {
+                entity()->setJumpPossible(true);
+            }
         }
+        
+       
         
         void Jump::onEnter()
         {
             // TODO add vertical impulse
             _animation->setPaused(false);
+            entity()->setJumpPossible(false);
+            entity()->setNbrJump(entity()->nbrJump()-1);
+            
+            _transform.velocity().y = 4;
         }
+        
+        
 
         void Jump::onAnimationEnd()
         {
@@ -112,6 +128,17 @@ namespace EUSDAB
             Animation * a = s->animation();
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
+        }
+        
+        void Jump::onMiddleOfJump()
+        {
+        
+        }
+        
+        
+        void Jump::onJumpEnd()
+        {
+        
         }
     }
 }

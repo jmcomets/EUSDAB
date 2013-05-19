@@ -42,6 +42,21 @@ namespace EUSDAB
     {
         switchState(Movement(f));
     }
+    
+    void State::onChangeSide(const Movement & mvt)
+    {
+        State * s = _entity->state(mvt);
+        if (s == nullptr)
+        {
+            throw std::runtime_error("Undefined State");
+        }
+        _entity->setState(s);
+    }
+    
+    void State::onChangeSide(Movement::Flag const & f)
+    {
+        onChangeSide(Movement(f));
+    }
 
     Movement State::movement() const
     {
