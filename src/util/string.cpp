@@ -1,5 +1,4 @@
 #include <util/string.h>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -14,27 +13,21 @@ namespace EUSDAB
             std::string ltrim(const std::string & srcStr,
                     const std::string & chars)
             {
-                std::string str = srcStr.substr(srcStr.find_first_not_of(chars));
-                std::cout << "ltrim(\"" << srcStr << "\") = " << str << std::endl;
-                return str;
+                return srcStr.substr(srcStr.find_first_not_of(chars));
             }
 
             // Trim trailing chars
             std::string rtrim(const std::string & srcStr,
                     const std::string & chars)
             {
-                std::string str = srcStr.substr(0, srcStr.find_last_not_of(chars) + 1);
-                std::cout << "rtrim(\"" << srcStr << "\") = " << str << std::endl;
-                return str;
+                return srcStr.substr(0, srcStr.find_last_not_of(chars) + 1);
             }
 
             // Trim both leading and trailing chars
             std::string trim(const std::string & srcStr,
                     const std::string & chars)
             {
-                std::string str = rtrim(ltrim(srcStr, chars), chars);
-                std::cout << "trim(\"" << srcStr << "\") = " << str << std::endl;
-                return str;
+                return rtrim(ltrim(srcStr, chars), chars);
             }
         }
     }

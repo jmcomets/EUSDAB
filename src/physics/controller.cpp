@@ -1,7 +1,6 @@
 #include <physics/controller.h>
 #include <physics/hitbox.h>
 #include <algorithm>
-#include <iostream>
 #include <sstream>
 #include <cassert>
 
@@ -52,57 +51,68 @@ namespace EUSDAB
                 // depuis la méthode handleEntityCollision.
                 // Gérer la réponse dans cette méthode.
 
-                e1->physics().updateX();
+                Transform & t1 = e1->physics();
+
+                t1.updateX();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 != e2)
+                    if (e1 == e2) { continue; }
+
+                    Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                    if (s & Hitbox::Defense || s & Hitbox::Grab)
                     {
-                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if(s & Hitbox::Defense
-                                || s & Hitbox::Grab)
-                        {
-                            canMoveX = false;
-                        }
+                        canMoveX = false;
                     }
                 }
-                if(canMoveX == false)
-                {
-                    e1->physics() = oldTrans;
-                    e1->physics().velocity().x /= 2;
-                    e1->physics().acceleration().x /= 2;
 
-                    if(e1->physics().velocity().y < 0.5)
-                        e1->physics().velocity().y = 0;
-                    if(e1->physics().acceleration().y < 0.5)
-                        e1->physics().acceleration().y = 0;
+                Vector2 & v1 = t1.velocity();
+                Vector2 & a1 = t1.acceleration();
+
+                if (canMoveX == false)
+                {
+                    t1 = oldTrans;
+                    v1.x /= 2;
+                    a1.x /= 2;
+
+                    if (v1.x < 0.5)
+                    {
+                        v1.x = 0;
+                    }
+                    if (a1.x < 0.5)
+                    {
+                        a1.x = 0;
+                    }
                 }
 
-                e1->physics().updateY();
+                t1.updateY();
                 for (Entity * e2 : _entityList)
                 {
                     if (e1 != e2)
                     {
                         Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if(s & Hitbox::Grab
-                                || s & Hitbox::Foot)
+                        if (s & Hitbox::Grab || s & Hitbox::Foot)
                         {
                             canMoveY = false;
                         }
                     }
                 }
-                if(canMoveY == false)
-                {
-                    e1->physics() = oldTrans;
-                    e1->physics().velocity().y /= 2;
-                    e1->physics().acceleration().y /= 2;
 
-                    if(e1->physics().velocity().y < 0.5)
-                        e1->physics().velocity().y = 0;
-                    if(e1->physics().acceleration().y < 0.5)
-                        e1->physics().acceleration().y = 0;
+                if (canMoveY == false)
+                {
+                    t1 = oldTrans;
+                    v1.y /= 2;
+                    a1.y /= 2;
+
+                    if (v1.y < 0.5)
+                    {
+                        v1.y = 0;
+                    }
+                    if (a1.y < 0.5)
+                    {
+                        a1.y = 0;
+                    }
                 }
 
-                std::cout << e1 << " " << e1->position().x << " " << e1->position().y << std::endl;
                 handleEntityMovement(e1);
             }
         }
