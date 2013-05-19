@@ -9,6 +9,7 @@
 #include <physics/transform.h>
 #include <movement.h>
 #include <life.h>
+#include <attack.h>
 
 namespace EUSDAB
 {
