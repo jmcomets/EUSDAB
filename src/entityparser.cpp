@@ -18,7 +18,6 @@ namespace EUSDAB
     EntityParser::EntityParser(const std::string & baseDirectory):
         _baseDirectory(Filename::clean(baseDirectory)), _animationParsers()
     {
-        std::cout << "base directory = " << _baseDirectory << std::endl;
     }
 
     // Concepts:
@@ -55,8 +54,7 @@ namespace EUSDAB
         }
         catch (ptree_error)
         {
-            std::cout << entityDir << std::endl;
-            std::cerr << "Entity JSON file invalid" << std::endl;
+            std::cerr << "Entity " << entityDir << " JSON file invalid" << std::endl;
             return nullptr;
         }
 
