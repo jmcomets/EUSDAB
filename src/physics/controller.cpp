@@ -66,11 +66,10 @@ namespace EUSDAB
                     }
                 }
 
-                Vector2 & v1 = t1.velocity();
-
                 if (canMoveX == false)
                 {
                     t1 = oldTrans;
+                    Vector2 & v1 = t1.velocity();
                     v1.x /= static_cast<Unit>(2);
 
                     if (std::abs(v1.x) < static_cast<Unit>(0.5))
@@ -82,22 +81,22 @@ namespace EUSDAB
                 t1.updateY();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 != e2)
+                    if (e1 != e2) { continue; }
+
+                    Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                    if (s & Hitbox::Grab || s & Hitbox::Foot)
                     {
-                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if (s & Hitbox::Grab || s & Hitbox::Foot)
-                        {
-                            canMoveY = false;
-                        }
+                        canMoveY = false;
                     }
                 }
 
                 if (canMoveY == false)
                 {
                     t1 = oldTrans;
+                    Vector2 & v1 = t1.velocity();
                     v1.y /= 2;
 
-                    if (v1.y < 0.5)
+                    if (std::abs(v1.y) < static_cast<Unit>(0.5))
                     {
                         v1.y = 0;
                     }
@@ -127,17 +126,11 @@ namespace EUSDAB
             {
                 // Do not collide if entity state is not defined
                 State * s2 = e2->state();
-                if (s2 == nullptr)
-                {
-                    continue;
-                }
+                if (s2 == nullptr) { continue; }
 
                 // Do not collide if state animation is not defined
                 Animation * a2 = s2->animation();
-                if (a2 == nullptr)
-                {
-                    continue;
-                }
+                if (a2 == nullptr) { continue; }
 
                 h1.translate(e1->position());
                 // All is good, handle collision
@@ -160,7 +153,7 @@ namespace EUSDAB
                             // Attaque
                             _input.pushEvent(e1, Event(Event::Attack));
                             _input.pushEvent(e2, Event(Event::Damage));
-                            //e1->attack(e2);
+                            e1->attack(e2);
 
                             flag |= Hitbox::Attack;
                         }

@@ -74,28 +74,14 @@ namespace EUSDAB
             // Shorten code !
             using Physics::Unit;
 
-            static auto trajectoryY = [] (std::time_t t)
-            {
-                // Be explicit
-                const Unit t0 = static_cast<Unit>(t);
-                constexpr Unit height = static_cast<Unit>(40.0);
-                constexpr Unit time_max = static_cast<Unit>(17.0);
-
-                if (t0 > time_max)
-                {
-                    return static_cast<Unit>(0);
-                }
-                return -t0 * height / time_max;
-            };
-
-            if (_transform.velocity().y<0)
+            if (_transform.velocity().y < 0)
             {
                 switchState(Movement::Falling | _mvt.direction());
             }
             
-            if (_transform.velocity().y<(_jumpValue/2))
+            if (_transform.velocity().y < _jumpValue / 2)
             {
-                entity()->setJumpPossible(true);
+                _entity->setJumpPossible(true);
             }
         }
         
@@ -104,9 +90,10 @@ namespace EUSDAB
         void Jump::onEnter()
         {
             // TODO add vertical impulse
+
             _animation->setPaused(false);
-            entity()->setJumpPossible(false);
-            entity()->setNbrJump(entity()->nbrJump()-1);
+            _entity->setJumpPossible(false);
+            _entity->setNbrJump(entity()->nbrJump()-1);
             
             _transform.velocity().y = 4;
         }
