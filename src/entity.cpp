@@ -141,7 +141,7 @@ namespace EUSDAB
     
     bool Entity::canJump()
     {
-        return _nbrJumpLeft>0;
+        return _nbrJumpLeft > 0;
     }
     
     int Entity::nbrJump()
@@ -155,7 +155,7 @@ namespace EUSDAB
     
     void Entity::setNbrJump(int nbr)
     {
-        _nbrJumpLeft=nbr;
+        _nbrJumpLeft = nbr;
     }
     
     bool Entity::jumpPossible()
@@ -165,6 +165,6 @@ namespace EUSDAB
             
     void Entity::setJumpPossible(bool value)
     {
-        _jumpPossible=value;
+        _jumpPossible = value;
     }
 }
