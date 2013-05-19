@@ -19,7 +19,10 @@ namespace EUSDAB
 
             virtual void onAttack(Entity * entity) = 0;
             void setDirection(float x, float y);
+            Physics::Vector2T<float> direction();
             void setDamage(Life::Amount const & amount);
+            Life::Amount const & damage();
+
 
         private:
             Physics::Vector2T<float> _direction;

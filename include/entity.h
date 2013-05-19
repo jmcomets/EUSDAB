@@ -57,10 +57,6 @@ namespace EUSDAB
 
             // Attack module
 
-            // Get/Set the attack
-            Attack * attack() const;
-            void setAttack(Attack *);
-
             // Actually attack another entity
             void attack(Entity *); // FIXME const ? 
 
@@ -107,9 +103,6 @@ namespace EUSDAB
         private:
             // General
             std::string _name;
-
-            // Attack
-            Attack * _attack;
 
             // Physics : positioning and physics transform
             Physics::Transform _physics;

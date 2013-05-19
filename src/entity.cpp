@@ -8,7 +8,6 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        _attack(nullptr),
         _physics(),
         _gravitable(true),
         _current(nullptr),
@@ -138,6 +137,24 @@ namespace EUSDAB
     {
         return _zIndex;
     }
+
+    void Entity::attack(Entity * entity)
+    {
+        assert(entity != nullptr);
+        assert(_current != nullptr);
+
+        Attack * attack = _current->attack();
+
+        if(attack != nullptr)
+        {
+           entity->life()->receiveDamage(attack->damage()); 
+           entity->_physics.velocity() = attack->direction();
+        }
+        else
+        {
+            std::cerr << "You fail to attack.. Loser." << std::endl;
+        }
+    }
     
     bool Entity::canJump()
     {
@@ -168,3 +185,4 @@ namespace EUSDAB
         _jumpPossible = value;
     }
 }
+

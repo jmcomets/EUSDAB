@@ -98,6 +98,16 @@ namespace EUSDAB
         _animation = a;
     }
 
+    Attack * State::attack() const
+    {
+        return _attack;
+    }
+
+    void State::setAttack(Attack * attack)
+    {
+        _attack = attack;
+    }
+
     void State::onNextFrame()
     {
         Listener::onNextFrame();
