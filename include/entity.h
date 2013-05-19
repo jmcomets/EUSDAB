@@ -8,7 +8,7 @@
 #include <physics/config.h>
 #include <physics/transform.h>
 #include <movement.h>
-//#include <attack.h>
+#include <attack.h>
 
 namespace EUSDAB
 {
