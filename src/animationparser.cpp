@@ -5,22 +5,40 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <graphics/texturemanager.h>
+#include <util/filename.h>
 
 using namespace boost::property_tree;
 
 namespace EUSDAB
 {
+    using namespace Util;
+
+    AnimationParser::AnimationParser(const std::string & baseDirectory):
+        _baseDirectory(Filename::clean(baseDirectory))
+    {
+    }
+
     // Concepts:
     //  - animDir is a valid path to the Animation's directory,
     //      and contains no trailing slashes
-    Animation * AnimationParser::loadAnimation(const std::string & animDir) const
+    Animation * AnimationParser::loadAnimation(const std::string & animDir)
     {
+        std::string cleanedAnimDir = Filename::clean(animDir);
         Animation * animation = nullptr;
-        std::string animFilename(animDir + "/animation.json");
-        std::ifstream animFile(animFilename.c_str());
-        if (animFile.good())
+        auto it = _animations.find(cleanedAnimDir);
+        if (it != _animations.end())
         {
-            animation = readAnimation(animFile, animDir);
+            return new Animation(it->second);
+        }
+        else
+        {
+            std::string animFilename(Filename::join(_baseDirectory,
+                        cleanedAnimDir, "animation.json"));
+            std::ifstream animFile(animFilename.c_str());
+            if (animFile.good())
+            {
+                animation = readAnimation(animFile, animDir);
+            }
         }
         return animation;
     }
@@ -28,9 +46,10 @@ namespace EUSDAB
     // Concepts:
     //  - is is a "good" std::istream
     //  - animDir is a valid path to the Animation's directory,
+    //      relative to the base directory,
     //      and contains no trailing slashes
     Animation * AnimationParser::readAnimation(std::istream & is,
-            const std::string & animDir) const
+            const std::string & animDir)
     {
         // Boost's magic
         ptree animationPt;
@@ -44,13 +63,34 @@ namespace EUSDAB
             return nullptr;
         }
 
+        // Flip field
+        try
+        {
+            const std::string & flip_from = animationPt.get<std::string>("flip");
+            Animation * to_flip = loadAnimation(Filename::join(animDir, flip_from));
+            if (to_flip == nullptr)
+            {
+                return nullptr;
+            }
+            else
+            {
+                Animation * a = addSharedAnimation(animDir, to_flip->flipped());
+                delete to_flip;
+                return a;
+            }
+        }
+        catch (ptree_error)
+        {
+            // Nothing to do...
+        }
+
         // Actual animation parsing
-        Animation * animation = new Animation();
+        Animation animation;
 
         // FPI field
         typedef Animation::FPI FPI;
         FPI fpi = animationPt.get<FPI>("fpi", Animation::DefaultFPI);
-        animation->setFPI(fpi);
+        animation.setFPI(fpi);
 
         // Frames container
         const ptree & framesPt = animationPt.get_child("frames");
@@ -63,7 +103,8 @@ namespace EUSDAB
                 // Animation is dict frame filename -> frame,
                 //  where the filename is relative to the
                 //  Animation's directory
-                std::string frameImagePath(animDir + "/" + f.first);
+                std::string frameImagePath(Filename::join(_baseDirectory,
+                            animDir, f.first));
                 const ptree & hitboxesPt = f.second;
 
                 // Load texture
@@ -113,15 +154,26 @@ namespace EUSDAB
                 }
 
                 // Add finalized frame to animation
-                animation->addFrame(Frame(tx, frameHitboxes.begin(), 
+                animation.addFrame(Frame(tx, frameHitboxes.begin(), 
                             frameHitboxes.end()));
             }
         }
         catch (ptree_error)
         {
-            delete animation;
-            animation = nullptr;
+            return nullptr;
         }
-        return animation;
+        return addSharedAnimation(animDir, animation);
+    }
+
+    Animation * AnimationParser::addSharedAnimation(const std::string & name,
+            const Animation & animation)
+    {
+        _animations[name] = animation;
+        return new Animation(animation);
+    }
+
+    std::string AnimationParser::baseDirectory() const
+    {
+        return _baseDirectory;
     }
 }
