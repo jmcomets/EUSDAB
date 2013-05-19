@@ -12,7 +12,9 @@ namespace EUSDAB
         _physics(),
         _gravitable(true),
         _current(nullptr),
-        _states()
+        _states(),
+        _life(),
+        _zIndex(0)
     {
     }
 
@@ -113,5 +115,25 @@ namespace EUSDAB
     bool & Entity::gravitable()
     {
         return _gravitable;
+    }
+
+    void Entity::setLife(Life * life)
+    {
+        _life = life;
+    }
+
+    Life * Entity::life() const
+    {
+        return _life;
+    }
+
+    void Entity::setZIndex(ZIndex const & zIndex)
+    {
+        _zIndex = zIndex;
+    }
+
+    ZIndex const & Entity::zIndex() const
+    {
+        return _zIndex;
     }
 }

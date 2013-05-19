@@ -61,8 +61,16 @@ namespace EUSDAB
                 void removeEntity(Entity * entity);
 
             private:
+                struct Deeper
+                {
+                    bool operator()(Entity * lhs, Entity * rhs) const
+                    {
+                        return lhs->zIndex() < rhs->zIndex();
+                    }
+                };
                 sf::RenderTarget & _target;
-                std::set<Entity *> _entities;
+                //std::set<Entity *> _entities;
+                std::multiset<Entity *, Deeper> _entities;
         };
     }
 }

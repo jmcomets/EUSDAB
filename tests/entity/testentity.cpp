@@ -25,6 +25,13 @@ namespace EUSDAB
             {
                 throw std::runtime_error("Rick Hard entity wasn't loaded");
             }
+            typedef unsigned int Size;
+            static auto h = [](const Size & v)
+            {
+                return static_cast<Physics::Unit>(v) 
+                    / static_cast<Physics::Unit>(2);
+            };
+            e->position() = Physics::Vector2(h(500), h(0));
             return e;
         };
 

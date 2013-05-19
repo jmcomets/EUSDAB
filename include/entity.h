@@ -8,13 +8,15 @@
 #include <physics/config.h>
 #include <physics/transform.h>
 #include <movement.h>
-//#include <attack.h>
+#include <life.h>
 
 namespace EUSDAB
 {
     // Forward declarations
     class State;
     class Attack;
+
+    typedef unsigned int ZIndex;
 
     class Entity: public Input::Speaker
     {
@@ -81,6 +83,14 @@ namespace EUSDAB
             //   state).
             void addState(State *);
 
+            void setLife(Life * life);
+            
+            Life * life() const;
+
+            void setZIndex(ZIndex const & zIndex);
+            
+            ZIndex const & zIndex() const;
+
         private:
             // General
             std::string _name;
@@ -95,6 +105,12 @@ namespace EUSDAB
             // State
             State * _current;
             std::set<State *, std::less_ptr<State>> _states;
+            
+            // Life
+            Life * _life;
+
+            //Z-Index
+            ZIndex _zIndex;
     };
 }
 
