@@ -40,7 +40,12 @@ else()
 endif()
 
 # SFML
-set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
+set(SFML_ARCH "32")
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(SFML_ARCH "64")
+endif()
+
+set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc/${SFML_ARCH}")
 set(SFML_LIBS sfml-system sfml-window sfml-graphics sfml-audio)
 include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/lib")
