@@ -71,6 +71,7 @@ namespace EUSDAB
         for (const Hitbox & hb : _hitboxList)
         {
             Hitbox hbCopy;
+            hbCopy.setSemantic(hb.semantic());
             typedef Hitbox::AABB AABB;
             for (const AABB & aabb : hb.aabbList())
             {

@@ -29,6 +29,8 @@ namespace EUSDAB
                 Vector2 & acceleration();
 
                 void apply(Transform const &);
+                void applyX(Transform const &);
+                void applyY(Transform const &);
 
                 void updateX();
                 void updateY();
