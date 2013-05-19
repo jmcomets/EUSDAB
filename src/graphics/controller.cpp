@@ -2,43 +2,60 @@
 #include <cassert>
 #include <state.h>
 #include <animation.h>
+#include <iostream>
 
 namespace EUSDAB
 {
     namespace Graphics
     {
-        Controller::Controller(sf::RenderTarget & target):
-            _target(target), _entities()
-        {
-        }
-
         void Controller::draw()
         {
             // Barycenter of the entities
             Physics::Vector2 barycenter;
 
-            for (auto e : _entities)
+            auto drawSpriteAt = [&](sf::Sprite & sp,
+                    const Physics::Vector2 & p)
+            {
+                std::cout << "drawing sprite at (" << p.x << ", " << p.y
+                    << ")" << std::endl;
+                sp.setPosition(p.x, p.y);
+                _target.draw(sp);
+            };
+
+            for (Entity * e : _entityList)
             {
                 // Check that entity's state is non-nil
                 State * s = e->state();
-                if (s == nullptr) { continue; }
+                assert(s != nullptr);
 
                 // Check that state's animation is non-nil
                 Animation * a = s->animation();
                 if (a == nullptr) { continue; }
 
                 // All is ok, draw animation's sprite
-                sf::Sprite & sp = a->sprite();
+                drawSpriteAt(a->sprite(), e->position());
+            }
+
+            for (Entity * e : _playerList)
+            {
+                // Check that entity's state is non-nil
+                State * s = e->state();
+                assert(s != nullptr);
+
+                // Check that state's animation is non-nil
+                Animation * a = s->animation();
+                if (a == nullptr) { continue; }
+
+                // All is ok, draw animation's sprite
                 const Physics::Vector2 & p = e->position();
-                sp.setPosition(p.x, p.y);
-                _target.draw(sp);
+                drawSpriteAt(a->sprite(), p);
 
                 // Add position vector to barycenter
                 barycenter += p;
             }
 
             // Convert to barycenter by dividing by number of entities
-            barycenter /= static_cast<Physics::Unit>(_entities.size());
+            barycenter /= static_cast<Physics::Unit>(_playerList.size());
             sf::Vector2f sfBarycenter(barycenter.x, barycenter.y);
             sf::View view = _target.getView();
             view.move(sfBarycenter - view.getCenter());
@@ -54,12 +71,13 @@ namespace EUSDAB
         void Controller::addEntity(Entity * entity)
         {
             assert(entity != nullptr);
-            _entities.insert(entity);
+            assert(_playerList.find(entity) != _playerList.end());
+            _entityList.insert(entity);
         }
 
         void Controller::removeEntity(Entity * entity)
         {
-            _entities.erase(entity);
+            _entityList.erase(entity);
         }
     }
 }
