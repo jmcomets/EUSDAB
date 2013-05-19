@@ -49,6 +49,10 @@ namespace EUSDAB
             Animation * animation() const;
             void setAnimation(Animation *);
 
+            // Get/Set the attack 
+            Attack * attack() const;
+            void setAttack(Attack *);
+
             // onNextFrame -> advance Animation
             virtual void onNextFrame();
 
@@ -71,8 +75,11 @@ namespace EUSDAB
             // Animation (graphics/physics)
             Animation * _animation;
 
-            // Trasnformation
+            // Transformation
             Transform _transform;
+
+            //Attack
+            Attack * _attack;
     };
 }
 
