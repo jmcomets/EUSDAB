@@ -39,8 +39,6 @@ namespace EUSDAB
                 bool canMoveX = true;
                 bool canMoveY = true;
 
-                Transform oldTrans = e1->physics();
-
                 // TODO faire un transformation de test.
                 // Si il n'y a pas de collision, on garde cette transformation
                 // Si il y a une collision, on revient à la précédente
@@ -52,9 +50,20 @@ namespace EUSDAB
                 // depuis la méthode handleEntityCollision.
                 // Gérer la réponse dans cette méthode.
 
-                Transform & t1 = e1->physics();
+                Transform oldTrans;
+                State * s = e1->state();
 
-                t1.updateX();
+                oldTrans = e1->physics();
+
+                if (s != nullptr)
+                {
+                    // s->transformation().update();
+                    e1->physics().applyY(s->transformation());
+                    if(e1->gravitable())
+                        e1->physics().velocity().y += _world->gravity().y;
+                }
+
+                e1->physics().updateY();
                 for (Entity * e2 : _entityList)
                 {
                     if (e1 == e2) { continue; }
@@ -62,23 +71,39 @@ namespace EUSDAB
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                     if (s & Hitbox::Defense || s & Hitbox::Grab)
                     {
-                        canMoveX = false;
+                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                        if(s & Hitbox::Grab
+                                || s & Hitbox::Foot)
+                        {
+                            canMoveY = false;
+                        }
                     }
                 }
-
-                if (canMoveX == false)
+                if(canMoveY == false)
                 {
-                    t1 = oldTrans;
-                    Vector2 & v1 = t1.velocity();
-                    v1.x /= static_cast<Unit>(2);
+                    e1->physics() = oldTrans;
+                    e1->physics().velocity().y /= 2;
+                    e1->physics().acceleration().y /= 2;
 
-                    if (std::abs(v1.x) < static_cast<Unit>(0.5))
-                    {
-                        v1.x = 0;
-                    }
+                    if(e1->physics().velocity().y < 0.5 &&
+                            e1->physics().velocity().y > -0.5)
+                        e1->physics().velocity().y = 0;
+                    if(e1->physics().acceleration().y < 0.5 &&
+                            e1->physics().acceleration().y > -0.5)
+                        e1->physics().acceleration().y = 0;
                 }
 
-                t1.updateY();
+                oldTrans = e1->physics();
+
+                if (s != nullptr)
+                {
+                    // s->transformation().update();
+                    e1->physics().applyX(s->transformation());
+                    if(e1->gravitable())
+                        e1->physics().velocity().x += _world->gravity().x;
+                }
+
+                e1->physics().updateX();
                 for (Entity * e2 : _entityList)
                 {
                     if (e1 != e2) { continue; }
@@ -86,23 +111,30 @@ namespace EUSDAB
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                     if (s & Hitbox::Grab || s & Hitbox::Foot)
                     {
-                        canMoveY = false;
+                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+                        if(s & Hitbox::Defense
+                                || s & Hitbox::Grab)
+                        {
+                            canMoveX = false;
+                        }
                     }
                 }
-
-                if (canMoveY == false)
+                if(canMoveX == false)
                 {
-                    t1 = oldTrans;
-                    Vector2 & v1 = t1.velocity();
-                    v1.y /= 2;
+                    e1->physics() = oldTrans;
+                    e1->physics().velocity().x /= 2;
+                    e1->physics().acceleration().x /= 2;
+                    std::cout << e1 << " " << e1->position().x << " " << e1->position().y << " " << oldTrans.position().x << " " << oldTrans.position().y << std::endl;
 
-                    if (std::abs(v1.y) < static_cast<Unit>(0.5))
-                    {
-                        v1.y = 0;
-                    }
+                    if(e1->physics().velocity().x < 0.5 &&
+                            e1->physics().velocity().x > -0.5)
+                        e1->physics().velocity().x = 0;
+                    if(e1->physics().acceleration().x < 0.5 &&
+                            e1->physics().acceleration().x > -0.5)
+                        e1->physics().acceleration().x = 0;
                 }
 
-                handleEntityMovement(e1);
+                //handleEntityMovement(e1);
             }
         }
 
@@ -188,7 +220,7 @@ namespace EUSDAB
             State * s = e->state();
             if (s != nullptr)
             {
-                s->transformation().update();
+                // s->transformation().update();
                 e->physics().apply(s->transformation());
                 if(e->gravitable())
                     e->physics().velocity() += _world->gravity();
