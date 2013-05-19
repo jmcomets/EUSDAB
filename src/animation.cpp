@@ -45,24 +45,6 @@ namespace EUSDAB
         assert(_texture != nullptr);
 
         // Flip sf::Texture
-        // sf::RenderTexture destTx;
-        // typedef unsigned int Size;
-        // sf::Vector2<Size> srcSize = _texture->getSize();
-        // Size srcWidth = srcSize.x, srcHeight = srcSize.y;
-        // if (destTx.create(srcSize.x, srcSize.y) == false)
-        // {
-        //     throw std::runtime_error("Texture couldn't be flipped");
-        // }
-
-        // sf::Sprite sprite(*_texture);
-        // sprite.setTextureRect(sf::IntRect(srcWidth, 0, -srcWidth, srcHeight));
-        // destTx.draw(sprite);
-        // destTx.display();
-
-        // // Flip frame hitboxes
-        // Frame f(TexturePtr(new sf::Texture(destTx.getTexture())));
-
-        // Flip sf::Texture
         sf::Image img = _texture->copyToImage();
         img.flipHorizontally();
         Frame f(TexturePtr(new sf::Texture()));

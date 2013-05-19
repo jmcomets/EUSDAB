@@ -35,6 +35,7 @@ namespace EUSDAB
                 handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
+                // Handle speed / acceleration 
                 bool canMoveX = true;
                 bool canMoveY = true;
 
@@ -66,21 +67,15 @@ namespace EUSDAB
                 }
 
                 Vector2 & v1 = t1.velocity();
-                Vector2 & a1 = t1.acceleration();
 
                 if (canMoveX == false)
                 {
                     t1 = oldTrans;
-                    v1.x /= 2;
-                    a1.x /= 2;
+                    v1.x /= static_cast<Unit>(2);
 
-                    if (v1.x < 0.5)
+                    if (std::abs(v1.x) < static_cast<Unit>(0.5))
                     {
                         v1.x = 0;
-                    }
-                    if (a1.x < 0.5)
-                    {
-                        a1.x = 0;
                     }
                 }
 
@@ -101,15 +96,10 @@ namespace EUSDAB
                 {
                     t1 = oldTrans;
                     v1.y /= 2;
-                    a1.y /= 2;
 
                     if (v1.y < 0.5)
                     {
                         v1.y = 0;
-                    }
-                    if (a1.y < 0.5)
-                    {
-                        a1.y = 0;
                     }
                 }
 

@@ -61,7 +61,8 @@ namespace EUSDAB
 
             Vector2T<Unit> & operator/=(const Unit & scale)
             {
-                if (scale == static_cast<Unit>(0.0f))
+                constexpr Unit zero = static_cast<Unit>(0);
+                if (scale < zero && scale > zero)
                 {
                     throw std::overflow_error("Cannot divide by zero");
                 }
