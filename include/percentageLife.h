@@ -11,7 +11,7 @@ namespace EUSDAB
 			PercentageLife(PercentageLife &&) = default;
 			PercentageLife(const PercentageLife &) = default;
 			PercentageLife & operator=(const PercentageLife &) =  default;
-			~PercentageLife();
+			~PercentageLife() = default;
 
 			PercentageLife(const Amount & max,
                     const Amount & min = static_cast<Amount>(0));

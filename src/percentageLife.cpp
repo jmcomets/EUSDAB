@@ -4,13 +4,13 @@
 
 namespace EUSDAB
 {
-	PercentageLife::PercentageLife(const PercentageLife::Amount & min,
-const PercentageLife::Amount & max):
+	PercentageLife::PercentageLife(const Amount & min,
+const Amount & max):
 	Life(),
 	_min(min), _max(max),
 	_percentage(max)
 	{
-	assert(_min <= _max);
+        assert(_min <= _max);
 	}
 
 	bool PercentageLife::isAlive() const

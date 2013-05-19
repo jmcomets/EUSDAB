@@ -2,7 +2,7 @@
 
 namespace EUSDAB {
     
-    Attack::Attack(): _direction(), _damage()
+    Attack::Attack(): _direction(), _damage(0)
     {
     }    
 
@@ -26,7 +26,7 @@ namespace EUSDAB {
         _damage = amount;
     }
 
-    Life::Amount const & Attack::damage()
+    Life::Amount Attack::damage()
     {
         return _damage;
     }

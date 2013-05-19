@@ -142,12 +142,18 @@ namespace EUSDAB
     {
         assert(entity != nullptr);
         assert(_current != nullptr);
+        assert(entity->life() != nullptr);
 
         Attack * attack = _current->attack();
 
         if(attack != nullptr)
         {
-           entity->life()->receiveDamage(attack->damage()); 
+           if(entity->life() == nullptr)
+           {
+               std::cerr << "Life is null" << std::endl;
+           }
+               
+           entity->life()->receiveDamage(attack->damage());
            entity->_physics.velocity() = attack->direction();
         }
         else

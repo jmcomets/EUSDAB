@@ -7,8 +7,8 @@ namespace EUSDAB
 {
 	class InfiniteLife: public Life
 	{
-		public:
 			InfiniteLife(InfiniteLife &&) = delete;
+        public:
 			InfiniteLife(const InfiniteLife &) = delete;
 			InfiniteLife & operator=(const InfiniteLife &) =  delete;
 

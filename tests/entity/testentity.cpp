@@ -11,6 +11,8 @@
 #include <input/keyboardmapping.h>
 #include <physics/world.h>
 #include <SFML/Window/Joystick.hpp>
+#include <percentageLife.h>
+#include <infiniteLife.h>
 
 namespace EUSDAB
 {
@@ -32,6 +34,8 @@ namespace EUSDAB
                     / static_cast<Physics::Unit>(2);
             };
             e->position() = Physics::Vector2(h(500), h(0));
+            
+            e->setLife(new PercentageLife(0, 999));
             return e;
         };
 
@@ -59,6 +63,7 @@ namespace EUSDAB
             std::cout << "No joysticks detected, using keyboard mapping"
                 << std::endl;
             addPlayer(loadRickHard());
+            //addPlayer(loadRickHard());
             return new Input::KeyboardMapping(players.begin(), players.end());
         }
         else
@@ -91,6 +96,9 @@ namespace EUSDAB
         // Map is not gravitable
         map->gravitable() = false;
 
+        //Map f***** life
+        map->setLife(new InfiniteLife());
+
         return map;
     }
 
@@ -107,6 +115,8 @@ namespace EUSDAB
         _entityList.push_back(makeMapEntity(window));
 
         auto nbNonPlayers = _entityList.size();
+
+        std::cout << "Nb non player = " << nbNonPlayers << std::endl;
 
         // Players
         Input::Mapping * mapping = initPlayerEntities(_entityList);

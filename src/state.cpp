@@ -8,8 +8,12 @@ namespace EUSDAB
             Entity * entity, Animation * anim):
         _mvt(mvt), _entity(entity),
         _animation(anim),
-        _transform()
+        _transform(),
+        //FIXME
+        _attack(new Attack())
     {
+        _attack->setDamage(42);
+        _attack->setDirection(10, 10);
     }
 
     State::~State()
