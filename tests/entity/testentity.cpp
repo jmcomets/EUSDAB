@@ -106,6 +106,8 @@ namespace EUSDAB
         // Map
         _entityList.push_back(makeMapEntity(window));
 
+        auto nbNonPlayers = _entityList.size();
+
         // Players
         Input::Mapping * mapping = initPlayerEntities(_entityList);
 
@@ -118,8 +120,10 @@ namespace EUSDAB
         _physics->addEntity(_entityList.begin(), _entityList.end());
 
         // Graphics
-        _graphics = new Graphics::Controller(_window);
-        _graphics->addEntity(_entityList.begin(), _entityList.end());
+        auto playersBegin = _entityList.begin() + nbNonPlayers;
+        _graphics = new Graphics::Controller(_window,
+                playersBegin, _entityList.end());
+        _graphics->addEntity(_entityList.begin(), playersBegin);
     }
 
     EntityTest::~EntityTest()

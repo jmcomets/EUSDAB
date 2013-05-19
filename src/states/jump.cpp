@@ -43,7 +43,7 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Jump | Movement::Left);
+                onChangeSide(Movement::Jump | Movement::Left);
                 setNextStateAnimationFrameToCurrentFrame();
             }
             else
@@ -58,7 +58,7 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Jump | Movement::Right);
+                onChangeSide(Movement::Jump | Movement::Right);
                 setNextStateAnimationFrameToCurrentFrame();
             }
             else
@@ -74,28 +74,31 @@ namespace EUSDAB
             // Shorten code !
             using Physics::Unit;
 
-            static auto trajectoryY = [] (std::time_t t)
+            if (_transform.velocity().y < 0)
             {
-                // Be explicit
-                const Unit t0 = static_cast<Unit>(t);
-                constexpr Unit height = static_cast<Unit>(40.0);
-                constexpr Unit time_max = static_cast<Unit>(17.0);
-
-                if (t0 > time_max)
-                {
-                    return static_cast<Unit>(0);
-                }
-                return -t0 * height / time_max;
-            };
-
-            _transform.velocity().y = trajectoryY(_time);
+                switchState(Movement::Falling | _mvt.direction());
+            }
+            
+            if (_transform.velocity().y < _jumpValue / 2)
+            {
+                _entity->setJumpPossible(true);
+            }
         }
+        
+       
         
         void Jump::onEnter()
         {
             // TODO add vertical impulse
+
             _animation->setPaused(false);
+            _entity->setJumpPossible(false);
+            _entity->setNbrJump(entity()->nbrJump()-1);
+            
+            _transform.velocity().y = 4;
         }
+        
+        
 
         void Jump::onAnimationEnd()
         {
@@ -112,6 +115,17 @@ namespace EUSDAB
             Animation * a = s->animation();
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
+        }
+        
+        void Jump::onMiddleOfJump()
+        {
+        
+        }
+        
+        
+        void Jump::onJumpEnd()
+        {
+        
         }
     }
 }

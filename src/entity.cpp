@@ -13,6 +13,8 @@ namespace EUSDAB
         _current(nullptr),
         _states(),
         _life(),
+        _nbrJumpMax(2),
+        _nbrJumpLeft(2),        
         _zIndex(0)
     {
     }
@@ -152,6 +154,35 @@ namespace EUSDAB
         {
             std::cerr << "You fail to attack.. Loser." << std::endl;
         }
+    }
+    
+    bool Entity::canJump()
+    {
+        return _nbrJumpLeft > 0;
+    }
+    
+    int Entity::nbrJump()
+    {
+        return _nbrJumpLeft;
+    }
+    int Entity::nbrJumpMax()
+    {
+        return _nbrJumpMax;
+    }
+    
+    void Entity::setNbrJump(int nbr)
+    {
+        _nbrJumpLeft = nbr;
+    }
+    
+    bool Entity::jumpPossible()
+    {
+        return _jumpPossible;
+    }
+            
+    void Entity::setJumpPossible(bool value)
+    {
+        _jumpPossible = value;
     }
 }
 
