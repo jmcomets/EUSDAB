@@ -2,7 +2,6 @@
 #include <cassert>
 #include <state.h>
 #include <animation.h>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -16,8 +15,6 @@ namespace EUSDAB
             auto drawSpriteAt = [&](sf::Sprite & sp,
                     const Physics::Vector2 & p)
             {
-                std::cout << "drawing sprite at (" << p.x << ", " << p.y
-                    << ")" << std::endl;
                 sp.setPosition(p.x, p.y);
                 _target.draw(sp);
             };
