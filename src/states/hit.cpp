@@ -26,8 +26,14 @@ namespace EUSDAB
         void Hit::onLeft(const Event & e)
         {
             State::onLeft(e);
+        }
         
-            
+        void Hit::onAnimationEnd()
+        {
+            State::onAnimationEnd();
+            Movement newMvt(_mvt);
+            newMvt.setAction(Movement::Idle);
+            switchState(newMvt);
         }
 
         void Hit::onRight(const Event & e)

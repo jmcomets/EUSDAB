@@ -37,5 +37,13 @@ namespace EUSDAB
         {
             State::onNextFrame();
         }
+        
+        void AerialHit::onAnimationEnd()
+        {
+            State::onAnimationEnd();
+            Movement newMvt(_mvt);
+            newMvt.setAction(Movement::Falling);
+            switchState(newMvt);
+        }
     }
 }
