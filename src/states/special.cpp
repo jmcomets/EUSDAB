@@ -96,6 +96,7 @@ namespace EUSDAB
         void Special::onLeave()
         {
             State::onLeave();
+            _attack->reset();
         }
         
       
