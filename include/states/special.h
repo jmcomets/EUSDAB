@@ -40,7 +40,7 @@ namespace EUSDAB
 
                 void onEnter();
                 void onLeave();
-                
+
         };
     }
 }

@@ -80,7 +80,7 @@ namespace EUSDAB
                     e1->physics().acceleration().y = 0;
                 }
                 if(e1->physics().velocity().y == 0
-                        || (e1->physics().velocity().y < 0 && canMoveY == false))
+                        || (e1->physics().velocity().y > 0 && canMoveY == false))
                 {
                     _input.pushEvent(e1, Input::Event(Input::Event::Ground));
                 }

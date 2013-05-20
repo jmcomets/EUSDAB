@@ -19,7 +19,7 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (entity()->canJump()&&entity()->jumpPossible())
+                if (entity()->canJump() && entity()->jumpPossible())
                 {
                     switchState(Movement::Jump | _mvt.direction());
                 }

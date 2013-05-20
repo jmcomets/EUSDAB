@@ -60,17 +60,17 @@ namespace EUSDAB
             newMvt.setAction(Movement::Idle);
             switchState(newMvt);
         }
-        
+
         void Attack::onEnter()
         {
             State::onEnter();
         }
-        
+
         void Attack::onLeave()
         {
             State::onLeave();
         }
-        
+
         void Attack::setSlidingRatio(Physics::Unit value)
         {
             _sliding_ratio=value;

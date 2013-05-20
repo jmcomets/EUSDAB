@@ -65,13 +65,15 @@ namespace EUSDAB
             // onEnter -> used to reset animation at the start of a state
             //and other thing now :)
             virtual void onEnter();
-            
+
             // onLeave -> used when there is smth to to when leaving a state
             virtual void onLeave();
-            
-            
-            
-        
+
+            virtual void onGround(Event const &);
+
+
+
+
 
             // onAnimationEnd -> fired when animation ends
             virtual void onAnimationEnd();
@@ -105,12 +107,12 @@ namespace std
 {
     template <>
         struct hash<EUSDAB::State>
-    {
-        size_t operator()(const EUSDAB::State & x) const
         {
-            return hash<EUSDAB::Movement>()(x.movement());
-        }
-    };
+            size_t operator()(const EUSDAB::State & x) const
+            {
+                return hash<EUSDAB::Movement>()(x.movement());
+            }
+        };
 }
 
 #endif

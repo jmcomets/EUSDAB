@@ -19,7 +19,7 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (entity()->canJump()&&entity()->jumpPossible())
+                if (entity()->canJump() && entity()->jumpPossible())
                 {
                     switchState(Movement::Jump | _mvt.direction());
                 }
@@ -90,15 +90,15 @@ namespace EUSDAB
                 switchState(Movement::Falling | _mvt.direction());
                 entity()->setJumpPossible(true);
             }
-            
+
             if (_transform.velocity().y < _velocity.y / 2)
             {
                 _entity->setJumpPossible(true);
             }
         }
-        
-       
-        
+
+
+
         void Jump::onEnter()
         {
             // TODO add vertical impulse
@@ -106,37 +106,47 @@ namespace EUSDAB
             _animation->setPaused(false);
             _entity->setJumpPossible(false);
             _entity->setNbrJump(entity()->nbrJump()-1);
-            
+
             if(_mvt.flag() & Movement::Left)
             {
                 _transform.velocity() = _velocity;
                 _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+                _transform.velocity().y *= static_cast<Physics::Unit>(-1);
             }
             if(_mvt.flag() & Movement::Right)
             {
                 _transform.velocity() = _velocity;
+                _transform.velocity().y *= static_cast<Physics::Unit>(-1);
             }
+            std::cout << _transform.velocity().y << std::endl;
         }
-        
+
+        void Jump::onLeave()
+        {
+            State::onLeave();
+            _entity->setJumpPossible(true);
+        }
+
         void Jump::onChangeSide(const Movement & mvt)
         {
             State::onChangeSide(mvt);
-             State * s = _entity->state();
-             
+            State * s = _entity->state();
+
             if(_mvt.flag() & Movement::Left)
             {
                 s->transformation().velocity() = _velocity;
                 s->transformation().velocity().x *= static_cast<Physics::Unit>(-1);
                 s->transformation().velocity().y=_transform.velocity().y;
+                _transform.velocity().y *= static_cast<Physics::Unit>(-1);
             }
             if(_mvt.flag() & Movement::Right)
             {
                 s->transformation().velocity() = _velocity;
                 s->transformation().velocity().y=_transform.velocity().y;
+                _transform.velocity().y *= static_cast<Physics::Unit>(-1);
             }
-                
         }
-        
+
 
         void Jump::onAnimationEnd()
         {
@@ -154,22 +164,20 @@ namespace EUSDAB
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
         }
-        
+
         void Jump::setVelocity(const  Physics::Vector2 & value)
         {
-            _velocity=value;      
+            _velocity=value;
         }
-    
-        
+
         void Jump::onMiddleOfJump()
         {
-        
+
         }
-        
-        
+
         void Jump::onJumpEnd()
         {
-        
+
         }
     }
 }

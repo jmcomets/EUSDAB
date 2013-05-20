@@ -129,7 +129,7 @@ namespace EUSDAB
             }
         }
     }
-    
+
     void State::onEnter()
     {
         Listener::onEnter();
@@ -140,11 +140,16 @@ namespace EUSDAB
         }
         _transform = Transform();
     }
-    
+
     void State::onLeave()
     {
-        //Listener::onLeave();
-        
+        Listener::onLeave();
+    }
+
+    void State::onGround(Event const & e)
+    {
+        Listener::onGround(e);
+        _entity->setJumpPossible(true);
     }
 
     void State::onAnimationEnd()

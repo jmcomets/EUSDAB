@@ -32,7 +32,7 @@ namespace EUSDAB
                 void onNextFrame();
 
                 void onAnimationEnd();
-                
+
                 void onMiddleOfJump();
                 void onJumpEnd();
 
@@ -42,24 +42,25 @@ namespace EUSDAB
                 void onGround(const Event &);
 
                 void onEnter();
-                
+                void onLeave();
+
                 void onChangeSide(const Movement & mvt);
-                
-                
-                
-            void setVelocity(const  Physics::Vector2 & );
-                
+
+
+
+                void setVelocity(const  Physics::Vector2 & );
+
             private:
-            
+
                 Physics::Vector2 _velocity;
-                
+
             protected:
                 // Explicit helper method :)
                 void setNextStateAnimationFrameToCurrentFrame() const;
-                
-                
-                
-                
+
+
+
+
         };
     }
 }
