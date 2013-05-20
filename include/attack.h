@@ -17,8 +17,9 @@ namespace EUSDAB
             Attack();
             virtual ~Attack();
 
-            void setDirection(float x, float y);
             void setDirection(Physics::Vector2 direction);
+            void setDirection(const Physics::Unit & x,
+                    const Physics::Unit & y);
             Physics::Vector2 const & direction();
             void setDamage(Life::Amount const & amount);
             Life::Amount const & damage();

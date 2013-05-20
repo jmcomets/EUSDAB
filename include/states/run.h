@@ -38,6 +38,13 @@ namespace EUSDAB
 
                 void onEnter();
                 //void onLeave();
+                
+                void setSpeed(Physics::Unit,Physics::Unit);
+                
+                private:
+                
+                Physics::Unit _speedX;
+                Physics::Unit _speedY;
         };
     }
 }

@@ -36,8 +36,25 @@ namespace EUSDAB
 
                 void onGround(const Event &);
 
-                //void onEnter();
+                void onEnter();
                 //void onLeave();
+                
+                void onChangeSide(const Movement & mvt);
+                
+                
+                
+            void setSpeed(Physics::Unit,Physics::Unit);
+                
+            private:
+                
+                Physics::Unit _speedX;
+                Physics::Unit _speedY;
+
+            protected:
+                // Explicit helper method :)
+                void setNextStateAnimationFrameToCurrentFrame() const;
+                
+                
         };
     }
 }

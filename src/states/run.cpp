@@ -152,9 +152,15 @@ namespace EUSDAB
             State::onEnter();
 
             if(_mvt.flag() & Movement::Left)
-                _transform.velocity() = Physics::Vector2(-6.0 , 0);
+                _transform.velocity() = Physics::Vector2(-_speedX , _speedY);
             if(_mvt.flag() & Movement::Right)
-                _transform.velocity() = Physics::Vector2(6.0 , 0);
+                _transform.velocity() = Physics::Vector2(_speedY, _speedY);
+        }
+        
+        void Run::setSpeed(Physics::Unit X,Physics::Unit Y)
+        {
+            _speedX=X;
+            _speedY=Y;        
         }
     }
 }
