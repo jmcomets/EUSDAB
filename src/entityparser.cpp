@@ -149,7 +149,7 @@ namespace EUSDAB
         // Entity polymorphism
         try
         {
-            const std::string & entityId = entityPt.get<std::string>("entityId");
+            const std::string & entityId = entityPt.get<std::string>("type");
             if (entityId == "map")
             {
                 Map * m = new Map();
@@ -159,8 +159,8 @@ namespace EUSDAB
                     const ptree & bgPt = bg.second;
                     const std::string & txFile = bgPt.get<std::string>("texture");
                     using Graphics::TextureManager;
-                    TextureManager::TexturePtr tx = TextureManager::loadTexture(txFile);
-                    using namespace Physics;
+                    TextureManager::TexturePtr tx = TextureManager::loadTexture(
+                        Filename::join(_baseDirectory, entityDir, "backgrounds", txFile));
                     m->addAnimatedBackground(tx, parseVector2(bgPt.get_child("velocity")));
                 }
                 entity = m;
