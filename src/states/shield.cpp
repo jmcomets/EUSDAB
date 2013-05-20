@@ -7,12 +7,12 @@ namespace EUSDAB
     {
         Shield::Shield():
             State(),
-            _curValue(100)
-            _maxValue(100);
-            _nbrShieldstate(3);
-            _regenSpeed(5);
-            _decreaseSpeed(5);
-            _leaveTime(0);
+            _curValue(100),
+            _maxValue(100),
+            _nbrShieldstate(3),
+            _regenSpeed(5),
+            _decreaseSpeed(5),
+            _leaveTime(0)
         {
         }
 
@@ -56,7 +56,7 @@ namespace EUSDAB
             
         }
         
-        void Shield::onTrigger(const Event &)
+        void Shield::onTrigger(const Event & e)
         {
             State::onTrigger(e);
             if (e.edge == Event::FallingEdge)
@@ -71,7 +71,7 @@ namespace EUSDAB
             State::onNextFrame();
 
             
-            _curValue-=abs(_decreaseSpeed);
+            _curValue-=(int)abs(_decreaseSpeed);
             if (_curValue>0)
             {
                 changeImage();
@@ -87,7 +87,7 @@ namespace EUSDAB
         void Shield::onEnter()
         {
            // State::onEnter();
-            calcShieldValue()
+            calcShieldValue();
             changeImage();
         }
         

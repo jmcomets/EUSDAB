@@ -41,6 +41,8 @@ namespace EUSDAB
                 
                 void calcShieldValue();
                 
+                void changeImage();
+                
                 private:
                 
                 unsigned int _curValue;
