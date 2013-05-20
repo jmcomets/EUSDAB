@@ -10,11 +10,19 @@ namespace EUSDAB
     {
         void Controller::draw()
         {
+            static std::time_t time = 0;
+            time++;
+
+            sf::Shader shader;
+            shader.loadFromFile("../../assets/shader/wave.vert", sf::Shader::Vertex);
+            shader.setParameter("wave_amplitude", 50, 50);
+            shader.setParameter("wave_phase", time / 50.0);
+            shader.setParameter("ratio", ((time % 300) / 300.0));
             auto drawSpriteAt = [&](sf::Sprite & sp,
                     const Physics::Vector2 & p)
             {
                 sp.setPosition(p.x, p.y);
-                _target.draw(sp);
+                _target.draw(sp, &shader);
             };
 
             // Bounding box
