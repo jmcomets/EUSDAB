@@ -2,6 +2,7 @@
 #include <state.h>
 #include <animation.h>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -80,6 +81,7 @@ namespace EUSDAB
             const sf::Vector2f & viewSize = view.getSize();
             float factor = std::min(viewSize.x / bboxSize.x,
                     viewSize.y / bboxSize.y);
+            std::cout << "zoom factor = " << factor << std::endl;
             //view.zoom(factor);
 
             // Set final view
