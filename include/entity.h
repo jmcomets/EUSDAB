@@ -101,7 +101,7 @@ namespace EUSDAB
             bool jumpPossible();
             void setJumpPossible(bool);
 
-        private:
+        protected:
             // General
             std::string _name;
 
