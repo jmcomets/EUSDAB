@@ -30,7 +30,7 @@ namespace EUSDAB
             // ...shortcut version
             void switchState(Movement::Flag const &);
             
-            //same as switchstate without the onEnter
+            //same as switchstate without the onEnter nor on Leave
             void onChangeSide(Movement const &);
             // ...shortcut version
             void onChangeSide(Movement::Flag const &);
@@ -63,7 +63,12 @@ namespace EUSDAB
             virtual void onNextFrame();
 
             // onEnter -> used to reset animation at the start of a state
+            //and other thing now :)
             virtual void onEnter();
+            
+            // onLeave -> used when there is smth to to when leaving a state
+            virtual void onLeave();
+            
             
             
         

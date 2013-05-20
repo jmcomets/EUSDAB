@@ -13,5 +13,6 @@
 #include <states/aerialHit.h>
 #include <states/attack.h>
 #include <states/special.h>
+#include <states/shield.h>
 
 #endif
