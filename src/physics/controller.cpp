@@ -76,15 +76,13 @@ namespace EUSDAB
                 if(canMoveY == false)
                 {
                     e1->physics() = oldTrans;
-                    e1->physics().velocity().y /= 2;
-                    e1->physics().acceleration().y /= 2;
-
-                    if(e1->physics().velocity().y < 0.5 &&
-                            e1->physics().velocity().y > -0.5)
-                        e1->physics().velocity().y = 0;
-                    if(e1->physics().acceleration().y < 0.5 &&
-                            e1->physics().acceleration().y > -0.5)
-                        e1->physics().acceleration().y = 0;
+                    e1->physics().velocity().y = 0;
+                    e1->physics().acceleration().y = 0;
+                }
+                if(e1->physics().velocity().y == 0
+                        || (e1->physics().velocity().y < 0 && canMoveY == false))
+                {
+                    _input.pushEvent(e1, Input::Event(Input::Event::Ground));
                 }
 
                 bool canMoveX = true;
@@ -111,16 +109,8 @@ namespace EUSDAB
                 if(canMoveX == false)
                 {
                     e1->physics() = oldTrans;
-                    e1->physics().velocity().x /= 2;
-                    e1->physics().acceleration().x /= 2;
-                    std::cout << e1 << " " << e1->position().x << " " << e1->position().y << " " << oldTrans.position().x << " " << oldTrans.position().y << std::endl;
-
-                    if(e1->physics().velocity().x < 0.5 &&
-                            e1->physics().velocity().x > -0.5)
-                        e1->physics().velocity().x = 0;
-                    if(e1->physics().acceleration().x < 0.5 &&
-                            e1->physics().acceleration().x > -0.5)
-                        e1->physics().acceleration().x = 0;
+                    e1->physics().velocity().x = 0;
+                    e1->physics().acceleration().x = 0;
                 }
 
                 //handleEntityMovement(e1);
