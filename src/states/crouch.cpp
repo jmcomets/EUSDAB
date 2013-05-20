@@ -21,20 +21,12 @@ namespace EUSDAB
         void Crouch::onDown(const Event & e)
         {
             State::onDown(e);
-            if (_mvt == Movement::Left)
-            {
-                if ((e.edge == Event::FallingEdge)||(e.edge == Event::ContinuousEdge))
-                {
-                    switchState(Movement::Idle | Movement::Left);
-                }
-            }
-            else if (_mvt == Movement::Right)
-            {
+            
                 if (e.edge == Event::FallingEdge)
                 {
-                    switchState(Movement::Idle | Movement::Right);
+                    switchState(Movement::Idle || _mvt.direction());
                 }
-            }
+            
         }
 
         void Crouch::onLeft(const Event & e)
