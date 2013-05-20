@@ -25,8 +25,8 @@ namespace EUSDAB
 
                 AABBT(const Vector2 & center,
                         const Unit & w, const Unit & h):
-                    _x(center.x()),
-                    _y(center.y()),
+                    _x(center.x),
+                    _y(center.y),
                     _w(w), _h(h)
                 {
                     assert(w >= static_cast<Unit>(0));

@@ -80,6 +80,8 @@ namespace EUSDAB
             //   state).
             void addState(State *);
 
+            std::set<State *, std::less_ptr<State>> const & states() const;
+
             void setLife(Life * life);
             
             Life * life() const;
@@ -100,6 +102,9 @@ namespace EUSDAB
             //getter et setter pour jump possible
             bool jumpPossible();
             void setJumpPossible(bool);
+
+            Physics::Hitbox const & hitbox() const;
+            Physics::Hitbox & hitbox();
 
         protected:
             // General
@@ -122,6 +127,9 @@ namespace EUSDAB
             // Infomartion for the jumps
             NbJumps _nbrJumpLeft, _nbrJumpMax;
             bool _jumpPossible;
+
+            // Hitbox de collision
+            Physics::Hitbox _hb_collision;
     };
 }
 

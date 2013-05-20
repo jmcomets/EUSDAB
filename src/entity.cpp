@@ -13,7 +13,8 @@ namespace EUSDAB
         _life(nullptr),
         _zIndex(0),
         _nbrJumpLeft(2), _nbrJumpMax(2),
-        _jumpPossible(true)
+        _jumpPossible(true),
+        _hb_collision(Physics::Hitbox::Collision)
     {
     }
 
@@ -24,6 +25,21 @@ namespace EUSDAB
             delete s;
         }
         delete _life;
+    }
+
+    Physics::Hitbox const & Entity::hitbox() const
+    {
+        return _hb_collision;
+    }
+
+    Physics::Hitbox & Entity::hitbox()
+    {
+        return _hb_collision;
+    }
+
+    std::set<State *, std::less_ptr<State>> const & Entity::states() const
+    {
+        return _states;
     }
 
     void Entity::setState(State * state)

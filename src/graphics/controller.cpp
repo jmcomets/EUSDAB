@@ -19,47 +19,55 @@ namespace EUSDAB
             // Bounding box
             Physics::AABB bbox;
 
+            auto doHitbox = [&] (Physics::Hitbox hb, Physics::Vector2 const & p)
+            {
+                hb.translate(p);
+
+                Physics::Hitbox::Semantic_type sem = hb.semantic();
+                sf::Color color;
+                switch (sem)
+                {
+                    case Physics::Hitbox::Semantic::Attack   :
+                        color = sf::Color::Red; break;
+
+                    case Physics::Hitbox::Semantic::Defense  :
+                        color = sf::Color::Yellow; break;
+
+                    case Physics::Hitbox::Semantic::Foot     :
+                        color = sf::Color::Green; break;
+
+                    case Physics::Hitbox::Semantic::Grab     :
+                        color = sf::Color::Blue; break;
+
+                    case Physics::Hitbox::Semantic::Grabable :
+                        color = sf::Color::Magenta; break;
+
+                    case Physics::Hitbox::Semantic::Collision :
+                        color = sf::Color::Cyan; break;
+
+                    default: break;
+                }
+
+
+                for (Physics::AABB aabb : hb.aabbList())
+                {
+                    sf::Vector2f size(aabb.width(), aabb.height());
+                    sf::RectangleShape rect(size);
+                    rect.setOrigin(size.x / 2.0f, size.y / 2.0f);
+                    rect.setPosition(aabb.x(), aabb.y());
+                    rect.setOutlineColor(color);
+                    rect.setOutlineThickness(1.0f);
+                    rect.setFillColor(sf::Color::Transparent);
+                    _target.draw(rect);
+                }
+            };
+
             auto doHitboxes = [&] (Animation * a, const Physics::Vector2 & p)
             {
                 for (Physics::Hitbox hb : a->current().hitboxList())
                 {
-                    hb.translate(p);
                     bbox.merge(hb.globalAABB());
-
-                    Physics::Hitbox::Semantic_type sem = hb.semantic();
-                    sf::Color color;
-                    switch (sem)
-                    {
-                        case Physics::Hitbox::Semantic::Attack   :
-                            color = sf::Color::Red; break;
-
-                        case Physics::Hitbox::Semantic::Defense  :
-                            color = sf::Color::Yellow; break;
-
-                        case Physics::Hitbox::Semantic::Foot     :
-                            color = sf::Color::Green; break;
-
-                        case Physics::Hitbox::Semantic::Grab     :
-                            color = sf::Color::Blue; break;
-
-                        case Physics::Hitbox::Semantic::Grabable :
-                            color = sf::Color::Magenta; break;
-
-                        default: break;
-                    }
-
-
-                    for (Physics::AABB aabb : hb.aabbList())
-                    {
-                        sf::Vector2f size(aabb.width(), aabb.height());
-                        sf::RectangleShape rect(size);
-                        rect.setOrigin(size.x / 2.0f, size.y / 2.0f);
-                        rect.setPosition(aabb.x(), aabb.y());
-                        rect.setOutlineColor(color);
-                        rect.setOutlineThickness(1.0f);
-                        rect.setFillColor(sf::Color::Transparent);
-                        _target.draw(rect);
-                    }
+                    doHitbox(hb, p);
                 }
             };
 
@@ -77,6 +85,7 @@ namespace EUSDAB
                 auto p = e->position();
                 drawSpriteAt(a->sprite(), p);
                 doHitboxes(a, p);
+                doHitbox(e->hitbox(), p);
             }
 
             // Barycenter of the entities
@@ -100,6 +109,7 @@ namespace EUSDAB
                 barycenter += p;
 
                 doHitboxes(a, p);
+                doHitbox(e->hitbox(), p);
             }
 
             // Convert to barycenter by dividing by number of entities

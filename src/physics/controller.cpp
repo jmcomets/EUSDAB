@@ -68,8 +68,7 @@ namespace EUSDAB
                     if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                    if(s & Hitbox::Grab
-                            || s & Hitbox::Foot)
+                    if(s & Hitbox::Collision)
                     {
                         canMoveY = false;
                     }
@@ -104,13 +103,12 @@ namespace EUSDAB
                     if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                    if(s & Hitbox::Defense
-                            || s & Hitbox::Grab)
+                    if(s & Hitbox::Collision)
                     {
                         canMoveX = false;
                     }
                 }
-                if(false && canMoveX == false)
+                if(canMoveX == false)
                 {
                     e1->physics() = oldTrans;
                     e1->physics().velocity().x /= 2;
@@ -131,19 +129,76 @@ namespace EUSDAB
 
         Hitbox::Semantic_type Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
+            // Shorten code a little
+            using Input::Event;
+
+            Hitbox::Semantic_type flag = Hitbox::Nothing;
+
+            Hitbox h1 = e1->hitbox();
+            Hitbox h2 = e2->hitbox();
+            h1.translate(e1->position());
+            h2.translate(e2->position());
+            if(h1.collides(h2))
+            {
+                if(h1 == Hitbox::Collision && h2 == Hitbox::Collision)
+                {
+                    flag |= Hitbox::Collision;
+                    _input.pushEvent(e1, Event(Event::Collide));
+                }
+            }
+
             State * s1 = e1->state();
             if (s1 == nullptr)
             {
-                return Hitbox::Nothing;
+                return flag;
             }
 
             Animation * a1 = s1->animation();
             if (a1 == nullptr)
             {
-                return Hitbox::Nothing;
+                return flag;
             }
 
-            Hitbox::Semantic_type flag = Hitbox::Nothing;
+            if(a1 != nullptr)
+            {
+                h2 = e2->hitbox();
+                h2.translate(e2->position());
+                for(Hitbox h1 : a1->hitboxList())
+                {
+                    h1.translate(e1->position());
+                    if(h1.collides(h2))
+                    {
+                        if(h1 == Hitbox::Collision && h2 == Hitbox::Collision)
+                        {
+                            flag |= Hitbox::Collision;
+                            _input.pushEvent(e1, Event(Event::Collide));
+                        }
+                    }
+                }
+            }
+
+            State * s2 = e2->state();
+            if(s2 != nullptr)
+            {
+                Animation * a2 = s2->animation();
+                if(a2 != nullptr)
+                {
+                    h1 = e1->hitbox();
+                    h1.translate(e1->position());
+                    for(Hitbox h2 : a2->hitboxList())
+                    {
+                        h2.translate(e2->position());
+                        if(h1.collides(h2))
+                        {
+                            if(h1 == Hitbox::Collision && h2 == Hitbox::Collision)
+                            {
+                                flag |= Hitbox::Collision;
+                                _input.pushEvent(e1, Event(Event::Collide));
+                            }
+                        }
+                    }
+                }
+            }
 
             for (Hitbox h1 : a1->hitboxList())
             {
@@ -167,9 +222,6 @@ namespace EUSDAB
                     h2.translate(e2->position());
                     if (h1.collides(h2))
                     {
-                        // Shorten code a little
-                        using Input::Event;
-
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
@@ -183,13 +235,13 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
                             // Atterissage
-                            _input.pushEvent(e1, Event(Event::Ground));
+                            // _input.pushEvent(e1, Event(Event::Ground));
                             flag |= Hitbox::Foot;
                         }
                         else if (h1 == Hitbox::Defense && h2 == Hitbox::Defense)
                         {
-                            // Collision
-                            _input.pushEvent(e1, Event(Event::Collide));
+                            // OSEF
+                            // _input.pushEvent(e1, Event(Event::Collide));
                             flag |= Hitbox::Defense;
                         }
                         else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
@@ -199,6 +251,13 @@ namespace EUSDAB
                             //e1->grab(e2);
 
                             flag |= Hitbox::Grab;
+                        }
+                        else if (h1 == Hitbox::Collision && h2 == Hitbox::Collision)
+                        {
+                            // Collision
+                            _input.pushEvent(e1, Event(Event::Collide));
+
+                            flag |= Hitbox::Collision;
                         }
                     }
                 }

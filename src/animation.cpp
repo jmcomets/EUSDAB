@@ -83,6 +83,16 @@ namespace EUSDAB
     {
     }
 
+    Animation::FrameList const & Animation::frame_list() const
+    {
+        return _frames;
+    }
+
+    Animation::FrameList & Animation::frame_list()
+    {
+        return _frames;
+    }
+
     void Animation::advance(Animation::FPI nbFrames)
     {
         if (!_frames.empty() && _paused == false)

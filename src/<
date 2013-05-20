@@ -23,7 +23,7 @@ namespace EUSDAB
     // Concepts:
     //  - entityDir is a valid path to the Entity's directory,
     //      relative to base directory, and contains no trailing slashes
-    Entity * EntityParser::loadEntity(const std::string & entityDir, bool ent_static)
+    Entity * EntityParser::loadEntity(const std::string & entityDir)
     {
         Entity * entity = nullptr;
         std::string absEntityDir = Filename::join(_baseDirectory, entityDir, "entity.json");
@@ -35,79 +35,54 @@ namespace EUSDAB
         }
 
         // Calcul the global hitbox
-        if(ent_static == false) {
-            Physics::Unit left = 0;
-            Physics::Unit right = 0;
-            Physics::Unit top = 0;
-            Physics::Unit bottom = 0;
-            std::size_t nbr = 0;
-            for(State * const & s : entity->states())
-            {
-                for(Frame & frame : s->animation()->frame_list())
-                {
-                    for(Physics::Hitbox const & hb : frame.hitboxList())
-                    {
-                        if(hb.semantic() & Physics::Hitbox::Defense
-                                || hb.semantic() & Physics::Hitbox::Foot)
-                        {
-                            Physics::Unit min_x = 0, max_x = 1;
-                            Physics::Unit min_y = 0, max_y = 1;
-                            for(Physics::AABB const & aabb : hb.aabbList())
-                            {
-                                if(min_x > max_x)
-                                {
-                                    min_x = aabb.min().x;
-                                    max_x = aabb.max().x;
-                                }
-                                if(min_y > max_y)
-                                {
-                                    min_y = aabb.min().y;
-                                    max_y = aabb.max().y;
-                                }
-                                if(aabb.min().x < min_x)
-                                    min_x = aabb.min().x;
-                                if(aabb.min().y < min_y)
-                                    min_y = aabb.min().y;
-                                if(aabb.max().x > max_x)
-                                    max_x = aabb.max().x;
-                                if(aabb.max().y > max_y)
-                                    max_y = aabb.max().y;
-                            }
-                            left += min_x;
-                            right += max_x;
-                            top += min_y;
-                            bottom += max_y;
-                            nbr++;
-                        }
-                    }
-                }
-            }
-            Physics::Unit w = (right - left) / nbr;
-            Physics::Unit h = (bottom - top) / nbr;
-            Physics::Vector2 center(left / nbr + w / 2, top / nbr + h / 2);
-            entity->hitbox().addAABB(Physics::AABB(center, w, h));
-        }
-        else
+        Physics::Unit left = 0;
+        Physics::Unit right = 0;
+        Physics::Unit top = 0;
+        Physics::Unit bottom = 0;
+        std::size_t nbr = 0;
+        for(State * const & s : entity->states())
         {
-            for(State * const & s : entity->states())
+            for(Physics::Hitbox const & hb : s->animation()->hitboxList())
             {
-                for(Frame & frame : s->animation()->frame_list())
+                if(hb.semantic() & Physics::Hitbox::Defense
+                        || hb.semantic() & Physics::Hitbox::Foot)
                 {
-                    for(Physics::Hitbox const & hb : frame.hitboxList())
+                    Unit min_x = 0, max_x = 1;
+                    Unit min_y = 0, max_y = 1;
+                    for(Physics::AABB const & aabb : hb.aabbList())
                     {
-                        if(hb.semantic() & Physics::Hitbox::Defense)
+                        if(min_x < max_x)
                         {
-                            Physics::Hitbox h(Physics::Hitbox::Collision);
-                            for(Physics::AABB const & aabb : hb.aabbList())
-                            {
-                                h.addAABB(aabb);
-                            }
-                            frame.addHitbox(h);
+                            min_x = aabb.min().x;
+                            max_x = aabb.max().x;
                         }
+                        if(min_y < max_y)
+                        {
+                            min_y = aabb.min().y;
+                            max_y = aabb.max().y;
+                        }
+                        if(aabb.min().x < min_x)
+                            min_x = aabb.min().x;
+                        if(aabb.min().y < min_y)
+                            min_y = aabb.min().y;
+                        if(aabb.max().x > max_x)
+                            max_x = aabb.max().x;
+                        if(aabb.max().y > max_y)
+                            max_y = aabb.max().y;
+                        // left += aabb.min().x;
+                        // top += aabb.min().y;
+                        // right += aabb.max().x;
+                        // bottom += aabb.max().y;
+                        nbr++;
                     }
                 }
             }
         }
+
+        Physics::Unit w = (right - left) / nbr;
+        Physics::Unit h = (bottom - top) / nbr;
+        Physics::Vector2 center(left / nbr + w / 2, top / nbr + h / 2);
+        entity->hitbox().addAABB(Physics::AABB(center, w, h));
 
         return entity;
     }

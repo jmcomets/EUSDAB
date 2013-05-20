@@ -34,7 +34,8 @@ namespace EUSDAB
                     Defense  = 1 << 2,
                     Foot     = 1 << 3,
                     Grab     = 1 << 4,
-                    Grabable = 1 << 5
+                    Grabable = 1 << 5,
+                    Collision = 1 << 6
                 };
 
                 // Default constructor, setting hitbox semantic

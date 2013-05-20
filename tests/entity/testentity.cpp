@@ -26,7 +26,7 @@ std::vector<Entity *> players;
         static auto loadRickHard = []
         {
             static EntityParser entityParser("../../assets/entities");
-            Entity * e = entityParser.loadEntity("rickhard");
+            Entity * e = entityParser.loadEntity("rickhard", false);
             if (e == nullptr)
             {
                 throw std::runtime_error("Rick Hard entity wasn't loaded");
@@ -82,7 +82,7 @@ std::vector<Entity *> players;
     static Entity * makeMapEntity(sf::RenderWindow & window)
     {
         EntityParser entityParser("../../assets/entities");
-        Entity * map = entityParser.loadEntity("map_bazar");
+        Entity * map = entityParser.loadEntity("map_bazar", true);
         if (map == nullptr)
         {
             throw std::runtime_error("Map entity wasn't loaded");

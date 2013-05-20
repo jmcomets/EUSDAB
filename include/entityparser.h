@@ -20,7 +20,7 @@ namespace EUSDAB
             EntityParser(const std::string &);
 
             // Load from Entity directory
-            Entity * loadEntity(const std::string &);
+            Entity * loadEntity(const std::string &, bool ent_static);
 
             // Read from stream with Entity directory given
             Entity * readEntity(std::istream &, const std::string &);

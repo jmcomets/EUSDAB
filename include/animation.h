@@ -91,6 +91,9 @@ namespace EUSDAB
 
             Animation(FPI = DefaultFPI);
 
+            FrameList const & frame_list() const;
+            FrameList & frame_list();
+
             // Get flipped (right/left) animation, flipping all frames
             Animation flipped() const;
 
