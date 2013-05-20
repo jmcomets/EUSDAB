@@ -33,12 +33,11 @@ namespace EUSDAB
         {
             for (Entity * e1 : _entityList)
             {
-                handleEntityTransform(e1);
+                // handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
-                // Handle speed / acceleration 
+                // Handle speed / acceleration
                 bool canMoveX = true;
-                bool canMoveY = true;
 
                 // TODO faire un transformation de test.
                 // Si il n'y a pas de collision, on garde cette transformation
@@ -54,11 +53,11 @@ namespace EUSDAB
                 Transform oldTrans;
                 State * s = e1->state();
 
+                bool canMoveY = true;
                 oldTrans = e1->physics();
 
                 if (s != nullptr)
                 {
-                    // s->transformation().update();
                     e1->physics().applyY(s->transformation());
                     if(e1->gravitable())
                         e1->physics().velocity().y += _world->gravity().y;
@@ -70,14 +69,10 @@ namespace EUSDAB
                     if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                    if (s & Hitbox::Defense || s & Hitbox::Grab)
+                    if(s & Hitbox::Grab
+                            || s & Hitbox::Foot)
                     {
-                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if(s & Hitbox::Grab
-                                || s & Hitbox::Foot)
-                        {
-                            canMoveY = false;
-                        }
+                        canMoveY = false;
                     }
                 }
                 if(canMoveY == false)
@@ -110,14 +105,10 @@ namespace EUSDAB
                     if (e1 != e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                    if (s & Hitbox::Grab || s & Hitbox::Foot)
+                    if(s & Hitbox::Defense
+                            || s & Hitbox::Grab)
                     {
-                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if(s & Hitbox::Defense
-                                || s & Hitbox::Grab)
-                        {
-                            canMoveX = false;
-                        }
+                        canMoveX = false;
                     }
                 }
                 if(canMoveX == false)
