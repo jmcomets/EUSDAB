@@ -12,6 +12,7 @@
                     "right"
                 ]
             }, 
+            "sliding_ratio": 1.05, 
             "type": "idle"
         }, 
         {
@@ -24,7 +25,12 @@
                     "right"
                 ]
             }, 
-            "type": "walk"
+            "sliding_ratio": 1.05, 
+            "type": "walk", 
+            "velocity": {
+                "x": 6.0, 
+                "y": 0.0
+            }
         }, 
         {
             "animation": "run_right", 
@@ -36,7 +42,11 @@
                     "right"
                 ]
             }, 
-            "type": "run"
+            "type": "run", 
+            "velocity": {
+                "x": 10.0, 
+                "y": 0.0
+            }
         }, 
         {
             "animation": "idle_left", 
@@ -48,6 +58,7 @@
                     "left"
                 ]
             }, 
+            "sliding_ratio": 1.05, 
             "type": "idle"
         }, 
         {
@@ -60,7 +71,11 @@
                     "left"
                 ]
             }, 
-            "type": "walk"
+            "type": "walk", 
+            "velocity": {
+                "x": 6.0, 
+                "y": 0.0
+            }
         }, 
         {
             "animation": "run_left", 
@@ -72,7 +87,11 @@
                     "left"
                 ]
             }, 
-            "type": "run"
+            "type": "run", 
+            "velocity": {
+                "x": 10.0, 
+                "y": 0.0
+            }
         }, 
         {
             "animation": "jump_right", 
@@ -84,7 +103,11 @@
                     "right"
                 ]
             }, 
-            "type": "jump"
+            "type": "jump", 
+            "velocity": {
+                "x": 0.0, 
+                "y": 4.0
+            }
         }, 
         {
             "animation": "jump_left", 
@@ -96,7 +119,11 @@
                     "left"
                 ]
             }, 
-            "type": "jump"
+            "type": "jump", 
+            "velocity": {
+                "x": 0.0, 
+                "y": 4.0
+            }
         }, 
         {
             "animation": "falling_right", 
@@ -108,7 +135,11 @@
                     "right"
                 ]
             }, 
-            "type": "falling"
+            "type": "falling", 
+            "velocity": {
+                "x": 4.0, 
+                "y": 0.0
+            }
         }, 
         {
             "animation": "falling_left", 
@@ -120,7 +151,11 @@
                     "left"
                 ]
             }, 
-            "type": "falling"
+            "type": "falling", 
+            "velocity": {
+                "x": 4.0, 
+                "y": 0.0
+            }
         }, 
         {
             "animation": "sideA_left", 
@@ -139,6 +174,7 @@
                     "left"
                 ]
             }, 
+            "sliding_ratio": 1.05, 
             "type": "attack"
         }, 
         {
@@ -158,6 +194,7 @@
                     "right"
                 ]
             }, 
+            "sliding_ratio": 1.05, 
             "type": "attack"
         }, 
         {
