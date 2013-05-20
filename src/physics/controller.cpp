@@ -13,7 +13,8 @@ namespace EUSDAB
                 World * world):
             _input(input_controller),
             _world(world),
-            _entityList()
+            _entityList(),
+            _playerList()
         {
             assert(_world != nullptr);
         }
@@ -33,6 +34,7 @@ namespace EUSDAB
         {
             for (Entity * e1 : _entityList)
             {
+                std::cout << e1->name() << " : " << e1->physics() << std::endl;
                 handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
@@ -183,16 +185,15 @@ namespace EUSDAB
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
-                            // Attaque
-                            _input.pushEvent(e1, Event(Event::Attack));
-                            _input.pushEvent(e2, Event(Event::Damage));
-                            if(e1 == e2)
+                            if(_playerList.find(e2) != _playerList.end())
                             {
-                                std::cout << "You dumbass.." << std::endl;
-                            }
-                            e1->attack(e2);
+                                // Attaque
+                                _input.pushEvent(e1, Event(Event::Attack));
+                                _input.pushEvent(e2, Event(Event::Damage));
+                                e1->attack(e2);
 
-                            flag |= Hitbox::Attack;
+                                flag |= Hitbox::Attack;
+                            }
                         }
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {

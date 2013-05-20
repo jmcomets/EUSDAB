@@ -13,9 +13,13 @@
 #include <SFML/Window/Joystick.hpp>
 #include <percentageLife.h>
 #include <infiniteLife.h>
+#include <boost/lexical_cast.hpp>
+
 
 namespace EUSDAB
 {
+int id = 0;
+std::vector<Entity *> players;
     template <typename Container>
         static Input::Mapping * initPlayerEntities(Container & cont)
     {
@@ -34,6 +38,9 @@ namespace EUSDAB
                     / static_cast<Physics::Unit>(2);
             };
             e->position() = Physics::Vector2(h(500), h(0));
+            std::cout << "Id " << id << std::endl;
+            e->setName("Rickhard " + boost::lexical_cast<std::string>(id));
+            id++;
             
             e->setLife(new PercentageLife(0, 999));
             return e;
@@ -46,7 +53,7 @@ namespace EUSDAB
         auto old_size = cont.size();
 
         // Players
-        std::vector<Entity *> players;
+        //std::vector<Entity *> players;
         auto addPlayer = [&] (Entity * e)
         {
             cont.push_back(e);
@@ -128,6 +135,8 @@ namespace EUSDAB
         Physics::World * world = makePhysicsWorld();
         _physics = new Physics::Controller(*_input, world);
         _physics->addEntity(_entityList.begin(), _entityList.end());
+
+        _physics->addPlayer(players.begin(), players.end());
 
         // Graphics
         auto playersBegin = _entityList.begin() + nbNonPlayers;
