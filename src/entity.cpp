@@ -142,22 +142,18 @@ namespace EUSDAB
         assert(entity != nullptr);
         assert(_current != nullptr);
         assert(entity->life() != nullptr);
+        assert(entity != this);
 
         Attack * attack = _current->attack();
 
         if(attack != nullptr)
         {
-            if(entity == this)
-            {
-                std::cout << "You, idiot..." << std::endl;
-            }
-            std::cout << "My velocity 1 : " << _physics << std::endl;
-            std::cout << "Other velocity 1 : " << entity->_physics << std::endl;
             entity->life()->receiveDamage(attack->damage());
-            entity->_physics.velocity() = Physics::Vector2(attack->direction());
+            entity->_physics.velocity() = attack->direction();
+
             //entity->_physics.velocity() = Physics::Vector2(-10, -10);//attack->direction();
-            std::cout << "My velocity 2 : " << _physics << std::endl;
-            std::cout << "Other velocity 2 : " << entity->_physics << std::endl;
+            std::cout << _name << " : " << _physics << std::endl;
+            std::cout << entity->_name << " : " << entity->_physics << std::endl;
         }
         else
         {

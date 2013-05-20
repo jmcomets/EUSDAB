@@ -16,6 +16,31 @@ namespace EUSDAB
                 _target.draw(sp);
             };
 
+            // Bounding box
+            Physics::AABB bbox;
+
+            auto doHitboxes = [&] (Animation * a,
+                    const Physics::Vector2 & p)
+            {
+                for (Physics::Hitbox hb : a->current().hitboxList())
+                {                      
+                    hb.translate(p);
+                    bbox.merge(hb.globalAABB());
+                    for (Physics::AABB aabb : hb.aabbList())
+                    {
+                        sf::Vector2f size(aabb.width(), aabb.height());
+                        sf::RectangleShape rect(size);
+                        rect.setOrigin(size.x / 2., size.y / 2.);
+                        rect.setPosition(aabb.x(), aabb.y());
+                        rect.setOutlineColor(sf::Color::Red);
+                        rect.setOutlineColor(sf::Color::Yellow);
+                        rect.setOutlineThickness(1.0f);
+                        rect.setFillColor(sf::Color::Transparent);
+                        _target.draw(rect);
+                    }
+                }
+            };
+
             for (Entity * e : _entityList)
             {
                 // Check that entity's state is non-nil
@@ -27,14 +52,13 @@ namespace EUSDAB
                 if (a == nullptr) { continue; }
 
                 // All is ok, draw animation's sprite
-                drawSpriteAt(a->sprite(), e->position());
+                auto p = e->position();
+                drawSpriteAt(a->sprite(), p);
+                doHitboxes(a, p);
             }
 
             // Barycenter of the entities
             Physics::Vector2 barycenter;
-
-            // Bounding box
-            Physics::AABB bbox;
 
             for (Entity * e : _playerList)
             {
@@ -53,11 +77,7 @@ namespace EUSDAB
                 // Add position vector to barycenter
                 barycenter += p;
 
-                for (Physics::Hitbox hb : a->current().hitboxList())
-                {                      
-                    hb.translate(p);
-                    bbox.merge(hb.globalAABB());
-                }
+                doHitboxes(a, p);
             }
 
             // Convert to barycenter by dividing by number of entities
