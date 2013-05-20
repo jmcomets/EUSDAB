@@ -90,7 +90,7 @@ namespace EUSDAB
                 entity()->setJumpPossible(true);
             }
             
-            if (_transform.velocity().y < _jumpValue / 2)
+            if (_transform.velocity().y < _speedY / 2)
             {
                 _entity->setJumpPossible(true);
             }
@@ -106,9 +106,22 @@ namespace EUSDAB
             _entity->setJumpPossible(false);
             _entity->setNbrJump(entity()->nbrJump()-1);
             
-            _transform.velocity().y = 4;
+            if(_mvt.flag() & Movement::Left)
+                _transform.velocity() = Physics::Vector2(-_speedX , _speedY);
+            if(_mvt.flag() & Movement::Right)
+                _transform.velocity() = Physics::Vector2(_speedY, _speedY);
         }
         
+        void Jump::onChangeSide(const Movement & mvt)
+        {
+            State::onChangeSide(mvt);
+             State * s = _entity->state();
+             
+            if(_mvt.flag() & Movement::Left)
+                 s->transformation().velocity() = Physics::Vector2(-_speedX , _transform.velocity().y);
+            if(_mvt.flag() & Movement::Right)
+                 s->transformation().velocity() = Physics::Vector2(_speedY, _transform.velocity().y);
+        }
         
 
         void Jump::onAnimationEnd()
@@ -126,6 +139,12 @@ namespace EUSDAB
             Animation * a = s->animation();
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
+        }
+        
+        void Jump::setSpeed(Physics::Unit X,Physics::Unit Y)
+        {
+            _speedX=X;
+            _speedY=Y;        
         }
         
         void Jump::onMiddleOfJump()
