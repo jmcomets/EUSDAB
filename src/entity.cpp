@@ -148,12 +148,9 @@ namespace EUSDAB
 
         if(attack != nullptr)
         {
-            entity->life()->receiveDamage(attack->damage());
-            entity->_physics.velocity() = attack->direction();
-
-            //entity->_physics.velocity() = Physics::Vector2(-10, -10);//attack->direction();
-            std::cout << _name << " : " << _physics << std::endl;
-            std::cout << entity->_name << " : " << entity->_physics << std::endl;
+            attack->applyTo(entity);
+            std::cout << "<Attack> " << _name << " : " << _physics << std::endl;
+            std::cout << "<Attack> " << entity->_name << " : " << entity->_physics << std::endl;
         }
         else
         {
