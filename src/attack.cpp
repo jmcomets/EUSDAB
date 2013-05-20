@@ -16,7 +16,7 @@ namespace EUSDAB {
         _direction.y = y;
     }
 
-    Physics::Vector2T<float> Attack::direction()
+    Physics::Vector2 const & Attack::direction()
     {
         return _direction;
     }
@@ -26,7 +26,7 @@ namespace EUSDAB {
         _damage = amount;
     }
 
-    Life::Amount Attack::damage()
+    Life::Amount const & Attack::damage()
     {
         return _damage;
     }

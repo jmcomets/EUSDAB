@@ -107,7 +107,7 @@ namespace EUSDAB
                 e1->physics().updateX();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 != e2) { continue; }
+                    if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                     if (s & Hitbox::Grab || s & Hitbox::Foot)
@@ -125,7 +125,7 @@ namespace EUSDAB
                     e1->physics() = oldTrans;
                     e1->physics().velocity().x /= 2;
                     e1->physics().acceleration().x /= 2;
-                    std::cout << e1 << " " << e1->position().x << " " << e1->position().y << " " << oldTrans.position().x << " " << oldTrans.position().y << std::endl;
+                    //std::cout << e1 << " " << e1->position().x << " " << e1->position().y << " " << oldTrans.position().x << " " << oldTrans.position().y << std::endl;
 
                     if(e1->physics().velocity().x < 0.5 &&
                             e1->physics().velocity().x > -0.5)
@@ -186,6 +186,10 @@ namespace EUSDAB
                             // Attaque
                             _input.pushEvent(e1, Event(Event::Attack));
                             _input.pushEvent(e2, Event(Event::Damage));
+                            if(e1 == e2)
+                            {
+                                std::cout << "You dumbass.." << std::endl;
+                            }
                             e1->attack(e2);
 
                             flag |= Hitbox::Attack;

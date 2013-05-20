@@ -78,5 +78,14 @@ namespace EUSDAB
             _vel += _acc;
             _pos += _vel;
         }
+
+        std::ostream & operator<<(std::ostream & os,
+                    Transform const & t)
+        {
+            os << "Pos : (" << t.position().x << ", " << t.position().y << ") | ";
+            os << "Vel : (" << t.velocity().x << ", " << t.velocity().y << ") | ";
+            os << "Acc : (" << t.acceleration().x << ", " << t.acceleration().y << ")";
+            return os;
+        }
     }
 }

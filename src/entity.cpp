@@ -147,13 +147,17 @@ namespace EUSDAB
 
         if(attack != nullptr)
         {
-           if(entity->life() == nullptr)
-           {
-               std::cerr << "Life is null" << std::endl;
-           }
-               
-           entity->life()->receiveDamage(attack->damage());
-           //entity->_physics.velocity() = attack->direction();
+            if(entity == this)
+            {
+                std::cout << "You, idiot..." << std::endl;
+            }
+            std::cout << "My velocity 1 : " << _physics << std::endl;
+            std::cout << "Other velocity 1 : " << entity->_physics << std::endl;
+            entity->life()->receiveDamage(attack->damage());
+            entity->_physics.velocity() = Physics::Vector2(attack->direction());
+            //entity->_physics.velocity() = Physics::Vector2(-10, -10);//attack->direction();
+            std::cout << "My velocity 2 : " << _physics << std::endl;
+            std::cout << "Other velocity 2 : " << entity->_physics << std::endl;
         }
         else
         {

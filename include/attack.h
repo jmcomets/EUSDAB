@@ -18,12 +18,12 @@ namespace EUSDAB
             virtual ~Attack();
 
             void setDirection(float x, float y);
-            Physics::Vector2T<float> direction();
+            Physics::Vector2 const & direction();
             void setDamage(Life::Amount const & amount);
-            Life::Amount damage();
+            Life::Amount const & damage();
 
         private:
-            Physics::Vector2T<float> _direction;
+            Physics::Vector2 _direction;
             Life::Amount _damage;
     };
 }
