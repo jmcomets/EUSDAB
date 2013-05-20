@@ -215,10 +215,13 @@ namespace EUSDAB
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
-                            // Attaque
-                            _input.pushEvent(e1, Event(Event::Attack));
-                            _input.pushEvent(e2, Event(Event::Damage));
-                            e1->attack(e2);
+                            if(_playerList.find(e2) != _playerList.end())
+                            {
+                                // Attaque
+                                _input.pushEvent(e1, Event(Event::Attack));
+                                _input.pushEvent(e2, Event(Event::Damage));
+                                e1->attack(e2);
+                            }
 
                             flag |= Hitbox::Attack;
                         }

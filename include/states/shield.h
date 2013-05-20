@@ -43,13 +43,20 @@ namespace EUSDAB
                 
                 void changeImage();
                 
+                void setCurValue(unsigned int);
+                void setMaxValue(unsigned int);
+                void setNbrShieldstate(unsigned int);
+                void setRegenSpeed(unsigned int);
+                void setDecreaseSpeed(unsigned int);
+                
+                
                 private:
                 
                 unsigned int _curValue;
                 unsigned int _maxValue;
                 unsigned int _nbrShieldstate;
-                float _regenSpeed;
-                float _decreaseSpeed;
+                unsigned int _regenSpeed;
+                unsigned int _decreaseSpeed;
                 std::time_t _leaveTime;
         };
     }
