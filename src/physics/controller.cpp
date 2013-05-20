@@ -34,7 +34,7 @@ namespace EUSDAB
         {
             for (Entity * e1 : _entityList)
             {
-                std::cout << e1->name() << " : " << e1->physics() << std::endl;
+                //std::cout << e1->name() << " : " << e1->physics() << std::endl;
                 handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
