@@ -20,8 +20,9 @@ namespace EUSDAB
     {
     }
 
-    void Map::addAnimatedBackground(Graphics::TextureManager::TexturePtr t,Physics::Vector2 v)
+    void Map::addAnimatedBackground(Map::TexturePtr tx,
+            const Physics::Vector2 & v)
     {
-        _animatedBackgroundList.push_back(std::make_pair(sf::Sprite(*t),v));
+        _animatedBackgroundList.push_back(std::make_pair(sf::Sprite(*tx), v));
     }
 }

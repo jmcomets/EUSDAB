@@ -67,7 +67,20 @@ namespace EUSDAB
             const std::string & entityId = entityPt.get<std::string>("entityId");
             if (entityId == "map")
             {
-                entity = new Map();
+                Map * m = new Map();
+                const ptree & backgroundsPt = entityPt.get_child("backgrounds");
+                for (auto bg : backgroundsPt)
+                {
+                    const ptree & bgPt = bg.second;
+                    const std::string & txFile = bgPt.get<std::string>("texture");
+                    using Graphics::TextureManager;
+                    TextureManager::TexturePtr tx = TextureManager::loadTexture(txFile);
+                    using namespace Physics;
+                    m->addAnimatedBackground(tx,
+                            Vector2(bgPt.get<Unit>("velocity.x"),
+                                bgPt.get<Unit>("velocity.y")));
+                }
+                entity = m;
             }
             else
             {
@@ -92,10 +105,10 @@ namespace EUSDAB
                 std::make_pair(animDir, AnimationParser(animDir))).first->second;
 
         // Entity's states
-        const ptree & stateNodes = entityPt.get_child("states");
+        const ptree & statesPt = entityPt.get_child("states");
         try
         {
-            for (auto s : stateNodes)
+            for (auto s : statesPt)
             {
                 // State ptree
                 const ptree & statePt = s.second;
