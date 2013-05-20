@@ -1,10 +1,12 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
+#include <cassert>
 #include <array>
 #include <set>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <entity.h>
+#include <physics/world.h>
 
 namespace EUSDAB
 {
@@ -41,10 +43,13 @@ namespace EUSDAB
 
                 template <typename InputIter>
                     Controller(sf::RenderTarget & target,
-                            InputIter begin, InputIter end):
+                            InputIter begin, InputIter end,
+                            const Physics::World * world):
                         _target(target), _entityList(),
-                            _playerList(begin, end)
+                            _playerList(begin, end),
+                            _world(world)
                 {
+                    assert(_world != nullptr);
                 }
 
                 // Draw the Controller to its currently set target
@@ -86,6 +91,9 @@ namespace EUSDAB
 
                 // List of players
                 EntityList _playerList;
+
+                // Physics world, used by camera
+                const Physics::World * _world;
         };
     }
 }

@@ -92,8 +92,9 @@ namespace EUSDAB
             bool canJump();
             
             //les getters et les setters pr le nbr de jump et le nbr max
-            int nbrJump();
-            int nbrJumpMax(); 
+            typedef int NbJumps;
+            NbJumps nbrJump();
+            NbJumps nbrJumpMax(); 
             void setNbrJump(int);
             
             //getter et setter pour jump possible
@@ -119,7 +120,6 @@ namespace EUSDAB
             ZIndex _zIndex;
             
             // Infomartion for the jumps
-            typedef int NbJumps;
             NbJumps _nbrJumpLeft, _nbrJumpMax;
             bool _jumpPossible;
     };

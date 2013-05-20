@@ -57,7 +57,7 @@ namespace EUSDAB
             };
 
             // Sliding config
-            constexpr Unit sliding_ratio = static_cast<Unit>(1.04);
+            constexpr Unit sliding_ratio = static_cast<Unit>(1.005);
             constexpr Unit sliding_min = static_cast<Unit>(0.01);
 
             // Sliding code
