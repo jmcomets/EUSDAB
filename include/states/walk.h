@@ -39,12 +39,11 @@ namespace EUSDAB
                 void onEnter();
                 //void onLeave();
                 
-                void setSpeed(Physics::Unit,Physics::Unit);
+                void setVelocity(const  Physics::Vector2 & );
                 
-                private:
-                
-                Physics::Unit _speedX;
-                Physics::Unit _speedY;
+            private:
+            
+                Physics::Vector2 _velocity;
         };
     }
 }

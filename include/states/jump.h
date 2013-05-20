@@ -47,13 +47,12 @@ namespace EUSDAB
                 
                 
                 
-            void setSpeed(Physics::Unit,Physics::Unit);
+            void setVelocity(const  Physics::Vector2 & );
                 
             private:
+            
+                Physics::Vector2 _velocity;
                 
-                Physics::Unit _speedX;
-                Physics::Unit _speedY;
-
             protected:
                 // Explicit helper method :)
                 void setNextStateAnimationFrameToCurrentFrame() const;

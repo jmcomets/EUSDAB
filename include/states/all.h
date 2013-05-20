@@ -8,9 +8,11 @@
 #include <states/jump.h>
 #include <states/falling.h>
 #include <states/crouch.h>
+#include <states/aerialAttack.h>
 #include <states/hit.h>
 #include <states/aerialHit.h>
 #include <states/attack.h>
 #include <states/special.h>
+#include <states/shield.h>
 
 #endif

@@ -9,7 +9,7 @@
         }
     ], 
     "name": "Bazar", 
-    "start": "idle", 
+    "start": "base", 
     "states": [
         {
             "animation": "map_bazar", 
@@ -17,7 +17,7 @@
                 "action": [], 
                 "direction": []
             }, 
-            "type": "idle"
+            "type": "base"
         }
     ], 
     "type": "map"

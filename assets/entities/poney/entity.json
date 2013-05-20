@@ -1,0 +1,279 @@
+{
+    "name": "Petit Poney", 
+    "start": "idle", 
+    "states": [
+        {
+            "animation": "idle_right", 
+            "movement": {
+                "action": [
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "idle"
+        }, 
+        {
+            "animation": "walk_right", 
+            "movement": {
+                "action": [
+                    "walk"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "walk", 
+            "velocity": {
+                "x": 6.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "run_right", 
+            "movement": {
+                "action": [
+                    "run"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "run", 
+            "velocity": {
+                "x": 10.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "idle_left", 
+            "movement": {
+                "action": [
+                    "idle"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "idle"
+        }, 
+        {
+            "animation": "walk_left", 
+            "movement": {
+                "action": [
+                    "walk"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "walk", 
+            "velocity": {
+                "x": 6.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "run_left", 
+            "movement": {
+                "action": [
+                    "run"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "run", 
+            "velocity": {
+                "x": 10.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "jump_right", 
+            "movement": {
+                "action": [
+                    "jump"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "jump", 
+            "velocity": {
+                "x": 0.0, 
+                "y": 4.0
+            }
+        }, 
+        {
+            "animation": "jump_left", 
+            "movement": {
+                "action": [
+                    "jump"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "jump", 
+            "velocity": {
+                "x": 0.0, 
+                "y": 4.0
+            }
+        }, 
+        {
+            "animation": "falling_right", 
+            "movement": {
+                "action": [
+                    "falling"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "falling", 
+            "velocity": {
+                "x": 4.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "falling_left", 
+            "movement": {
+                "action": [
+                    "falling"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "falling", 
+            "velocity": {
+                "x": 4.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "sideA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": -10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideA_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideB_left", 
+            "attack": {
+                "damage": 15, 
+                "direction": {
+                    "x": -20, 
+                    "y": -2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "sideB_right", 
+            "attack": {
+                "damage": 15, 
+                "direction": {
+                    "x": 20, 
+                    "y": -2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "vomit_right", 
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": 5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special", 
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "vomit_left", 
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": -5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special", 
+                    "idle"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "special"
+        }
+    ]
+}

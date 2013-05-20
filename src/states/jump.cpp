@@ -82,8 +82,6 @@ namespace EUSDAB
             State::onNextFrame();
 
             //FIXME
-            _speedY = 4;
-            _speedX = 1.;
             // Shorten code !
             using Physics::Unit;
 
@@ -93,7 +91,7 @@ namespace EUSDAB
                 entity()->setJumpPossible(true);
             }
             
-            if (_transform.velocity().y < _speedY / 2)
+            if (_transform.velocity().y < _velocity.y / 2)
             {
                 _entity->setJumpPossible(true);
             }
@@ -110,9 +108,14 @@ namespace EUSDAB
             _entity->setNbrJump(entity()->nbrJump()-1);
             
             if(_mvt.flag() & Movement::Left)
-                _transform.velocity() = Physics::Vector2(-_speedX , _speedY);
+            {
+                _transform.velocity() = _velocity;
+                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+            }
             if(_mvt.flag() & Movement::Right)
-                _transform.velocity() = Physics::Vector2(_speedY, _speedY);
+            {
+                _transform.velocity() = _velocity;
+            }
         }
         
         void Jump::onChangeSide(const Movement & mvt)
@@ -121,9 +124,17 @@ namespace EUSDAB
              State * s = _entity->state();
              
             if(_mvt.flag() & Movement::Left)
-                 s->transformation().velocity() = Physics::Vector2(-_speedX , _transform.velocity().y);
+            {
+                s->transformation().velocity() = _velocity;
+                s->transformation().velocity().x *= static_cast<Physics::Unit>(-1);
+                s->transformation().velocity().y=_transform.velocity().y;
+            }
             if(_mvt.flag() & Movement::Right)
-                 s->transformation().velocity() = Physics::Vector2(_speedY, _transform.velocity().y);
+            {
+                s->transformation().velocity() = _velocity;
+                s->transformation().velocity().y=_transform.velocity().y;
+            }
+                
         }
         
 
@@ -144,11 +155,11 @@ namespace EUSDAB
             a->setCurrentFrame(_animation->currentFrame());
         }
         
-        void Jump::setSpeed(Physics::Unit X,Physics::Unit Y)
+        void Jump::setVelocity(const  Physics::Vector2 & value)
         {
-            _speedX=X;
-            _speedY=Y;        
+            _velocity=value;      
         }
+    
         
         void Jump::onMiddleOfJump()
         {
