@@ -2,7 +2,6 @@
 #include <state.h>
 #include <animation.h>
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 namespace EUSDAB
 {
@@ -54,8 +53,9 @@ namespace EUSDAB
                 // Add position vector to barycenter
                 barycenter += p;
 
-                for (const Physics::Hitbox & hb : a->current().hitboxList())
-                {
+                for (Physics::Hitbox hb : a->current().hitboxList())
+                {                      
+                    hb.translate(p);
                     bbox.merge(hb.globalAABB());
                 }
             }
@@ -67,22 +67,19 @@ namespace EUSDAB
             view.move(sfBarycenter - view.getCenter());
 
             sf::Vector2f bboxSize(bbox.width(), bbox.height());
-            sf::RectangleShape cameraRect(bboxSize);
-            cameraRect.setOutlineColor(sf::Color::Yellow);
-            cameraRect.setOutlineThickness(1.0f);
-            cameraRect.setFillColor(sf::Color::Transparent);
-            cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
-            cameraRect.setPosition(sfBarycenter);
-            _target.draw(cameraRect);
+            //sf::RectangleShape cameraRect(bboxSize);
+            //cameraRect.setOutlineColor(sf::Color::Yellow);
+            //cameraRect.setOutlineThickness(1.0f);
+            //cameraRect.setFillColor(sf::Color::Transparent);
+            //cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
+            //cameraRect.setPosition(sfBarycenter);
+            //_target.draw(cameraRect);
 
             // Zoom camera
-            //Camera::ZPF factor = 1.f;
-
+            bboxSize += sf::Vector2f(50, 50);
             const sf::Vector2f & viewSize = view.getSize();
-            float factor = std::min(viewSize.x / bboxSize.x,
-                    viewSize.y / bboxSize.y);
-            std::cout << "zoom factor = " << factor << std::endl;
-            //view.zoom(factor);
+            view.zoom(std::max(bboxSize.x / viewSize.x,
+                        bboxSize.y / viewSize.y));
 
             // Set final view
             _target.setView(view);
