@@ -1,13 +1,13 @@
 #include <entityparser.h>
 #include <cassert>
+#include <iostream>
 #include <istream>
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <entitywithmask.h>
 #include <states/all.h>
 #include <util/filename.h>
-#include <iostream>
+#include <map.h>
 
 using namespace boost::property_tree;
 
@@ -65,9 +65,9 @@ namespace EUSDAB
         try
         {
             const std::string & entityId = entityPt.get<std::string>("entityId");
-            if (entityId == "withmask")
+            if (entityId == "map")
             {
-                entity = new EntityWithMask();
+                entity = new Map();
             }
             else
             {

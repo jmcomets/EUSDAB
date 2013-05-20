@@ -132,7 +132,7 @@ namespace EUSDAB
         // Graphics
         auto playersBegin = _entityList.begin() + nbNonPlayers;
         _graphics = new Graphics::Controller(_window,
-                playersBegin, _entityList.end());
+                playersBegin, _entityList.end(), world);
         _graphics->addEntity(_entityList.begin(), playersBegin);
     }
 

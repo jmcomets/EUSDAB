@@ -1,10 +1,11 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
-#include <array>
+#include <cassert>
 #include <set>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <entity.h>
+#include <physics/world.h>
 
 namespace EUSDAB
 {
@@ -20,31 +21,15 @@ namespace EUSDAB
                 ~Controller() = default;
                 Controller & operator=(const Controller &) = default;
 
-                // Camera structure, used for view
-                //  on Controller's entities
-                struct Camera
-                {
-                    // Dimension type
-                    typedef float Size;
-
-                    // Zoom-Per-Frame type
-                    typedef float ZPF;
-
-                    // Minimum/Maximum zoom dimensions (width, height),
-                    //  must be positive values
-                    std::array<Size, 2> min, max;
-
-                    // Zoom-Per-Frame amount,
-                    //  must be in (0, 1) open interval
-                    ZPF zpf;
-                } camera;
-
                 template <typename InputIter>
                     Controller(sf::RenderTarget & target,
-                            InputIter begin, InputIter end):
+                            InputIter begin, InputIter end,
+                            const Physics::World * world):
                         _target(target), _entityList(),
-                            _playerList(begin, end)
+                            _playerList(begin, end),
+                            _world(world)
                 {
+                    assert(_world != nullptr);
                 }
 
                 // Draw the Controller to its currently set target
@@ -86,6 +71,9 @@ namespace EUSDAB
 
                 // List of players
                 EntityList _playerList;
+
+                // Physics world, used by camera
+                const Physics::World * _world;
         };
     }
 }
