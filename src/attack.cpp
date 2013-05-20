@@ -10,7 +10,8 @@ namespace EUSDAB {
     {
     }
 
-    void Attack::setDirection(float x, float y)
+    void Attack::setDirection(const Physics::Unit & x,
+            const Physics::Unit & y)
     {
         _direction.x = x;
         _direction.y = y;

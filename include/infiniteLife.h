@@ -5,20 +5,20 @@
 
 namespace EUSDAB
 {
-	class InfiniteLife: public Life
-	{
-			InfiniteLife(InfiniteLife &&) = delete;
+    class InfiniteLife: public Life
+    {
         public:
-			InfiniteLife(const InfiniteLife &) = delete;
-			InfiniteLife & operator=(const InfiniteLife &) =  delete;
+            InfiniteLife(InfiniteLife &&) = default;
+            InfiniteLife(const InfiniteLife &) = default;
+            InfiniteLife & operator=(const InfiniteLife &) = default;
 
-			InfiniteLife();
-			~InfiniteLife();
+            InfiniteLife();
+            virtual ~InfiniteLife();
 
-			bool isAlive() const;
-			void receiveDamage(const Life::Amount &);
-			void healDamage(const Life::Amount &);
-	};
+            bool isAlive() const;
+            void receiveDamage(const Life::Amount &);
+            void healDamage(const Life::Amount &);
+    };
 }
 
 #endif
