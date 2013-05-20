@@ -165,6 +165,27 @@ namespace EUSDAB
                     }
                     state->setMovement(Movement(flag));
 
+                    // Attack
+                    try
+                    {
+                        const ptree & attackPt = statePt.get_child("attack");
+                        Attack * attack = new Attack();
+                        try
+                        {
+                            attack->setDirection(attackPt.get<Physics::Unit>("direction.x"),
+                                    attackPt.get<Physics::Unit>("direction.y"));
+                            attack->setDamage(attackPt.get<Life::Amount>("damage"));
+                            state->setAttack(attack);
+                        }
+                        catch (ptree_error)
+                        {
+                            delete attack;
+                        }
+                    }
+                    catch (ptree_error)
+                    {
+                    }
+
                     // Animation file (physics/hitbox)
                     const std::string & animName = statePt.get<std::string>("animation");
                     Animation * animation = animParser.loadAnimation(animName);
