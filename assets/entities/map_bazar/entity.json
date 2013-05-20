@@ -17,7 +17,7 @@
                 "action": [], 
                 "direction": []
             }, 
-            "type": "idle"
+            "type": "base"
         }
     ], 
     "type": "map"
