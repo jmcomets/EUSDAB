@@ -23,10 +23,10 @@ std::vector<Entity *> players;
     template <typename Container>
         static Input::Mapping * initPlayerEntities(Container & cont)
     {
-        static auto loadRickHard = []
+        static auto loadEntity = [] (const std::string & name)
         {
             static EntityParser entityParser("../../assets/entities");
-            Entity * e = entityParser.loadEntity("rickhard");
+            Entity * e = entityParser.loadEntity(name);
             if (e == nullptr)
             {
                 throw std::runtime_error("Rick Hard entity wasn't loaded");
@@ -39,7 +39,7 @@ std::vector<Entity *> players;
             };
             e->position() = Physics::Vector2(h(500 + id * 500), h(0));
             std::cout << "Id " << id << std::endl;
-            e->setName("Rickhard " + boost::lexical_cast<std::string>(id));
+            e->setName(e->name() + " " + boost::lexical_cast<std::string>(id));
             id++;
             
             e->setLife(new PercentageLife(0, 999));
@@ -60,17 +60,20 @@ std::vector<Entity *> players;
             players.push_back(e);
         };
 
+        std::vector<std::string> entityList = {{
+            "rickhard", "poney", "panda"
+        }};
+
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
-            addPlayer(loadRickHard());
+            addPlayer(loadEntity(entityList[i % entityList.size()]));
         }
 
         if (cont.size() == old_size)
         {
             std::cout << "No joysticks detected, using keyboard mapping"
                 << std::endl;
-            addPlayer(loadRickHard());
-            //addPlayer(loadRickHard());
+            addPlayer(loadEntity("rickhard"));
             return new Input::KeyboardMapping(players.begin(), players.end());
         }
         else
