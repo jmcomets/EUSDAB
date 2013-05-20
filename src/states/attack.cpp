@@ -69,6 +69,7 @@ namespace EUSDAB
         void Attack::onLeave()
         {
             State::onLeave();
+            _attack->reset();
         }
 
         void Attack::setSlidingRatio(Physics::Unit value)
