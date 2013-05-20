@@ -8,14 +8,12 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        _physics(),
-        _gravitable(true),
-        _current(nullptr),
-        _states(),
-        _life(),
-        _nbrJumpMax(2),
-        _nbrJumpLeft(2),        
-        _zIndex(0)
+        _physics(), _gravitable(true),
+        _current(nullptr), _states(),
+        _life(nullptr),
+        _zIndex(0),
+        _nbrJumpLeft(2), _nbrJumpMax(2),
+        _jumpPossible(true)
     {
     }
 
@@ -25,6 +23,7 @@ namespace EUSDAB
         {
             delete s;
         }
+        delete _life;
     }
 
     void Entity::setState(State * state)
