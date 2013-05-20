@@ -37,7 +37,6 @@ namespace EUSDAB
                 handleWorldEntity(e1);
 
                 // Handle speed / acceleration
-                bool canMoveX = true;
 
                 // TODO faire un transformation de test.
                 // Si il n'y a pas de collision, on garde cette transformation
@@ -89,8 +88,8 @@ namespace EUSDAB
                         e1->physics().acceleration().y = 0;
                 }
 
+                bool canMoveX = true;
                 oldTrans = e1->physics();
-
                 if (s != nullptr)
                 {
                     // s->transformation().update();
@@ -102,7 +101,7 @@ namespace EUSDAB
                 e1->physics().updateX();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 != e2) { continue; }
+                    if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                     if(s & Hitbox::Defense
@@ -111,7 +110,7 @@ namespace EUSDAB
                         canMoveX = false;
                     }
                 }
-                if(canMoveX == false)
+                if(false && canMoveX == false)
                 {
                     e1->physics() = oldTrans;
                     e1->physics().velocity().x /= 2;
