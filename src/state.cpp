@@ -34,6 +34,7 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
+        onLeave();
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
@@ -50,6 +51,7 @@ namespace EUSDAB
     
     void State::onChangeSide(const Movement & mvt)
     {
+    
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
@@ -137,6 +139,12 @@ namespace EUSDAB
             _animation->reset();
         }
         _transform = Transform();
+    }
+    
+    void State::onLeave()
+    {
+        //Listener::onLeave();
+        
     }
 
     void State::onAnimationEnd()

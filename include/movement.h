@@ -29,7 +29,7 @@ namespace EUSDAB
                 Attack      = 1 << 7 ,
                 Smash       = 1 << 8 ,
                 Flee        = 1 << 9 ,
-                Guard       = 1 << 10,
+                Shield      = 1 << 10,
                 OnHit       = 1 << 11,
                 Walk        = 1 << 12,
                 Run         = 1 << 13,
@@ -37,9 +37,10 @@ namespace EUSDAB
                 Crouch      = 1 << 15,
                 AerialHit   = 1 << 16,
                 Special     = 1 << 17,
+                Stunned     = 1 << 19,
 
                 // Used to lookup the size, as well as for initialization
-                Noop        = 1 << 18 
+                Noop        = 1 << 20 
             };
 
             Movement(Movement &&) = default;
