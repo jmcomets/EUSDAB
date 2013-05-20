@@ -40,7 +40,8 @@ namespace EUSDAB
             Physics::Unit right = 0;
             Physics::Unit top = 0;
             Physics::Unit bottom = 0;
-            std::size_t nbr = 0;
+            Physics::Unit nbr_x = 0;
+            Physics::Unit nbr_y = 0;
             for(State * const & s : entity->states())
             {
                 for(Frame & frame : s->animation()->frame_list())
@@ -73,18 +74,19 @@ namespace EUSDAB
                                 if(aabb.max().y > max_y)
                                     max_y = aabb.max().y;
                             }
-                            left += min_x;
-                            right += max_x;
-                            top += min_y;
-                            bottom += max_y;
-                            nbr++;
+                            left += min_x * (max_y - min_y);
+                            right += max_x * (max_y - min_y);
+                            top += min_y * (max_x - min_x);
+                            bottom += max_y * (max_x - min_x);
+                            nbr_x += max_y - min_y;
+                            nbr_y += max_x - min_x;
                         }
                     }
                 }
             }
-            Physics::Unit w = (right - left) / nbr;
-            Physics::Unit h = (bottom - top) / nbr;
-            Physics::Vector2 center(left / nbr + w / 2, top / nbr + h / 2);
+            Physics::Unit w = (right - left) / nbr_x;
+            Physics::Unit h = (bottom - top) / nbr_y;
+            Physics::Vector2 center(left / nbr_x + w / 2, top / nbr_y + h / 2);
             entity->hitbox().addAABB(Physics::AABB(center, w, h));
         }
         else
