@@ -236,7 +236,7 @@
             "type": "special"
         }, 
         {
-            "animation": "vomit_right", 
+            "animation": "botB_right", 
             "attack": {
                 "damage": 20, 
                 "direction": {
@@ -256,7 +256,7 @@
             "type": "special"
         }, 
         {
-            "animation": "vomit_left", 
+            "animation": "botB_left", 
             "attack": {
                 "damage": 20, 
                 "direction": {
