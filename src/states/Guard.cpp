@@ -6,8 +6,7 @@ namespace EUSDAB
     namespace States
     {
         Guard::Guard():
-            State(),
-            
+            State()
         {
         }
 
