@@ -14,5 +14,6 @@
 #include <states/attack.h>
 #include <states/special.h>
 #include <states/shield.h>
+#include <states/guard.h>
 
 #endif

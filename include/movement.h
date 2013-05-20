@@ -38,6 +38,7 @@ namespace EUSDAB
                 AerialHit   = 1 << 16,
                 Special     = 1 << 17,
                 Stunned     = 1 << 19,
+                Shield      = 1 << 20,
 
                 // Used to lookup the size, as well as for initialization
                 Noop        = 1 << 18 

@@ -10,11 +10,19 @@ namespace EUSDAB
     {
         void Controller::draw()
         {
+            static std::time_t time = 0;
+            time++;
+
+            sf::Shader shader;
+            shader.loadFromFile("../../assets/shader/wave.vert", sf::Shader::Vertex);
+            shader.setParameter("wave_amplitude", 50, 50);
+            shader.setParameter("wave_phase", time / 50.0);
+            shader.setParameter("ratio", ((time % 300) / 300.0));
             auto drawSpriteAt = [&](sf::Sprite & sp,
                     const Physics::Vector2 & p)
             {
                 sp.setPosition(p.x, p.y);
-                _target.draw(sp);
+                _target.draw(sp, &shader);
             };
 
             // Bounding box
@@ -72,6 +80,24 @@ namespace EUSDAB
                 }
             };
 
+
+            for (Entity * e : _entityList)
+            {
+                Map * map = dynamic_cast<Map *>(e);
+                if (map == nullptr)
+                { 
+                    std::cerr << "map " << e << " is null" << std::endl;
+                    continue;
+                }
+
+                for (sf::Sprite & s : map->getSprites())
+                {
+                    s.setPosition(-500, -500);
+                    _target.draw(s);
+                }
+            }
+
+
             for (Entity * e : _entityList)
             {
                 // Check that entity's state is non-nil
@@ -87,19 +113,8 @@ namespace EUSDAB
                 drawSpriteAt(a->sprite(), p);
                 doHitboxes(a, p);
                 doHitbox(e->hitbox(), p);
-                Map * map = dynamic_cast<Map *>(e);
-                if (map == nullptr)
-                { 
-                    std::cerr << "map " << e << " is null" << std::endl;
-                    continue;
-                }
-
-                for (sf::Sprite & s : map->getSprites())
-                {
-                    _target.draw(s);
-                }
             }
-
+            
             // Barycenter of the entities
             Physics::Vector2 barycenter;
 
@@ -131,13 +146,13 @@ namespace EUSDAB
             view.move(sfBarycenter - view.getCenter());
 
             sf::Vector2f bboxSize(bbox.width(), bbox.height());
-            //sf::RectangleShape cameraRect(bboxSize);
-            //cameraRect.setOutlineColor(sf::Color::Yellow);
-            //cameraRect.setOutlineThickness(1.0f);
-            //cameraRect.setFillColor(sf::Color::Transparent);
-            //cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
-            //cameraRect.setPosition(sfBarycenter);
-            //_target.draw(cameraRect);
+            sf::RectangleShape cameraRect(bboxSize);
+            cameraRect.setOutlineColor(sf::Color::Yellow);
+            cameraRect.setOutlineThickness(1.0f);
+            cameraRect.setFillColor(sf::Color::Transparent);
+            cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
+            cameraRect.setPosition(sfBarycenter);
+            _target.draw(cameraRect);
 
             // Zoom camera
             bboxSize += sf::Vector2f(50, 50);

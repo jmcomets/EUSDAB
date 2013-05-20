@@ -71,7 +71,7 @@ namespace EUSDAB
             State::onNextFrame();
 
             
-            _curValue-=(int)abs(_decreaseSpeed);
+            _curValue-=_decreaseSpeed;
             if (_curValue>0)
             {
                 changeImage();
@@ -79,7 +79,7 @@ namespace EUSDAB
             else
             {
                 switchState(Movement::Stunned | _mvt.direction());
-                _curValue=trunc(_maxValue/2);
+                _curValue= static_cast<unsigned int> (trunc(_maxValue/2));
             }
             
         }
@@ -92,8 +92,8 @@ namespace EUSDAB
         }
         
         void Shield::changeImage()
-        {
-            unsigned int num_img=trunc(abs(_curValue/(_maxValue/_nbrShieldstate)));
+        { 
+            unsigned int num_img= static_cast<unsigned int> (trunc(abs(_curValue/(_maxValue/_nbrShieldstate))));
              _animation->setCurrentFrame(num_img);
         }
         
@@ -105,12 +105,37 @@ namespace EUSDAB
         
         void Shield::calcShieldValue()
         {
-            unsigned int diff=_time-_leaveTime;
+            unsigned int diff= static_cast<unsigned int> (trunc(abs(_time-_leaveTime)));
             _curValue=abs(diff*_regenSpeed);
             if (_curValue>_maxValue)
             {
                 _curValue=_maxValue;
             }
+        }
+        
+        void Shield::setCurValue(unsigned int v)
+        {
+            _curValue=v;
+        }
+        
+        void Shield::setMaxValue(unsigned int v)
+        {
+            _maxValue=v;
+        }
+        
+        void Shield::setNbrShieldstate(unsigned int v)
+        {
+            _nbrShieldstate=v;
+        }
+        
+        void Shield::setRegenSpeed(unsigned int v)
+        {
+            _regenSpeed=v;
+        }
+        
+        void Shield::setDecreaseSpeed(unsigned int v)
+        {
+            _decreaseSpeed=v;
         }
     }
 }
