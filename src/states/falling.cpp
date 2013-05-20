@@ -28,7 +28,7 @@ namespace EUSDAB
             State::onLeft(e);
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Falling | Movement::Left);
+                onChangeSide(Movement::Falling | Movement::Left);
             }
             else
             {
@@ -41,7 +41,7 @@ namespace EUSDAB
             State::onRight(e);
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Falling | Movement::Right);
+                onChangeSide(Movement::Falling | Movement::Right);
             }
             else
             {
@@ -58,9 +58,52 @@ namespace EUSDAB
             }
         }
 
+
+
         void Falling::onNextFrame()
         {
             State::onNextFrame();
         }
+        
+        void Falling::onEnter()
+        {
+            // TODO add vertical impulse
+
+            _animation->setPaused(false);
+            
+            if(_mvt.flag() & Movement::Left)
+                _transform.velocity() = Physics::Vector2(-_speedX , _speedY);
+            if(_mvt.flag() & Movement::Right)
+                _transform.velocity() = Physics::Vector2(_speedY, _speedY);
+        }
+        
+        void Falling::onChangeSide(const Movement & mvt)
+        {
+            State::onChangeSide(mvt);
+             State * s = _entity->state();
+             
+            if(_mvt.flag() & Movement::Left)
+                 s->transformation().velocity() = Physics::Vector2(-_speedX , _transform.velocity().y);
+            if(_mvt.flag() & Movement::Right)
+                 s->transformation().velocity() = Physics::Vector2(_speedY, _transform.velocity().y);
+        }
+        
+        void Falling::setNextStateAnimationFrameToCurrentFrame() const
+        {
+            // Continue animation from current frame in next state
+            State * s = _entity->state();
+            if (s == nullptr) { return; }
+
+            Animation * a = s->animation();
+            if (a == nullptr) { return; }
+            a->setCurrentFrame(_animation->currentFrame());
+        }
+        
+        void Falling::setSpeed(Physics::Unit X,Physics::Unit Y)
+        {
+            _speedX=X;
+            _speedY=Y;        
+        }
+        
     }
 }
