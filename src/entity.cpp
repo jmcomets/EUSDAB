@@ -8,14 +8,12 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        _physics(),
-        _gravitable(true),
-        _current(nullptr),
-        _states(),
-        _life(),
-        _nbrJumpMax(2),
-        _nbrJumpLeft(2),        
-        _zIndex(0)
+        _physics(), _gravitable(true),
+        _current(nullptr), _states(),
+        _life(nullptr),
+        _zIndex(0),
+        _nbrJumpLeft(2), _nbrJumpMax(2),
+        _jumpPossible(true)
     {
     }
 
@@ -25,6 +23,7 @@ namespace EUSDAB
         {
             delete s;
         }
+        delete _life;
     }
 
     void Entity::setState(State * state)
@@ -143,18 +142,15 @@ namespace EUSDAB
         assert(entity != nullptr);
         assert(_current != nullptr);
         assert(entity->life() != nullptr);
+        assert(entity != this);
 
         Attack * attack = _current->attack();
 
         if(attack != nullptr)
         {
-           if(entity->life() == nullptr)
-           {
-               std::cerr << "Life is null" << std::endl;
-           }
-               
-           entity->life()->receiveDamage(attack->damage());
-           //entity->_physics.velocity() = attack->direction();
+            attack->applyTo(entity);
+            std::cout << "<Attack> " << _name << " : " << _physics << std::endl;
+            std::cout << "<Attack> " << entity->_name << " : " << entity->_physics << std::endl;
         }
         else
         {

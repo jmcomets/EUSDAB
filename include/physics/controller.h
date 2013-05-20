@@ -6,6 +6,7 @@
 #include <input/controller.h>
 #include <physics/config.h>
 #include <physics/world.h>
+#include <set>
 
 namespace EUSDAB
 {
@@ -39,6 +40,20 @@ namespace EUSDAB
                     }
                 }
 
+                void addPlayer(Entity * player)
+                {
+                    _playerList.insert(player);
+                }
+
+                template <typename InputIter>
+                    void addPlayer(InputIter begin, InputIter end)
+                {
+                    for (; begin != end; begin++)
+                    {
+                        addPlayer(*begin);
+                    }
+                }
+
                 // Update collision and send signals to entity
                 // Must be called only once per frame
                 void update();
@@ -65,6 +80,8 @@ namespace EUSDAB
 
                 // Reference to Entities
                 std::vector<Entity *> _entityList;
+
+                std::set<Entity *> _playerList;
         };
     }
 }

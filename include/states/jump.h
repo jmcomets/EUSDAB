@@ -43,17 +43,21 @@ namespace EUSDAB
 
                 void onEnter();
                 
+                void onChangeSide(const Movement & mvt);
                 
                 
                 
+            void setSpeed(Physics::Unit,Physics::Unit);
                 
-            
+            private:
+                
+                Physics::Unit _speedX;
+                Physics::Unit _speedY;
 
             protected:
                 // Explicit helper method :)
                 void setNextStateAnimationFrameToCurrentFrame() const;
                 
-                int _jumpValue;
                 
                 
                 

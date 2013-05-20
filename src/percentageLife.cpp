@@ -1,6 +1,7 @@
 #include <percentageLife.h>
 #include <cassert>
 #include <algorithm>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -8,7 +9,7 @@ namespace EUSDAB
 const Amount & max):
 	Life(),
 	_min(min), _max(max),
-	_percentage(max)
+	_percentage(min)
 	{
         assert(_min <= _max);
 	}
@@ -22,6 +23,7 @@ const Amount & max):
 	{
 	assert(dmg >= 0);
 		_percentage = std::min(_percentage + dmg, _max);
+        std::cout << "Life : " << _percentage << "%" << std::endl;
 	}
 
 	void PercentageLife::healDamage(const Life::Amount & heal)

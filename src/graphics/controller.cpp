@@ -16,6 +16,53 @@ namespace EUSDAB
                 _target.draw(sp);
             };
 
+            // Bounding box
+            Physics::AABB bbox;
+
+            auto doHitboxes = [&] (Animation * a, const Physics::Vector2 & p)
+            {
+                for (Physics::Hitbox hb : a->current().hitboxList())
+                {
+                    hb.translate(p);
+                    bbox.merge(hb.globalAABB());
+
+                    Physics::Hitbox::Semantic_type sem = hb.semantic();
+                    sf::Color color;
+                    switch (sem)
+                    {
+                        case Physics::Hitbox::Semantic::Attack   :
+                            color = sf::Color::Red; break;
+
+                        case Physics::Hitbox::Semantic::Defense  :
+                            color = sf::Color::Yellow; break;
+
+                        case Physics::Hitbox::Semantic::Foot     :
+                            color = sf::Color::Green; break;
+
+                        case Physics::Hitbox::Semantic::Grab     :
+                            color = sf::Color::Blue; break;
+
+                        case Physics::Hitbox::Semantic::Grabable :
+                            color = sf::Color::Magenta; break;
+
+                        default: break;
+                    }
+
+
+                    for (Physics::AABB aabb : hb.aabbList())
+                    {
+                        sf::Vector2f size(aabb.width(), aabb.height());
+                        sf::RectangleShape rect(size);
+                        rect.setOrigin(size.x / 2.0f, size.y / 2.0f);
+                        rect.setPosition(aabb.x(), aabb.y());
+                        rect.setOutlineColor(color);
+                        rect.setOutlineThickness(1.0f);
+                        rect.setFillColor(sf::Color::Transparent);
+                        _target.draw(rect);
+                    }
+                }
+            };
+
             for (Entity * e : _entityList)
             {
                 // Check that entity's state is non-nil
@@ -27,14 +74,13 @@ namespace EUSDAB
                 if (a == nullptr) { continue; }
 
                 // All is ok, draw animation's sprite
-                drawSpriteAt(a->sprite(), e->position());
+                auto p = e->position();
+                drawSpriteAt(a->sprite(), p);
+                doHitboxes(a, p);
             }
 
             // Barycenter of the entities
             Physics::Vector2 barycenter;
-
-            // Bounding box
-            Physics::AABB bbox;
 
             for (Entity * e : _playerList)
             {
@@ -53,10 +99,7 @@ namespace EUSDAB
                 // Add position vector to barycenter
                 barycenter += p;
 
-                for (const Physics::Hitbox & hb : a->current().hitboxList())
-                {
-                    bbox.merge(hb.globalAABB());
-                }
+                doHitboxes(a, p);
             }
 
             // Convert to barycenter by dividing by number of entities
@@ -66,21 +109,19 @@ namespace EUSDAB
             view.move(sfBarycenter - view.getCenter());
 
             sf::Vector2f bboxSize(bbox.width(), bbox.height());
-            sf::RectangleShape cameraRect(bboxSize);
-            cameraRect.setOutlineColor(sf::Color::Yellow);
-            cameraRect.setOutlineThickness(1.0f);
-            cameraRect.setFillColor(sf::Color::Transparent);
-            cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
-            cameraRect.setPosition(sfBarycenter);
-            _target.draw(cameraRect);
+            //sf::RectangleShape cameraRect(bboxSize);
+            //cameraRect.setOutlineColor(sf::Color::Yellow);
+            //cameraRect.setOutlineThickness(1.0f);
+            //cameraRect.setFillColor(sf::Color::Transparent);
+            //cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
+            //cameraRect.setPosition(sfBarycenter);
+            //_target.draw(cameraRect);
 
             // Zoom camera
-            //Camera::ZPF factor = 1.f;
-
+            bboxSize += sf::Vector2f(50, 50);
             const sf::Vector2f & viewSize = view.getSize();
-            float factor = std::min(viewSize.x / bboxSize.x,
-                    viewSize.y / bboxSize.y);
-            //view.zoom(factor);
+            view.zoom(std::max(bboxSize.x / viewSize.x,
+                        bboxSize.y / viewSize.y));
 
             // Set final view
             _target.setView(view);

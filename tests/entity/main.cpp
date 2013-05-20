@@ -6,5 +6,6 @@ int main()
             "EUSDAB", sf::Style::Close | sf::Style::Resize);
     EUSDAB::Application * app = new EUSDAB::EntityTest(window);
     app->run();
+    delete app;
     return 0;
 }

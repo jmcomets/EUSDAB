@@ -1,13 +1,13 @@
 #include <entityparser.h>
 #include <cassert>
+#include <iostream>
 #include <istream>
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <entitywithmask.h>
 #include <states/all.h>
 #include <util/filename.h>
-#include <iostream>
+#include <map.h>
 
 using namespace boost::property_tree;
 
@@ -65,9 +65,22 @@ namespace EUSDAB
         try
         {
             const std::string & entityId = entityPt.get<std::string>("entityId");
-            if (entityId == "withmask")
+            if (entityId == "map")
             {
-                entity = new EntityWithMask();
+                Map * m = new Map();
+                const ptree & backgroundsPt = entityPt.get_child("backgrounds");
+                for (auto bg : backgroundsPt)
+                {
+                    const ptree & bgPt = bg.second;
+                    const std::string & txFile = bgPt.get<std::string>("texture");
+                    using Graphics::TextureManager;
+                    TextureManager::TexturePtr tx = TextureManager::loadTexture(txFile);
+                    using namespace Physics;
+                    m->addAnimatedBackground(tx,
+                            Vector2(bgPt.get<Unit>("velocity.x"),
+                                bgPt.get<Unit>("velocity.y")));
+                }
+                entity = m;
             }
             else
             {
@@ -92,10 +105,10 @@ namespace EUSDAB
                 std::make_pair(animDir, AnimationParser(animDir))).first->second;
 
         // Entity's states
-        const ptree & stateNodes = entityPt.get_child("states");
+        const ptree & statesPt = entityPt.get_child("states");
         try
         {
-            for (auto s : stateNodes)
+            for (auto s : statesPt)
             {
                 // State ptree
                 const ptree & statePt = s.second;
@@ -151,6 +164,27 @@ namespace EUSDAB
                         else { throw std::runtime_error("Unrecognized direction"); }
                     }
                     state->setMovement(Movement(flag));
+
+                    // Attack
+                    try
+                    {
+                        const ptree & attackPt = statePt.get_child("attack");
+                        Attack * attack = new Attack();
+                        try
+                        {
+                            attack->setDirection(attackPt.get<Physics::Unit>("direction.x"),
+                                    attackPt.get<Physics::Unit>("direction.y"));
+                            attack->setDamage(attackPt.get<Life::Amount>("damage"));
+                            state->setAttack(attack);
+                        }
+                        catch (ptree_error)
+                        {
+                            delete attack;
+                        }
+                    }
+                    catch (ptree_error)
+                    {
+                    }
 
                     // Animation file (physics/hitbox)
                     const std::string & animName = statePt.get<std::string>("animation");

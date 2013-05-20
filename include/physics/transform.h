@@ -2,6 +2,7 @@
 #define PHYSICS_TRANSFORM_H_
 
 #include <physics/config.h>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -27,6 +28,9 @@ namespace EUSDAB
 
                 Vector2 const & acceleration() const;
                 Vector2 & acceleration();
+
+                friend std::ostream & operator<<(std::ostream & os,
+                    Transform const & t);
 
                 void apply(Transform const &);
                 void applyX(Transform const &);

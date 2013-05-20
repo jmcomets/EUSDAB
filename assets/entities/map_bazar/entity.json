@@ -1,5 +1,14 @@
 {
-    "name": "Forever Alone", 
+    "background": [
+        {
+            "texture": "foo.png", 
+            "velocity": {
+                "x": 10, 
+                "y": 0
+            }
+        }
+    ], 
+    "name": "Bazar", 
     "start": "idle", 
     "states": [
         {
@@ -10,5 +19,6 @@
             }, 
             "type": "idle"
         }
-    ]
+    ], 
+    "type": "map"
 }

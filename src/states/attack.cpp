@@ -43,11 +43,10 @@ namespace EUSDAB
             using Physics::Unit;
 
             // Sliding config
-            constexpr Unit sliding_ratio = static_cast<Unit>(1.04);
             constexpr Unit sliding_min = static_cast<Unit>(0.01);
 
             // Sliding code
-            _transform.velocity().x /= sliding_ratio;
+            _transform.velocity().x /= _sliding_ratio;
             if (std::abs(_transform.velocity().x) < sliding_min)
             {
                 _transform.velocity().x = static_cast<Unit>(0);
@@ -70,6 +69,11 @@ namespace EUSDAB
         void Attack::onLeave()
         {
             State::onLeave();
+        }
+        
+        void Attack::setSlidingRatio(Physics::Unit value)
+        {
+            _sliding_ratio=value;
         }
     }
 }
