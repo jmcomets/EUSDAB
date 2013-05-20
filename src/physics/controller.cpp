@@ -13,8 +13,7 @@ namespace EUSDAB
                 World * world):
             _input(input_controller),
             _world(world),
-            _entityList(),
-            _playerList()
+            _entityList()
         {
             assert(_world != nullptr);
         }
@@ -34,13 +33,11 @@ namespace EUSDAB
         {
             for (Entity * e1 : _entityList)
             {
-                //std::cout << e1->name() << " : " << e1->physics() << std::endl;
-                handleEntityTransform(e1);
+                // handleEntityTransform(e1);
                 handleWorldEntity(e1);
 
-                // Handle speed / acceleration 
+                // Handle speed / acceleration
                 bool canMoveX = true;
-                bool canMoveY = true;
 
                 // TODO faire un transformation de test.
                 // Si il n'y a pas de collision, on garde cette transformation
@@ -56,11 +53,11 @@ namespace EUSDAB
                 Transform oldTrans;
                 State * s = e1->state();
 
+                bool canMoveY = true;
                 oldTrans = e1->physics();
 
                 if (s != nullptr)
                 {
-                    // s->transformation().update();
                     e1->physics().applyY(s->transformation());
                     if(e1->gravitable())
                         e1->physics().velocity().y += _world->gravity().y;
@@ -72,14 +69,10 @@ namespace EUSDAB
                     if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                    if (s & Hitbox::Defense || s & Hitbox::Grab)
+                    if(s & Hitbox::Grab
+                            || s & Hitbox::Foot)
                     {
-                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if(s & Hitbox::Grab
-                                || s & Hitbox::Foot)
-                        {
-                            canMoveY = false;
-                        }
+                        canMoveY = false;
                     }
                 }
                 if(canMoveY == false)
@@ -109,17 +102,13 @@ namespace EUSDAB
                 e1->physics().updateX();
                 for (Entity * e2 : _entityList)
                 {
-                    if (e1 == e2) { continue; }
+                    if (e1 != e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                    if (s & Hitbox::Grab || s & Hitbox::Foot)
+                    if(s & Hitbox::Defense
+                            || s & Hitbox::Grab)
                     {
-                        Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
-                        if(s & Hitbox::Defense
-                                || s & Hitbox::Grab)
-                        {
-                            canMoveX = false;
-                        }
+                        canMoveX = false;
                     }
                 }
                 if(canMoveX == false)
@@ -127,7 +116,7 @@ namespace EUSDAB
                     e1->physics() = oldTrans;
                     e1->physics().velocity().x /= 2;
                     e1->physics().acceleration().x /= 2;
-                    //std::cout << e1 << " " << e1->position().x << " " << e1->position().y << " " << oldTrans.position().x << " " << oldTrans.position().y << std::endl;
+                    std::cout << e1 << " " << e1->position().x << " " << e1->position().y << " " << oldTrans.position().x << " " << oldTrans.position().y << std::endl;
 
                     if(e1->physics().velocity().x < 0.5 &&
                             e1->physics().velocity().x > -0.5)
@@ -185,15 +174,12 @@ namespace EUSDAB
                         // Collision treatment
                         if (h1 == Hitbox::Attack && h2 == Hitbox::Defense)
                         {
-                            if(_playerList.find(e2) != _playerList.end())
-                            {
-                                // Attaque
-                                _input.pushEvent(e1, Event(Event::Attack));
-                                _input.pushEvent(e2, Event(Event::Damage));
-                                e1->attack(e2);
+                            // Attaque
+                            _input.pushEvent(e1, Event(Event::Attack));
+                            _input.pushEvent(e2, Event(Event::Damage));
+                            e1->attack(e2);
 
-                                flag |= Hitbox::Attack;
-                            }
+                            flag |= Hitbox::Attack;
                         }
                         else if (h1 == Hitbox::Foot && h2 == Hitbox::Defense)
                         {
