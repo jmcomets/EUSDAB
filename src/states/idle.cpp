@@ -55,7 +55,7 @@ namespace EUSDAB
         void Idle::onRight(const Event & e)
         {
             State::onRight(e);
-            
+
             if (e.edge == Event::RisingEdge)
             {
                 if (e.ratio > Constants::OnRunRatio)
@@ -68,7 +68,7 @@ namespace EUSDAB
                 }
             }
         }
-        
+
         void Idle::onA(const Event & e)
         {
             State::onA(e);
@@ -88,7 +88,7 @@ namespace EUSDAB
                 }
             }
         }
-        
+
         void Idle::onB(const Event & e)
         {
             State::onB(e);
@@ -112,10 +112,10 @@ namespace EUSDAB
             //_transform.velocity().x /= _sliding_ratio;
             //if (std::abs(_transform.velocity().x) < sliding_min)
             //{
-                //_transform.velocity().x = static_cast<Unit>(0);
+            //_transform.velocity().x = static_cast<Unit>(0);
             /*}*/
         }
-        
+
         void Idle::setSlidingRatio(Physics::Unit value)
         {
             _sliding_ratio=value;

@@ -7,6 +7,7 @@
 #include <physics/controller.h>
 #include <graphics/controller.h>
 #include <entity.h>
+#include <SFML/Audio.hpp>
 
 namespace EUSDAB
 {
@@ -40,6 +41,8 @@ namespace EUSDAB
 
             // Graphics
             Graphics::Controller * _graphics;
+
+            sf::Music _music;
     };
 }
 
