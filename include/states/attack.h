@@ -41,6 +41,13 @@ namespace EUSDAB
                 void onEnter();
                 void onLeave();
                 
+                void setSlidingRatio(Physics::Unit);
+                
+                private:
+                
+                Physics::Unit _sliding_ratio;
+                
+                
         };
     }
 }
