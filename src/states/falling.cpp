@@ -71,6 +71,9 @@ namespace EUSDAB
 
             _animation->setPaused(false);
             
+            //FIXME
+            _speedY = 0;
+            _speedX = 1.;
             if(_mvt.flag() & Movement::Left)
                 _transform.velocity() = Physics::Vector2(-_speedX , _speedY);
             if(_mvt.flag() & Movement::Right)

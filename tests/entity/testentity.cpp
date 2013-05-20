@@ -37,7 +37,7 @@ std::vector<Entity *> players;
                 return static_cast<Physics::Unit>(v) 
                     / static_cast<Physics::Unit>(2);
             };
-            e->position() = Physics::Vector2(h(500), h(0));
+            e->position() = Physics::Vector2(h(500 + id * 500), h(0));
             std::cout << "Id " << id << std::endl;
             e->setName("Rickhard " + boost::lexical_cast<std::string>(id));
             id++;
