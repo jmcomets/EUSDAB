@@ -154,7 +154,7 @@ namespace EUSDAB
            }
                
            entity->life()->receiveDamage(attack->damage());
-           entity->_physics.velocity() = attack->direction();
+           entity->_physics.velocity() = Physics::Vector2(attack->direction());
         }
         else
         {
