@@ -10,7 +10,15 @@ namespace EUSDAB
         static constexpr float STICK_DEAD_ZONE_BOUNDARY = 33;
         static constexpr float TRIGGER_DEAD_ZONE_BOUNDARY = 75;
 
-        void JoystickMapping::pushEvent(const sf::Event & e)
+        JoystickMapping::~JoystickMapping()
+        {
+            for(auto it : _mappings)
+            {
+                delete it;
+            }
+        }
+
+        void JoystickMapping::pushEvent(sf::Event const & e)
         {
             // Store current joystick id
             int id = e.joystickButton.joystickId;
@@ -28,22 +36,22 @@ namespace EUSDAB
 
             // Check assertions
             assert(0 <= id);
-            assert(static_cast<std::size_t>(id) < _axisMapping.size());
-            assert(static_cast<std::size_t>(id) < _btnMapping.size());
+            assert(static_cast<std::size_t>(id) < _mappings.size());
+            assert(static_cast<std::size_t>(id) < _mappings.size());
 
             if (e.type == sf::Event::JoystickMoved)
             {
-                const sf::Joystick::Axis & sfAxis = e.joystickMove.axis;
+                sf::Joystick::Axis const & sfAxis = e.joystickMove.axis;
                 float joystickPos = sf::Joystick::getAxisPosition(id, sfAxis);
                 Axis axis = sfAxisToAxis(sfAxis, joystickPos);
-                auto it = _axisMapping[id].second.find(axis);
-                if (it != _axisMapping[id].second.end())
+                auto it = _mappings[id]->axisMapping.find(axis);
+                if (it != _mappings[id]->axisMapping.end())
                 {
                     if (isInDeadZone(axis, joystickPos))
                     {
                         // Push as FallingEdge event
                         Event event(it->second, Event::Full, Event::FallingEdge);
-                        _axisMapping[id].first->push(event);
+                        _mappings[id]->player->push(event);
                     }
                     else
                     {
@@ -53,7 +61,7 @@ namespace EUSDAB
 
                         // Push as RisingEdge event
                         Event event(it->second, r(std::abs(joystickPos)) / r(100));
-                        _axisMapping[id].first->push(event);
+                        _mappings[id]->player->push(event);
                     }
                 }
                 else if (axis == Axis::None)
@@ -63,20 +71,21 @@ namespace EUSDAB
             }
             else if (e.type == sf::Event::JoystickButtonPressed)
             {
-                auto it = _btnMapping[id].second.find(e.joystickButton.button);
-                if (it != _btnMapping[id].second.end())
+                auto it = _mappings[id]->btnMapping.find(e.joystickButton.button);
+                if (it != _mappings[id]->btnMapping.end())
                 {
                     Event event(it->second, Event::Full, Event::RisingEdge);
-                    _btnMapping[id].first->push(event);
+                    _mappings[id]->player->push(event);
                 }
+                               
             }
             else if (e.type == sf::Event::JoystickButtonReleased)
             {
-                auto it = _btnMapping[id].second.find(e.joystickButton.button);
-                if (it != _btnMapping[id].second.end())
+                auto it = _mappings[id]->btnMapping.find(e.joystickButton.button);
+                if (it != _mappings[id]->btnMapping.end())
                 {
                     Event event(it->second, Event::Full, Event::FallingEdge);
-                    _btnMapping[id].first->push(event);
+                    _mappings[id]->player->push(event);
                 }
             }
         }
@@ -85,16 +94,16 @@ namespace EUSDAB
         {
             for (unsigned int i = 0; i < _playerList.size(); ++i)
             {
-                for (auto p : _btnMapping[i].second)
+                for (auto p : _mappings[i]->btnMapping)
                 {
                     if (sf::Joystick::isButtonPressed(i, p.first))
                     {
                         Event event(p.second, Event::Full, Event::ContinuousEdge);
-                        _btnMapping[i].first->push(event);
+                        _mappings[i]->player->push(event);
                     }
                 }
 
-                for (auto p : _axisMapping[i].second)
+                for (auto p : _mappings[i]->axisMapping)
                 {
                     if (sf::Joystick::isConnected(i) == false) { continue; }
 
@@ -103,7 +112,7 @@ namespace EUSDAB
                     if (!isInDeadZone(p.first, pos))
                     {
                         Event event(p.second, Event::Full, Event::ContinuousEdge);
-                        _axisMapping[i].first->push(event);
+                        _mappings[i]->player->push(event);
                     }
                 }
             }
@@ -113,36 +122,34 @@ namespace EUSDAB
         {
             for (unsigned int i = 0; i < _playerList.size(); i++)
             {
-                _btnMapping.emplace_back(_playerList[i],
-                        std::map<int, Event::Id>());
 
-                _btnMapping[i].second[Button::A] = Event::A;
-                _btnMapping[i].second[Button::B] = Event::B;
-                _btnMapping[i].second[Button::X] = Event::X;
-                _btnMapping[i].second[Button::Y] = Event::Y;
-                _btnMapping[i].second[Button::Start] = Event::Ground;
+                _mappings.push_back(new PlayerMapping);
+                _mappings[i]->player = _playerList[i];
 
-                _axisMapping.emplace_back(_playerList[i], 
-                        std::map<Axis, Event::Id>());
+                _mappings[i]->btnMapping[Button::A] = Event::A;
+                _mappings[i]->btnMapping[Button::B] = Event::B;
+                _mappings[i]->btnMapping[Button::X] = Event::X;
+                _mappings[i]->btnMapping[Button::Y] = Event::Up;
+                _mappings[i]->btnMapping[Button::Start] = Event::Ground;
 
-                _axisMapping[i].second[Axis::LStickUp]      = Event::Up;
-                _axisMapping[i].second[Axis::LStickDown]    = Event::Down;
-                _axisMapping[i].second[Axis::LStickLeft]    = Event::Left;
-                _axisMapping[i].second[Axis::LStickRight]   = Event::Right;
-                //_axisMapping[i].second[Axis::RStickUp]    = Event::Up;
-                //_axisMapping[i].second[Axis::RStickDown]  = Event::Down;
-                //_axisMapping[i].second[Axis::RStickLeft]  = Event::Left;
-                //_axisMapping[i].second[Axis::RStickRight] = Event::Right;
-                //_axisMapping[i].second[Axis::DPadUp]      = Event::Up;
-                //_axisMapping[i].second[Axis::DPadDown]    = Event::Down;
-                //_axisMapping[i].second[Axis::DPadLeft]    = Event::Left;
-                //_axisMapping[i].second[Axis::DPadRight]   = Event::Right;
-                _axisMapping[i].second[Axis::LTrigger]      = Event::Trigger;
-                _axisMapping[i].second[Axis::RTrigger]      = Event::Trigger;
+                _mappings[i]->axisMapping[Axis::LStickUp]      = Event::Up;
+                _mappings[i]->axisMapping[Axis::LStickDown]    = Event::Down;
+                _mappings[i]->axisMapping[Axis::LStickLeft]    = Event::Left;
+                _mappings[i]->axisMapping[Axis::LStickRight]   = Event::Right;
+                //_mappings[i]->axisMapping[Axis::RStickUp]    = Event::Up;
+                //_mappings[i]->axisMapping[Axis::RStickDown]  = Event::Down;
+                //_mappings[i]->axisMapping[Axis::RStickLeft]  = Event::Left;
+                //_mappings[i]->axisMapping[Axis::RStickRight] = Event::Right;
+                //_mappings[i]->axisMapping[Axis::DPadUp]      = Event::Up;
+                //_mappings[i]->axisMapping[Axis::DPadDown]    = Event::Down;
+                //_mappings[i]->axisMapping[Axis::DPadLeft]    = Event::Left;
+                //_mappings[i]->axisMapping[Axis::DPadRight]   = Event::Right;
+                _mappings[i]->axisMapping[Axis::LTrigger]      = Event::Trigger;
+                _mappings[i]->axisMapping[Axis::RTrigger]      = Event::Trigger;
             }
         }
 
-        JoystickMapping::Axis JoystickMapping::sfAxisToAxis(const sf::Joystick::Axis & axis, float pos)
+        JoystickMapping::Axis JoystickMapping::sfAxisToAxis(sf::Joystick::Axis const & axis, float pos)
         {
             switch (axis)
             {
@@ -176,7 +183,7 @@ namespace EUSDAB
         }
 
         sf::Joystick::Axis
-            JoystickMapping::axisToSfAxis(const JoystickMapping::Axis & axis)
+            JoystickMapping::axisToSfAxis(JoystickMapping::Axis const & axis)
         {
             switch (axis)
             {
@@ -193,7 +200,7 @@ namespace EUSDAB
             }
         }
 
-        bool JoystickMapping::isInDeadZone(const Axis & axis, float pos)
+        bool JoystickMapping::isInDeadZone(Axis const & axis, float pos)
         {
             switch (axis)
             {

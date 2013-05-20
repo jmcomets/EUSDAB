@@ -23,12 +23,18 @@ namespace EUSDAB
             State(const Movement & = Movement(), Entity * = nullptr, 
                     Animation * = nullptr);
             virtual ~State();
-
+            
+            
             // Helper for subclasses
             void switchState(Movement const &);
             // ...shortcut version
             void switchState(Movement::Flag const &);
-
+            
+            //same as switchstate without the onEnter
+            void onChangeSide(Movement const &);
+            // ...shortcut version
+            void onChangeSide(Movement::Flag const &);
+            
             // Get/Set the state's movement
             Movement movement() const;
             void setMovement(const Movement &);
@@ -49,11 +55,18 @@ namespace EUSDAB
             Animation * animation() const;
             void setAnimation(Animation *);
 
+            // Get/Set the attack 
+            Attack * attack() const;
+            void setAttack(Attack *);
+
             // onNextFrame -> advance Animation
             virtual void onNextFrame();
 
             // onEnter -> used to reset animation at the start of a state
             virtual void onEnter();
+            
+            
+        
 
             // onAnimationEnd -> fired when animation ends
             virtual void onAnimationEnd();
@@ -71,8 +84,11 @@ namespace EUSDAB
             // Animation (graphics/physics)
             Animation * _animation;
 
-            // Trasnformation
+            // Transformation
             Transform _transform;
+
+            //Attack
+            Attack * _attack;
     };
 }
 

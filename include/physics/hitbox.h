@@ -26,13 +26,15 @@ namespace EUSDAB
 
                 // Hitbox semantic, type must be minimized
                 //   to hold all semantic values (allowing hash).
-                enum Semantic: unsigned char
+                typedef unsigned char Semantic_type;
+                enum Semantic: Semantic_type
                 {
-                    Attack   = 1 << 0,
-                    Defense  = 1 << 1,
-                    Foot     = 1 << 2,
-                    Grab     = 1 << 3,
-                    Grabable = 1 << 4
+                    Nothing  = 1 << 0,
+                    Attack   = 1 << 1,
+                    Defense  = 1 << 2,
+                    Foot     = 1 << 3,
+                    Grab     = 1 << 4,
+                    Grabable = 1 << 5
                 };
 
                 // Default constructor, setting hitbox semantic

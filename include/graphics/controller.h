@@ -39,7 +39,13 @@ namespace EUSDAB
                     ZPF zpf;
                 } camera;
 
-                Controller(sf::RenderTarget &);
+                template <typename InputIter>
+                    Controller(sf::RenderTarget & target,
+                            InputIter begin, InputIter end):
+                        _target(target), _entityList(),
+                            _playerList(begin, end)
+                {
+                }
 
                 // Draw the Controller to its currently set target
                 void draw();
@@ -61,8 +67,25 @@ namespace EUSDAB
                 void removeEntity(Entity * entity);
 
             private:
+                struct CompareByZIndex
+                {
+                    bool operator()(Entity * lhs, Entity * rhs) const
+                    {
+                        return lhs->zIndex() < rhs->zIndex();
+                    }
+                };
+
+                // Entity list
+                typedef std::multiset<Entity *, CompareByZIndex> EntityList;
+
+                // Rendering target
                 sf::RenderTarget & _target;
-                std::set<Entity *> _entities;
+
+                // List of entities
+                EntityList _entityList;
+
+                // List of players
+                EntityList _playerList;
         };
     }
 }

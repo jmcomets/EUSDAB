@@ -8,8 +8,12 @@ namespace EUSDAB
             Entity * entity, Animation * anim):
         _mvt(mvt), _entity(entity),
         _animation(anim),
-        _transform()
+        _transform(),
+        //FIXME
+        _attack(new Attack())
     {
+        _attack->setDamage(42);
+        _attack->setDirection(10, 10);
     }
 
     State::~State()
@@ -41,6 +45,21 @@ namespace EUSDAB
     void State::switchState(Movement::Flag const & f)
     {
         switchState(Movement(f));
+    }
+    
+    void State::onChangeSide(const Movement & mvt)
+    {
+        State * s = _entity->state(mvt);
+        if (s == nullptr)
+        {
+            throw std::runtime_error("Undefined State");
+        }
+        _entity->setState(s);
+    }
+    
+    void State::onChangeSide(Movement::Flag const & f)
+    {
+        onChangeSide(Movement(f));
     }
 
     Movement State::movement() const
@@ -81,6 +100,16 @@ namespace EUSDAB
     void State::setAnimation(Animation * a)
     {
         _animation = a;
+    }
+
+    Attack * State::attack() const
+    {
+        return _attack;
+    }
+
+    void State::setAttack(Attack * attack)
+    {
+        _attack = attack;
     }
 
     void State::onNextFrame()

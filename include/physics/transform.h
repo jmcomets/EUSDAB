@@ -11,7 +11,7 @@ namespace EUSDAB
         {
             public:
                 Transform(Transform &&) = delete;
-                Transform(Transform const &) = delete;
+                Transform(Transform const &) = default;
                 Transform & operator=(Transform const &) = default;
 
                 Transform(Vector2 const & pos = Vector2(),
@@ -29,7 +29,11 @@ namespace EUSDAB
                 Vector2 & acceleration();
 
                 void apply(Transform const &);
+                void applyX(Transform const &);
+                void applyY(Transform const &);
 
+                void updateX();
+                void updateY();
                 void update();
 
             private:

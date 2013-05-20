@@ -1,22 +1,33 @@
 #include <entityparser.h>
+#include <cassert>
 #include <istream>
 #include <stdexcept>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <entitywithmask.h>
 #include <states/all.h>
+#include <util/filename.h>
+#include <iostream>
 
 using namespace boost::property_tree;
 
 namespace EUSDAB
 {
+    using namespace Util;
+
+    EntityParser::EntityParser(const std::string & baseDirectory):
+        _baseDirectory(Filename::clean(baseDirectory)), _animationParsers()
+    {
+    }
+
     // Concepts:
     //  - entityDir is a valid path to the Entity's directory,
-    //      and contains no trailing slashes
-    Entity * EntityParser::loadEntity(const std::string & entityDir) const
+    //      relative to base directory, and contains no trailing slashes
+    Entity * EntityParser::loadEntity(const std::string & entityDir)
     {
         Entity * entity = nullptr;
-        std::string entityFilename(entityDir + "/entity.json");
+        std::string absEntityDir = Filename::join(_baseDirectory, entityDir, "entity.json");
+        std::string entityFilename(absEntityDir);
         std::ifstream entityFile(entityFilename.c_str());
         if (entityFile.good())
         {
@@ -28,10 +39,13 @@ namespace EUSDAB
     // Concepts:
     //  - is is a "good" std::istream
     //  - entityDir is a valid path to the Entity's directory,
-    //      and contains no trailing slashes
+    //      relative to base directory, and contains no trailing slashes
     Entity * EntityParser::readEntity(std::istream & is,
-            const std::string & entityDir) const
+            const std::string & entityDir)
     {
+        // Concept check
+        assert(is.good());
+
         // Boost's magic
         ptree entityPt;
         try
@@ -40,8 +54,7 @@ namespace EUSDAB
         }
         catch (ptree_error)
         {
-            std::cout << entityDir << std::endl;
-            std::cerr << "Entity JSON file invalid" << std::endl;
+            std::cerr << "Entity " << entityDir << " JSON file invalid" << std::endl;
             return nullptr;
         }
 
@@ -72,6 +85,11 @@ namespace EUSDAB
 
         // Entity's start state
         const std::string & entityStartStateId = entityPt.get<std::string>("start");
+
+        // Entity's own animation parser
+        std::string animDir(Filename::join(_baseDirectory, entityDir, "animations"));
+        AnimationParser & animParser = _animationParsers.insert(
+                std::make_pair(animDir, AnimationParser(animDir))).first->second;
 
         // Entity's states
         const ptree & stateNodes = entityPt.get_child("states");
@@ -136,11 +154,12 @@ namespace EUSDAB
 
                     // Animation file (physics/hitbox)
                     const std::string & animName = statePt.get<std::string>("animation");
-                    Animation * animation = _animParser.loadAnimation(entityDir + "/animations/" + animName);
+                    Animation * animation = animParser.loadAnimation(animName);
                     if (animation == nullptr)
                     {
-                        throw std::runtime_error("`" + entityDir + "/animations/"
-                                + animName + "` Entity's animation wasn't loaded");
+                        throw std::runtime_error("`" + Filename::join("/",
+                                    animParser.baseDirectory(), animName)
+                                + "` Entity's animation wasn't loaded");
                     }
                     state->setAnimation(animation);
 
@@ -175,5 +194,10 @@ namespace EUSDAB
             throw;
         }
         return entity;
+    }
+
+    std::string EntityParser::baseDirectory() const
+    {
+        return _baseDirectory;
     }
 }

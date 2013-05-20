@@ -8,11 +8,14 @@ namespace EUSDAB
     Entity::Entity():
         Input::Speaker(),
         _name(),
-        _attack(nullptr),
         _physics(),
         _gravitable(true),
         _current(nullptr),
-        _states()
+        _states(),
+        _life(),
+        _nbrJumpMax(2),
+        _nbrJumpLeft(2),        
+        _zIndex(0)
     {
     }
 
@@ -91,6 +94,20 @@ namespace EUSDAB
         return _physics;
     }
 
+    void Entity::setPhysicsX(Physics::Transform const & tr)
+    {
+        _physics.position().x = tr.position().x;
+        _physics.velocity().x = tr.velocity().x;
+        _physics.acceleration().x = tr.acceleration().x;
+    }
+
+    void Entity::setPhysicsY(Physics::Transform const & tr)
+    {
+        _physics.position().y = tr.position().y;
+        _physics.velocity().y = tr.velocity().y;
+        _physics.acceleration().y = tr.acceleration().y;
+    }
+
     bool Entity::gravitable() const
     {
         return _gravitable;
@@ -100,4 +117,78 @@ namespace EUSDAB
     {
         return _gravitable;
     }
+
+    void Entity::setLife(Life * life)
+    {
+        _life = life;
+    }
+
+    Life * Entity::life() const
+    {
+        return _life;
+    }
+
+    void Entity::setZIndex(ZIndex const & zIndex)
+    {
+        _zIndex = zIndex;
+    }
+
+    ZIndex const & Entity::zIndex() const
+    {
+        return _zIndex;
+    }
+
+    void Entity::attack(Entity * entity)
+    {
+        assert(entity != nullptr);
+        assert(_current != nullptr);
+        assert(entity->life() != nullptr);
+
+        Attack * attack = _current->attack();
+
+        if(attack != nullptr)
+        {
+           if(entity->life() == nullptr)
+           {
+               std::cerr << "Life is null" << std::endl;
+           }
+               
+           entity->life()->receiveDamage(attack->damage());
+           entity->_physics.velocity() = attack->direction();
+        }
+        else
+        {
+            std::cerr << "You fail to attack.. Loser." << std::endl;
+        }
+    }
+    
+    bool Entity::canJump()
+    {
+        return _nbrJumpLeft > 0;
+    }
+    
+    Entity::NbJumps Entity::nbrJump()
+    {
+        return _nbrJumpLeft;
+    }
+    Entity::NbJumps Entity::nbrJumpMax()
+    {
+        return _nbrJumpMax;
+    }
+    
+    void Entity::setNbrJump(Entity::NbJumps nbr)
+    {
+        _nbrJumpLeft = nbr;
+    }
+    
+    bool Entity::jumpPossible()
+    {
+        return _jumpPossible;
+    }
+            
+    void Entity::setJumpPossible(bool value)
+    {
+        _jumpPossible = value;
+    }
 }
+

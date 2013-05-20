@@ -20,17 +20,12 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (_mvt.flag() & Movement::Left)
+                if (e.edge == Event::RisingEdge)
                 {
-                    switchState(Movement::Jump | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Jump | Movement::Right);
-                }
-                else
-                {
-                    switchState(Movement::Jump | Movement::Left);
+                    if (entity()->canJump()&&entity()->jumpPossible())
+                    {
+                        switchState(Movement::Jump | _mvt.direction());
+                    }
                 }
             }
         }

@@ -49,6 +49,30 @@ namespace EUSDAB
             _vel += t._acc;
         }
 
+        void Transform::applyX(Transform const & t)
+        {
+            _pos.x += t._vel.x;
+            _vel.x += t._acc.x;
+        }
+
+        void Transform::applyY(Transform const & t)
+        {
+            _pos.y += t._vel.y;
+            _vel.y += t._acc.y;
+        }
+
+        void Transform::updateX()
+        {
+            _vel.x += _acc.x;
+            _pos.x += _vel.x;
+        }
+
+        void Transform::updateY()
+        {
+            _vel.y += _acc.y;
+            _pos.y += _vel.y;
+        }
+
         void Transform::update()
         {
             _vel += _acc;

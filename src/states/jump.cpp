@@ -17,6 +17,13 @@ namespace EUSDAB
         void Jump::onUp(const Event & e)
         {
             State::onUp(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if (entity()->canJump()&&entity()->jumpPossible())
+                {
+                    switchState(Movement::Jump | _mvt.direction());
+                }
+            }
         }
 
         void Jump::onDown(const Event & e)
@@ -25,6 +32,7 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge)
             {
                 switchState(Movement::Falling | _mvt.direction());
+                entity()->setJumpPossible(true);
             }
         }
 
@@ -34,6 +42,8 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge)
             {
                 switchState(Movement::Idle | _mvt.direction());
+                entity()->setJumpPossible(true);
+                entity()->setNbrJump(entity()->nbrJumpMax());
             }
         }
 
@@ -43,7 +53,7 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Jump | Movement::Left);
+                onChangeSide(Movement::Jump | Movement::Left);
                 setNextStateAnimationFrameToCurrentFrame();
             }
             else
@@ -58,7 +68,7 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                switchState(Movement::Jump | Movement::Right);
+                onChangeSide(Movement::Jump | Movement::Right);
                 setNextStateAnimationFrameToCurrentFrame();
             }
             else
@@ -70,13 +80,36 @@ namespace EUSDAB
         void Jump::onNextFrame()
         {
             State::onNextFrame();
+
+            // Shorten code !
+            using Physics::Unit;
+
+            if (_transform.velocity().y < 0)
+            {
+                switchState(Movement::Falling | _mvt.direction());
+                entity()->setJumpPossible(true);
+            }
+            
+            if (_transform.velocity().y < _jumpValue / 2)
+            {
+                _entity->setJumpPossible(true);
+            }
         }
+        
+       
         
         void Jump::onEnter()
         {
             // TODO add vertical impulse
+
             _animation->setPaused(false);
+            _entity->setJumpPossible(false);
+            _entity->setNbrJump(entity()->nbrJump()-1);
+            
+            _transform.velocity().y = 4;
         }
+        
+        
 
         void Jump::onAnimationEnd()
         {
@@ -93,6 +126,17 @@ namespace EUSDAB
             Animation * a = s->animation();
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
+        }
+        
+        void Jump::onMiddleOfJump()
+        {
+        
+        }
+        
+        
+        void Jump::onJumpEnd()
+        {
+        
         }
     }
 }
