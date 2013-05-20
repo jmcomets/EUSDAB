@@ -81,6 +81,9 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
+            //FIXME
+            _speedY = 4;
+            _speedX = 1.;
             // Shorten code !
             using Physics::Unit;
 
