@@ -102,18 +102,18 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
-            // Shorten code !
-            using Physics::Unit;
+            //// Shorten code !
+            //using Physics::Unit;
 
-            // Sliding config
-            constexpr Unit sliding_min = static_cast<Unit>(0.01);
+            //// Sliding config
+            //constexpr Unit sliding_min = static_cast<Unit>(0.01);
 
-            // Sliding code
-            _transform.velocity().x /= _sliding_ratio;
-            if (std::abs(_transform.velocity().x) < sliding_min)
-            {
-                _transform.velocity().x = static_cast<Unit>(0);
-            }
+            //// Sliding code
+            //_transform.velocity().x /= _sliding_ratio;
+            //if (std::abs(_transform.velocity().x) < sliding_min)
+            //{
+                //_transform.velocity().x = static_cast<Unit>(0);
+            /*}*/
         }
         
         void Idle::setSlidingRatio(Physics::Unit value)

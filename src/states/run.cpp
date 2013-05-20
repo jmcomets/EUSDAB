@@ -151,11 +151,15 @@ namespace EUSDAB
         {
             State::onEnter();
 
-            if(_mvt.flag() & Movement::Left)
+            if (_mvt.flag() & Movement::Left)
+            {
                 _transform.velocity() = _velocity;
-                _transform.velocity().x*=-1;
-            if(_mvt.flag() & Movement::Right)
+                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+            }
+            else if (_mvt.flag() & Movement::Right)
+            {
                 _transform.velocity() = _velocity;
+            }
         }
         
         void Run::setVelocity(const  Physics::Vector2 & value)

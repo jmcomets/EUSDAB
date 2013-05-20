@@ -124,6 +124,13 @@
         }, 
         {
             "animation": "sideA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": -10, 
+                    "y": 0
+                }
+            }, 
             "movement": {
                 "action": [
                     "attack"
@@ -136,6 +143,13 @@
         }, 
         {
             "animation": "sideA_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
             "movement": {
                 "action": [
                     "attack"
@@ -148,6 +162,13 @@
         }, 
         {
             "animation": "sideB_left", 
+            "attack": {
+                "damage": 15, 
+                "direction": {
+                    "x": -20, 
+                    "y": -2
+                }
+            }, 
             "movement": {
                 "action": [
                     "special"
@@ -160,6 +181,13 @@
         }, 
         {
             "animation": "sideB_right", 
+            "attack": {
+                "damage": 15, 
+                "direction": {
+                    "x": 20, 
+                    "y": -2
+                }
+            }, 
             "movement": {
                 "action": [
                     "special"
@@ -172,9 +200,16 @@
         }, 
         {
             "animation": "vomit_right", 
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": 5, 
+                    "y": 2
+                }
+            }, 
             "movement": {
                 "action": [
-                    "special",
+                    "special", 
                     "idle"
                 ], 
                 "direction": [
@@ -185,9 +220,16 @@
         }, 
         {
             "animation": "vomit_left", 
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": -5, 
+                    "y": 2
+                }
+            }, 
             "movement": {
                 "action": [
-                    "special",
+                    "special", 
                     "idle"
                 ], 
                 "direction": [

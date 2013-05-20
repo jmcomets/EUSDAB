@@ -81,6 +81,7 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
+            //FIXME
             // Shorten code !
             using Physics::Unit;
 
@@ -107,10 +108,14 @@ namespace EUSDAB
             _entity->setNbrJump(entity()->nbrJump()-1);
             
             if(_mvt.flag() & Movement::Left)
+            {
                 _transform.velocity() = _velocity;
-                _transform.velocity().x*=-1;
+                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+            }
             if(_mvt.flag() & Movement::Right)
+            {
                 _transform.velocity() = _velocity;
+            }
         }
         
         void Jump::onChangeSide(const Movement & mvt)
@@ -119,12 +124,16 @@ namespace EUSDAB
              State * s = _entity->state();
              
             if(_mvt.flag() & Movement::Left)
+            {
                 s->transformation().velocity() = _velocity;
-                s->transformation().velocity().x*=-1;
+                s->transformation().velocity().x *= static_cast<Physics::Unit>(-1);
                 s->transformation().velocity().y=_transform.velocity().y;
+            }
             if(_mvt.flag() & Movement::Right)
+            {
                 s->transformation().velocity() = _velocity;
                 s->transformation().velocity().y=_transform.velocity().y;
+            }
                 
         }
         

@@ -54,7 +54,6 @@ namespace EUSDAB
                     }
                 }
 
-
                 // Update collision and send signals to entity
                 // Must be called only once per frame
                 void update();

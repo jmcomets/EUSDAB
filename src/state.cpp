@@ -19,6 +19,7 @@ namespace EUSDAB
     State::~State()
     {
         delete _animation;
+        delete _attack;
     }
 
     Entity * State::entity() const
