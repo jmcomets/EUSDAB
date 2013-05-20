@@ -61,6 +61,13 @@ namespace EUSDAB
         // Entity to construct
         Entity * entity = nullptr;
 
+        // Helper for parsing Physics::Vector2
+        static auto parseVector2 = [] (const ptree & pt)
+        {
+            using namespace Physics;
+            return Vector2(pt.get<Unit>("x"), pt.get<Unit>("y"));
+        };
+
         // Entity polymorphism
         try
         {
@@ -76,9 +83,7 @@ namespace EUSDAB
                     using Graphics::TextureManager;
                     TextureManager::TexturePtr tx = TextureManager::loadTexture(txFile);
                     using namespace Physics;
-                    m->addAnimatedBackground(tx,
-                            Vector2(bgPt.get<Unit>("velocity.x"),
-                                bgPt.get<Unit>("velocity.y")));
+                    m->addAnimatedBackground(tx, parseVector2(bgPt.get_child("velocity")));
                 }
                 entity = m;
             }
@@ -122,13 +127,53 @@ namespace EUSDAB
                     // TODO finish
                     const std::string & stateId = statePt.get<std::string>("type");
                     {
-                        using namespace States;
-                        if (stateId == "idle") { state = new States::Idle(); }
-                        else if (stateId == "walk") { state = new States::Walk(); }
-                        else if (stateId == "run") { state = new States::Run(); }
-                        else if (stateId == "jump") { state = new States::Jump(); }
-                        else if (stateId == "falling") { state = new States::Falling();}
-                        else if (stateId == "attack") { state = new States::Attack();}
+                        if (stateId == "idle" || stateId == "attack")
+                        {
+                            using Physics::Unit;
+                            Unit slidingRatio = statePt.get<Unit>("sliding_ratio");
+                            if (stateId == "idle")
+                            {
+                                States::Idle * idleState = new States::Idle();
+                                idleState->setSlidingRatio(slidingRatio);
+                                state = idleState;
+                            }
+                            else
+                            {
+                                States::Attack * attackState = new States::Attack();
+                                attackState->setSlidingRatio(slidingRatio);
+                                state = attackState;
+                            }
+                        }
+                        else if (stateId == "walk" || stateId == "run"
+                                || stateId == "jump" || stateId == "falling")
+                        {
+                            using namespace Physics;
+                            Vector2 velocity = parseVector2(statePt.get_child("velocity"));
+                            if (stateId == "walk")
+                            {
+                                States::Walk * walkState = new States::Walk();
+                                walkState->setVelocity(velocity);
+                                state = walkState;
+                            }
+                            else if (stateId == "jump")
+                            {
+                                States::Jump * jumpState = new States::Jump();
+                                jumpState->setVelocity(velocity);
+                                state = jumpState;
+                            }
+                            else if (stateId == "falling")
+                            {
+                                States::Falling * fallingState = new States::Falling();
+                                fallingState->setVelocity(velocity);
+                                state = fallingState;
+                            }
+                            else
+                            {
+                                States::Run * runState = new States::Run();
+                                runState->setVelocity(velocity);
+                                state = runState;
+                            }
+                        }
                         else if (stateId == "special") { state = new States::Special();}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
