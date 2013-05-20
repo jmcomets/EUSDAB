@@ -1,7 +1,7 @@
 {
-    "background": [
+    "backgrounds": [
         {
-            "texture": "foo.png", 
+            "texture": "fondCanyon.png", 
             "velocity": {
                 "x": 10, 
                 "y": 0

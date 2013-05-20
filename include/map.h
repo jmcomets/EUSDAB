@@ -1,7 +1,7 @@
 #ifndef MAP_H_
 #define MAP_H_
 
-#include <list>
+#include <vector>
 #include <entity.h>
 #include <graphics/texturemanager.h>
 #include <SFML/Graphics/Sprite.hpp>
@@ -23,8 +23,12 @@ namespace EUSDAB
             // Add animated background to the map
             void addAnimatedBackground(TexturePtr, const Physics::Vector2 &);
 
+            typedef std::vector<sf::Sprite> SpriteList;
+
+            SpriteList getSprites();
+
         private:
-            std::list<std::pair<sf::Sprite, Physics::Vector2>> _animatedBackgroundList;
+            std::vector<std::pair<sf::Sprite, Physics::Vector2>> _animatedBackgroundList;
     };
 }
 

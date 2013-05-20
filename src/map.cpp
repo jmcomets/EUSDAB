@@ -23,6 +23,18 @@ namespace EUSDAB
     void Map::addAnimatedBackground(Map::TexturePtr tx,
             const Physics::Vector2 & v)
     {
-        _animatedBackgroundList.push_back(std::make_pair(sf::Sprite(*tx), v));
+        assert(tx != nullptr);
+        _animatedBackgroundList.emplace_back(sf::Sprite(*tx), v);
     }
+
+    Map::SpriteList Map::getSprites()
+    {
+        SpriteList sprites;
+        for (auto p : _animatedBackgroundList)
+        {
+            sprites.emplace_back(p.first);
+        }
+        return sprites;
+    }
+
 }

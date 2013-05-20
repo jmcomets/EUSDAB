@@ -2,6 +2,7 @@
 #include <state.h>
 #include <animation.h>
 #include <SFML/Graphics.hpp>
+#include <map.h>
 
 namespace EUSDAB
 {
@@ -86,6 +87,17 @@ namespace EUSDAB
                 drawSpriteAt(a->sprite(), p);
                 doHitboxes(a, p);
                 doHitbox(e->hitbox(), p);
+                Map * map = dynamic_cast<Map *>(e);
+                if (map == nullptr)
+                { 
+                    std::cerr << "map " << e << " is null" << std::endl;
+                    continue;
+                }
+
+                for (sf::Sprite & s : map->getSprites())
+                {
+                    _target.draw(s);
+                }
             }
 
             // Barycenter of the entities
