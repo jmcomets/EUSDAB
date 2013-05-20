@@ -119,7 +119,7 @@ std::vector<Entity *> players;
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
-        Application(window), _entityList()
+        Application(window), _entityList(), _music()
     {
         // Map
         _entityList.push_back(makeMapEntity(window));
@@ -146,6 +146,12 @@ std::vector<Entity *> players;
         _graphics = new Graphics::Controller(_window,
                 playersBegin, _entityList.end(), world);
         _graphics->addEntity(_entityList.begin(), playersBegin);
+
+        if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
+            throw std::runtime_error("Map's music wasn't loaded");
+        _music.setLoop(true);
+        _music.play();
+
     }
 
     EntityTest::~EntityTest()
