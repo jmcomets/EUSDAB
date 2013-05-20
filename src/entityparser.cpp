@@ -127,7 +127,11 @@ namespace EUSDAB
                     // TODO finish
                     const std::string & stateId = statePt.get<std::string>("type");
                     {
-                        if (stateId == "idle" || stateId == "attack")
+                        if (stateId == "base")
+                        {
+                            state = new State();
+                        }
+                        else if (stateId == "idle" || stateId == "attack")
                         {
                             using Physics::Unit;
                             Unit slidingRatio = statePt.get<Unit>("sliding_ratio");
