@@ -60,7 +60,7 @@ namespace EUSDAB
             State::onDown(e);
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
-                //switchState(Movement::Crouch | _mvt.direction());
+                switchState(Movement::Crouch | _mvt.direction());
             }
         }
 

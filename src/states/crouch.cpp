@@ -22,19 +22,20 @@ namespace EUSDAB
         {
             State::onDown(e);
             
-                if (e.edge == Event::FallingEdge)
-                {
-                    switchState(Movement::Idle || _mvt.direction());
-                }
+            if (e.edge == Event::FallingEdge)
+            {
+                switchState(Movement::Idle || _mvt.direction());
+            }
             
         }
 
         void Crouch::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if ((e.edge == Event::RisingEdge)||(e.edge == Event::ContinuousEdge))
+            if ((e.edge == Event::RisingEdge))
             {
-                switchState(Movement::Crouch | Movement::Left);
+                onChangeSide(Movement::Crouch | Movement::Left);
+                setNextStateAnimationFrameToCurrentFrame();
             }
         }
 
@@ -43,13 +44,31 @@ namespace EUSDAB
             State::onRight(e);
             if (e.edge == Event::RisingEdge)
             {
-                switchState(Movement::Crouch | Movement::Right);
+                onChangeSide(Movement::Crouch | Movement::Right);
+                setNextStateAnimationFrameToCurrentFrame();
             }
         }
 
         void Crouch::onNextFrame()
         {
             State::onNextFrame();
+        }
+        
+        void Crouch::onAnimationEnd()
+        {
+            _animation->setPaused();
+            _animation->explicitAdvance(-1);
+        }
+        
+        void Crouch::setNextStateAnimationFrameToCurrentFrame() const
+        {
+            // Continue animation from current frame in next state
+            State * s = _entity->state();
+            if (s == nullptr) { return; }
+
+            Animation * a = s->animation();
+            if (a == nullptr) { return; }
+            a->setCurrentFrame(_animation->currentFrame());
         }
     }
 }
