@@ -32,6 +32,7 @@ namespace EUSDAB
             State::onDown(e);
             if (e.edge == Event::RisingEdge)
             {
+                std::cout << "Jump : onDown" << std::endl;
                 switchState(Movement::Falling | _mvt.direction());
                 entity()->setJumpPossible(true);
             }
@@ -56,6 +57,7 @@ namespace EUSDAB
         {
             State::onLeft(e);
 
+            std::cout << "Jump : onLeft" << std::endl;
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 onChangeSide(Movement::Jump | Movement::Left);
@@ -70,7 +72,7 @@ namespace EUSDAB
         void Jump::onRight(const Event & e)
         {
             State::onRight(e);
-
+            std::cout << "Jump : onRight" << std::endl;
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 onChangeSide(Movement::Jump | Movement::Right);
@@ -113,7 +115,7 @@ namespace EUSDAB
             // TODO add vertical impulse
 
             std::cout << "Jump : onEnter " << std::endl;
-            _velocity.y = 8;
+            _velocity.y = 12;
             _animation->setPaused(false);
             _entity->setJumpPossible(false);
             _entity->setNbrJump(entity()->nbrJump()-1);
