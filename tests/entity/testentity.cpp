@@ -117,7 +117,7 @@ std::vector<Entity *> players;
     Physics::World * makePhysicsWorld()
     {
         using namespace Physics;
-        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.1f));
+        return new World(AABB(0, 0, 600, 480), Vector2(0, 0.35f));
     }
 
     EntityTest::EntityTest(sf::RenderWindow & window):
