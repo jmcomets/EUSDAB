@@ -1,6 +1,7 @@
 #include <state.h>
 #include <entity.h>
 #include <stdexcept>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -171,6 +172,7 @@ namespace EUSDAB
 
         if(_soundBuffer != nullptr)
         {
+            std::cout << "Playing sound" << std::endl;
             sf::Sound s(*_soundBuffer);
             s.play();
         }
@@ -205,7 +207,7 @@ namespace EUSDAB
         {
             _entity->_verticalState = Entity::VerticalState::Middle;
         }
-        std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+        // std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onDown(Event const & e)
@@ -220,7 +222,7 @@ namespace EUSDAB
         {
             _entity->_verticalState = Entity::VerticalState::Middle;
         }
-        std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+        // std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onAnimationEnd()

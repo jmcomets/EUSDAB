@@ -4,6 +4,7 @@
     "states": [
         {
             "animation": "idle_right",
+            "sound": "test.ogg",
             "movement": {
                 "action": [
                     "idle"
