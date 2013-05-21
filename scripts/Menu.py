@@ -3,7 +3,11 @@
 
 import os
 import sys
+import subprocess
+import json
 from PySFML import sf
+
+_root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 _window_size = (1280, 720)
 _window = None
@@ -12,13 +16,15 @@ def get_window():
     if _window is None:
         _window = sf.RenderWindow(sf.VideoMode(*_window_size),
                 "EUSDAB", sf.Style.Close)
+        _window.SetFramerateLimit(30)
     return _window
 
 def get_window_size():
     w = get_window()
     return w.GetWidth(), w.GetHeight()
 
-_base_image_dir = os.path.join('assets', 'menu')
+_assets_dir = os.path.join(_root_dir, 'assets')
+_base_image_dir = os.path.join(_assets_dir, 'menu')
 _loaded_images = {}
 def load_image(filename):
     global _loaded_images
@@ -30,7 +36,7 @@ def load_image(filename):
         _loaded_images[filename] = img
     return _loaded_images[filename]
 
-_base_musics_dir = 'assets/audio/musics'
+_base_musics_dir = os.path.join(_assets_dir, 'audio', 'musics')
 _loaded_musics = {}
 def load_music(filename):
     global _loaded_musics
@@ -61,13 +67,11 @@ class CharacterFrame(sf.Drawable):
         w, h = frame_image.GetWidth(), frame_image.GetHeight()
         self.rect = sf.Shape.Rectangle(0, 0, w, h, sf.Color.White)
         self.rect.SetCenter(w / 2., h / 2.)
-        self.rect.EnableOutline(True)
+        self.rect.EnableOutline(False)
         self.rect.EnableFill(False)
         self.rect.SetOutlineWidth(1)
         window_size = get_window_size()
         self.rect.SetPosition(window_size[0] / 2., window_size[1] / 2.)
-        for i in xrange(self.rect.GetNbPoints()):
-            self.rect.SetPointOutlineColor(i, sf.Color.White)
 
     def Render(self, target):
         target.Draw(self.frame_sprite)
@@ -78,8 +82,12 @@ class CharacterFrame(sf.Drawable):
         self.rect.SetPosition(*args)
 
     def SetSelectColor(self, color):
+        self.rect.EnableOutline(True)
         for i in xrange(self.rect.GetNbPoints()):
             self.rect.SetPointOutlineColor(i, color)
+
+    def ResetSelectColor(self):
+        self.rect.EnableOutline(False)
 
 class CharacterPreview(sf.Drawable):
     def __init__(self, preview_image, name_image):
@@ -126,7 +134,14 @@ _interface_padding = (40, 10)
 
 _color_mapping = [sf.Color.Red, sf.Color.Blue, sf.Color.Yellow, sf.Color.Green]
 
-_characters = ["RickHard", "PedroPanda", "Charlie"]
+_characters = {
+        'RickHard' : 'rickhard',
+        'PedroPanda' : 'panda',
+        'Charlie' : 'poney'
+        }
+
+_entity_dir = os.path.join(_assets_dir, 'entities')
+_character_folders = _characters.values()
 
 class PlayersInterface(sf.Drawable):
     def __init__(self):
@@ -152,6 +167,7 @@ class PlayersInterface(sf.Drawable):
             cf.SetPosition(x, y)
 
         self.players = []
+        self.chosen = {}
         self.selections = range(_nbPlayers)
         for i in xrange(_nbPlayers):
             none_img = load_image('cadre_nop.png')
@@ -170,20 +186,76 @@ class PlayersInterface(sf.Drawable):
         for c in self.characters:
             target.Draw(c)
 
-    def MoveSelection(self, id_, delta):
-        self.characters[self.selections[id_]].SetSelectColor(sf.Color.White)
-        self.selections[id_] = (self.selections[id_] + int(delta)) % len(self.previews)
-        self.players[id_].Select(self.previews[self.selections[id_]])
-        self.characters[self.selections[id_]].SetSelectColor(_color_mapping[id_])
+    def GetSelected(self, id_):
+        return self.selections[id_]
 
+    def SetSelected(self, id_, s):
+        self.selections[id_] = s
+
+    def GetChosen(self, id_):
+        return self.chosen[id_]
+
+    def SetChosen(self, id_, s):
+        self.chosen[id_] = s
+
+    def SetNotChosen(self, id_):
+        if id_ in self.chosen:
+            del self.chosen[id_]
+
+    def HasChosen(self, id_):
+        return id_ in self.chosen
+
+    def MoveSelection(self, id_, delta):
+        if not self.HasChosen(id_):
+            s = self.GetSelected(id_)
+            self.characters[s].ResetSelectColor()
+            s = (s + int(delta)) % len(self.previews)
+            self.SetSelected(id_, s)
+            self.characters[s].SetSelectColor(_color_mapping[id_])
+
+    def ChooseSelection(self, id_):
+        s = self.GetSelected(id_)
+        self.characters[s].SetSelectColor(sf.Color.Green)
+        self.players[id_].Select(self.previews[s])
+        self.SetChosen(id_, s)
+
+    def UnChoose(self, id_):
+        if self.HasChosen(id_):
+            s = self.GetChosen(id_)
+            self.characters[s].SetSelectColor(_color_mapping[id_])
+            self.players[id_].UnSelect()
+            self.SetNotChosen(id_)
+
+    def GetPlayers(self):
+        return self.chosen
+
+_out_file = os.path.join(_entity_dir, 'entities.json')
+def save_players(player_dict):
+    final_dict = { key : _character_folders[value] \
+            for key, value in player_dict.iteritems() }
+    json.dump(final_dict, open(_out_file, 'w'))
+
+_exec_name = os.path.join(_root_dir, 'run.sh')
+_exec_params = ['entity']
+def play_game():
+    window = get_window()
+    window.Show(False)
+    subprocess.call([_exec_name] + _exec_params)
+    window.Show(True)
+
+_dead_zone_limit = 90
+_button_mapping = {
+        0 : 'choose',
+        1 : 'unchoose',
+        7 : 'start'
+        }
 if __name__ == '__main__':
     window = get_window()
     players_interface = PlayersInterface()
     bg_sprite = make_sprite('Background.png')
     banner_sprite = make_sprite('Banner.png')
     start_sprite = make_sprite('Start_Banner.png')
-    music = load_music('bazar.ogg')
-    music.Play()
+    #load_music('bazar.ogg').Play()
 
     while window.IsOpened():
         _input = window.GetInput()
@@ -195,9 +267,23 @@ if __name__ == '__main__':
                 id_ = event.JoyMove.JoystickId
                 if event.JoyMove.Axis == sf.Joy.AxisX:
                     val = event.JoyMove.Position
-                    if abs(val) >= 20:
+                    if abs(val) >= _dead_zone_limit:
                         delta = val / abs(val)
                         players_interface.MoveSelection(id_, delta)
+            elif event.Type == sf.Event.JoyButtonPressed:
+                id_ = event.JoyButton.JoystickId
+                button = event.JoyButton.Button
+                if button in _button_mapping:
+                    action = _button_mapping[button]
+                    if action == "choose":
+                        players_interface.ChooseSelection(id_)
+                    elif action == "unchoose":
+                        players_interface.UnChoose(id_)
+                    elif action == "start":
+                        players = players_interface.GetPlayers()
+                        if len(players) > 0:
+                            save_players(players)
+                            play_game()
         window.Clear()
         window.Draw(bg_sprite)
         window.Draw(banner_sprite)
