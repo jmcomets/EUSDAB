@@ -187,6 +187,8 @@ namespace EUSDAB
         AnimationParser & animParser = _animationParsers.insert(
                 std::make_pair(animDir, AnimationParser(animDir))).first->second;
 
+        std::string soundDir(Filename::join(_baseDirectory, entityDir, "sounds"));
+
         // Entity's states
         const ptree & statesPt = entityPt.get_child("states");
         try
@@ -310,7 +312,7 @@ namespace EUSDAB
                         //else if(stateId == "stand") { state = new States::Stand(movement);}
                         //else if(stateId == "grab") { state = new States::Grab(movement);}
                         //else if(stateId == "haul") { state = new States::Haul(movement);}
-                        else if(stateId == "Dodge") { state = new States::Dodge(movement);}
+                        else if(stateId == "dodge") { state = new States::Dodge(movement);}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
@@ -333,6 +335,17 @@ namespace EUSDAB
                     }
                     catch (ptree_error)
                     {
+                    }
+
+                    const std::string & sound = statePt.get<std::string>("sound", "");
+                    if(sound != "")
+                    {
+                        std::cout << "Adding sound : "
+                            << Filename::join(soundDir, sound)
+                            << std::endl;
+
+                        Graphics::SoundManager::SoundPtr s = Graphics::SoundManager::loadSound(Filename::join(soundDir, sound));
+                        state->setSound(s);
                     }
 
                     // Animation file (physics/hitbox)

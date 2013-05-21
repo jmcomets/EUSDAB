@@ -111,6 +111,7 @@ namespace EUSDAB
         if ((act & Guard)       != 0) { addToRepr(repr, "Guard"); }
         if ((act & OnHit)       != 0) { addToRepr(repr, "OnHit"); }
         if ((act & Walk)        != 0) { addToRepr(repr, "Walk"); }
+        if ((act & Dodge)       != 0) { addToRepr(repr, "Dodge"); }
         if ((act & Run)         != 0) { addToRepr(repr, "Run"); }
         if ((act & Falling)     != 0) { addToRepr(repr, "Falling"); }
         if ((act & Crouch)      != 0) { addToRepr(repr, "Crouch"); }

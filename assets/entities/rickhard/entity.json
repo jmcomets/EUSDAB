@@ -4,6 +4,7 @@
     "states": [
         {
             "animation": "idle_right",
+            "sound": "test.ogg",
             "movement": {
                 "action": [
                     "idle"
@@ -560,6 +561,60 @@
             },
             "sliding_ratio": 1.05, 
             "type": "shield"
-        } 
+        },
+        {
+            "animation": "sidedodge_right", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "sidedodge_left", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "botdodge_right", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "right",
+                    "down"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "botdodge_left", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "left",
+                    "down"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        }     
     ]
 }
