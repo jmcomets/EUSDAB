@@ -24,7 +24,8 @@ def get_window_size():
     return w.GetWidth(), w.GetHeight()
 
 _assets_dir = os.path.join(_root_dir, 'assets')
-_base_image_dir = os.path.join(_assets_dir, 'menu')
+_menu_dir = os.path.join(_assets_dir, 'menu')
+_base_image_dir = os.path.join(_menu_dir, 'images')
 _loaded_images = {}
 def load_image(filename):
     global _loaded_images
@@ -47,6 +48,18 @@ def load_music(filename):
             raise RuntimeError("Music %s couldn't be loaded" % fname)
         _loaded_musics[filename] = music
     return _loaded_musics[filename]
+
+_base_sounds_dir = os.path.join(_menu_dir, 'sounds')
+_loaded_sounds = {}
+def load_sound(filename):
+    global _loaded_sounds
+    if filename not in _loaded_sounds:
+        sound_buffer = sf.SoundBuffer()
+        fname = os.path.join(_base_sounds_dir, filename)
+        if not sound_buffer.LoadFromFile(fname):
+            raise RuntimeError("Sound %s couldn't be loaded" % fname)
+        _loaded_sounds[filename] = sound_buffer
+    return sf.Sound(_loaded_sounds[filename])
 
 def make_sprite(img, center=None):
     if isinstance(img, str):
@@ -148,6 +161,11 @@ _characters = {
 _entity_dir = os.path.join(_assets_dir, 'entities')
 _character_folders = _characters.values()
 
+_character_sounds = [load_sound('sound_{}.ogg'.format(x)) \
+        for x in _characters]
+def play_character_sound(i):
+    _character_sounds[i].Play()
+
 class PlayersInterface(sf.Drawable):
     def __init__(self):
         window_size = get_window_size()
@@ -186,6 +204,7 @@ class PlayersInterface(sf.Drawable):
             pd.SetPosition(x, y)
 
         self.start_sprite = make_sprite('Start_Banner.png')
+        self.start_sprite.SetPosition(window_size[0]/2., 340)
 
     def Render(self, target):
         for p in self.players:
@@ -230,6 +249,7 @@ class PlayersInterface(sf.Drawable):
         self.characters[s].SetSelectColor(sf.Color.Green)
         self.players[id_].Select(self.previews[s])
         self.SetChosen(id_, s)
+        play_character_sound(s)
 
     def UnChoose(self, id_):
         if self.HasChosen(id_):
@@ -267,6 +287,9 @@ if __name__ == '__main__':
     bg_sprite = make_sprite('Background.png')
     banner_sprite = make_sprite('Banner.png')
     #load_music('bazar.ogg').Play()
+    startup_sound = load_sound('char_selection.ogg')
+    startup_sound.Play()
+    start_sound = load_sound('press_start.ogg')
 
     while window.IsOpened():
         _input = window.GetInput()
@@ -288,6 +311,8 @@ if __name__ == '__main__':
                     action = _button_mapping[button]
                     if action == "choose":
                         players_interface.ChooseSelection(id_)
+                        if players_interface.CanStart():
+                            start_sound.Play()
                     elif action == "unchoose":
                         players_interface.UnChoose(id_)
                     elif action == "start":
