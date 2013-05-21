@@ -74,6 +74,8 @@ namespace EUSDAB
         void Crouch::onEnter()
         {
             State::onEnter();
+            _animation->setPaused(false);
+            _animation->reset();
             std::cout << "Crouch : onEnter" << std::endl;
         }
         
