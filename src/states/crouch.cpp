@@ -24,7 +24,7 @@ namespace EUSDAB
             
             if (e.edge == Event::FallingEdge)
             {
-                switchState(Movement::Idle | _mvt.direction());
+                switchState(Movement::Stand | _mvt.direction());
             }
             
         }
