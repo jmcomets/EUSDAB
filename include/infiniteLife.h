@@ -16,7 +16,7 @@ namespace EUSDAB
             virtual ~InfiniteLife();
 
             bool isAlive() const;
-            void receiveDamage(const Life::Amount &);
+            Life::Ratio receiveDamage(const Life::Amount &);
             void healDamage(const Life::Amount &);
             virtual Life::Amount amount() const;
     };

@@ -18,7 +18,7 @@ namespace EUSDAB
                     const Amount & min = static_cast<Amount>(0));
 
             bool isAlive() const;
-            void receiveDamage(const Amount &);
+            Life::Ratio receiveDamage(const Amount &);
             void healDamage(const Amount &);
             virtual Life::Amount amount() const;
 

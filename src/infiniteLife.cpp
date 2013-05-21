@@ -16,8 +16,9 @@ namespace EUSDAB
         return true;
     }
 
-    void InfiniteLife::receiveDamage(const InfiniteLife::Amount &)
+    Life::Ratio InfiniteLife::receiveDamage(const InfiniteLife::Amount &)
     {
+        return static_cast<Life::Ratio>(0.0);
     }
 
     void InfiniteLife::healDamage(const InfiniteLife::Amount &)

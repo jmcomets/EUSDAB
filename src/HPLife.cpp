@@ -18,10 +18,14 @@ namespace EUSDAB
         return _hp > _min;
     }
 
-    void HPLife::receiveDamage(const HPLife::Amount & dmg)
+    Life::Ratio HPLife::receiveDamage(const HPLife::Amount & dmg)
     {
+        static constexpr Life::Ratio factor = 1.0;
+
         assert(dmg >= 0);
         _hp = std::max(_hp - dmg, _min);
+        return 1.0 * static_cast<Life::Ratio>(_hp)
+            / static_cast<Life::Ratio>(_max);
     }
 
     void HPLife::healDamage(const HPLife::Amount & heal)

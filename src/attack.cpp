@@ -1,10 +1,9 @@
 #include <attack.h>
 
 namespace EUSDAB {
-    
     Attack::Attack(): _direction(), _damage(0), _entityMasks()
     {
-    }    
+    }
 
     Attack::~Attack()
     {
@@ -44,8 +43,8 @@ namespace EUSDAB {
 
         if(inserted_pair.second == true)
         {
-            entity->life()->receiveDamage(_damage);
-            entity->physics().velocity() = _direction;
+            Life::Ratio ratio = entity->life()->receiveDamage(_damage);
+            entity->physics().velocity() = _direction * ratio;
             return true;
         }
         return false;

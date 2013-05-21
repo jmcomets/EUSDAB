@@ -21,8 +21,8 @@ namespace EUSDAB
             {
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
-                _target.draw(sp, _shader_rainbow);
-                // _target.draw(sp);
+                //_target.draw(sp, _shader_rainbow);
+                 _target.draw(sp);
             };
 
             // Bounding box

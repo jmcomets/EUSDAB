@@ -62,6 +62,8 @@ namespace EUSDAB
             // onNextFrame -> advance Animation
             virtual void onNextFrame();
 
+            virtual void onDamage(Event const &);
+
             // onEnter -> used to reset animation at the start of a state
             //and other thing now :)
             virtual void onEnter();

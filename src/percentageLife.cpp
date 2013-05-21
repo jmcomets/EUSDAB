@@ -19,11 +19,15 @@ namespace EUSDAB
         return true;
     }
 
-    void PercentageLife::receiveDamage(const PercentageLife::Amount & dmg)
+    Life::Ratio PercentageLife::receiveDamage(const PercentageLife::Amount & dmg)
     {
+        static constexpr Life::Ratio max = 300;
+        static constexpr Life::Ratio factor = 1.0;
         assert(dmg >= 0);
         _percentage = std::min(_percentage + dmg, _max);
         std::cout << "Life : " << _percentage << "%" << std::endl;
+        return factor * static_cast<Life::Ratio>(_percentage)
+            / static_cast<Life::Ratio>(max);
     }
 
     void PercentageLife::healDamage(const Life::Amount & heal)
