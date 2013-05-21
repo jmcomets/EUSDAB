@@ -220,6 +220,7 @@ namespace EUSDAB
                         else if (action == "dodge") { flag |= Movement::Dodge; }
                         else if (action == "guard") { flag |= Movement::Guard; }
                         else if (action == "crouch") { flag |= Movement::Crouch; }
+                        else if (action == "stunned") { flag |= Movement::Stunned; }
                         //else if (action == "grab") { flag |= Movement::Grab; }
                         //else if (action == "haul") { flag |= Movement::Haul; }
                         else if (action == "stand") { flag |= Movement::Stand; }
@@ -312,6 +313,7 @@ namespace EUSDAB
                         else if(stateId == "shield") { state = new States::Shield(movement);}
                         else if(stateId == "crouch") { state = new States::Crouch(movement);}
                         else if(stateId == "stand") { state = new States::Stand(movement);}
+                        else if(stateId == "stunned") { state = new States::Stunned(movement);}
                         //else if(stateId == "grab") { state = new States::Grab(movement);}
                         //else if(stateId == "haul") { state = new States::Haul(movement);}
                         else if(stateId == "dodge") { state = new States::Dodge(movement);}
