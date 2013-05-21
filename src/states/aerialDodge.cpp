@@ -1,58 +1,68 @@
-#include <states/dodge.h>
+#include <states/aerialDodge.h>
 #include <constants.h>
 
 namespace EUSDAB
 {
     namespace States
     {
-        Dodge::Dodge(Movement const & m):
+        AerialDodge::AerialDodge(Movement const & m):
             State(m),
             _velocity(0,0)
         {
         }
 
-        Dodge::~Dodge()
+        AerialDodge::~AerialDodge()
         {
         }
 
-        void Dodge::onUp(const Event & e)
+        void AerialDodge::onUp(const Event & e)
         {
             State::onUp(e);
+            
 
         }
         
-        void Dodge::onTrigger(const Event & e)
+        void AerialDodge::onTrigger(const Event & e)
         {
             State::onTrigger(e);
+            
         }
 
-        void Dodge::onDown(const Event & e)
+        void AerialDodge::onDown(const Event & e)
         {
             State::onDown(e);
+            
+            
         }
 
-        void Dodge::onLeft(const Event & e)
+        void AerialDodge::onLeft(const Event & e)
         {
             State::onLeft(e);
+            
         }
 
-        void Dodge::onRight(const Event & e)
+        void AerialDodge::onRight(const Event & e)
         {
             State::onRight(e);
+           
+        }
+        
+        void AerialDodge::onA(const Event & e)
+        {
+            State::onA(e);
             
         }
         
-        void Dodge::onA(const Event & e)
-        {
-            State::onA(e);
-        }
-        
-        void Dodge::onB(const Event & e)
+        void AerialDodge::onB(const Event & e)
         {
             State::onB(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                switchState(Movement::Special | Movement::Idle | _mvt.direction());
+            }
         }
 
-        void Dodge::onNextFrame()
+        void AerialDodge::onNextFrame()
         {
             State::onNextFrame();
 
@@ -70,16 +80,16 @@ namespace EUSDAB
             /*}*/
         }
         
-        void Dodge::setVelocity(const  Physics::Vector2 & value)
+        void AerialDodge::setVelocity(const  Physics::Vector2 & value)
         {
             _velocity=value;      
         }
         
-        void Dodge::onAnimationEnd()
+        void AerialDodge::onAnimationEnd()
         {
             State::onAnimationEnd();
             Movement newMvt(_mvt);
-            newMvt.setAction(Movement::Idle);
+            newMvt.setAction(Movement::Falling);
             switchState(newMvt);
         }
     }

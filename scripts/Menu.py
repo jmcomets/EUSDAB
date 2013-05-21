@@ -4,7 +4,6 @@
 import os
 import sys
 import subprocess
-import json
 from PySFML import sf
 
 _root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -134,7 +133,8 @@ class PlayerDisplay(sf.Drawable):
 
     def Select(self, character):
         center = self.selected_sprite.GetPosition()
-        self.preview = character
+        self.preview = CharacterPreview(character.preview_sprite.GetImage(),
+                character.name_sprite.GetImage())
         self.preview.SetPreviewPosition(*center)
         x, y = center
         padding = -self.none_sprite.GetImage().GetHeight() / 2. - _name_padding
@@ -246,7 +246,7 @@ class PlayersInterface(sf.Drawable):
 
     def ChooseSelection(self, id_):
         s = self.GetSelected(id_)
-        self.characters[s].SetSelectColor(sf.Color.Green)
+        self.characters[s].ResetSelectColor()
         self.players[id_].Select(self.previews[s])
         self.SetChosen(id_, s)
         play_character_sound(s)
@@ -261,19 +261,23 @@ class PlayersInterface(sf.Drawable):
     def GetPlayers(self):
         return self.chosen
 
-_out_file = os.path.join(_entity_dir, 'entities.json')
-def save_players(player_dict):
-    final_dict = { key : _character_folders[value] \
-            for key, value in player_dict.iteritems() }
-    json.dump(final_dict, open(_out_file, 'w'))
-
-_exec_name = os.path.join(_root_dir, 'run.sh')
-_exec_params = ['entity']
-def play_game():
+_exec_name = os.path.join(_root_dir, 'EUSDAB')
+def play_game(map_, player_dict):
+    """Run executable as EUSDAB map j1 ... jn."""
+    player_list = []
+    for player in xrange(_nbPlayers):
+        if player in player_dict:
+            character = _character_folders[player_dict[player]]
+        else:
+            character = 'none'
+        player_list.append(character)
     window = get_window()
-    window.Show(False)
-    subprocess.call([_exec_name] + _exec_params)
-    window.Show(True)
+    call_list = [_exec_name] + [map_] + player_list
+    # UNCOMMENT THE FOLLOWING WHEN READY
+    #window.Show(False)
+    #subprocess.call(call_list)
+    #window.Show(True)
+    print 'Calling', ' '.join(call_list)
 
 _button_mapping = {
         0 : 'choose',
@@ -318,8 +322,7 @@ if __name__ == '__main__':
                     elif action == "start":
                         if players_interface.CanStart():
                             players = players_interface.GetPlayers()
-                            save_players(players)
-                            play_game()
+                            play_game('map_bazar', players)
         window.Clear()
         window.Draw(bg_sprite)
         window.Draw(banner_sprite)
