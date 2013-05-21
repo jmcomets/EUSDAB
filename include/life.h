@@ -17,16 +17,19 @@ namespace EUSDAB
 
             // Hide the underlying type for other classes
             typedef unsigned int Amount;
+            typedef float Ratio;
 
             // Return if the life component is currently "alive",
             //  shouldn't modify the component.
             virtual bool isAlive() const = 0;
 
             // Receive damage (increase damage requested)
-            virtual void receiveDamage(const Amount &) = 0;
+            virtual Ratio receiveDamage(const Amount &) = 0;
 
             // Heal damage (reduce damage requested)
             virtual void healDamage(const Amount &) = 0;
+
+            virtual Amount amount() const = 0;
     };
 }
 

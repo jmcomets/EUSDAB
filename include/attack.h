@@ -26,8 +26,6 @@ namespace EUSDAB
             bool applyTo(Entity * entity);
             void reset();
 
-
-
         private:
             Physics::Vector2 _direction;
             Life::Amount _damage;

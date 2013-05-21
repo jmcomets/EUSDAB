@@ -209,7 +209,7 @@ namespace EUSDAB
                         {
                             state = new State();
                         }
-                        else if (stateId == "idle" || stateId == "attack")
+                        else if (stateId == "idle" || stateId == "attack" || stateId == "onhit")
                         {
                             using Physics::Unit;
                             Unit slidingRatio = statePt.get<Unit>("sliding_ratio");
@@ -218,6 +218,11 @@ namespace EUSDAB
                                 States::Idle * idleState = new States::Idle();
                                 idleState->setSlidingRatio(slidingRatio);
                                 state = idleState;
+                            }
+                            else if (stateId == "onhit")
+                            {
+                                States::Hit * onhitState = new States::Hit();
+                                state = onhitState;
                             }
                             else
                             {

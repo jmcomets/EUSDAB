@@ -314,6 +314,32 @@
             }, 
             "sliding_ratio": 1.05, 
             "type": "aerial_attack"
+        },
+        {
+            "animation": "pain_left", 
+            "movement": {
+                "action": [
+                    "onhit"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "onhit"
+        },
+        {
+            "animation": "pain_right", 
+            "movement": {
+                "action": [
+                    "onhit"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "onhit"
         }
     ]
 }

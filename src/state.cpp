@@ -123,10 +123,24 @@ namespace EUSDAB
         {
             Animation::FrameListSize old = _animation->currentFrame();
             _animation->advance();
-            if (old > _animation->currentFrame())
+            if (old > _animation->currentFrame()
+                    || (_animation->frame_list().size() == 1
+                        && _time >= _animation->fpi()))
             {
                 onAnimationEnd();
             }
+        }
+    }
+
+    void State::onDamage(Event const &)
+    {
+        if (_mvt.flag() & Movement::Left)
+        {
+            switchState(Movement::OnHit | Movement::Left);
+        }
+        else if (_mvt.flag() & Movement::Right)
+        {
+            switchState(Movement::OnHit | Movement::Right);
         }
     }
 

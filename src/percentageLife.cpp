@@ -5,30 +5,39 @@
 
 namespace EUSDAB
 {
-	PercentageLife::PercentageLife(const Amount & min,
-const Amount & max):
-	Life(),
-	_min(min), _max(max),
-	_percentage(min)
-	{
+    PercentageLife::PercentageLife(const Amount & min,
+            const Amount & max):
+        Life(),
+        _min(min), _max(max),
+        _percentage(min)
+    {
         assert(_min <= _max);
-	}
+    }
 
-	bool PercentageLife::isAlive() const
-	{
-		return true;
-	}
+    bool PercentageLife::isAlive() const
+    {
+        return true;
+    }
 
-	void PercentageLife::receiveDamage(const PercentageLife::Amount & dmg)
-	{
-	assert(dmg >= 0);
-		_percentage = std::min(_percentage + dmg, _max);
+    Life::Ratio PercentageLife::receiveDamage(const PercentageLife::Amount & dmg)
+    {
+        static constexpr Life::Ratio max = 300;
+        static constexpr Life::Ratio factor = 1.0;
+        assert(dmg >= 0);
+        _percentage = std::min(_percentage + dmg, _max);
         std::cout << "Life : " << _percentage << "%" << std::endl;
-	}
+        return factor * static_cast<Life::Ratio>(_percentage)
+            / static_cast<Life::Ratio>(max);
+    }
 
-	void PercentageLife::healDamage(const Life::Amount & heal)
-	{
+    void PercentageLife::healDamage(const Life::Amount & heal)
+    {
         assert(heal >= 0);
         _percentage = std::max(_percentage + heal, _min);
-	}
+    }
+
+    Life::Amount PercentageLife::amount() const
+    {
+        return _percentage;
+    }
 }

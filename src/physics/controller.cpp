@@ -31,6 +31,8 @@ namespace EUSDAB
 
         void Controller::update()
         {
+            using Input::Event;
+
             for (Entity * e1 : _entityList)
             {
                 // handleEntityTransform(e1);
@@ -70,7 +72,17 @@ namespace EUSDAB
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                     if(s & Hitbox::Collision)
                     {
+                        _input.pushEvent(e1, Event(Event::Collide));
                         canMoveY = false;
+                    }
+                    if(s & Hitbox::Attack)
+                    {
+                        _input.pushEvent(e1, Event(Event::Attack));
+                        _input.pushEvent(e2, Event(Event::Damage));
+                    }
+                    if(s & Hitbox::Grab)
+                    {
+                        _input.pushEvent(e1, Event(Event::Grab));
                     }
                 }
                 if(canMoveY == false)
@@ -83,7 +95,7 @@ namespace EUSDAB
                         || (e1->physics().velocity().y > 0 && canMoveY == false))
                 {
                     //std::cout << "Physics controller : " << e1->physics() << std::endl;
-                    
+
                     _input.pushEvent(e1, Input::Event(Input::Event::Ground));
                 }
 
@@ -105,7 +117,17 @@ namespace EUSDAB
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
                     if(s & Hitbox::Collision)
                     {
+                        _input.pushEvent(e1, Event(Event::Collide));
                         canMoveX = false;
+                    }
+                    if(s & Hitbox::Attack)
+                    {
+                        _input.pushEvent(e1, Event(Event::Attack));
+                        _input.pushEvent(e2, Event(Event::Damage));
+                    }
+                    if(s & Hitbox::Grab)
+                    {
+                        _input.pushEvent(e1, Event(Event::Grab));
                     }
                 }
                 if(canMoveX == false)
@@ -122,8 +144,6 @@ namespace EUSDAB
         Hitbox::Semantic_type Controller::handleEntityCollision(Entity * e1, Entity * e2)
         {
             // Shorten code a little
-            using Input::Event;
-
             Hitbox::Semantic_type flag = Hitbox::Nothing;
 
             Hitbox h1 = e1->hitbox();
@@ -135,7 +155,6 @@ namespace EUSDAB
                 if(h1 == Hitbox::Collision && h2 == Hitbox::Collision)
                 {
                     flag |= Hitbox::Collision;
-                    _input.pushEvent(e1, Event(Event::Collide));
                 }
             }
 
@@ -163,7 +182,6 @@ namespace EUSDAB
                         if(h1 == Hitbox::Collision && h2 == Hitbox::Collision)
                         {
                             flag |= Hitbox::Collision;
-                            _input.pushEvent(e1, Event(Event::Collide));
                         }
                     }
                 }
@@ -185,7 +203,6 @@ namespace EUSDAB
                             if(h1 == Hitbox::Collision && h2 == Hitbox::Collision)
                             {
                                 flag |= Hitbox::Collision;
-                                _input.pushEvent(e1, Event(Event::Collide));
                             }
                         }
                     }
@@ -220,8 +237,6 @@ namespace EUSDAB
                             if(_playerList.find(e2) != _playerList.end())
                             {
                                 // Attaque
-                                _input.pushEvent(e1, Event(Event::Attack));
-                                _input.pushEvent(e2, Event(Event::Damage));
                                 e1->attack(e2);
                             }
 
@@ -242,7 +257,6 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Grab && h2 == Hitbox::Grabable)
                         {
                             // Grab
-                            _input.pushEvent(e1, Event(Event::Grab));
                             //e1->grab(e2);
 
                             flag |= Hitbox::Grab;
@@ -250,7 +264,6 @@ namespace EUSDAB
                         else if (h1 == Hitbox::Collision && h2 == Hitbox::Collision)
                         {
                             // Collision
-                            _input.pushEvent(e1, Event(Event::Collide));
 
                             flag |= Hitbox::Collision;
                         }

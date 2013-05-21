@@ -5,24 +5,25 @@
 
 namespace EUSDAB
 {
-	class PercentageLife: public Life
-	{
-		public:
-			PercentageLife(PercentageLife &&) = default;
-			PercentageLife(const PercentageLife &) = default;
-			PercentageLife & operator=(const PercentageLife &) =  default;
-			~PercentageLife() = default;
+    class PercentageLife: public Life
+    {
+        public:
+            PercentageLife(PercentageLife &&) = default;
+            PercentageLife(const PercentageLife &) = default;
+            PercentageLife & operator=(const PercentageLife &) =  default;
+            ~PercentageLife() = default;
 
-			PercentageLife(const Amount & max,
+            PercentageLife(const Amount & max,
                     const Amount & min = static_cast<Amount>(0));
 
-			bool isAlive() const;
-			void receiveDamage(const Amount &);
-			void healDamage(const Amount &);
+            bool isAlive() const;
+            Life::Ratio receiveDamage(const Amount &);
+            void healDamage(const Amount &);
+            virtual Life::Amount amount() const;
 
-		private:
-			Amount _min, _percentage, _max;
-	};
+        private:
+            Amount _min, _max, _percentage;
+    };
 }
 
 #endif

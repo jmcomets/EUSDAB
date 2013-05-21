@@ -39,9 +39,9 @@ std::vector<Entity *> players;
             };
             e->position() = Physics::Vector2(h(500 + id * 500), h(0));
             std::cout << "Id " << id << std::endl;
-            e->setName(e->name() + " " + boost::lexical_cast<std::string>(id));
+            e->setName(e->name());// + " " + boost::lexical_cast<std::string>(id));
             id++;
-            
+
             e->setLife(new PercentageLife(0, 999));
             return e;
         };
@@ -61,7 +61,7 @@ std::vector<Entity *> players;
         };
 
         std::vector<std::string> entityList = {{
-            "rickhard", "poney", "panda"
+            "panda", "poney", "panda"
         }};
 
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
