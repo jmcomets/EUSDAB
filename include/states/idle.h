@@ -36,8 +36,8 @@ namespace EUSDAB
 
                 //void onGround(const Event &);
 
-                //void onEnter();
-                //void onLeave();
+                void onEnter();
+                void onLeave();
 
                 void setSlidingRatio(Physics::Unit);
 

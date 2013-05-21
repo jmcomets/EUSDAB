@@ -82,6 +82,8 @@ namespace EUSDAB
                 if(e1->physics().velocity().y == 0
                         || (e1->physics().velocity().y > 0 && canMoveY == false))
                 {
+                    //std::cout << "Physics controller : " << e1->physics() << std::endl;
+                    
                     _input.pushEvent(e1, Input::Event(Input::Event::Ground));
                 }
 

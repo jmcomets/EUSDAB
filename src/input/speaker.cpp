@@ -15,10 +15,10 @@ namespace EUSDAB
         {
             if (_listener != nullptr)
             {
-                _listener->onLeave();
+                //_listener->onLeave();
             }
             _listener = l;
-            _listener->onEnter();
+            //_listener->onEnter();
         }
 
         void Speaker::push(Event const & e)
