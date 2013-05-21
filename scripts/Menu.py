@@ -24,7 +24,8 @@ def get_window_size():
     return w.GetWidth(), w.GetHeight()
 
 _assets_dir = os.path.join(_root_dir, 'assets')
-_base_image_dir = os.path.join(_assets_dir, 'menu')
+_menu_dir = os.path.join(_assets_dir, 'menu')
+_base_image_dir = os.path.join(_menu_dir, 'images')
 _loaded_images = {}
 def load_image(filename):
     global _loaded_images
@@ -48,6 +49,18 @@ def load_music(filename):
         _loaded_musics[filename] = music
     return _loaded_musics[filename]
 
+_base_sounds_dir = os.path.join(_menu_dir, 'sounds')
+_loaded_sounds = {}
+def load_sound(filename):
+    global _loaded_sounds
+    if filename not in _loaded_sounds:
+        sound_buffer = sf.SoundBuffer()
+        fname = os.path.join(_base_sounds_dir, filename)
+        if not sound_buffer.LoadFromFile(fname):
+            raise RuntimeError("Sound %s couldn't be loaded" % fname)
+        _loaded_sounds[filename] = sound_buffer
+    return sf.Sound(_loaded_sounds[filename])
+
 def make_sprite(img, center=None):
     if isinstance(img, str):
         img = load_image(img)
@@ -69,7 +82,7 @@ class CharacterFrame(sf.Drawable):
         self.rect.SetCenter(w / 2., h / 2.)
         self.rect.EnableOutline(False)
         self.rect.EnableFill(False)
-        self.rect.SetOutlineWidth(1)
+        self.rect.SetOutlineWidth(2)
         window_size = get_window_size()
         self.rect.SetPosition(window_size[0] / 2., window_size[1] / 2.)
 
@@ -98,10 +111,12 @@ class CharacterPreview(sf.Drawable):
         target.Draw(self.preview_sprite)
         target.Draw(self.name_sprite)
 
-    def SetPosition(self, *args):
+    def SetPreviewPosition(self, *args):
         x, y = args
         self.preview_sprite.SetPosition(x, y)
-        padding = -self.preview_sprite.GetImage().GetHeight() / 2. - _name_padding
+
+    def SetNamePosition(self, *args):
+        x, y, padding = args
         self.name_sprite.SetPosition(x, y + padding)
 
 class PlayerDisplay(sf.Drawable):
@@ -120,7 +135,10 @@ class PlayerDisplay(sf.Drawable):
     def Select(self, character):
         center = self.selected_sprite.GetPosition()
         self.preview = character
-        self.preview.SetPosition(*center)
+        self.preview.SetPreviewPosition(*center)
+        x, y = center
+        padding = -self.none_sprite.GetImage().GetHeight() / 2. - _name_padding
+        self.preview.SetNamePosition(x, y, padding)
 
     def UnSelect(self):
         self.preview = None
@@ -143,6 +161,11 @@ _characters = {
 _entity_dir = os.path.join(_assets_dir, 'entities')
 _character_folders = _characters.values()
 
+_character_sounds = [load_sound('sound_{}.ogg'.format(x)) \
+        for x in _characters]
+def play_character_sound(i):
+    _character_sounds[i].Play()
+
 class PlayersInterface(sf.Drawable):
     def __init__(self):
         window_size = get_window_size()
@@ -163,7 +186,7 @@ class PlayersInterface(sf.Drawable):
             padding = 300
             width_padding = (window_size[0]-nbCharacters*w-2*padding)/(nbCharacters-1)
             x = w/2. + (w+width_padding)*i + padding
-            y = 200
+            y = 170
             cf.SetPosition(x, y)
 
         self.players = []
@@ -180,11 +203,19 @@ class PlayersInterface(sf.Drawable):
             y = window_size[1] - h/2. - _interface_padding[1]
             pd.SetPosition(x, y)
 
+        self.start_sprite = make_sprite('Start_Banner.png')
+        self.start_sprite.SetPosition(window_size[0]/2., 340)
+
     def Render(self, target):
         for p in self.players:
             target.Draw(p)
         for c in self.characters:
             target.Draw(c)
+        if self.CanStart():
+            target.Draw(self.start_sprite)
+
+    def CanStart(self):
+        return len(self.chosen) > 1
 
     def GetSelected(self, id_):
         return self.selections[id_]
@@ -218,6 +249,7 @@ class PlayersInterface(sf.Drawable):
         self.characters[s].SetSelectColor(sf.Color.Green)
         self.players[id_].Select(self.previews[s])
         self.SetChosen(id_, s)
+        play_character_sound(s)
 
     def UnChoose(self, id_):
         if self.HasChosen(id_):
@@ -243,19 +275,21 @@ def play_game():
     subprocess.call([_exec_name] + _exec_params)
     window.Show(True)
 
-_dead_zone_limit = 90
 _button_mapping = {
         0 : 'choose',
         1 : 'unchoose',
         7 : 'start'
         }
+_dead_zone_limit = 90
 if __name__ == '__main__':
     window = get_window()
     players_interface = PlayersInterface()
     bg_sprite = make_sprite('Background.png')
     banner_sprite = make_sprite('Banner.png')
-    start_sprite = make_sprite('Start_Banner.png')
     #load_music('bazar.ogg').Play()
+    startup_sound = load_sound('char_selection.ogg')
+    startup_sound.Play()
+    start_sound = load_sound('press_start.ogg')
 
     while window.IsOpened():
         _input = window.GetInput()
@@ -277,16 +311,17 @@ if __name__ == '__main__':
                     action = _button_mapping[button]
                     if action == "choose":
                         players_interface.ChooseSelection(id_)
+                        if players_interface.CanStart():
+                            start_sound.Play()
                     elif action == "unchoose":
                         players_interface.UnChoose(id_)
                     elif action == "start":
-                        players = players_interface.GetPlayers()
-                        if len(players) > 0:
+                        if players_interface.CanStart():
+                            players = players_interface.GetPlayers()
                             save_players(players)
                             play_game()
         window.Clear()
         window.Draw(bg_sprite)
         window.Draw(banner_sprite)
         window.Draw(players_interface)
-        window.Draw(start_sprite)
         window.Display()

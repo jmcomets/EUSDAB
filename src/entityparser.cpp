@@ -237,11 +237,7 @@ namespace EUSDAB
                         std::cout << "directions : " << i  << " | flag : " << flag << std::endl;
                     }
 
-                    // TODO
-                    Movement const * const mov = new Movement(flag);
-                    Movement const & movement = *mov;
-                    //Movement movement(flag);
-                    std::cout << "Construction d'un mouvement" << &movement << std::endl;
+                    Movement movement(flag);
 
                     // Underlying state
                     // TODO finish

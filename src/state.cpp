@@ -4,10 +4,13 @@
 
 namespace EUSDAB
 {
-    State::State(const Movement & mvt, 
-            Entity * entity, Animation * anim):
+    State::State(Movement const & mvt,
+            Entity * entity,
+            Animation * anim,
+            Graphics::SoundManager::SoundPtr soundBuffer):
         _mvt(mvt), _entity(entity),
         _animation(anim),
+        _soundBuffer(soundBuffer),
         _transform(),
         //FIXME
         _attack(new Attack())
@@ -113,6 +116,16 @@ namespace EUSDAB
         _animation = a;
     }
 
+    Graphics::SoundManager::SoundPtr State::sound() const
+    {
+        return _soundBuffer;
+    }
+
+    void State::setSound(Graphics::SoundManager::SoundPtr s)
+    {
+        _soundBuffer = s;
+    }
+
     Attack * State::attack() const
     {
         return _attack;
@@ -156,6 +169,12 @@ namespace EUSDAB
     {
         Listener::onEnter();
 
+        if(_soundBuffer != nullptr)
+        {
+            sf::Sound s(*_soundBuffer);
+            s.play();
+        }
+
         if (_animation != nullptr)
         {
             _animation->reset();
@@ -177,7 +196,7 @@ namespace EUSDAB
     void State::onUp(Event const & e)
     {
         Listener::onUp(e);
-    
+
         if (e.edge == Event::RisingEdge)
         {
             _entity->_verticalState = Entity::VerticalState::Up;
@@ -192,7 +211,7 @@ namespace EUSDAB
     void State::onDown(Event const & e)
     {
         Listener::onUp(e);
-    
+
         if (e.edge == Event::RisingEdge)
         {
             _entity->_verticalState = Entity::VerticalState::Down;

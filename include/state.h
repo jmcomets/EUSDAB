@@ -6,6 +6,7 @@
 #include <entity.h>
 #include <movement.h>
 #include <animation.h>
+#include <graphics/soundmanager.h>
 
 namespace EUSDAB
 {
@@ -20,8 +21,9 @@ namespace EUSDAB
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
-            State(const Movement &, Entity * = nullptr, 
-                    Animation * = nullptr);
+            State(Movement const &, Entity * = nullptr, 
+                    Animation * = nullptr,
+                    Graphics::SoundManager::SoundPtr = nullptr);
             virtual ~State();
 
 
@@ -55,6 +57,10 @@ namespace EUSDAB
             Animation * animation() const;
             void setAnimation(Animation *);
 
+            // Get/Set the sound
+            Graphics::SoundManager::SoundPtr sound() const;
+            void setSound(Graphics::SoundManager::SoundPtr);
+
             // Get/Set the attack 
             Attack * attack() const;
             void setAttack(Attack *);
@@ -87,13 +93,16 @@ namespace EUSDAB
 
         protected:
             // Movement (identification)
-            Movement const & _mvt;
+            Movement const _mvt;
 
             // State boilerplate
             Entity * _entity;
 
             // Animation (graphics/physics)
             Animation * _animation;
+
+            // Sound (sound)
+            Graphics::SoundManager::SoundPtr _soundBuffer;
 
             // Transformation
             Transform _transform;
