@@ -123,6 +123,10 @@ namespace EUSDAB
         void Walk::onNextFrame()
         {
             State::onNextFrame();
+            if(_entity->physics().velocity().y > 0)
+            {
+                switchState(Movement::Falling | _mvt.direction());
+            }
         }
 
         void Walk::onEnter()

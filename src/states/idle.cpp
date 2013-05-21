@@ -19,6 +19,7 @@ namespace EUSDAB
         {
             State::onEnter();
             std::cout << "Idle : onEnter" << std::endl;
+            _entity->physics().velocity().x = 0;
         }
 
         void Idle::onLeave()
@@ -122,6 +123,10 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
+            if(_entity->physics().velocity().y > 0)
+            {
+                switchState(Movement::Falling | _mvt.direction());
+            }
             //// Shorten code !
             //using Physics::Unit;
 
