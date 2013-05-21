@@ -174,27 +174,27 @@ namespace EUSDAB
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
             {
                 constexpr float dx = -45.0f;
-                //_shader_filter->setParameter("percent", (number % 1000) / 300.0);
+                _shader_filter->setParameter("percent", (number % 1000) / 300.0);
 
                 sf::Sprite spr(lsChar[10]);
                 spr.setScale(0.5f, 0.5f);
                 spr.setPosition(dpos.x + dx, dpos.y);
-                // _target.draw(spr, _shader_filter);
-                _target.draw(spr);
+                _target.draw(spr, _shader_filter);
+                //_target.draw(spr);
                 if(number == 0)
                 {
                     spr.setTexture(lsChar[0]);
                     spr.setPosition(spr.getPosition().x + dx, spr.getPosition().y);
-                    // _target.draw(spr, _shader_filter);
-                    _target.draw(spr);
+                    _target.draw(spr, _shader_filter);
+                    //_target.draw(spr);
                 }
                 while(number != 0)
                 {
                     unsigned int n = number % 10;
                     spr.setTexture(lsChar[n]);
                     spr.setPosition(spr.getPosition().x + dx, spr.getPosition().y);
-                    // _target.draw(spr, _shader_filter);
-                    _target.draw(spr);
+                    _target.draw(spr, _shader_filter);
+                    //_target.draw(spr);
                     number /= 10;
                 }
             };
@@ -211,26 +211,26 @@ namespace EUSDAB
                 return _texRickHard;
             };
 
-/*            std::size_t i = 0;*/
-            //for(Entity * p : _playerList)
-            //{
-                //sf::Sprite spr(*getTex(p));
-                //if(i >= 4)
-                    //break;
-                //if(i == 0)
-                    //spr.setPosition(10.0, 10.0);
-                //if(i == 1)
-                    //spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
-                //if(i == 2)
-                    //spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
-                //if(i == 3)
-                    //spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+            std::size_t i = 0;
+            for(Entity * p : _playerList)
+            {
+                sf::Sprite spr(*getTex(p));
+                if(i >= 4)
+                    break;
+                if(i == 0)
+                    spr.setPosition(10.0, 10.0);
+                if(i == 1)
+                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
+                if(i == 2)
+                    spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                if(i == 3)
+                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
 
-                //_target.draw(spr);
-                //// TODO
-                //draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
-                //i++;
-            //}
+                _target.draw(spr);
+                // TODO
+                draw_number(p->life()->amount(), spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+                i++;
+            }
             // Set final view
             _target.setView(view);
 
