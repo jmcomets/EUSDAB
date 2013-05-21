@@ -33,6 +33,7 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge)
             {
                 std::cout << "Jump : onDown" << std::endl;
+                _entity->physics().velocity().y = 0.1;
                 switchState(Movement::Falling | _mvt.direction());
                 entity()->setJumpPossible(true);
             }
@@ -57,14 +58,16 @@ namespace EUSDAB
         {
             State::onLeft(e);
 
-            std::cout << "Jump : onLeft" << std::endl;
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
+                std::cout << "Jump : onLeft" << std::endl;
+                _entity->physics().velocity().x = -3;
                 onChangeSide(Movement::Jump | Movement::Left);
                 setNextStateAnimationFrameToCurrentFrame();
             }
-            else
+            else if(e.edge == Event::FallingEdge)
             {
+                _entity->physics().velocity().x = 0;
                 //switchState(Movement::Jump | Movement::Idle | Movement::Left);
             }
         }
@@ -72,14 +75,16 @@ namespace EUSDAB
         void Jump::onRight(const Event & e)
         {
             State::onRight(e);
-            std::cout << "Jump : onRight" << std::endl;
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
+                std::cout << "Jump : onRight" << std::endl;
+                _entity->physics().velocity().x = 3;
                 onChangeSide(Movement::Jump | Movement::Right);
                 setNextStateAnimationFrameToCurrentFrame();
             }
-            else
+            else if(e.edge == Event::FallingEdge)
             {
+                _entity->physics().velocity().x = 0;
                 //switchState(Movement::Jump | Movement::Idle | Movement::Right);
             }
         }

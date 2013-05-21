@@ -16,6 +16,13 @@ namespace EUSDAB
         void Falling::onUp(const Event & e)
         {
             State::onUp(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if (entity()->canJump() && entity()->jumpPossible())
+                {
+                    switchState(Movement::Jump | _mvt.direction());
+                }
+            }
         }
 
         void Falling::onDown(const Event & e)
@@ -26,12 +33,14 @@ namespace EUSDAB
         void Falling::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
+                _entity->physics().velocity().x = -3;
                 onChangeSide(Movement::Falling | Movement::Left);
             }
-            else
+            else if(e.edge == Event::FallingEdge)
             {
+                _entity->physics().velocity().x = 0;
                 //switchState(Movement::Falling | Movement::Idle | Movement::Left);
             }
         }
@@ -39,12 +48,14 @@ namespace EUSDAB
         void Falling::onRight(const Event & e)
         {
             State::onRight(e);
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
+                _entity->physics().velocity().x = 3;
                 onChangeSide(Movement::Falling | Movement::Right);
             }
-            else
+            else if(e.edge == Event::FallingEdge)
             {
+                _entity->physics().velocity().x = 0;
                 //switchState(Movement::FallingIdle | Movement::Right);
             }
         }
