@@ -55,6 +55,7 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 switchState(Movement::Idle | _mvt.direction());
+                entity()->setNbrJump(entity()->nbrJumpMax());
             }
         }
 
@@ -69,20 +70,26 @@ namespace EUSDAB
         {
             // TODO add vertical impulse
 
+            std::cout << "Falling : onEnter" << std::endl;
             _animation->setPaused(false);
             
             
             if(_mvt.flag() & Movement::Left)
             {
-                _transform.velocity() = _velocity;
-                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+                //_transform.velocity() = _velocity;
+                //_transform.velocity().x *= static_cast<Physics::Unit>(-1);
             }
             if(_mvt.flag() & Movement::Right)
             {
-                _transform.velocity() = _velocity;
+                //_transform.velocity() = _velocity;
             }
         }
         
+        void Falling::onLeave()
+        {
+            State::onLeave();
+            std::cout << "Falling : onLeave" << std::endl;
+        }
         
         void Falling::onChangeSide(const Movement & mvt)
         {
@@ -91,14 +98,14 @@ namespace EUSDAB
              
             if(_mvt.flag() & Movement::Left)
             {
-                s->transformation().velocity() = _velocity;
-                s->transformation().velocity().x *= static_cast<Physics::Unit>(-1);
-                s->transformation().velocity().y=_transform.velocity().y;
+                //s->transformation().velocity() = _velocity;
+                //s->transformation().velocity().x *= static_cast<Physics::Unit>(-1);
+                //s->transformation().velocity().y=_transform.velocity().y;
             }
             if(_mvt.flag() & Movement::Right)
             {
-                s->transformation().velocity() = _velocity;
-                s->transformation().velocity().y=_transform.velocity().y;
+                //s->transformation().velocity() = _velocity;
+                //s->transformation().velocity().y=_transform.velocity().y;
             }
         }
         

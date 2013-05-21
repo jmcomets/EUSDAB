@@ -198,27 +198,6 @@
             "type": "attack"
         }, 
         {
-            "animation": "upA_right", 
-            "attack": {
-                "damage": 5, 
-                "direction": {
-                    "x": 0, 
-                    "y": 10
-                }
-            }, 
-            "movement": {
-                "action": [
-                    "attack"
-                ], 
-                "direction": [
-                    "right",
-		    "up"
-                ]
-            }, 
-            "sliding_ratio": 1.05, 
-            "type": "attack"
-        }, 
-        {
             "animation": "sideB_left", 
             "attack": {
                 "damage": 15, 

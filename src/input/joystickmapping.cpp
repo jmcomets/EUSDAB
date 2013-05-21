@@ -132,7 +132,7 @@ namespace EUSDAB
                 _mappings[i]->btnMapping[Button::Y] = Event::Up;
                 _mappings[i]->btnMapping[Button::Start] = Event::Ground;
 
-                _mappings[i]->axisMapping[Axis::LStickUp]      = Event::Up;
+                //_mappings[i]->axisMapping[Axis::LStickUp]      = Event::Up;
                 _mappings[i]->axisMapping[Axis::LStickDown]    = Event::Down;
                 _mappings[i]->axisMapping[Axis::LStickLeft]    = Event::Left;
                 _mappings[i]->axisMapping[Axis::LStickRight]   = Event::Right;

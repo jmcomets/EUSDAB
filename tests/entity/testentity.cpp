@@ -66,6 +66,7 @@ std::vector<Entity *> players;
 
         for (Size i = 0; sf::Joystick::isConnected(i); i++)
         {
+            std::cout << "Charging entity..." << std::endl;
             addPlayer(loadEntity(entityList[i % entityList.size()]));
         }
 
@@ -78,6 +79,7 @@ std::vector<Entity *> players;
         }
         else
         {
+            std::cout << "Nb players : " << players.size() << std::endl;
             return new Input::JoystickMapping(players.begin(), players.end());
         }
     }
