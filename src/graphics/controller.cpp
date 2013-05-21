@@ -194,7 +194,7 @@ namespace EUSDAB
             auto getTex = [&] (Entity * e) {
                 if(e->name() == "Rick Hard")
                     return _texRickHard;
-                if(e->name() == "Charlie")
+                if(e->name() == "Petit Poney")
                     return _texCharlie;
                 if(e->name() == "Pedro Panda")
                     return _texPedroPanda;
