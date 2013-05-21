@@ -9,34 +9,42 @@ from PySFML import sf
 
 _root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
+_assets_dir = os.path.join(_root_dir, 'assets')
+_menu_dir = os.path.join(_assets_dir, 'menu')
+
+# Loading images
+_base_image_dir = os.path.join(_menu_dir, 'images')
+_loaded_images = {}
+def load_image(filename, basedir=_base_image_dir):
+    global _loaded_images
+    fname = os.path.join(basedir, filename)
+    if filename not in _loaded_images:
+        img = sf.Image()
+        if not img.LoadFromFile(fname):
+            raise RuntimeError("Image %s couldn't be loaded" % fname)
+        _loaded_images[fname] = img
+    return _loaded_images[fname]
+
+# Global access to window
 _window_size = (1280, 720)
+_icon_image = 'icon.png'
 _window = None
 def get_window():
     global _window
     if _window is None:
         _window = sf.RenderWindow(sf.VideoMode(*_window_size),
                 "EUSDAB", sf.Style.Close)
-        _window.SetFramerateLimit(30)
+        _window.SetFramerateLimit(60)
+        icon_image = load_image(_icon_image, _assets_dir)
+        _window.SetIcon(icon_image.GetWidth(), icon_image.GetHeight(),
+                icon_image.GetPixels())
     return _window
 
 def get_window_size():
     w = get_window()
     return w.GetWidth(), w.GetHeight()
 
-_assets_dir = os.path.join(_root_dir, 'assets')
-_menu_dir = os.path.join(_assets_dir, 'menu')
-_base_image_dir = os.path.join(_menu_dir, 'images')
-_loaded_images = {}
-def load_image(filename):
-    global _loaded_images
-    if filename not in _loaded_images:
-        img = sf.Image()
-        fname = os.path.join(_base_image_dir, filename)
-        if not img.LoadFromFile(fname):
-            raise RuntimeError("Image %s couldn't be loaded" % fname)
-        _loaded_images[filename] = img
-    return _loaded_images[filename]
-
+# Loading musics
 _base_musics_dir = os.path.join(_assets_dir, 'audio', 'musics')
 _loaded_musics = {}
 def load_music(filename):
@@ -49,6 +57,7 @@ def load_music(filename):
         _loaded_musics[filename] = music
     return _loaded_musics[filename]
 
+# Loading sounds
 _base_sounds_dir = os.path.join(_menu_dir, 'sounds')
 _loaded_sounds = {}
 def load_sound(filename):
@@ -154,9 +163,10 @@ _interface_padding = (40, 10)
 _color_mapping = [sf.Color.Red, sf.Color.Blue, sf.Color.Yellow, sf.Color.Green]
 
 _characters = {
-        'RickHard' : 'rickhard',
+        'RickHard'   : 'rickhard',
         'PedroPanda' : 'panda',
-        'Charlie' : 'poney'
+        'Charlie'    : 'poney',
+        #'Botato'     : 'botato'
         }
 
 _entity_dir = os.path.join(_assets_dir, 'entities')
@@ -364,6 +374,10 @@ class MenuState:
         self.alive = True
         self.next_state = None
 
+    def SwitchState(self, state_id):
+        self.SetAlive(False)
+        self.SetNextState(state_id)
+
     def SetAlive(self, alive):
         self.alive = bool(alive)
 
@@ -384,17 +398,51 @@ class MenuState:
     def JoystickButtonPressed(self, id_, button): pass
     def JoystickButtonReleased(self, id_, button): pass
 
+_maps_id = 'maps'
+_startup_id = 'startup'
+_characters_id = 'characters'
+
+_startup_dir = os.path.join(_base_image_dir, 'startup')
+_fall_speed = 40
+_stack_overflow = 40
+_start_padding = 20
 class Startup(MenuState):
     def __init__(self):
         MenuState.__init__(self)
-        self.bg_sprite = make_sprite('StartupBackground.png')
+        self.bg_sprite = make_sprite('Background.png')
+        startup_glob = os.path.join(_startup_dir, '*.png')
+        sprite_list = sorted(glob.glob(startup_glob), reverse=True)
+        self.startup_sprites = [make_sprite(x) for x in sprite_list]
+        for s in self.startup_sprites:
+            x, _ = s.GetPosition()
+            h = s.GetImage().GetHeight()
+            s.SetPosition(x, -h)
+        self.moving_index = 0
+        self.max_y = get_window_size()[1] - _start_padding
 
-    def Enter(self):
-        # TODO drop background images
-        pass
+    def Update(self):
+        if self.moving_index < len(self.startup_sprites):
+            current = self.startup_sprites[self.moving_index]
+            x, y = current.GetPosition()
+            h = current.GetImage().GetHeight()
+            real_max_y = self.max_y - h/2. + _stack_overflow
+            y = min(y + _fall_speed, real_max_y)
+            current.SetPosition(x, y)
+            if y == real_max_y:
+                self.moving_index += 1
+                self.max_y = real_max_y - h/2.
+            else:
+                pass
+
 
     def RenderTo(self, target):
         target.Draw(self.bg_sprite)
+        for sp in sorted(self.startup_sprites):
+            target.Draw(sp)
+
+    def JoystickButtonPressed(self, id_, button):
+        if button == 'start':
+            self.SwitchState(_characters_id)
 
 class CharacterSelection(MenuState):
     def __init__(self):
@@ -403,11 +451,11 @@ class CharacterSelection(MenuState):
         self.bg_sprite = make_sprite('Background.png')
         self.banner_sprite = make_sprite('Banner.png')
         self.startup_sound = load_sound('char_selection.ogg')
-        self.startup_sound.Play()
         self.start_sound = load_sound('press_start.ogg')
 
     def Enter(self):
         self.players_interface.UnChooseAll()
+        self.startup_sound.Play()
 
     def JoystickMoved(self, id_, axis, position):
         if axis == 'x':
@@ -444,10 +492,10 @@ class MapSelection(MenuState):
 
 class MenuStatesManager(StatesManager):
     def InitStates(self):
-        #self.AddState('startup', Startup())
-        #self.AddState('maps', MapSelection())
-        self.AddState('characters', CharacterSelection())
-        self.SetState('characters')
+        self.AddState(_startup_id, Startup())
+        #self.AddState(_maps_id, MapSelection())
+        self.AddState(_characters_id, CharacterSelection())
+        self.SetState(_startup_id)
 
 if __name__ == '__main__':
     msm = MenuStatesManager()
