@@ -15,7 +15,11 @@ namespace EUSDAB
         _nbrJumpLeft(0), _nbrJumpMax(0), //FIXME
         _jumpPossible(true),
         _hb_collision(Physics::Hitbox::Collision),
-        _verticalState(VerticalState::Middle)
+        _verticalState(VerticalState::Middle),
+		_globalTime(0),
+		_shieldValue(1000),
+		_shieldMaxValue(1000),
+		_shieldLeaveTime(0)
     {
     }
 
@@ -73,7 +77,7 @@ namespace EUSDAB
     {
         for(auto it : _states)
         {
-            std::cout << "State of movement : " << it->movement().debug() << std::endl;
+            //std::cout << "State of movement : " << it->movement().debug() << std::endl;
         }
         State s(mvt);
         auto it = _states.find(&s);
