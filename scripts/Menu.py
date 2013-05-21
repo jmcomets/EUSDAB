@@ -431,9 +431,6 @@ class Startup(MenuState):
             if y == real_max_y:
                 self.moving_index += 1
                 self.max_y = real_max_y - h/2.
-            else:
-                pass
-
 
     def RenderTo(self, target):
         target.Draw(self.bg_sprite)
@@ -472,7 +469,7 @@ class CharacterSelection(MenuState):
         elif button == 'start':
             if self.players_interface.CanStart():
                 players = self.players_interface.GetPlayers()
-                play_game('map_bazar', players)
+                self.SwitchState(_maps_id)
 
     def RenderTo(self, target):
         target.Draw(self.bg_sprite)
@@ -482,6 +479,7 @@ class CharacterSelection(MenuState):
 _map_dir = os.path.join(_base_image_dir, 'maps')
 class MapSelection(MenuState):
     def __init__(self):
+        MenuState.__init__(self)
         map_glob = os.path.join(_map_dir, '*.png')
         self.maps = [make_sprite(x) for x in glob.glob(map_glob)]
         # TODO set map positions
@@ -493,7 +491,7 @@ class MapSelection(MenuState):
 class MenuStatesManager(StatesManager):
     def InitStates(self):
         self.AddState(_startup_id, Startup())
-        #self.AddState(_maps_id, MapSelection())
+        self.AddState(_maps_id, MapSelection())
         self.AddState(_characters_id, CharacterSelection())
         self.SetState(_startup_id)
 
