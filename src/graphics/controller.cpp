@@ -13,24 +13,22 @@ namespace EUSDAB
             static std::time_t time = 0;
             time++;
 
-            sf::Shader shader;
-            shader.loadFromFile("../../assets/shader/wave.vert", sf::Shader::Vertex);
-            shader.setParameter("wave_amplitude", 15, 15);
-            shader.setParameter("wave_phase", time / 50.0f);
-            shader.setParameter("ratio", ((time % 25) / 25.0f));
+            _shader_rainbow.setParameter("wave_amplitude", 15, 15);
+            _shader_rainbow.setParameter("wave_phase", time / 50.0f);
+            _shader_rainbow.setParameter("ratio", ((time % 25) / 25.0f));
             auto drawSpriteAt = [&](sf::Sprite & sp,
                     const Physics::Vector2 & p)
             {
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
-                // _target.draw(sp, &shader);
+                // _target.draw(sp, &_shader_rainbow);
                 _target.draw(sp);
             };
 
             // Bounding box
             Physics::AABB bbox;
 
-            auto doHitbox = [&] (Physics::Hitbox hb, Physics::Vector2 const & p)
+            static auto doHitbox = [&] (Physics::Hitbox hb, Physics::Vector2 const & p)
             {
                 hb.translate(p);
 
@@ -162,8 +160,84 @@ namespace EUSDAB
             view.zoom(std::max(bboxSize.x / viewSize.x,
                         bboxSize.y / viewSize.y));
 
+            // HUD
+            static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
+            {
+                constexpr float dx = -45.0f;
+                _shader_filter.setParameter("percent", (number % 1000) / 300.0);
+
+                sf::Sprite spr(lsChar[10]);
+                spr.setScale(0.5f, 0.5f);
+                spr.setPosition(dpos.x + dx, dpos.y);
+                _target.draw(spr, &_shader_filter);
+                if(number == 0)
+                {
+                    spr.setTexture(lsChar[0]);
+                    spr.setPosition(spr.getPosition().x + dx, spr.getPosition().y);
+                    _target.draw(spr, &_shader_filter);
+                }
+                while(number != 0)
+                {
+                    unsigned int n = number % 10;
+                    spr.setTexture(lsChar[n]);
+                    spr.setPosition(spr.getPosition().x + dx, spr.getPosition().y);
+                    _target.draw(spr, &_shader_filter);
+                    number /= 10;
+                }
+            };
+
+            _target.setView(_target.getDefaultView());
+
+            auto getTex = [&] (Entity * e) {
+                if(e->name() == "Rick Hard")
+                    return _texRickHard;
+                if(e->name() == "Charlie")
+                    return _texCharlie;
+                if(e->name() == "Pedro Panda")
+                    return _texPedroPanda;
+                return _texRickHard;
+            };
+
+            auto it = _playerList.cbegin();
+            if(_playerList.size() >= 1) {
+                sf::Sprite spr(getTex(*it));
+                spr.setPosition(10.0, 10.0);
+                _target.draw(spr);
+
+                // TODO
+                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+            }
+            it++;
+            if(_playerList.size() >= 2) {
+                sf::Sprite spr(getTex(*it));
+                spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
+                _target.draw(spr);
+
+                // TODO
+                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+            }
+            it++;
+            if(_playerList.size() >= 3) {
+                sf::Sprite spr(getTex(*it));
+                spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                _target.draw(spr);
+
+                // TODO
+                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+            }
+            it++;
+            if(_playerList.size() >= 4) {
+                sf::Sprite spr(getTex(*it));
+                spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                _target.draw(spr);
+
+                // TODO
+                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+            }
+
             // Set final view
             _target.setView(view);
+
         }
 
         void Controller::addEntity(Entity * entity)
