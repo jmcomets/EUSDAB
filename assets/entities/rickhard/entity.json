@@ -382,6 +382,58 @@
             }, 
             "sliding_ratio": 1.05, 
             "type": "attack"
-        }
+        },
+        {
+            "animation": "guard_right", 
+            "movement": {
+                "action": [
+                    "guard"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "guard"
+        }, 
+        {
+            "animation": "guard_left", 
+            "movement": {
+                "action": [
+                    "guard"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "guard"
+        }, 
+        {
+            "animation": "shield_right", 
+            "movement": {
+                "action": [
+                    "shield"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield"
+        },
+        {
+            "animation": "shield_left", 
+            "movement": {
+                "action": [
+                    "shield"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield"
+        } 
     ]
 }

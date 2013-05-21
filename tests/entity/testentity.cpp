@@ -61,7 +61,7 @@ std::vector<Entity *> players;
         };
 
         std::vector<std::string> entityList = {{
-            "panda", "poney", "panda"
+            "rickhard", "poney", "panda"
         }};
 
         for (Size i = 0; sf::Joystick::isConnected(i); i++)

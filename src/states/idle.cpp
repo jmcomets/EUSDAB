@@ -43,6 +43,17 @@ namespace EUSDAB
 
         }
 
+        void Idle::onTrigger(const Event & e)
+        {
+            State::onTrigger(e);
+            std::cout << "Idle : OnTrigger" << std::endl;
+            if (e.edge == Event::RisingEdge)
+            {
+				switchState(Movement::Guard | _mvt.direction());
+            }
+
+        }
+
         void Idle::onDown(const Event & e)
         {
             std::cout << "Idle : onDown" << std::endl;
