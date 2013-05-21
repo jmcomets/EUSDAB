@@ -7,11 +7,11 @@ namespace EUSDAB
     {
         Shield::Shield(Movement const & m):
             State(m),
-            _curValue(100),
-            _maxValue(100),
+            _curValue(500),
+            _maxValue(500),
             _nbrShieldstate(3),
             _regenSpeed(5),
-            _decreaseSpeed(5),
+            _decreaseSpeed(3),
             _leaveTime(0)
         {
         }
@@ -71,15 +71,16 @@ namespace EUSDAB
             State::onNextFrame();
 
             
-            //_curValue-=_decreaseSpeed;
-            if (_curValue>0)
+            _curValue-=_decreaseSpeed;
+            if ((_curValue>0) && (_curValue <_maxValue))
             {
-                //changeImage();
+                changeImage();
+				_animation->refresh();
             }
             else
             {
-                //switchState(Movement::Stunned | _mvt.direction());
-                //_curValue= static_cast<unsigned int> (trunc(_maxValue/2));
+                switchState(Movement::Idle | _mvt.direction());
+                _curValue= static_cast<unsigned int> (trunc(_maxValue/2));
             }
             
         }
@@ -97,6 +98,7 @@ namespace EUSDAB
         void Shield::changeImage()
         { 
             unsigned int num_img= static_cast<unsigned int> (trunc(abs(_curValue/(_maxValue/_nbrShieldstate))));
+			std::cout<<"num_img : "<<num_img<<std::endl;
              _animation->setCurrentFrame(num_img);
         }
         
