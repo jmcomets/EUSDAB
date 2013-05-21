@@ -133,12 +133,17 @@ namespace EUSDAB
                 else if(_entity->_verticalState == Entity::VerticalState::Up)
                 {
                     switchState(Movement::Special | Movement::Up | _mvt.direction());
+                    std::cout << "Idle : onB | onUp" << std::endl;
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        s->transformation().velocity() = Physics::Vector2(0 , 10.);
+                    }
                 }
                 else if(_entity->_verticalState == Entity::VerticalState::Down)
                 {
                     switchState(Movement::Special | Movement::Down | _mvt.direction());
                 }
-                //switchState(Movement::Special | Movement::Idle | _mvt.direction());
             }
         }
 
