@@ -161,6 +161,7 @@ _characters = {
 
 _entity_dir = os.path.join(_assets_dir, 'entities')
 _character_folders = _characters.values()
+_min_to_start = 1
 
 _character_sounds = [load_sound('sound_{}.ogg'.format(x)) \
         for x in _characters]
@@ -216,7 +217,7 @@ class PlayersInterface(sf.Drawable):
             target.Draw(self.start_sprite)
 
     def CanStart(self):
-        return len(self.chosen) > 1
+        return len(self.chosen) >= _min_to_start
 
     def GetSelected(self, id_):
         return self.selections[id_]
@@ -277,11 +278,9 @@ def play_game(map_, player_dict):
         player_list.append(character)
     window = get_window()
     call_list = [_exec_name] + [map_] + player_list
-    # UNCOMMENT THE FOLLOWING WHEN READY
-    #window.Show(False)
-    #subprocess.call(call_list)
-    #window.Show(True)
-    print 'Calling', ' '.join(call_list)
+    window.Show(False)
+    subprocess.call(call_list)
+    window.Show(True)
 
 _button_mapping = {
         0 : 'a',
@@ -445,10 +444,10 @@ class MapSelection(MenuState):
 
 class MenuStatesManager(StatesManager):
     def InitStates(self):
-        self.AddState('startup', Startup())
-        self.AddState('maps', MapSelection())
+        #self.AddState('startup', Startup())
+        #self.AddState('maps', MapSelection())
         self.AddState('characters', CharacterSelection())
-        self.SetState('startup')
+        self.SetState('characters')
 
 if __name__ == '__main__':
     msm = MenuStatesManager()
