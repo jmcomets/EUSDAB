@@ -18,7 +18,8 @@ namespace EUSDAB
         _verticalState(VerticalState::Middle),
 		_globalTime(0),
 		_shieldValue(1000),
-		_shieldMaxValue(1000)
+		_shieldMaxValue(1000),
+		_shieldLeaveTime(0)
     {
     }
 
