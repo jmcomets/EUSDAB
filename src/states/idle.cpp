@@ -58,7 +58,7 @@ namespace EUSDAB
         {
             //std::cout << "Idle : onDown" << std::endl;
             State::onDown(e);
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
                 switchState(Movement::Crouch | _mvt.direction());
             }
