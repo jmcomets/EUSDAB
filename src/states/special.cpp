@@ -80,7 +80,8 @@ namespace EUSDAB
             State::onAnimationEnd();
             Movement newMvt(_mvt);
             newMvt.setAction(Movement::Falling);
-            switchState(newMvt);
+            //switchState(newMvt);
+            switchState(newMvt & ~Movement::Up & ~Movement::Down);
         }
 
         void Special::onGround(const Event & e)

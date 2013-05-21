@@ -38,7 +38,7 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
-        std::cout << "mvt.flag()" << mvt.flag() << std::endl;
+        //std::cout << "mvt.flag()" << mvt.flag() << std::endl;
         onLeave();
         State * s = _entity->state(mvt);
         if (s == nullptr)
@@ -55,15 +55,15 @@ namespace EUSDAB
         _entity->setState(s);
         s->onEnter();
     }
-    
+
     void State::switchState(Movement::Flag const & f)
     {
         switchState(Movement(f));
     }
-    
+
     void State::onChangeSide(const Movement & mvt)
     {
-    
+
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
@@ -71,7 +71,7 @@ namespace EUSDAB
         }
         _entity->setState(s);
     }
-    
+
     void State::onChangeSide(Movement::Flag const & f)
     {
         onChangeSide(Movement(f));
@@ -140,6 +140,7 @@ namespace EUSDAB
     void State::onNextFrame()
     {
         Listener::onNextFrame();
+        _entity->_globalTime+=1;
 
         if (_animation != nullptr)
         {
