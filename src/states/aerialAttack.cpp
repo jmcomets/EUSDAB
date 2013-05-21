@@ -6,8 +6,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        AerialAttack::AerialAttack():
-            State()
+        AerialAttack::AerialAttack(Movement const & m):
+            State(m)
         {
         }
 

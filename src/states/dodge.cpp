@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Dodge::Dodge():
-            State()
+        Dodge::Dodge(Movement const & m):
+            State(m)
         {
         }
 

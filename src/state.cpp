@@ -78,10 +78,10 @@ namespace EUSDAB
         return _mvt;
     }
 
-    void State::setMovement(const Movement & mvt)
-    {
-        _mvt = mvt;
-    }
+    // void State::setMovement(const Movement & mvt)
+    // {
+    //     _mvt = mvt;
+    // }
 
     Physics::Transform const & State::transformation() const
     {

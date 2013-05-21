@@ -87,6 +87,7 @@ namespace EUSDAB
 
     void Entity::addState(State * state)
     {
+        std::cout << "###State of movement : " << state->movement().debug() << std::endl;
         if (_states.insert(state).second == false)
         {
             throw std::runtime_error("Entity's states should be unique");

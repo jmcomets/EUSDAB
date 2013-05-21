@@ -6,8 +6,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Walk::Walk():
-            State()
+        Walk::Walk(Movement const & m):
+            State(m)
         {
         }
 

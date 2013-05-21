@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Jump::Jump():
-            State(), _velocity(0, 4)
+        Jump::Jump(Movement const & m):
+            State(m), _velocity(0, 4)
         {
         }
 

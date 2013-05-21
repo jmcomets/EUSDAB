@@ -4,8 +4,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        AerialHit::AerialHit():
-            State()
+        AerialHit::AerialHit(Movement const & m):
+            State(m)
         {
         }
 

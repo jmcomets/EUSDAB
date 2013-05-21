@@ -6,8 +6,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Run::Run():
-            State()
+        Run::Run(Movement const & m):
+            State(m)
         {
         }
 

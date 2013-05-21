@@ -4,8 +4,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Crouch::Crouch():
-            State()
+        Crouch::Crouch(Movement const & m):
+            State(m)
         {
         }
 

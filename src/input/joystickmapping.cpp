@@ -132,7 +132,7 @@ namespace EUSDAB
                 _mappings[i]->btnMapping[Button::Y] = Event::Up;
                 _mappings[i]->btnMapping[Button::Start] = Event::Ground;
 
-                //_mappings[i]->axisMapping[Axis::LStickUp]      = Event::Up;
+                _mappings[i]->axisMapping[Axis::LStickUp]      = Event::Up;
                 _mappings[i]->axisMapping[Axis::LStickDown]    = Event::Down;
                 _mappings[i]->axisMapping[Axis::LStickLeft]    = Event::Left;
                 _mappings[i]->axisMapping[Axis::LStickRight]   = Event::Right;
@@ -140,10 +140,10 @@ namespace EUSDAB
                 //_mappings[i]->axisMapping[Axis::RStickDown]  = Event::Down;
                 //_mappings[i]->axisMapping[Axis::RStickLeft]  = Event::Left;
                 //_mappings[i]->axisMapping[Axis::RStickRight] = Event::Right;
-                //_mappings[i]->axisMapping[Axis::DPadUp]      = Event::Up;
-                //_mappings[i]->axisMapping[Axis::DPadDown]    = Event::Down;
-                //_mappings[i]->axisMapping[Axis::DPadLeft]    = Event::Left;
-                //_mappings[i]->axisMapping[Axis::DPadRight]   = Event::Right;
+                _mappings[i]->axisMapping[Axis::DPadUp]        = Event::Up;
+                _mappings[i]->axisMapping[Axis::DPadDown]      = Event::Down;
+                _mappings[i]->axisMapping[Axis::DPadLeft]      = Event::Left;
+                _mappings[i]->axisMapping[Axis::DPadRight]     = Event::Right;
                 _mappings[i]->axisMapping[Axis::LTrigger]      = Event::Trigger;
                 _mappings[i]->axisMapping[Axis::RTrigger]      = Event::Trigger;
             }

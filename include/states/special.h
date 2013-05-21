@@ -14,7 +14,7 @@ namespace EUSDAB
                 Special(const Special &) = delete;
                 Special & operator=(const Special &) = delete;
 
-                Special();
+                Special(Movement const &);
                 virtual ~Special();
 
                 void onUp(const Event &);

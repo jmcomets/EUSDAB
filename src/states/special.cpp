@@ -6,8 +6,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Special::Special():
-            State()
+        Special::Special(Movement const & m):
+            State(m)
         {
         }
 

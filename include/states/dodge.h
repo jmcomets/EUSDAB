@@ -14,7 +14,7 @@ namespace EUSDAB
                 Dodge(const Dodge &) = delete;
                 Dodge & operator=(const Dodge &) = delete;
 
-                Dodge();
+                Dodge(Movement const &);
                 virtual ~Dodge();
 
                 void onUp(const Event &);

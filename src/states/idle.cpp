@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Idle::Idle():
-            State()
+        Idle::Idle(Movement const & m):
+            State(m)
         {
             std::cout << "Constructor Idle" << std::endl;
         }

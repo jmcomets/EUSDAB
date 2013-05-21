@@ -14,7 +14,7 @@ namespace EUSDAB
                 Guard(const Guard &) = delete;
                 Guard & operator=(const Guard &) = delete;
 
-                Guard();
+                Guard(Movement const &);
                 virtual ~Guard();
 
                 void onUp(const Event &);

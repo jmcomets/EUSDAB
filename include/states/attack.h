@@ -14,7 +14,7 @@ namespace EUSDAB
                 Attack(const Attack &) = delete;
                 Attack & operator=(const Attack &) = delete;
 
-                Attack();
+                Attack(Movement const &);
                 virtual ~Attack();
 
                 void onUp(const Event &);
