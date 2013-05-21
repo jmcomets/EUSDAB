@@ -46,6 +46,8 @@ namespace EUSDAB
                 AerialAttack = 1 << 21,
                 Dodge       = 1 << 22,
                 Stand       = 1 << 23,
+				Grab        = 1 << 24,
+				Haul        = 1 << 25,
 
                 // Used to lookup the size, as well as for initialization
                 Noop        = 1 << 18 

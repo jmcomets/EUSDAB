@@ -19,5 +19,8 @@
 #include <states/stand.h>
 #include <states/dodge.h>
 #include <states/aerialDodge.h>
+#include <states/haul.h>
+#include <states/grab.h>
+
 
 #endif
