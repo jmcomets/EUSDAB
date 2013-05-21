@@ -126,7 +126,19 @@ namespace EUSDAB
             State::onB(e);
             if (e.edge == Event::RisingEdge)
             {
-                switchState(Movement::Special | Movement::Idle | _mvt.direction());
+                if(_entity->_verticalState == Entity::VerticalState::Middle)
+                {
+                    switchState(Movement::Special | Movement::Idle | _mvt.direction());
+                }
+                else if(_entity->_verticalState == Entity::VerticalState::Up)
+                {
+                    switchState(Movement::Special | Movement::Up | _mvt.direction());
+                }
+                else if(_entity->_verticalState == Entity::VerticalState::Down)
+                {
+                    switchState(Movement::Special | Movement::Down | _mvt.direction());
+                }
+                //switchState(Movement::Special | Movement::Idle | _mvt.direction());
             }
         }
 

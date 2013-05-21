@@ -347,7 +347,7 @@
                 "damage": 5, 
                 "direction": {
                     "x": 0, 
-                    "y": 10
+                    "y": -10
                 }
             }, 
             "movement": {
@@ -368,7 +368,7 @@
                 "damage": 5, 
                 "direction": {
                     "x": 0, 
-                    "y": 10
+                    "y": -10
                 }
             }, 
             "movement": {
@@ -382,6 +382,132 @@
             }, 
             "sliding_ratio": 1.05, 
             "type": "attack"
+        },
+        {
+            "animation": "botA_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": 10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "botA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": 10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "upB_right", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": -20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        }, 
+        {
+            "animation": "upB_left", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": -20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        },
+        {
+            "animation": "botB_right", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": 20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        }, 
+        {
+            "animation": "botB_left", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": 20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
         },
         {
             "animation": "guard_right", 
