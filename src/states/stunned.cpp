@@ -5,71 +5,71 @@ namespace EUSDAB
 {
     namespace States
     {
-        Stand::Stand(Movement const & m):
+        Stunned::Stunned(Movement const & m):
             State(m)
         {
-            std::cout << "Constructor Stand" << std::endl;
+            std::cout << "Constructor Stunned" << std::endl;
         }
 
-        Stand::~Stand()
+        Stunned::~Stunned()
         {
         }
 
-        void Stand::onEnter()
+        void Stunned::onEnter()
         {
             State::onEnter();
-            std::cout << "Stand : onEnter" << std::endl;
+            std::cout << "Stunned : onEnter" << std::endl;
         }
 
-        void Stand::onLeave()
+        void Stunned::onLeave()
         {
             State::onLeave();
-            std::cout << "Stand : onLeave" << std::endl;
+            std::cout << "Stunned : onLeave" << std::endl;
         }
 
-        void Stand::onUp(const Event & e)
+        void Stunned::onUp(const Event & e)
         {
             State::onUp(e);
             
 
         }
 
-        void Stand::onDown(const Event & e)
+        void Stunned::onDown(const Event & e)
         {
-            std::cout << "Stand : onDown" << std::endl;
+            std::cout << "Stunned : onDown" << std::endl;
             State::onDown(e);
             
         }
 
-        void Stand::onLeft(const Event & e)
+        void Stunned::onLeft(const Event & e)
         {
             State::onLeft(e);
-            std::cout << "Stand : Left" << std::endl;
+            std::cout << "Stunned : Left" << std::endl;
             
         }
 
-        void Stand::onRight(const Event & e)
+        void Stunned::onRight(const Event & e)
         {
             State::onRight(e);
-            std::cout << "Stand : Right" << std::endl;
+            std::cout << "Stunned : Right" << std::endl;
 
             
         }
 
-        void Stand::onA(const Event & e)
+        void Stunned::onA(const Event & e)
         {
             State::onA(e);
-            std::cout << "Stand : A" << std::endl;
+            std::cout << "Stunned : A" << std::endl;
             
         }
 
-        void Stand::onB(const Event & e)
+        void Stunned::onB(const Event & e)
         {
-            std::cout << "Stand : B" << std::endl;
+            std::cout << "Stunned : B" << std::endl;
             State::onB(e);
         }
 
-        void Stand::onNextFrame()
+        void Stunned::onNextFrame()
         {
             State::onNextFrame();
 
@@ -86,6 +86,14 @@ namespace EUSDAB
             //{
             //_transform.velocity().x = static_cast<Unit>(0);
             /*}*/
+        }
+        
+        void Stunned::onAnimationEnd()
+        {
+            State::onAnimationEnd();
+            Movement newMvt(_mvt);
+            newMvt.setAction(Movement::Idle);
+            switchState(newMvt);
         }
 
         

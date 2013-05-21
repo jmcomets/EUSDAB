@@ -1,5 +1,5 @@
-#ifndef STATES_STAND_H
-#define STATES_STAND_H
+#ifndef STATES_STUNNED_H
+#define STATES_STUNNED_H
 
 #include <state.h>
 
@@ -7,15 +7,15 @@ namespace EUSDAB
 {
     namespace States
     {
-        class Stand: public State
+        class Stunned: public State
         {
             public:
-                Stand(Stand &&) = default;
-                Stand(const Stand &) = delete;
-                Stand & operator=(const Stand &) = delete;
+                Stunned(Stunned &&) = default;
+                Stunned(const Stunned &) = delete;
+                Stunned & operator=(const Stunned &) = delete;
 
-                Stand(Movement const &);
-                virtual ~Stand();
+                Stunned(Movement const &);
+                virtual ~Stunned();
 
                 void onUp(const Event &);
                 void onDown(const Event &);
@@ -38,6 +38,8 @@ namespace EUSDAB
 
                 void onEnter();
                 void onLeave();
+                
+                void onAnimationEnd();
 
                 
         };
