@@ -37,7 +37,7 @@ namespace EUSDAB
                 void onGround(const Event &);
 
                 void onEnter();
-                //void onLeave();
+                void onLeave();
                 
                 void onChangeSide(const Movement & mvt);
                 

@@ -12,7 +12,7 @@ namespace EUSDAB
         _current(nullptr), _states(),
         _life(nullptr),
         _zIndex(0),
-        _nbrJumpLeft(2), _nbrJumpMax(2),
+        _nbrJumpLeft(20), _nbrJumpMax(20), //FIXME
         _jumpPossible(true),
         _hb_collision(Physics::Hitbox::Collision)
     {
@@ -176,6 +176,7 @@ namespace EUSDAB
     
     bool Entity::canJump()
     {
+        std::cout << "jumpLeft : " << _nbrJumpLeft << std::endl;
         return _nbrJumpLeft > 0;
     }
     
