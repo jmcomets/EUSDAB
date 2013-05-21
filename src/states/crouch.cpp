@@ -70,5 +70,17 @@ namespace EUSDAB
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
         }
+        
+        void Crouch::onEnter()
+        {
+            State::onLeave();
+            std::cout << "Crouch : onEnter" << std::endl;
+        }
+        
+        void Crouch::onLeave()
+        {
+            State::onLeave();
+            std::cout << "Crouch : onLeave" << std::endl;
+        }
     }
 }

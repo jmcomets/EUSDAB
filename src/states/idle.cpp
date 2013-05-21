@@ -18,14 +18,14 @@ namespace EUSDAB
         void Idle::onEnter()
         {
             State::onEnter();
-            //std::cout << "Idle : onEnter" << std::endl;
+            std::cout << "Idle : onEnter" << std::endl;
             _entity->physics().velocity().x = 0;
         }
 
         void Idle::onLeave()
         {
             State::onLeave();
-            //std::cout << "Idle : onLeave" << std::endl;
+            std::cout << "Idle : onLeave" << std::endl;
         }
 
         void Idle::onUp(const Event & e)
