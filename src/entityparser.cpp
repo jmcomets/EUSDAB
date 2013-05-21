@@ -312,7 +312,7 @@ namespace EUSDAB
                         //else if(stateId == "stand") { state = new States::Stand(movement);}
                         //else if(stateId == "grab") { state = new States::Grab(movement);}
                         //else if(stateId == "haul") { state = new States::Haul(movement);}
-                        else if(stateId == "Dodge") { state = new States::Dodge(movement);}
+                        else if(stateId == "dodge") { state = new States::Dodge(movement);}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
