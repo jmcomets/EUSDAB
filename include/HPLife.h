@@ -20,7 +20,7 @@ namespace EUSDAB
             bool isAlive() const;
             void receiveDamage(const Amount &);
             void healDamage(const Amount &);
-            virtual Amount amount() const;
+            virtual Life::Amount amount() const;
 
         private:
             Amount _min, _hp, _max;

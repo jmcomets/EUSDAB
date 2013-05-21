@@ -23,4 +23,9 @@ namespace EUSDAB
     void InfiniteLife::healDamage(const InfiniteLife::Amount &)
     {
     }
+
+    Life::Amount InfiniteLife::amount() const
+    {
+        return 42;
+    }
 }

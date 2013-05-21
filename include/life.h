@@ -28,10 +28,7 @@ namespace EUSDAB
             // Heal damage (reduce damage requested)
             virtual void healDamage(const Amount &) = 0;
 
-            virtual Amount amount() const
-            {
-                return 23;
-            }
+            virtual Amount amount() const = 0;
     };
 }
 
