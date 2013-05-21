@@ -14,7 +14,7 @@ namespace EUSDAB
                 Walk(const Walk &) = delete;
                 Walk & operator=(const Walk &) = delete;
 
-                Walk();
+                Walk(Movement const &);
                 virtual ~Walk();
 
                 void onUp(const Event &);

@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Shield::Shield():
-            State(),
+        Shield::Shield(Movement const & m):
+            State(m),
             _curValue(100),
             _maxValue(100),
             _nbrShieldstate(3),

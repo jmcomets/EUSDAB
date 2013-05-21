@@ -14,7 +14,7 @@ namespace EUSDAB
                 Falling(const Falling &) = delete;
                 Falling & operator=(const Falling &) = delete;
 
-                Falling();
+                Falling(Movement const &);
                 virtual ~Falling();
 
                 void onUp(const Event &);

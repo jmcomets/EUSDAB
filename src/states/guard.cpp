@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Guard::Guard():
-            State()
+        Guard::Guard(Movement const & m):
+            State(m)
         {
         }
 

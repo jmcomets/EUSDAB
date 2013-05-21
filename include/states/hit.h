@@ -14,7 +14,7 @@ namespace EUSDAB
                 Hit(const Hit &) = delete;
                 Hit & operator=(const Hit &) = delete;
 
-                Hit();
+                Hit(Movement const &);
                 virtual ~Hit();
 
                 void onUp(const Event &);

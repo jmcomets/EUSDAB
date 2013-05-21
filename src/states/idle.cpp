@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Idle::Idle():
-            State()
+        Idle::Idle(Movement const & m):
+            State(m)
         {
             std::cout << "Constructor Idle" << std::endl;
         }
@@ -94,17 +94,17 @@ namespace EUSDAB
             std::cout << "Idle : A" << std::endl;
             if ((e.edge == Event::RisingEdge))
             {
-                if (_mvt.flag() & Movement::Left)
+                if(_entity->_verticalState == Entity::VerticalState::Middle)
                 {
-                    switchState(Movement::Attack | Movement::Left);
+                    switchState(Movement::Attack | _mvt.direction());
                 }
-                else if (_mvt.flag() & Movement::Right)
+                else if(_entity->_verticalState == Entity::VerticalState::Up)
                 {
-                    switchState(Movement::Attack | Movement::Right);
+                    switchState(Movement::Attack | Movement::Up | _mvt.direction());
                 }
-                else
+                else if(_entity->_verticalState == Entity::VerticalState::Down)
                 {
-                    //switchState(Movement::Attack | Movement::Left);
+                    switchState(Movement::Attack | Movement::Down | _mvt.direction());
                 }
             }
         }

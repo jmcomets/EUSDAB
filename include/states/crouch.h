@@ -14,7 +14,7 @@ namespace EUSDAB
                 Crouch(const Crouch &) = delete;
                 Crouch & operator=(const Crouch &) = delete;
 
-                Crouch();
+                Crouch(Movement const &);
                 virtual ~Crouch();
 
                 void onUp(const Event &);

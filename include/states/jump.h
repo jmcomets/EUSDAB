@@ -14,7 +14,7 @@ namespace EUSDAB
                 Jump(const Jump &) = delete;
                 Jump & operator=(const Jump &) = delete;
 
-                Jump();
+                Jump(Movement const &);
                 virtual ~Jump();
 
                 void onUp(const Event &);

@@ -201,71 +201,6 @@ namespace EUSDAB
 
                 try
                 {
-                    // Underlying state
-                    // TODO finish
-                    const std::string & stateId = statePt.get<std::string>("type");
-                    {
-                        if (stateId == "base")
-                        {
-                            state = new State();
-                        }
-                        else if (stateId == "idle" || stateId == "attack" || stateId == "onhit")
-                        {
-                            using Physics::Unit;
-                            Unit slidingRatio = statePt.get<Unit>("sliding_ratio");
-                            if (stateId == "idle")
-                            {
-                                States::Idle * idleState = new States::Idle();
-                                idleState->setSlidingRatio(slidingRatio);
-                                state = idleState;
-                            }
-                            else if (stateId == "onhit")
-                            {
-                                States::Hit * onhitState = new States::Hit();
-                                state = onhitState;
-                            }
-                            else
-                            {
-                                States::Attack * attackState = new States::Attack();
-                                attackState->setSlidingRatio(slidingRatio);
-                                state = attackState;
-                            }
-                        }
-                        else if (stateId == "walk" || stateId == "run"
-                                || stateId == "jump" || stateId == "falling")
-                        {
-                            using namespace Physics;
-                            Vector2 velocity = parseVector2(statePt.get_child("velocity"));
-                            if (stateId == "walk")
-                            {
-                                States::Walk * walkState = new States::Walk();
-                                walkState->setVelocity(velocity);
-                                state = walkState;
-                            }
-                            else if (stateId == "jump")
-                            {
-                                States::Jump * jumpState = new States::Jump();
-                                jumpState->setVelocity(velocity);
-                                state = jumpState;
-                            }
-                            else if (stateId == "falling")
-                            {
-                                States::Falling * fallingState = new States::Falling();
-                                fallingState->setVelocity(velocity);
-                                state = fallingState;
-                            }
-                            else
-                            {
-                                States::Run * runState = new States::Run();
-                                runState->setVelocity(velocity);
-                                state = runState;
-                            }
-                        }
-                        else if (stateId == "special") { state = new States::Special();}
-                        else if(stateId == "aerial_attack") { state = new States::AerialAttack();}
-                        else { throw std::runtime_error("Undefined state id"); }
-                    }
-
                     // Movement
                     const ptree & mvtPt = statePt.get_child("movement");
                     const ptree & actions = mvtPt.get_child("action");
@@ -288,16 +223,89 @@ namespace EUSDAB
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");
+                    int i = 0;
                     for (auto p : directions)
                     {
+                        i++;
                         const std::string & direction = p.second.data();
                         if (direction == "up") { flag |= Movement::Up; }
                         else if (direction == "down") { flag |= Movement::Down; }
                         else if (direction == "left") { flag |= Movement::Left; }
                         else if (direction == "right") { flag |= Movement::Right; }
                         else { throw std::runtime_error("Unrecognized direction"); }
+                        std::cout << "directions : " << i  << " | flag : " << flag << std::endl;
                     }
-                    state->setMovement(Movement(flag));
+
+                    // TODO
+                    Movement const * const mov = new Movement(flag);
+                    Movement const & movement = *mov;
+                    //Movement movement(flag);
+                    std::cout << "Construction d'un mouvement" << &movement << std::endl;
+
+                    // Underlying state
+                    // TODO finish
+                    const std::string & stateId = statePt.get<std::string>("type");
+                    {
+                        if (stateId == "base")
+                        {
+                            state = new State(movement);
+                        }
+                        else if (stateId == "idle" || stateId == "attack" || stateId == "onhit")
+                        {
+                            using Physics::Unit;
+                            Unit slidingRatio = statePt.get<Unit>("sliding_ratio");
+                            if (stateId == "idle")
+                            {
+                                States::Idle * idleState = new States::Idle(movement);
+                                idleState->setSlidingRatio(slidingRatio);
+                                state = idleState;
+                            }
+                            else if (stateId == "onhit")
+                            {
+                                States::Hit * onhitState = new States::Hit(movement);
+                                state = onhitState;
+                            }
+                            else
+                            {
+                                States::Attack * attackState = new States::Attack(movement);
+                                attackState->setSlidingRatio(slidingRatio);
+                                state = attackState;
+                            }
+                        }
+                        else if (stateId == "walk" || stateId == "run"
+                                || stateId == "jump" || stateId == "falling")
+                        {
+                            using namespace Physics;
+                            Vector2 velocity = parseVector2(statePt.get_child("velocity"));
+                            if (stateId == "walk")
+                            {
+                                States::Walk * walkState = new States::Walk(movement);
+                                walkState->setVelocity(velocity);
+                                state = walkState;
+                            }
+                            else if (stateId == "jump")
+                            {
+                                States::Jump * jumpState = new States::Jump(movement);
+                                jumpState->setVelocity(velocity);
+                                state = jumpState;
+                            }
+                            else if (stateId == "falling")
+                            {
+                                States::Falling * fallingState = new States::Falling(movement);
+                                fallingState->setVelocity(velocity);
+                                state = fallingState;
+                            }
+                            else
+                            {
+                                States::Run * runState = new States::Run(movement);
+                                runState->setVelocity(velocity);
+                                state = runState;
+                            }
+                        }
+                        else if (stateId == "special") { state = new States::Special(movement);}
+                        else if(stateId == "aerial_attack") { state = new States::AerialAttack(movement);}
+                        else { throw std::runtime_error("Undefined state id"); }
+                    }
 
                     // Attack
                     try

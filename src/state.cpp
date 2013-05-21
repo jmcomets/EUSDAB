@@ -34,11 +34,19 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
+        std::cout << "mvt.flag()" << mvt.flag() << std::endl;
         onLeave();
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
-            throw std::runtime_error("Undefined State");
+            std::string msg("Undefined State");
+#ifdef DEBUG
+            msg += " of movement ";
+            msg += mvt.debug();
+            msg += " current state movement is ";
+            msg += _entity->state()->movement().debug();
+#endif
+            throw std::runtime_error(msg);
         }
         _entity->setState(s);
         s->onEnter();
@@ -70,10 +78,10 @@ namespace EUSDAB
         return _mvt;
     }
 
-    void State::setMovement(const Movement & mvt)
-    {
-        _mvt = mvt;
-    }
+    // void State::setMovement(const Movement & mvt)
+    // {
+    //     _mvt = mvt;
+    // }
 
     Physics::Transform const & State::transformation() const
     {
@@ -164,6 +172,36 @@ namespace EUSDAB
     {
         Listener::onGround(e);
         _entity->setJumpPossible(true);
+    }
+
+    void State::onUp(Event const & e)
+    {
+        Listener::onUp(e);
+    
+        if (e.edge == Event::RisingEdge)
+        {
+            _entity->_verticalState = Entity::VerticalState::Up;
+        }
+        else if(e.edge == Event::FallingEdge)
+        {
+            _entity->_verticalState = Entity::VerticalState::Middle;
+        }
+        std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+    }
+
+    void State::onDown(Event const & e)
+    {
+        Listener::onUp(e);
+    
+        if (e.edge == Event::RisingEdge)
+        {
+            _entity->_verticalState = Entity::VerticalState::Down;
+        }
+        else if(e.edge == Event::FallingEdge)
+        {
+            _entity->_verticalState = Entity::VerticalState::Middle;
+        }
+        std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onAnimationEnd()

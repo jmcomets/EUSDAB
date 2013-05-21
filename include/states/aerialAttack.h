@@ -14,7 +14,7 @@ namespace EUSDAB
                 AerialAttack(const AerialAttack &) = delete;
                 AerialAttack & operator=(const AerialAttack &) = delete;
 
-                AerialAttack();
+                AerialAttack(Movement const &);
                 virtual ~AerialAttack();
 
                 void onUp(const Event &);

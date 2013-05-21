@@ -6,8 +6,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Attack::Attack():
-            State()
+        Attack::Attack(Movement const & m):
+            State(m)
         {
         }
 
@@ -56,9 +56,12 @@ namespace EUSDAB
         void Attack::onAnimationEnd()
         {
             State::onAnimationEnd();
+            std::cout << "mvt.flag() before : " << _mvt.flag() << std::endl;
+            // _mvt.setFlag(_mvt.flag() & ~Movement::Up & ~Movement::Down);
+            std::cout << "mvt.flag() after : " << _mvt.flag() << std::endl;
             Movement newMvt(_mvt);
             newMvt.setAction(Movement::Idle);
-            switchState(newMvt);
+            switchState(newMvt & ~Movement::Up & ~Movement::Down);
         }
 
         void Attack::onEnter()

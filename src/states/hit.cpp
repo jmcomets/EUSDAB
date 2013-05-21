@@ -5,8 +5,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Hit::Hit():
-            State()
+        Hit::Hit(Movement const & m):
+            State(m)
         {
         }
 

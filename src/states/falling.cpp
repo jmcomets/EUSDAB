@@ -4,8 +4,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Falling::Falling():
-            State()
+        Falling::Falling(Movement const & m):
+            State(m)
         {
         }
 

@@ -14,7 +14,7 @@ namespace EUSDAB
                 Run(const Run &) = delete;
                 Run & operator=(const Run &) = delete;
 
-                Run();
+                Run(Movement const &);
                 virtual ~Run();
 
                 void onUp(const Event &);

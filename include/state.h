@@ -20,7 +20,7 @@ namespace EUSDAB
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
-            State(const Movement & = Movement(), Entity * = nullptr, 
+            State(const Movement &, Entity * = nullptr, 
                     Animation * = nullptr);
             virtual ~State();
 
@@ -37,7 +37,7 @@ namespace EUSDAB
 
             // Get/Set the state's movement
             Movement movement() const;
-            void setMovement(const Movement &);
+            // void setMovement(const Movement &);
 
             // Get/Set the state's transformation
             Transform const & transformation() const;
@@ -74,7 +74,9 @@ namespace EUSDAB
             virtual void onGround(Event const &);
 
 
+            virtual void onUp(Event const &);
 
+            virtual void onDown(Event const &);
 
 
             // onAnimationEnd -> fired when animation ends
@@ -85,7 +87,7 @@ namespace EUSDAB
 
         protected:
             // Movement (identification)
-            Movement _mvt;
+            Movement const & _mvt;
 
             // State boilerplate
             Entity * _entity;

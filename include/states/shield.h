@@ -14,7 +14,7 @@ namespace EUSDAB
                 Shield(const Shield &) = delete;
                 Shield & operator=(const Shield &) = delete;
 
-                Shield();
+                Shield(Movement const &);
                 virtual ~Shield();
 
                 void onUp(const Event &);

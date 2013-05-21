@@ -6,8 +6,8 @@ namespace EUSDAB
 {
     namespace States
     {
-        Special::Special():
-            State()
+        Special::Special(Movement const & m):
+            State(m)
         {
         }
 
@@ -91,6 +91,7 @@ namespace EUSDAB
         void Special::onEnter()
         {
             State::onEnter();
+            _entity->physics().velocity().y = 0.1;
         }
         
         void Special::onLeave()
