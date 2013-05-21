@@ -28,29 +28,29 @@ namespace EUSDAB
 
             enum Action: Flag
             {
-                Idle        = 1 << 5 ,
-                Jump        = 1 << 6 ,
-                Attack      = 1 << 7 ,
-                Smash       = 1 << 8 ,
-                Flee        = 1 << 9 ,
-                Guard       = 1 << 10,
-                OnHit       = 1 << 11,
-                Walk        = 1 << 12,
-                Run         = 1 << 13,
-                Falling     = 1 << 14,
-                Crouch      = 1 << 15,
-                AerialHit   = 1 << 16,
-                Special     = 1 << 17,
-                Stunned     = 1 << 19,
-                Shield      = 1 << 20,
+                Idle         = 1 << 5 ,
+                Jump         = 1 << 6 ,
+                Attack       = 1 << 7 ,
+                Smash        = 1 << 8 ,
+                Flee         = 1 << 9 ,
+                Guard        = 1 << 10,
+                OnHit        = 1 << 11,
+                Walk         = 1 << 12,
+                Run          = 1 << 13,
+                Falling      = 1 << 14,
+                Crouch       = 1 << 15,
+                AerialHit    = 1 << 16,
+                Special      = 1 << 17,
+                Stunned      = 1 << 19,
+                Shield       = 1 << 20,
                 AerialAttack = 1 << 21,
-                Dodge       = 1 << 22,
-                Stand       = 1 << 23,
-				Grab        = 1 << 24,
-				Haul        = 1 << 25,
+                Dodge        = 1 << 22,
+                Stand        = 1 << 23,
+				Grab         = 1 << 24,
+				Haul         = 1 << 25,
 
                 // Used to lookup the size, as well as for initialization
-                Noop        = 1 << 18 
+                Noop        = 1 << 26 
             };
 
             Movement(Movement &&) = default;

@@ -7,7 +7,7 @@
 namespace EUSDAB
 {
     // Check that Flag can contain every Action / Direction
-    static constexpr std::size_t NoopIndex = static_cast<std::size_t>(18);
+    static constexpr std::size_t NoopIndex = static_cast<std::size_t>(26);
     static_assert(Movement::Noop == (1 << NoopIndex),
             "NoopIndex must be the index of the Movement::Noop bit");
     static_assert(sizeof(Movement::Flag) * 8 >= NoopIndex, 
