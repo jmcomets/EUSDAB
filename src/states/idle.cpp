@@ -132,13 +132,15 @@ namespace EUSDAB
                 }
                 else if(_entity->_verticalState == Entity::VerticalState::Up)
                 {
-                    switchState(Movement::Special | Movement::Up | _mvt.direction());
-                    std::cout << "Idle : onB | onUp" << std::endl;
                     auto s = _entity->state();
                     if(s != nullptr)
                     {
-                        s->transformation().velocity() = Physics::Vector2(0 , 10.);
+                        std::cout << "" << std::endl;
+                        s->transformation().velocity().y =  -100.0;
+                        _entity->physics().acceleration().y =  -0.60;
+                        std::cout << "Idle : onB | onUp  velocity = " << _entity->physics().velocity().y << std::endl;
                     }
+                    switchState(Movement::Special | Movement::Up | _mvt.direction());
                 }
                 else if(_entity->_verticalState == Entity::VerticalState::Down)
                 {

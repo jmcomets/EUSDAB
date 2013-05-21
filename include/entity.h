@@ -55,6 +55,8 @@ namespace EUSDAB
             // ...non-const version
             bool & gravitable();
 
+            void setGravitable(bool gravitable);
+
             // Attack module
 
             // Actually attack another entity

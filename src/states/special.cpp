@@ -28,12 +28,49 @@ namespace EUSDAB
         void Special::onLeft(const Event & e)
         {
             State::onLeft(e);
+
+            if (e.edge == Event::RisingEdge)
+            {
+                std::cout << "Jump : onLeft" << std::endl;
+                _entity->physics().velocity().x = -3;
+                onChangeSide(Movement::Special| Movement::Up | Movement::Left);
+                setNextStateAnimationFrameToCurrentFrame();
+            }
+            else if(e.edge == Event::FallingEdge)
+            {
+                _entity->physics().velocity().x = 0;
+            }
+
         }
 
         void Special::onRight(const Event & e)
         {
             State::onRight(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                std::cout << "Special : onRight" << std::endl;
+                _entity->physics().velocity().x = 3;
+                onChangeSide(Movement::Special | Movement::Up | Movement::Right);
+                setNextStateAnimationFrameToCurrentFrame();
+            }
+            else if(e.edge == Event::FallingEdge)
+            {
+                _entity->physics().velocity().x = 0;
+            }
         }
+
+        void Special::setNextStateAnimationFrameToCurrentFrame() const
+        {
+            // Continue animation from current frame in next state
+            State * s = _entity->state();
+            if (s == nullptr) { return; }
+
+            Animation * a = s->animation();
+            if (a == nullptr) { return; }
+            a->setCurrentFrame(_animation->currentFrame());
+        }
+
+
 
         void Special::onNextFrame()
         {
@@ -73,6 +110,10 @@ namespace EUSDAB
             {
                 _transform.velocity().y = trajectoryY(_time);
             }
+            if(_mvt.flag() & Movement::Up)
+            {
+                _entity->physics().acceleration().y *= 0.99;
+            }
         }
 
         void Special::onAnimationEnd()
@@ -81,6 +122,9 @@ namespace EUSDAB
             Movement newMvt(_mvt);
             newMvt.setAction(Movement::Falling);
             //switchState(newMvt);
+            //Reset acceleration of upB
+            _entity->physics().acceleration().y =  0;
+            _entity->setGravitable(true);
             switchState(newMvt & ~Movement::Up & ~Movement::Down);
         }
 
@@ -92,13 +136,21 @@ namespace EUSDAB
         void Special::onEnter()
         {
             State::onEnter();
-            _entity->physics().velocity().y = 0.1;
+            //_entity->physics().velocity().y = 0.1;
+            std::cout << "Special : onEnter velocity = " << _entity->physics().velocity().y << std::endl;
+            if(_mvt.flag() & Movement::Up)
+            {
+                _entity->physics().velocity().y = -1;
+                 //_entity->physics().acceleration().y = 0;
+                 _entity->setGravitable(false);
+            }
         }
         
         void Special::onLeave()
         {
             State::onLeave();
             _attack->reset();
+            _entity->setNbrJump(0);
         }
         
       
