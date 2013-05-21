@@ -27,7 +27,7 @@ namespace EUSDAB
                 //void onX(const Event &);
                 //void onY(const Event &);
                 //void onZ(const Event &);
-                //void onTrigger(const Event &);
+                void onTrigger(const Event &);
 
                 void onNextFrame();
 

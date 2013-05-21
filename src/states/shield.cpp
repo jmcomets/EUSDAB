@@ -71,15 +71,15 @@ namespace EUSDAB
             State::onNextFrame();
 
             
-            _curValue-=_decreaseSpeed;
+            //_curValue-=_decreaseSpeed;
             if (_curValue>0)
             {
-                changeImage();
+                //changeImage();
             }
             else
             {
-                switchState(Movement::Stunned | _mvt.direction());
-                _curValue= static_cast<unsigned int> (trunc(_maxValue/2));
+                //switchState(Movement::Stunned | _mvt.direction());
+                //_curValue= static_cast<unsigned int> (trunc(_maxValue/2));
             }
             
         }
@@ -87,8 +87,11 @@ namespace EUSDAB
         void Shield::onEnter()
         {
            // State::onEnter();
-            calcShieldValue();
-            changeImage();
+            _animation->setPaused(true);
+			_animation->setCurrentFrame(0);
+			_animation->refresh();
+			//calcShieldValue();
+            //changeImage();
         }
         
         void Shield::changeImage()
