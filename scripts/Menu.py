@@ -69,7 +69,7 @@ class CharacterFrame(sf.Drawable):
         self.rect.SetCenter(w / 2., h / 2.)
         self.rect.EnableOutline(False)
         self.rect.EnableFill(False)
-        self.rect.SetOutlineWidth(1)
+        self.rect.SetOutlineWidth(2)
         window_size = get_window_size()
         self.rect.SetPosition(window_size[0] / 2., window_size[1] / 2.)
 
@@ -98,10 +98,12 @@ class CharacterPreview(sf.Drawable):
         target.Draw(self.preview_sprite)
         target.Draw(self.name_sprite)
 
-    def SetPosition(self, *args):
+    def SetPreviewPosition(self, *args):
         x, y = args
         self.preview_sprite.SetPosition(x, y)
-        padding = -self.preview_sprite.GetImage().GetHeight() / 2. - _name_padding
+
+    def SetNamePosition(self, *args):
+        x, y, padding = args
         self.name_sprite.SetPosition(x, y + padding)
 
 class PlayerDisplay(sf.Drawable):
@@ -120,7 +122,10 @@ class PlayerDisplay(sf.Drawable):
     def Select(self, character):
         center = self.selected_sprite.GetPosition()
         self.preview = character
-        self.preview.SetPosition(*center)
+        self.preview.SetPreviewPosition(*center)
+        x, y = center
+        padding = -self.none_sprite.GetImage().GetHeight() / 2. - _name_padding
+        self.preview.SetNamePosition(x, y, padding)
 
     def UnSelect(self):
         self.preview = None
@@ -163,7 +168,7 @@ class PlayersInterface(sf.Drawable):
             padding = 300
             width_padding = (window_size[0]-nbCharacters*w-2*padding)/(nbCharacters-1)
             x = w/2. + (w+width_padding)*i + padding
-            y = 200
+            y = 170
             cf.SetPosition(x, y)
 
         self.players = []
@@ -180,11 +185,18 @@ class PlayersInterface(sf.Drawable):
             y = window_size[1] - h/2. - _interface_padding[1]
             pd.SetPosition(x, y)
 
+        self.start_sprite = make_sprite('Start_Banner.png')
+
     def Render(self, target):
         for p in self.players:
             target.Draw(p)
         for c in self.characters:
             target.Draw(c)
+        if self.CanStart():
+            target.Draw(self.start_sprite)
+
+    def CanStart(self):
+        return len(self.chosen) > 1
 
     def GetSelected(self, id_):
         return self.selections[id_]
@@ -243,18 +255,17 @@ def play_game():
     subprocess.call([_exec_name] + _exec_params)
     window.Show(True)
 
-_dead_zone_limit = 90
 _button_mapping = {
         0 : 'choose',
         1 : 'unchoose',
         7 : 'start'
         }
+_dead_zone_limit = 90
 if __name__ == '__main__':
     window = get_window()
     players_interface = PlayersInterface()
     bg_sprite = make_sprite('Background.png')
     banner_sprite = make_sprite('Banner.png')
-    start_sprite = make_sprite('Start_Banner.png')
     #load_music('bazar.ogg').Play()
 
     while window.IsOpened():
@@ -280,13 +291,12 @@ if __name__ == '__main__':
                     elif action == "unchoose":
                         players_interface.UnChoose(id_)
                     elif action == "start":
-                        players = players_interface.GetPlayers()
-                        if len(players) > 0:
+                        if players_interface.CanStart():
+                            players = players_interface.GetPlayers()
                             save_players(players)
                             play_game()
         window.Clear()
         window.Draw(bg_sprite)
         window.Draw(banner_sprite)
         window.Draw(players_interface)
-        window.Draw(start_sprite)
         window.Display()
