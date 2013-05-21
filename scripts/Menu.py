@@ -3,6 +3,7 @@
 
 import os
 import sys
+import glob
 import subprocess
 from PySFML import sf
 
@@ -160,6 +161,7 @@ _characters = {
 
 _entity_dir = os.path.join(_assets_dir, 'entities')
 _character_folders = _characters.values()
+_min_to_start = 1
 
 _character_sounds = [load_sound('sound_{}.ogg'.format(x)) \
         for x in _characters]
@@ -215,7 +217,7 @@ class PlayersInterface(sf.Drawable):
             target.Draw(self.start_sprite)
 
     def CanStart(self):
-        return len(self.chosen) > 1
+        return len(self.chosen) >= _min_to_start
 
     def GetSelected(self, id_):
         return self.selections[id_]
@@ -261,9 +263,12 @@ class PlayersInterface(sf.Drawable):
     def GetPlayers(self):
         return self.chosen
 
-_exec_name = os.path.join(_root_dir, 'EUSDAB')
+    def UnChooseAll(self):
+        self.chosen = {}
+
+_exec_name = os.path.join(_root_dir, 'eusdab.sh')
 def play_game(map_, player_dict):
-    """Run executable as EUSDAB map j1 ... jn."""
+    """Run executable : eusdab.sh map j1 ... jn."""
     player_list = []
     for player in xrange(_nbPlayers):
         if player in player_dict:
@@ -273,58 +278,177 @@ def play_game(map_, player_dict):
         player_list.append(character)
     window = get_window()
     call_list = [_exec_name] + [map_] + player_list
-    # UNCOMMENT THE FOLLOWING WHEN READY
-    #window.Show(False)
-    #subprocess.call(call_list)
-    #window.Show(True)
-    print 'Calling', ' '.join(call_list)
+    window.Show(False)
+    subprocess.call(call_list)
+    window.Show(True)
 
 _button_mapping = {
-        0 : 'choose',
-        1 : 'unchoose',
+        0 : 'a',
+        1 : 'b',
         7 : 'start'
         }
-_dead_zone_limit = 90
-if __name__ == '__main__':
-    window = get_window()
-    players_interface = PlayersInterface()
-    bg_sprite = make_sprite('Background.png')
-    banner_sprite = make_sprite('Banner.png')
-    #load_music('bazar.ogg').Play()
-    startup_sound = load_sound('char_selection.ogg')
-    startup_sound.Play()
-    start_sound = load_sound('press_start.ogg')
 
-    while window.IsOpened():
-        _input = window.GetInput()
-        event = sf.Event()
-        while window.GetEvent(event):
-            if event.Type == sf.Event.Closed:
-                window.Close()
-            elif event.Type == sf.Event.JoyMoved:
-                id_ = event.JoyMove.JoystickId
-                if event.JoyMove.Axis == sf.Joy.AxisX:
-                    val = event.JoyMove.Position
-                    if abs(val) >= _dead_zone_limit:
-                        delta = val / abs(val)
-                        players_interface.MoveSelection(id_, delta)
-            elif event.Type == sf.Event.JoyButtonPressed:
-                id_ = event.JoyButton.JoystickId
-                button = event.JoyButton.Button
-                if button in _button_mapping:
-                    action = _button_mapping[button]
-                    if action == "choose":
-                        players_interface.ChooseSelection(id_)
-                        if players_interface.CanStart():
-                            start_sound.Play()
-                    elif action == "unchoose":
-                        players_interface.UnChoose(id_)
-                    elif action == "start":
-                        if players_interface.CanStart():
-                            players = players_interface.GetPlayers()
-                            play_game('map_bazar', players)
-        window.Clear()
-        window.Draw(bg_sprite)
-        window.Draw(banner_sprite)
-        window.Draw(players_interface)
-        window.Display()
+_axis_mapping = {
+        sf.Joy.AxisX : 'x',
+        sf.Joy.AxisY : 'y'
+        }
+
+_dead_zone_limit = 90
+
+class StatesManager:
+    def __init__(self):
+        self.window = get_window()
+        self.states = {}
+        self.current = None
+        self.InitStates()
+        assert_msg = 'Current state should be set in InitStates'
+        assert self.current is not None, assert_msg
+
+    def InitStates(self):
+        raise NotImplementedError
+
+    def AddState(self, state_id, state):
+        if state_id in self.states:
+            raise RuntimeError('State %s already defined' % state_id)
+        self.states[state_id] = state
+
+    def SwitchState(self, state_id):
+        if state_id not in self.states:
+            raise RuntimeError('Undefined state %s' % state_id)
+        s = self.states[state_id]
+        if self.current is not None:
+            self.current.Leave()
+        self.current = s
+        self.current.Enter()
+
+    def SetState(self, state_id):
+        if state_id not in self.states:
+            raise RuntimeError('Undefined state %s' % state_id)
+        self.current = self.states[state_id]
+
+    def Run(self):
+        while self.window.IsOpened():
+            event = sf.Event()
+            while self.window.GetEvent(event):
+                if event.Type == sf.Event.Closed:
+                    self.window.Close()
+                elif event.Type == sf.Event.JoyMoved:
+                    id_ = event.JoyMove.JoystickId
+                    sfml_axis = event.JoyMove.Axis
+                    if sfml_axis in _axis_mapping:
+                        axis = _axis_mapping[sfml_axis]
+                        position = event.JoyMove.Position
+                        if abs(position) >= _dead_zone_limit:
+                            self.current.JoystickMoved(id_, axis, position)
+                elif event.Type == sf.Event.JoyButtonPressed:
+                    id_ = event.JoyButton.JoystickId
+                    button = event.JoyButton.Button
+                    if button in _button_mapping:
+                        action = _button_mapping[button]
+                        self.current.JoystickButtonPressed(id_, action)
+                elif event.Type == sf.Event.JoyButtonReleased:
+                    id_ = event.JoyButton.JoystickId
+                    button = event.JoyButton.Button
+                    if button in _button_mapping:
+                        action = _button_mapping[button]
+                        self.current.JoystickButtonReleased(id_, button)
+            self.current.Update()
+            if not self.current.IsAlive():
+                self.SwitchState(self.current.GetNextState())
+            self.window.Clear()
+            self.current.RenderTo(self.window)
+            self.window.Display()
+
+class MenuState:
+    def __init__(self):
+        self.alive = True
+        self.next_state = None
+
+    def SetAlive(self, alive):
+        self.alive = bool(alive)
+
+    def IsAlive(self):
+        return self.alive
+
+    def GetNextState(self):
+        return self.next_state
+
+    def SetNextState(self, state_id):
+        self.next_state = state_id
+
+    def Enter(self): pass
+    def Update(self): pass
+    def Leave(self): pass
+    def RenderTo(self, target): pass
+    def JoystickMoved(self, id_, axis, position): pass
+    def JoystickButtonPressed(self, id_, button): pass
+    def JoystickButtonReleased(self, id_, button): pass
+
+class Startup(MenuState):
+    def __init__(self):
+        MenuState.__init__(self)
+        self.bg_sprite = make_sprite('StartupBackground.png')
+
+    def Enter(self):
+        # TODO drop background images
+        pass
+
+    def RenderTo(self, target):
+        target.Draw(self.bg_sprite)
+
+class CharacterSelection(MenuState):
+    def __init__(self):
+        MenuState.__init__(self)
+        self.players_interface = PlayersInterface()
+        self.bg_sprite = make_sprite('Background.png')
+        self.banner_sprite = make_sprite('Banner.png')
+        self.startup_sound = load_sound('char_selection.ogg')
+        self.startup_sound.Play()
+        self.start_sound = load_sound('press_start.ogg')
+
+    def Enter(self):
+        self.players_interface.UnChooseAll()
+
+    def JoystickMoved(self, id_, axis, position):
+        if axis == 'x':
+            delta = position / abs(position)
+            self.players_interface.MoveSelection(id_, delta)
+
+    def JoystickButtonPressed(self, id_, button):
+        if button == 'a':
+            self.players_interface.ChooseSelection(id_)
+            if self.players_interface.CanStart():
+                self.start_sound.Play()
+        elif button == 'b':
+            self.players_interface.UnChoose(id_)
+        elif button == 'start':
+            if self.players_interface.CanStart():
+                players = self.players_interface.GetPlayers()
+                play_game('map_bazar', players)
+
+    def RenderTo(self, target):
+        target.Draw(self.bg_sprite)
+        target.Draw(self.banner_sprite)
+        target.Draw(self.players_interface)
+
+_map_dir = os.path.join(_base_image_dir, 'maps')
+class MapSelection(MenuState):
+    def __init__(self):
+        map_glob = os.path.join(_map_dir, '*.png')
+        self.maps = [make_sprite(x) for x in glob.glob(map_glob)]
+        # TODO set map positions
+
+    def RenderTo(self, target):
+        for m in self.maps:
+            target.Draw(m)
+
+class MenuStatesManager(StatesManager):
+    def InitStates(self):
+        #self.AddState('startup', Startup())
+        #self.AddState('maps', MapSelection())
+        self.AddState('characters', CharacterSelection())
+        self.SetState('characters')
+
+if __name__ == '__main__':
+    msm = MenuStatesManager()
+    msm.Run()

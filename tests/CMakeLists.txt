@@ -4,6 +4,7 @@ set(EUSDAB_TESTS
     #"animation"
     #"hitboxes"
     "entity"
+    "eusdab"
     #"joystick"
     )
 
