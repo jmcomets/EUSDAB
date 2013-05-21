@@ -121,6 +121,7 @@ namespace EUSDAB
 
 			unsigned int _shieldValue; 
 			unsigned int _shieldMaxValue;
+			time_t _shieldLeaveTime;
 
         protected:
             // General
