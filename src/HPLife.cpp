@@ -29,4 +29,9 @@ namespace EUSDAB
         assert(heal >= 0);
         _hp = std::min(_hp + heal, _max);
     }
+
+    Life::Amount HPLife::amount() const
+    {
+        return _hp;
+    }
 }

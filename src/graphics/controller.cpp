@@ -21,8 +21,8 @@ namespace EUSDAB
             {
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
-                // _target.draw(sp, _shader_rainbow);
-                _target.draw(sp);
+                _target.draw(sp, _shader_rainbow);
+                // _target.draw(sp);
             };
 
             // Bounding box
@@ -160,6 +160,15 @@ namespace EUSDAB
             view.zoom(std::max(bboxSize.x / viewSize.x,
                         bboxSize.y / viewSize.y));
 
+            // rect.left = std::max(rect.left, _world->aabb().min().x);
+            // rect.top = std::max(rect.top, _world->aabb().min().y);
+            // if(rect.left + rect.width > _world->aabb().max().x)
+            //     rect.left -= rect.width - _world->aabb().max().x;
+            // if(rect.top + rect.height > _world->aabb().max().y)
+            //     rect.top = _world->aabb().max().y - rect.height;
+            // view.setCenter(rect.left + rect.width / 2.0f,
+            //         rect.top + rect.height / 2.0f);
+
             // HUD
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
             {
@@ -218,7 +227,7 @@ namespace EUSDAB
 
                 _target.draw(spr);
                 // TODO
-                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+                draw_number(p->life()->amount(), spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
                 i++;
             }
 
