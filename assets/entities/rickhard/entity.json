@@ -667,6 +667,32 @@
             },
             "sliding_ratio": 1.05, 
             "type": "stand"
-        }        
+        },
+        {
+            "animation": "shield_break_right", 
+            "movement": {
+                "action": [
+                    "stunned"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stunned"
+        },
+        {
+            "animation": "shield_break_left", 
+            "movement": {
+                "action": [
+                    "stunned"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stunned"
+        }         
     ]
 }
