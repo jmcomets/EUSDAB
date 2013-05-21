@@ -37,7 +37,7 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
-        std::cout << "mvt.flag()" << mvt.flag() << std::endl;
+        //std::cout << "mvt.flag()" << mvt.flag() << std::endl;
         onLeave();
         State * s = _entity->state(mvt);
         if (s == nullptr)
@@ -49,7 +49,7 @@ namespace EUSDAB
             msg += " current state movement is ";
             msg += _entity->state()->movement().debug();
 #endif
-            throw std::runtime_error(msg);
+			throw std::runtime_error(msg);
         }
         _entity->setState(s);
         s->onEnter();
@@ -139,6 +139,7 @@ namespace EUSDAB
     void State::onNextFrame()
     {
         Listener::onNextFrame();
+		_entity->_globalTime+=1;
 
         if (_animation != nullptr)
         {
@@ -205,7 +206,7 @@ namespace EUSDAB
         {
             _entity->_verticalState = Entity::VerticalState::Middle;
         }
-        std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+        //std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onDown(Event const & e)
@@ -220,7 +221,7 @@ namespace EUSDAB
         {
             _entity->_verticalState = Entity::VerticalState::Middle;
         }
-        std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+        //std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onAnimationEnd()

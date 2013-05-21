@@ -115,6 +115,12 @@ namespace EUSDAB
             };
 
             VerticalState _verticalState;
+			
+			//general time of entity since creation of the univrse !!!!!!!!!!!!!!!!!!§!!!!!!!
+			time_t _globalTime;
+
+			unsigned int _shieldValue; 
+			unsigned int _shieldMaxValue;
 
         protected:
             // General
@@ -140,7 +146,7 @@ namespace EUSDAB
 
             // Hitbox de collision
             Physics::Hitbox _hb_collision;
-
+			
     };
 }
 

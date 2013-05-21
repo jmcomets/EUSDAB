@@ -18,23 +18,23 @@ namespace EUSDAB
         void Idle::onEnter()
         {
             State::onEnter();
-            std::cout << "Idle : onEnter" << std::endl;
+            //std::cout << "Idle : onEnter" << std::endl;
             _entity->physics().velocity().x = 0;
         }
 
         void Idle::onLeave()
         {
             State::onLeave();
-            std::cout << "Idle : onLeave" << std::endl;
+            //std::cout << "Idle : onLeave" << std::endl;
         }
 
         void Idle::onUp(const Event & e)
         {
             State::onUp(e);
-            std::cout << "Idle : OnUp" << std::endl;
+            //std::cout << "Idle : OnUp" << std::endl;
             if (e.edge == Event::RisingEdge)
             {
-                std::cout << "Canjump : " << entity()->canJump() << " | jumpPossible : " << entity()->jumpPossible() << std::endl;
+                //std::cout << "Canjump : " << entity()->canJump() << " | jumpPossible : " << entity()->jumpPossible() << std::endl;
                 if (entity()->canJump() && entity()->jumpPossible())
                 {
                     switchState(Movement::Jump | _mvt.direction());
@@ -46,7 +46,7 @@ namespace EUSDAB
         void Idle::onTrigger(const Event & e)
         {
             State::onTrigger(e);
-            std::cout << "Idle : OnTrigger" << std::endl;
+            //std::cout << "Idle : OnTrigger" << std::endl;
             if (e.edge == Event::RisingEdge)
             {
 				switchState(Movement::Guard | _mvt.direction());
@@ -56,7 +56,7 @@ namespace EUSDAB
 
         void Idle::onDown(const Event & e)
         {
-            std::cout << "Idle : onDown" << std::endl;
+            //std::cout << "Idle : onDown" << std::endl;
             State::onDown(e);
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
@@ -67,7 +67,7 @@ namespace EUSDAB
         void Idle::onLeft(const Event & e)
         {
             State::onLeft(e);
-            std::cout << "Idle : Left" << std::endl;
+            //std::cout << "Idle : Left" << std::endl;
             if (e.edge == Event::RisingEdge)
             {
                 if (e.ratio > Constants::OnRunRatio)
@@ -84,7 +84,7 @@ namespace EUSDAB
         void Idle::onRight(const Event & e)
         {
             State::onRight(e);
-            std::cout << "Idle : Right" << std::endl;
+            //std::cout << "Idle : Right" << std::endl;
 
             if (e.edge == Event::RisingEdge)
             {
@@ -102,7 +102,7 @@ namespace EUSDAB
         void Idle::onA(const Event & e)
         {
             State::onA(e);
-            std::cout << "Idle : A" << std::endl;
+            //std::cout << "Idle : A" << std::endl;
             if ((e.edge == Event::RisingEdge))
             {
                 if(_entity->_verticalState == Entity::VerticalState::Middle)
@@ -122,7 +122,7 @@ namespace EUSDAB
 
         void Idle::onB(const Event & e)
         {
-            std::cout << "Idle : B" << std::endl;
+            //std::cout << "Idle : B" << std::endl;
             State::onB(e);
             if (e.edge == Event::RisingEdge)
             {
