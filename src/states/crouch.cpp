@@ -73,7 +73,7 @@ namespace EUSDAB
         
         void Crouch::onEnter()
         {
-            State::onLeave();
+            State::onEnter();
             std::cout << "Crouch : onEnter" << std::endl;
         }
         
