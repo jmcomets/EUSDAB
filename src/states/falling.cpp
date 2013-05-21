@@ -60,6 +60,44 @@ namespace EUSDAB
             }
         }
 
+        void Falling::onA(const Event & e)
+        {
+            State::onA(e);
+            std::cout << "Falling : A" << std::endl;
+            if ((e.edge == Event::RisingEdge))
+            {
+                if (_mvt.flag() & Movement::Left)
+                {
+                    switchState(Movement::AerialAttack | _mvt.direction());
+                }
+                else if (_mvt.flag() & Movement::Right)
+                {
+                    switchState(Movement::AerialAttack | _mvt.direction());
+                }
+                else
+                {
+                    //switchState(Movement::Attack | Movement::Left);
+                }
+            }
+        }
+
+        void Falling::onB(const Event & e)
+        {
+            std::cout << "Falling : B" << std::endl;
+            State::onB(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if(std::abs(_entity->physics().velocity().x) > 0)
+                {
+                    switchState(Movement::Special | _mvt.direction());
+                }
+                else
+                {
+                    switchState(Movement::Special | Movement::Idle | _mvt.direction());
+                }
+            }
+        }
+
         void Falling::onGround(const Event & e)
         {
             State::onGround(e);

@@ -69,6 +69,7 @@ namespace EUSDAB
         void AerialAttack::onLeave()
         {
             State::onLeave();
+            _entity->physics().velocity().y = 0.1;
         }
         
        /* void AerialAttack::setSlidingRatio(Physics::Unit value)

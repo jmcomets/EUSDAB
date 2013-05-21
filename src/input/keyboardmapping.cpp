@@ -59,6 +59,8 @@ namespace EUSDAB
             _keyMapping[sf::Keyboard::S] = std::make_pair(_playerList.at(0), Event::Down);
             _keyMapping[sf::Keyboard::Q] = std::make_pair(_playerList.at(0), Event::Left);
             _keyMapping[sf::Keyboard::D] = std::make_pair(_playerList.at(0), Event::Right);
+            _keyMapping[sf::Keyboard::A] = std::make_pair(_playerList.at(0), Event::A);
+            _keyMapping[sf::Keyboard::B] = std::make_pair(_playerList.at(0), Event::B);
 
             if (_playerList.size() < 2) { return; }
 

@@ -89,6 +89,46 @@ namespace EUSDAB
             }
         }
 
+        void Jump::onA(const Event & e)
+        {
+            State::onA(e);
+            std::cout << "Jump : A" << std::endl;
+            if ((e.edge == Event::RisingEdge))
+            {
+                if (_mvt.flag() & Movement::Left)
+                {
+                    switchState(Movement::AerialAttack | _mvt.direction());
+                }
+                else if (_mvt.flag() & Movement::Right)
+                {
+                    switchState(Movement::AerialAttack | _mvt.direction());
+                }
+                else
+                {
+                    //switchState(Movement::Attack | Movement::Left);
+                }
+            }
+        }
+
+        void Jump::onB(const Event & e)
+        {
+            std::cout << "Jump : B" << std::endl;
+            State::onB(e);
+            if (e.edge == Event::RisingEdge)
+            {
+                if(std::abs(_entity->physics().velocity().x) > 0)
+                {
+                    switchState(Movement::Special | _mvt.direction());
+                }
+                else
+                {
+                    switchState(Movement::Special | Movement::Idle | _mvt.direction());
+                }
+            }
+        }
+
+
+
         void Jump::onNextFrame()
         {
             State::onNextFrame();
