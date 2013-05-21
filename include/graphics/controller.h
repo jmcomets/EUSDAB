@@ -30,11 +30,11 @@ namespace EUSDAB
                             _playerList(begin, end),
                             _world(world),
                             _lsChar(),
-                            _texRickHard(),
-                            _texCharlie(),
-                            _texPedroPanda(),
-                            _shader_rainbow(),
-                            _shader_filter()
+                            _texRickHard(new sf::Texture()),
+                            _texCharlie(new sf::Texture()),
+                            _texPedroPanda(new sf::Texture()),
+                            _shader_rainbow(new sf::Shader()),
+                            _shader_filter(new sf::Shader())
                 {
                     assert(_world != nullptr);
 
@@ -50,12 +50,12 @@ namespace EUSDAB
                     _lsChar[9].loadFromFile("../../assets/hud/number_9.png");
                     _lsChar[10].loadFromFile("../../assets/hud/percent.png");
 
-                    _texRickHard.loadFromFile("../../assets/hud/jauge_rickhard.png");
-                    _texCharlie.loadFromFile("../../assets/hud/jauge_charlie.png");
-                    _texPedroPanda.loadFromFile("../../assets/hud/jauge_pedropanda.png");
+                    _texRickHard->loadFromFile("../../assets/hud/jauge_rickhard.png");
+                    _texCharlie->loadFromFile("../../assets/hud/jauge_charlie.png");
+                    _texPedroPanda->loadFromFile("../../assets/hud/jauge_pedropanda.png");
 
-                    _shader_rainbow.loadFromFile("../../assets/shader/wave.vert", sf::Shader::Vertex);
-                    _shader_filter.loadFromFile("../../assets/shader/filter.vert", sf::Shader::Vertex);
+                    _shader_rainbow->loadFromFile("../../assets/shader/wave.vert", sf::Shader::Vertex);
+                    _shader_filter->loadFromFile("../../assets/shader/filter.vert", sf::Shader::Vertex);
                 }
 
                 // Draw the Controller to its currently set target
@@ -102,11 +102,11 @@ namespace EUSDAB
                 const Physics::World * _world;
 
                 std::array<sf::Texture, 11> _lsChar;
-                sf::Texture _texRickHard;
-                sf::Texture _texCharlie;
-                sf::Texture _texPedroPanda;
-                sf::Shader _shader_rainbow;
-                sf::Shader _shader_filter;
+                sf::Texture * _texRickHard;
+                sf::Texture * _texCharlie;
+                sf::Texture * _texPedroPanda;
+                sf::Shader * _shader_rainbow;
+                sf::Shader * _shader_filter;
         };
     }
 }
