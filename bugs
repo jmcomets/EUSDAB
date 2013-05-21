@@ -15,3 +15,8 @@ b + haut et b + bas panda font crasher
 what():  Undefined State of movement <Movement address=0x7ffff0853890, action=[ Special ](131072), direction=[Down | Right ](10)> current state movement is <Movement address=0x7ffff0853840, action=[ Idle ](32), direction=[Right ](8)>
 ./eusdab.sh: line 13: 23065 Aborted                 (core dumped) ../../build/tests/EUSDAB_eusdab $*
 
+00:07
+tomber avec le panda vers la droite fait crasher
+what():  Undefined State of movement <Movement address=0x7fff7c35bc30, action=[ AerialAttack ](2097152), direction=[Right ](8)> current state movement is <Movement address=0x7fff7c35bbe0, action=[ Falling ](16384), direction=[Right ](8)>
+./eusdab.sh: line 13: 23215 Aborted                 (core dumped) ../../build/tests/EUSDAB_eusdab $*
+
