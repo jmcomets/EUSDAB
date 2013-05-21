@@ -18,17 +18,29 @@ def get_window_size():
     w = get_window()
     return w.GetWidth(), w.GetHeight()
 
-_basedir = os.path.join('assets', 'menu')
+_base_image_dir = os.path.join('assets', 'menu')
 _loaded_images = {}
 def load_image(filename):
     global _loaded_images
     if filename not in _loaded_images:
         img = sf.Image()
-        fname = os.path.join(_basedir, filename)
+        fname = os.path.join(_base_image_dir, filename)
         if not img.LoadFromFile(fname):
             raise RuntimeError("Image %s couldn't be loaded" % fname)
         _loaded_images[filename] = img
     return _loaded_images[filename]
+
+_base_musics_dir = 'assets/audio/musics'
+_loaded_musics = {}
+def load_music(filename):
+    global _loaded_musics
+    if filename not in _loaded_musics:
+        music = sf.Music()
+        fname = os.path.join(_base_musics_dir, filename)
+        if not music.OpenFromFile(fname):
+            raise RuntimeError("Music %s couldn't be loaded" % fname)
+        _loaded_musics[filename] = music
+    return _loaded_musics[filename]
 
 def make_sprite(img, center=None):
     if isinstance(img, str):
@@ -54,6 +66,8 @@ class CharacterFrame(sf.Drawable):
         self.rect.SetOutlineWidth(1)
         window_size = get_window_size()
         self.rect.SetPosition(window_size[0] / 2., window_size[1] / 2.)
+        for i in xrange(self.rect.GetNbPoints()):
+            self.rect.SetPointOutlineColor(i, sf.Color.White)
 
     def Render(self, target):
         target.Draw(self.frame_sprite)
@@ -64,14 +78,11 @@ class CharacterFrame(sf.Drawable):
         self.rect.SetPosition(*args)
 
     def SetSelectColor(self, color):
-        assert isinstance(color, sf.Color)
         for i in xrange(self.rect.GetNbPoints()):
             self.rect.SetPointOutlineColor(i, color)
 
 class CharacterPreview(sf.Drawable):
     def __init__(self, preview_image, name_image):
-        assert isinstance(preview_image, sf.Image)
-        assert isinstance(name_image, sf.Image)
         self.preview_sprite = make_sprite(preview_image)
         self.name_sprite = make_sprite(name_image)
 
@@ -87,21 +98,18 @@ class CharacterPreview(sf.Drawable):
 
 class PlayerDisplay(sf.Drawable):
     def __init__(self, none_image, selected_image):
-        assert isinstance(none_image, sf.Image)
-        assert isinstance(selected_image, sf.Image)
         self.preview = None
         self.none_sprite = make_sprite(none_image)
         self.selected_sprite = make_sprite(selected_image)
 
     def Render(self, target):
         if self.preview is not None:
-            target.Draw(self.preview)
             target.Draw(self.selected_sprite)
+            target.Draw(self.preview)
         else:
             target.Draw(self.none_sprite)
 
     def Select(self, character):
-        assert isinstance(character, CharacterPreview)
         center = self.selected_sprite.GetPosition()
         self.preview = character
         self.preview.SetPosition(*center)
@@ -144,6 +152,7 @@ class PlayersInterface(sf.Drawable):
             cf.SetPosition(x, y)
 
         self.players = []
+        self.selections = range(_nbPlayers)
         for i in xrange(_nbPlayers):
             none_img = load_image('cadre_nop.png')
             selected_img = load_image('cadre_p{}.png'.format(i + 1))
@@ -154,15 +163,18 @@ class PlayersInterface(sf.Drawable):
             x = w/2. + (w+width_padding)*i + _interface_padding[0]
             y = window_size[1] - h/2. - _interface_padding[1]
             pd.SetPosition(x, y)
-            pd.Select(self.previews[i % len(self.previews)])
 
     def Render(self, target):
         for p in self.players:
             target.Draw(p)
-        for c in self.previews:
-            target.Draw(c)
         for c in self.characters:
             target.Draw(c)
+
+    def MoveSelection(self, id_, delta):
+        self.characters[self.selections[id_]].SetSelectColor(sf.Color.White)
+        self.selections[id_] = (self.selections[id_] + int(delta)) % len(self.previews)
+        self.players[id_].Select(self.previews[self.selections[id_]])
+        self.characters[self.selections[id_]].SetSelectColor(_color_mapping[id_])
 
 if __name__ == '__main__':
     window = get_window()
@@ -170,6 +182,8 @@ if __name__ == '__main__':
     bg_sprite = make_sprite('Background.png')
     banner_sprite = make_sprite('Banner.png')
     start_sprite = make_sprite('Start_Banner.png')
+    music = load_music('bazar.ogg')
+    music.Play()
 
     while window.IsOpened():
         _input = window.GetInput()
@@ -178,7 +192,12 @@ if __name__ == '__main__':
             if event.Type == sf.Event.Closed:
                 window.Close()
             elif event.Type == sf.Event.JoyMoved:
-                print 'joymoved'
+                id_ = event.JoyMove.JoystickId
+                if event.JoyMove.Axis == sf.Joy.AxisX:
+                    val = event.JoyMove.Position
+                    if abs(val) >= 20:
+                        delta = val / abs(val)
+                        players_interface.MoveSelection(id_, delta)
         window.Clear()
         window.Draw(bg_sprite)
         window.Draw(banner_sprite)
