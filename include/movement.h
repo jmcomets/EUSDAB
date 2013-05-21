@@ -39,6 +39,7 @@ namespace EUSDAB
                 Special     = 1 << 17,
                 Stunned     = 1 << 19,
                 Shield      = 1 << 20,
+                AerialAttack = 1 << 21,
 
                 // Used to lookup the size, as well as for initialization
                 Noop        = 1 << 18 

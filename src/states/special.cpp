@@ -79,7 +79,7 @@ namespace EUSDAB
         {
             State::onAnimationEnd();
             Movement newMvt(_mvt);
-            newMvt.setAction(Movement::Idle);
+            newMvt.setAction(Movement::Falling);
             switchState(newMvt);
         }
 

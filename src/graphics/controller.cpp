@@ -21,7 +21,7 @@ namespace EUSDAB
             {
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
-                // _target.draw(sp, _shader_rainbow);
+                 //_target.draw(sp, _shader_rainbow);
                 _target.draw(sp);
             };
 
@@ -201,26 +201,26 @@ namespace EUSDAB
                 return _texRickHard;
             };
 
-            std::size_t i = 0;
-            for(Entity * p : _playerList)
-            {
-                sf::Sprite spr(*getTex(p));
-                if(i >= 4)
-                    break;
-                if(i == 0)
-                    spr.setPosition(10.0, 10.0);
-                if(i == 1)
-                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
-                if(i == 2)
-                    spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
-                if(i == 3)
-                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+/*            std::size_t i = 0;*/
+            //for(Entity * p : _playerList)
+            //{
+                //sf::Sprite spr(*getTex(p));
+                //if(i >= 4)
+                    //break;
+                //if(i == 0)
+                    //spr.setPosition(10.0, 10.0);
+                //if(i == 1)
+                    //spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
+                //if(i == 2)
+                    //spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                //if(i == 3)
+                    //spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
 
-                _target.draw(spr);
-                // TODO
-                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
-                i++;
-            }
+                //_target.draw(spr);
+                //// TODO
+                //draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+                //i++;
+            //}
 
             // Set final view
             _target.setView(view);

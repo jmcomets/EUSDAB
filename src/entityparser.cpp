@@ -257,6 +257,7 @@ namespace EUSDAB
                             }
                         }
                         else if (stateId == "special") { state = new States::Special();}
+                        else if(stateId == "aerial_attack") { state = new States::AerialAttack();}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
@@ -278,6 +279,7 @@ namespace EUSDAB
                         else if (action == "onhit") { flag |= Movement::OnHit; }
                         else if (action == "falling") { flag |= Movement::Falling; }
                         else if (action == "special") { flag |= Movement::Special; }
+                        else if (action == "aerial_attack") { flag |= Movement::AerialAttack; }
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");

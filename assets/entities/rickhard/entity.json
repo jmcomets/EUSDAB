@@ -274,6 +274,46 @@
                 ]
             }, 
             "type": "special"
+        }, 
+        {
+            "animation": "air_A_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        }, 
+        {
+            "animation": "air_A_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": -10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
         }
     ]
 }
