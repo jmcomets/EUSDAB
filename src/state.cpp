@@ -1,6 +1,7 @@
 #include <state.h>
 #include <entity.h>
 #include <stdexcept>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -49,20 +50,20 @@ namespace EUSDAB
             msg += " current state movement is ";
             msg += _entity->state()->movement().debug();
 #endif
-			throw std::runtime_error(msg);
+            throw std::runtime_error(msg);
         }
         _entity->setState(s);
         s->onEnter();
     }
-    
+
     void State::switchState(Movement::Flag const & f)
     {
         switchState(Movement(f));
     }
-    
+
     void State::onChangeSide(const Movement & mvt)
     {
-    
+
         State * s = _entity->state(mvt);
         if (s == nullptr)
         {
@@ -70,7 +71,7 @@ namespace EUSDAB
         }
         _entity->setState(s);
     }
-    
+
     void State::onChangeSide(Movement::Flag const & f)
     {
         onChangeSide(Movement(f));
@@ -139,7 +140,7 @@ namespace EUSDAB
     void State::onNextFrame()
     {
         Listener::onNextFrame();
-		_entity->_globalTime+=1;
+        _entity->_globalTime+=1;
 
         if (_animation != nullptr)
         {
@@ -172,6 +173,7 @@ namespace EUSDAB
 
         if(_soundBuffer != nullptr)
         {
+            std::cout << "Playing sound" << std::endl;
             sf::Sound s(*_soundBuffer);
             s.play();
         }
@@ -206,7 +208,7 @@ namespace EUSDAB
         {
             _entity->_verticalState = Entity::VerticalState::Middle;
         }
-        //std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+        // std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onDown(Event const & e)
@@ -221,7 +223,7 @@ namespace EUSDAB
         {
             _entity->_verticalState = Entity::VerticalState::Middle;
         }
-        //std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
+        // std::cout << "VerticalState : " << _entity->_verticalState << std::endl;
     }
 
     void State::onAnimationEnd()
