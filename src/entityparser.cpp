@@ -288,14 +288,17 @@ namespace EUSDAB
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");
+                    int i = 0;
                     for (auto p : directions)
                     {
+                        i++;
                         const std::string & direction = p.second.data();
                         if (direction == "up") { flag |= Movement::Up; }
                         else if (direction == "down") { flag |= Movement::Down; }
                         else if (direction == "left") { flag |= Movement::Left; }
                         else if (direction == "right") { flag |= Movement::Right; }
                         else { throw std::runtime_error("Unrecognized direction"); }
+                        std::cout << "directions : " << i  << " | flag : " << flag << std::endl;
                     }
                     state->setMovement(Movement(flag));
 

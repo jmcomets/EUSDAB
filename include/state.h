@@ -74,7 +74,9 @@ namespace EUSDAB
             virtual void onGround(Event const &);
 
 
+            virtual void onUp(Event const &);
 
+            virtual void onDown(Event const &);
 
 
             // onAnimationEnd -> fired when animation ends

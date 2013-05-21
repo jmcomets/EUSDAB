@@ -91,6 +91,7 @@ namespace EUSDAB
         void Special::onEnter()
         {
             State::onEnter();
+            _entity->physics().velocity().y = 0.1;
         }
         
         void Special::onLeave()

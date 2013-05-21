@@ -176,7 +176,7 @@ namespace EUSDAB
                 _entity->physics().velocity().y = _velocity.y;
                 _entity->physics().velocity().y *= static_cast<Physics::Unit>(-1);
             }
-            std::cout << "Velocity : " << _velocity.y << " | transform : " << _entity->physics().velocity().y << std::endl;
+            std::cout << "Velocity : " << _velocity.x << " | transform : " << _entity->physics().velocity().y << std::endl;
         }
 
         void Jump::onLeave()

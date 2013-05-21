@@ -20,13 +20,11 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (e.edge == Event::RisingEdge)
+                if (entity()->canJump()&&entity()->jumpPossible())
                 {
-                    if (entity()->canJump()&&entity()->jumpPossible())
-                    {
-                        switchState(Movement::Jump | _mvt.direction());
-                    }
-                }   
+            std::cout << "Velocity : " << _velocity.x << " | transform : " << _entity->physics().velocity().y << std::endl;
+                    switchState(Movement::Jump | _mvt.direction());
+                }
             }
         }
 

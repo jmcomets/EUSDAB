@@ -106,6 +106,16 @@ namespace EUSDAB
             Physics::Hitbox const & hitbox() const;
             Physics::Hitbox & hitbox();
 
+            //Inclinaison vertical du joystick
+            enum VerticalState
+            {
+                Middle = 0,
+                Up   = 1,
+                Down = 2
+            };
+
+            VerticalState _verticalState;
+
         protected:
             // General
             std::string _name;
@@ -130,6 +140,7 @@ namespace EUSDAB
 
             // Hitbox de collision
             Physics::Hitbox _hb_collision;
+
     };
 }
 

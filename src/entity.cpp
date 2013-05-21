@@ -12,9 +12,10 @@ namespace EUSDAB
         _current(nullptr), _states(),
         _life(nullptr),
         _zIndex(0),
-        _nbrJumpLeft(20), _nbrJumpMax(20), //FIXME
+        _nbrJumpLeft(0), _nbrJumpMax(0), //FIXME
         _jumpPossible(true),
-        _hb_collision(Physics::Hitbox::Collision)
+        _hb_collision(Physics::Hitbox::Collision),
+        _verticalState(VerticalState::Middle)
     {
     }
 
@@ -70,6 +71,10 @@ namespace EUSDAB
 
     State * Entity::state(const Movement & mvt) const
     {
+        for(auto it : _states)
+        {
+            std::cout << "State of movement : " << it->movement().debug() << std::endl;
+        }
         State s(mvt);
         auto it = _states.find(&s);
         return it != _states.end() ? *it : nullptr;
