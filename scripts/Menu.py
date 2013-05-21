@@ -134,7 +134,8 @@ class PlayerDisplay(sf.Drawable):
 
     def Select(self, character):
         center = self.selected_sprite.GetPosition()
-        self.preview = character
+        self.preview = CharacterPreview(character.preview_sprite.GetImage(),
+                character.name_sprite.GetImage())
         self.preview.SetPreviewPosition(*center)
         x, y = center
         padding = -self.none_sprite.GetImage().GetHeight() / 2. - _name_padding
@@ -246,7 +247,7 @@ class PlayersInterface(sf.Drawable):
 
     def ChooseSelection(self, id_):
         s = self.GetSelected(id_)
-        self.characters[s].SetSelectColor(sf.Color.Green)
+        self.characters[s].ResetSelectColor()
         self.players[id_].Select(self.previews[s])
         self.SetChosen(id_, s)
         play_character_sound(s)
