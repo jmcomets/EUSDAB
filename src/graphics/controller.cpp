@@ -218,7 +218,7 @@ namespace EUSDAB
 
                 _target.draw(spr);
                 // TODO
-                //draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+                draw_number(42, spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
                 i++;
             }
 
