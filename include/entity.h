@@ -121,7 +121,7 @@ namespace EUSDAB
 
 			unsigned int _shieldValue; 
 			unsigned int _shieldMaxValue;
-			std::time_t _shieldLeaveTime;
+			time_t _shieldLeaveTime;
 
         protected:
             // General
