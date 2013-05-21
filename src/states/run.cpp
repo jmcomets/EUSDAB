@@ -145,6 +145,11 @@ namespace EUSDAB
             {
                 _animation->advance();
             }
+
+            if(_entity->physics().velocity().y > 0)
+            {
+                switchState(Movement::Falling | _mvt.direction());
+            }
         }
 
         void Run::onEnter()
