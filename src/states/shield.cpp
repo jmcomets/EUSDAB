@@ -7,8 +7,8 @@ namespace EUSDAB
     {
         Shield::Shield(Movement const & m):
             State(m),
-            _curValue(500),
-            _maxValue(500),
+            _curValue(1000),
+            _maxValue(1000),
             _nbrShieldstate(3),
             _regenSpeed(5),
             _decreaseSpeed(3),
@@ -88,34 +88,47 @@ namespace EUSDAB
         void Shield::onEnter()
         {
            // State::onEnter();
+		    _maxValue = _entity->_shieldMaxValue;
+		    _curValue = _entity->_shieldValue;
+			std::cout << "enterValue : "<< _entity->_shieldValue << std::endl;
             _animation->setPaused(true);
-			_animation->setCurrentFrame(0);
+			calcShieldValue();
+            changeImage();
 			_animation->refresh();
-			//calcShieldValue();
-            //changeImage();
         }
         
         void Shield::changeImage()
         { 
             unsigned int num_img= static_cast<unsigned int> (trunc(abs(_curValue/(_maxValue/_nbrShieldstate))));
-			std::cout<<"num_img : "<<num_img<<std::endl;
              _animation->setCurrentFrame(num_img);
         }
         
         void Shield::onLeave()
         {
             State::onLeave();
-            _leaveTime=_time;
+            _leaveTime=_entity->_globalTime;
+			std::cout<< "time : " << _leaveTime << "leave Value : " << _curValue << std::endl;
+			_entity->_shieldValue = _curValue;
+			//Movement::Flag f = Movement::Shield | Movement::Right;
+			//State * s = _entity->state(Movement(f));
+			//Shield * s2 = dynamic_cast<Shield *>(s);
+			//s2->setCurValue(_curValue);
+			//f = Movement::Shield | Movement::Left;
+			//s = _entity->state(Movement(f));
+			//s2 = dynamic_cast<Shield *>(s);
+			//s2->setCurValue(_curValue);
         }
         
         void Shield::calcShieldValue()
         {
-            unsigned int diff= static_cast<unsigned int> (trunc(abs(_time-_leaveTime)));
-            _curValue=abs(diff*_regenSpeed);
+            unsigned int diff= static_cast<unsigned int> (trunc(abs(_entity->_globalTime-_leaveTime)));
+            _curValue+=abs(diff*_regenSpeed);
             if (_curValue>_maxValue)
             {
                 _curValue=_maxValue;
             }
+			std::cout<< "diff : " << diff*_regenSpeed << "curTime : " << _entity->_globalTime << "leave : "<< _leaveTime<<"shield "<< _curValue<< std::endl;
+			std::cout<<"max : "<< _maxValue << std::endl;
         }
         
         void Shield::setCurValue(unsigned int v)
