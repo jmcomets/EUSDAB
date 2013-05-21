@@ -115,6 +115,7 @@ namespace EUSDAB
         if ((act & Falling)     != 0) { addToRepr(repr, "Falling"); }
         if ((act & Crouch)      != 0) { addToRepr(repr, "Crouch"); }
         if ((act & AerialHit)   != 0) { addToRepr(repr, "AerialHit"); }
+        if ((act & AerialAttack)   != 0) { addToRepr(repr, "AerialAttack"); }
         if ((act & Special)     != 0) { addToRepr(repr, "Special"); }
         return repr;
     }
