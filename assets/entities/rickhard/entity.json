@@ -641,6 +641,32 @@
             },
             "sliding_ratio": 1.05, 
             "type": "crouch"
-        }       
+        },
+        {
+            "animation": "stand_right", 
+            "movement": {
+                "action": [
+                    "stand"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stand"
+        },
+        {
+            "animation": "stand_left", 
+            "movement": {
+                "action": [
+                    "stand"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stand"
+        }        
     ]
 }
