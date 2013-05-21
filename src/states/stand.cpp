@@ -88,6 +88,12 @@ namespace EUSDAB
             /*}*/
         }
 
-        
+        void Stand::onAnimationEnd()
+        {
+            State::onAnimationEnd();
+            Movement newMvt(_mvt);
+            newMvt.setAction(Movement::Idle);
+            switchState(newMvt);
+        }
     }
 }

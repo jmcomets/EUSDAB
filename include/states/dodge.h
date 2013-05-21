@@ -41,6 +41,7 @@ namespace EUSDAB
                 
                 void setVelocity(const  Physics::Vector2 & );
                 
+                void onAnimationEnd();
             private:
             
                 Physics::Vector2 _velocity;

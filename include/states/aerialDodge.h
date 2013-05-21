@@ -1,5 +1,5 @@
-#ifndef STATES_STAND_H
-#define STATES_STAND_H
+#ifndef STATES_AERIALDODGE_H
+#define STATES_AERIALDODGE_H
 
 #include <state.h>
 
@@ -7,15 +7,15 @@ namespace EUSDAB
 {
     namespace States
     {
-        class Stand: public State
+        class AerialDodge: public State
         {
             public:
-                Stand(Stand &&) = default;
-                Stand(const Stand &) = delete;
-                Stand & operator=(const Stand &) = delete;
+                AerialDodge(AerialDodge &&) = default;
+                AerialDodge(const AerialDodge &) = delete;
+                AerialDodge & operator=(const AerialDodge &) = delete;
 
-                Stand(Movement const &);
-                virtual ~Stand();
+                AerialDodge(Movement const &);
+                virtual ~AerialDodge();
 
                 void onUp(const Event &);
                 void onDown(const Event &);
@@ -27,7 +27,7 @@ namespace EUSDAB
                 //void onX(const Event &);
                 //void onY(const Event &);
                 //void onZ(const Event &);
-                //void onTrigger(const Event &);
+                void onTrigger(const Event &);
 
                 void onNextFrame();
 
@@ -36,10 +36,16 @@ namespace EUSDAB
 
                 //void onGround(const Event &);
 
-                void onEnter();
-                void onLeave();
-
+                //void onEnter();
+                //void onLeave();
+                
+                void setVelocity(const  Physics::Vector2 & );
+                
                 void onAnimationEnd();
+                
+            private:
+            
+                Physics::Vector2 _velocity;
         };
     }
 }

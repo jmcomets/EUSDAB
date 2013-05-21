@@ -215,6 +215,7 @@ namespace EUSDAB
                         else if (action == "attack") { flag |= Movement::Attack; }
                         else if (action == "smash") { flag |= Movement::Smash; }
                         else if (action == "flee") { flag |= Movement::Flee; }
+                        else if (action == "dodge") { flag |= Movement::Dodge; }
                         else if (action == "guard") { flag |= Movement::Guard; }
                         else if (action == "shield") { flag |= Movement::Shield; }
                         else if (action == "onhit") { flag |= Movement::OnHit; }
@@ -303,6 +304,7 @@ namespace EUSDAB
                         else if(stateId == "aerial_attack") { state = new States::AerialAttack(movement);}
                         else if(stateId == "guard") { state = new States::Guard(movement);}
                         else if(stateId == "shield") { state = new States::Shield(movement);}
+                        else if(stateId == "Dodge") { state = new States::Dodge(movement);}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
 
