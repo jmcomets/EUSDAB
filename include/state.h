@@ -20,7 +20,7 @@ namespace EUSDAB
             State(State const &) = delete;
             State & operator=(State const &) = delete;
 
-            State(const Movement &, Entity * = nullptr, 
+            State(Movement const &, Entity * = nullptr, 
                     Animation * = nullptr);
             virtual ~State();
 
@@ -87,7 +87,7 @@ namespace EUSDAB
 
         protected:
             // Movement (identification)
-            Movement const & _mvt;
+            Movement const _mvt;
 
             // State boilerplate
             Entity * _entity;

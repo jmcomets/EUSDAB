@@ -4,7 +4,7 @@
 
 namespace EUSDAB
 {
-    State::State(const Movement & mvt, 
+    State::State(Movement const & mvt, 
             Entity * entity, Animation * anim):
         _mvt(mvt), _entity(entity),
         _animation(anim),
