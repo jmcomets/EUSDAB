@@ -48,6 +48,7 @@ namespace EUSDAB
                 Stand       = 1 << 23,
 				Grab        = 1 << 24,
 				Haul        = 1 << 25,
+				ShieldBreak = 1 << 26,
 
                 // Used to lookup the size, as well as for initialization
                 Noop        = 1 << 18 
