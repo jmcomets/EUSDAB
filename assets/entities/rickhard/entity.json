@@ -736,6 +736,6 @@
             },
             "sliding_ratio": 1.05, 
             "type": "shield_break"
-        },
+        }
     ]
 }
