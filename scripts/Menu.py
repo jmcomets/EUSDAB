@@ -324,6 +324,7 @@ class StatesManager:
         if state_id not in self.states:
             raise RuntimeError('Undefined state %s' % state_id)
         self.current = self.states[state_id]
+        self.current.Enter()
 
     def Run(self):
         while self.window.IsOpened():
@@ -383,6 +384,7 @@ _startup_dir = os.path.join(_base_image_dir, 'startup')
 _fall_speed = 40
 _stack_overflow = 40
 _start_padding = 20
+_start_extra = -5000
 class Startup(MenuState):
     def __init__(self):
         MenuState.__init__(self)
@@ -390,12 +392,19 @@ class Startup(MenuState):
         startup_glob = os.path.join(_startup_dir, '*.png')
         sprite_list = sorted(glob.glob(startup_glob), reverse=True)
         self.startup_sprites = [make_sprite(x) for x in sprite_list]
-        for s in self.startup_sprites:
+        for i, s in enumerate(self.startup_sprites):
             x, _ = s.GetPosition()
             h = s.GetImage().GetHeight()
-            s.SetPosition(x, -h)
+            if i == 0:
+                s.SetPosition(x, _start_extra - h)
+            else:
+                s.SetPosition(x, -h)
         self.moving_index = 0
         self.max_y = get_window_size()[1] - _start_padding
+        self.eusdab_sound = load_sound('EUSDAB.ogg')
+
+    def Enter(self):
+        self.eusdab_sound.Play()
 
     def Update(self):
         if self.moving_index < len(self.startup_sprites):
