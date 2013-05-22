@@ -8,7 +8,7 @@ namespace EUSDAB
     namespace Constants
     {
         typedef Input::Event::Ratio Ratio;
-        static constexpr Ratio OnRunRatio = static_cast<Ratio>(0.85);
+        static constexpr Ratio OnRunRatio = static_cast<Ratio>(0.90);
     }
 }
 

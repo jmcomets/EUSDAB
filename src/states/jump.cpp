@@ -1,5 +1,6 @@
 #include <states/jump.h>
 #include <iostream>
+#include <constants.h>
 
 namespace EUSDAB
 {
@@ -19,10 +20,13 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                std::cout << "Jump : onUp" << std::endl;
-                if (entity()->canJump() && entity()->jumpPossible())
+                if(e.ratio > Constants::OnRunRatio)
                 {
-                    switchState(Movement::Jump | _mvt.direction());
+                    std::cout << "Jump : onUp" << std::endl;
+                    if (entity()->canJump() && entity()->jumpPossible())
+                    {
+                        switchState(Movement::Jump | _mvt.direction());
+                    }
                 }
             }
         }
@@ -32,10 +36,13 @@ namespace EUSDAB
             State::onDown(e);
             if (e.edge == Event::RisingEdge)
             {
-                std::cout << "Jump : onDown" << std::endl;
-                _entity->physics().velocity().y = 0.1;
-                switchState(Movement::Falling | _mvt.direction());
-                entity()->setJumpPossible(true);
+                if(abs(e.ratio) > Constants::OnRunRatio)
+                {
+                    std::cout << "Jump : onDown" << std::endl;
+                    _entity->physics().velocity().y = 0.1;
+                    switchState(Movement::Falling | _mvt.direction());
+                    entity()->setJumpPossible(true);
+                }
             }
         }
 
@@ -114,15 +121,20 @@ namespace EUSDAB
         {
             std::cout << "Jump : B" << std::endl;
             State::onB(e);
+
             if (e.edge == Event::RisingEdge)
             {
-                if(std::abs(_entity->physics().velocity().x) > 0)
-                {
-                    switchState(Movement::Special | _mvt.direction());
-                }
-                else
+                if(_entity->_verticalState == Entity::VerticalState::Middle)
                 {
                     switchState(Movement::Special | Movement::Idle | _mvt.direction());
+                }
+                else if(_entity->_verticalState == Entity::VerticalState::Up)
+                {
+                    switchState(Movement::Special | Movement::Up | _mvt.direction());
+                }
+                else if(_entity->_verticalState == Entity::VerticalState::Down)
+                {
+                    switchState(Movement::Special | Movement::Down | _mvt.direction());
                 }
             }
         }

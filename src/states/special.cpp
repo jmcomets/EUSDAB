@@ -29,16 +29,19 @@ namespace EUSDAB
         {
             State::onLeft(e);
 
-            if (e.edge == Event::RisingEdge)
+            if(_mvt.flag() & Movement::Up)
             {
-                std::cout << "Jump : onLeft" << std::endl;
-                _entity->physics().velocity().x = -3;
-                onChangeSide(Movement::Special| Movement::Up | Movement::Left);
-                setNextStateAnimationFrameToCurrentFrame();
-            }
-            else if(e.edge == Event::FallingEdge)
-            {
-                _entity->physics().velocity().x = 0;
+                if (e.edge == Event::RisingEdge)
+                {
+                    std::cout << "Jump : onLeft" << std::endl;
+                    _entity->physics().velocity().x = -3;
+                    onChangeSide(Movement::Special | Movement::Up | Movement::Left);
+                    setNextStateAnimationFrameToCurrentFrame();
+                }
+                else if(e.edge == Event::FallingEdge)
+                {
+                    _entity->physics().velocity().x = 0;
+                }
             }
 
         }
@@ -46,16 +49,19 @@ namespace EUSDAB
         void Special::onRight(const Event & e)
         {
             State::onRight(e);
-            if (e.edge == Event::RisingEdge)
+            if(_mvt.flag() & Movement::Up)
             {
-                std::cout << "Special : onRight" << std::endl;
-                _entity->physics().velocity().x = 3;
-                onChangeSide(Movement::Special | Movement::Up | Movement::Right);
-                setNextStateAnimationFrameToCurrentFrame();
-            }
-            else if(e.edge == Event::FallingEdge)
-            {
-                _entity->physics().velocity().x = 0;
+                if (e.edge == Event::RisingEdge)
+                {
+                    std::cout << "Special : onRight" << std::endl;
+                    _entity->physics().velocity().x = 3;
+                    onChangeSide(Movement::Special | Movement::Up | Movement::Right);
+                    setNextStateAnimationFrameToCurrentFrame();
+                }
+                else if(e.edge == Event::FallingEdge)
+                {
+                    _entity->physics().velocity().x = 0;
+                }
             }
         }
 
@@ -112,7 +118,7 @@ namespace EUSDAB
             }
             if(_mvt.flag() & Movement::Up)
             {
-                _entity->physics().acceleration().y *= 0.99;
+                //_entity->physics().acceleration().y *= 0.85;
             }
         }
 
@@ -140,7 +146,7 @@ namespace EUSDAB
             std::cout << "Special : onEnter velocity = " << _entity->physics().velocity().y << std::endl;
             if(_mvt.flag() & Movement::Up)
             {
-                _entity->physics().velocity().y = -1;
+                _entity->physics().velocity().y = -5;
                  //_entity->physics().acceleration().y = 0;
                  _entity->setGravitable(false);
             }
