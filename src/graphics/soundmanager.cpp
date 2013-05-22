@@ -50,7 +50,7 @@ namespace EUSDAB
 
         void SoundManager::playAsynchronous(SoundPtr const & s)
         {
-            static auto f_play = [](sf::SoundBuffer const & s)
+            auto f_play = [](sf::SoundBuffer const & s)
             {
                 sf::Sound sound(s);
                 sound.play();

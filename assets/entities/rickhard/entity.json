@@ -737,35 +737,5 @@
             "sliding_ratio": 1.05, 
             "type": "shield_break"
         },
-        {
-            "animation": "air_dodge_right", 
-            "movement": {
-                "action": [
-                    "dodge",
-                    "jump"
-                ], 
-                "direction": [
-                    "right"
-                ]
-            },
-            "sliding_ratio": 1.05, 
-            "type": "aerial_dodge"
-        },
-        {
-            "animation": "air_dodge_left", 
-            "movement": {
-                "action": [
-                    "dodge",
-                    "jump"
-                ], 
-                "direction": [
-                    "left"
-                ]
-            },
-            "sliding_ratio": 1.05, 
-            "type": "aerial_dodge"
-        } 
-             
-             
     ]
 }
