@@ -250,7 +250,8 @@
                     "idle"
                 ], 
                 "direction": [
-                    "right"
+                    "right",
+                    "down"
                 ]
             }, 
             "type": "special"
@@ -270,7 +271,8 @@
                     "idle"
                 ], 
                 "direction": [
-                    "left"
+                    "left",
+                    "down"
                 ]
             }, 
             "type": "special"

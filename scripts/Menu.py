@@ -4,7 +4,9 @@
 import os
 import sys
 import glob
+import random
 import subprocess
+import threading
 from PySFML import sf
 
 _root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -150,9 +152,6 @@ class PlayerDisplay(sf.Drawable):
         padding = -self.none_sprite.GetImage().GetHeight() / 2. - _name_padding
         self.preview.SetNamePosition(x, y, padding)
 
-    def UnSelect(self):
-        self.preview = None
-
     def SetPosition(self, *args):
         self.none_sprite.SetPosition(*args)
         self.selected_sprite.SetPosition(*args)
@@ -166,7 +165,7 @@ _characters = {
         'RickHard'   : 'rickhard',
         'PedroPanda' : 'panda',
         'Charlie'    : 'poney',
-        #'Botato'     : 'botato'
+        'Botato'     : 'botato'
         }
 
 _entity_dir = os.path.join(_assets_dir, 'entities')
@@ -229,52 +228,41 @@ class PlayersInterface(sf.Drawable):
     def CanStart(self):
         return len(self.chosen) >= _min_to_start
 
-    def GetSelected(self, id_):
-        return self.selections[id_]
-
-    def SetSelected(self, id_, s):
-        self.selections[id_] = s
-
-    def GetChosen(self, id_):
-        return self.chosen[id_]
-
-    def SetChosen(self, id_, s):
-        self.chosen[id_] = s
-
-    def SetNotChosen(self, id_):
-        if id_ in self.chosen:
-            del self.chosen[id_]
-
-    def HasChosen(self, id_):
-        return id_ in self.chosen
-
     def MoveSelection(self, id_, delta):
-        if not self.HasChosen(id_):
-            s = self.GetSelected(id_)
+        if id_ not in self.chosen:
+            s = self.selections[id_]
             self.characters[s].ResetSelectColor()
             s = (s + int(delta)) % len(self.previews)
-            self.SetSelected(id_, s)
+            self.selections[id_] = s
             self.characters[s].SetSelectColor(_color_mapping[id_])
 
     def ChooseSelection(self, id_):
-        s = self.GetSelected(id_)
+        s = self.selections[id_]
         self.characters[s].ResetSelectColor()
         self.players[id_].Select(self.previews[s])
-        self.SetChosen(id_, s)
+        self.chosen[id_] = s
         play_character_sound(s)
 
     def UnChoose(self, id_):
-        if self.HasChosen(id_):
-            s = self.GetChosen(id_)
+        if id_ in self.chosen:
+            s = self.chosen[id_]
             self.characters[s].SetSelectColor(_color_mapping[id_])
-            self.players[id_].UnSelect()
-            self.SetNotChosen(id_)
-
-    def GetPlayers(self):
-        return self.chosen
+            self.players[id_].preview = None
+            del self.chosen[id_]
 
     def UnChooseAll(self):
+        for id_, s in self.chosen.iteritems():
+            s = self.chosen[id_]
+            self.characters[s].SetSelectColor(_color_mapping[id_])
+            self.players[id_].preview = None
         self.chosen = {}
+
+_player_interface = None
+def get_player_interface():
+    global _player_interface
+    if _player_interface is None:
+        _player_interface = PlayersInterface()
+    return _player_interface
 
 _exec_name = os.path.join(_root_dir, 'eusdab.sh')
 def play_game(map_, player_dict):
@@ -330,11 +318,13 @@ class StatesManager:
             self.current.Leave()
         self.current = s
         self.current.Enter()
+        self.current.alive = True
 
     def SetState(self, state_id):
         if state_id not in self.states:
             raise RuntimeError('Undefined state %s' % state_id)
         self.current = self.states[state_id]
+        self.current.Enter()
 
     def Run(self):
         while self.window.IsOpened():
@@ -363,8 +353,8 @@ class StatesManager:
                         action = _button_mapping[button]
                         self.current.JoystickButtonReleased(id_, button)
             self.current.Update()
-            if not self.current.IsAlive():
-                self.SwitchState(self.current.GetNextState())
+            if not self.current.alive:
+                self.SwitchState(self.current.next_state)
             self.window.Clear()
             self.current.RenderTo(self.window)
             self.window.Display()
@@ -375,19 +365,7 @@ class MenuState:
         self.next_state = None
 
     def SwitchState(self, state_id):
-        self.SetAlive(False)
-        self.SetNextState(state_id)
-
-    def SetAlive(self, alive):
-        self.alive = bool(alive)
-
-    def IsAlive(self):
-        return self.alive
-
-    def GetNextState(self):
-        return self.next_state
-
-    def SetNextState(self, state_id):
+        self.alive = False
         self.next_state = state_id
 
     def Enter(self): pass
@@ -406,6 +384,7 @@ _startup_dir = os.path.join(_base_image_dir, 'startup')
 _fall_speed = 40
 _stack_overflow = 40
 _start_padding = 20
+_start_extra = -5000
 class Startup(MenuState):
     def __init__(self):
         MenuState.__init__(self)
@@ -413,12 +392,19 @@ class Startup(MenuState):
         startup_glob = os.path.join(_startup_dir, '*.png')
         sprite_list = sorted(glob.glob(startup_glob), reverse=True)
         self.startup_sprites = [make_sprite(x) for x in sprite_list]
-        for s in self.startup_sprites:
+        for i, s in enumerate(self.startup_sprites):
             x, _ = s.GetPosition()
             h = s.GetImage().GetHeight()
-            s.SetPosition(x, -h)
+            if i == 0:
+                s.SetPosition(x, _start_extra - h)
+            else:
+                s.SetPosition(x, -h)
         self.moving_index = 0
         self.max_y = get_window_size()[1] - _start_padding
+        self.eusdab_sound = load_sound('EUSDAB.ogg')
+
+    def Enter(self):
+        self.eusdab_sound.Play()
 
     def Update(self):
         if self.moving_index < len(self.startup_sprites):
@@ -444,11 +430,10 @@ class Startup(MenuState):
 class CharacterSelection(MenuState):
     def __init__(self):
         MenuState.__init__(self)
-        self.players_interface = PlayersInterface()
+        self.players_interface = get_player_interface()
         self.bg_sprite = make_sprite('Background.png')
         self.banner_sprite = make_sprite('Banner.png')
         self.startup_sound = load_sound('char_selection.ogg')
-        self.start_sound = load_sound('press_start.ogg')
 
     def Enter(self):
         self.players_interface.UnChooseAll()
@@ -462,13 +447,11 @@ class CharacterSelection(MenuState):
     def JoystickButtonPressed(self, id_, button):
         if button == 'a':
             self.players_interface.ChooseSelection(id_)
-            if self.players_interface.CanStart():
-                self.start_sound.Play()
         elif button == 'b':
             self.players_interface.UnChoose(id_)
         elif button == 'start':
             if self.players_interface.CanStart():
-                players = self.players_interface.GetPlayers()
+                players = self.players_interface.chosen
                 self.SwitchState(_maps_id)
 
     def RenderTo(self, target):
@@ -476,17 +459,69 @@ class CharacterSelection(MenuState):
         target.Draw(self.banner_sprite)
         target.Draw(self.players_interface)
 
+_maps = ['map_bazar']
 _map_dir = os.path.join(_base_image_dir, 'maps')
+_map_images = [load_image('{}.png'.format(x), _map_dir) \
+        for x in _maps]
+_map_padding = 50
 class MapSelection(MenuState):
     def __init__(self):
         MenuState.__init__(self)
-        map_glob = os.path.join(_map_dir, '*.png')
-        self.maps = [make_sprite(x) for x in glob.glob(map_glob)]
-        # TODO set map positions
+        self.maps = [make_sprite(x) for x in _map_images]
+        window_size = get_window_size()
+        N = len(self.maps)
+        if N > 1:
+            for i, m in enumerate(self.maps):
+                img = m.GetImage()
+                w, h = img.GetWidth(), img.GetHeight()
+                x, y = m.GetPosition()
+                p = (window_size[0] - 2*_map_padding - N*w) / (N - 1)
+                x = _map_padding + w / 2. + i*w + (i - 1)*p
+                m.SetPosition(x, y)
+
+        self.bg_sprite = make_sprite('Background.png')
+
+        w = max(m.GetImage().GetWidth() for m in self.maps)
+        h = max(m.GetImage().GetHeight() for m in self.maps)
+        self.rect = sf.Shape.Rectangle(0, 0, w, h, sf.Color.White)
+        self.rect.SetCenter(w / 2., h / 2.)
+        self.rect.EnableOutline(False)
+        self.rect.EnableFill(False)
+        self.rect.SetOutlineWidth(2)
+        for i in xrange(self.rect.GetNbPoints()):
+            self.rect.SetPointOutlineColor(i, sf.Color.Yellow)
+
+        self.selected = None
 
     def RenderTo(self, target):
-        for m in self.maps:
+        target.Draw(self.bg_sprite)
+        for i, m in enumerate(self.maps):
             target.Draw(m)
+            if self.selected == i:
+                self.rect.SetPosition(*m.GetPosition())
+                target.Draw(self.rect)
+
+    def JoystickMoved(self, id_, axis, position):
+        delta = position / abs(position)
+        if axis == 'x':
+            if self.selected is None:
+                self.rect.EnableOutline(True)
+                self.selected = 0
+            else:
+                self.selected = (self.selected + 1) % len(self.maps)
+        elif axis == 'y': pass # TODO
+
+    def JoystickButtonPressed(self, id_, button):
+        if button == 'start' or button == 'a':
+            if self.selected is None:
+                chosen = random.choice(range(len(_maps)))
+            else:
+                chosen = self.selected
+            players = get_player_interface().chosen
+            play_game(_maps[chosen], players)
+            self.SwitchState(_characters_id)
+        elif button == 'b':
+            self.SwitchState(_characters_id)
 
 class MenuStatesManager(StatesManager):
     def InitStates(self):
@@ -494,6 +529,7 @@ class MenuStatesManager(StatesManager):
         self.AddState(_maps_id, MapSelection())
         self.AddState(_characters_id, CharacterSelection())
         self.SetState(_startup_id)
+        #self.SetState(_maps_id)
 
 if __name__ == '__main__':
     msm = MenuStatesManager()

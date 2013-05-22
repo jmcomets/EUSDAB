@@ -14,7 +14,49 @@
             }, 
             "sliding_ratio": 1.05, 
             "type": "idle"
+        },
+        {
+            "animation": "botB_right", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": 20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
         }, 
+        {
+            "animation": "botB_left", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": 20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        },
         {
             "animation": "walk_right", 
             "movement": {
@@ -250,7 +292,8 @@
                     "idle"
                 ], 
                 "direction": [
-                    "left"
+                    "left",
+                    "down"
                 ]
             }, 
             "type": "special"
@@ -270,7 +313,8 @@
                     "idle"
                 ], 
                 "direction": [
-                    "right"
+                    "right",
+                    "down"
                 ]
             }, 
             "type": "special"
