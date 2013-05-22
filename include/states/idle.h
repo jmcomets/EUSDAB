@@ -22,6 +22,8 @@ namespace EUSDAB
                 void onLeft(const Event &);
                 void onRight(const Event &);
 
+                void onEnter();
+
                 void onA(const Event &);
                 void onB(const Event &);
                 void onTrigger(const Event &);

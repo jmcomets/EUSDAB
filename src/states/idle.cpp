@@ -14,6 +14,12 @@ namespace EUSDAB
         {
         }
 
+        void Idle::onEnter()
+        {
+            State::onEnter();
+            _entity->physics().velocity().x = 0;
+        }
+
         void Idle::onUp(const Event & e)
         {
             State::onUp(e);
