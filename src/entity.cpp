@@ -12,7 +12,7 @@ namespace EUSDAB
         _current(nullptr), _states(),
         _life(nullptr),
         _zIndex(0),
-        _nbrJumpLeft(0), _nbrJumpMax(0), //FIXME
+        _nbrJumpLeft(2), _nbrJumpMax(2), //FIXME
         _jumpPossible(true),
         _hb_collision(Physics::Hitbox::Collision),
         _verticalState(VerticalState::Middle),

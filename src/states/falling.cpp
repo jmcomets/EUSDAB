@@ -28,6 +28,7 @@ namespace EUSDAB
         void Falling::onDown(const Event & e)
         {
             State::onDown(e);
+            if(std::abs(e.ratio()) > Constants::
         }
 
         void Falling::onLeft(const Event & e)
@@ -85,17 +86,26 @@ namespace EUSDAB
         {
             std::cout << "Falling : B" << std::endl;
             State::onB(e);
+
             if (e.edge == Event::RisingEdge)
             {
-                if(std::abs(_entity->physics().velocity().x) > 0)
-                {
-                    switchState(Movement::Special | _mvt.direction());
-                }
-                else
+                if(_entity->_verticalState == Entity::VerticalState::Middle)
                 {
                     switchState(Movement::Special | Movement::Idle | _mvt.direction());
                 }
+                else if(_entity->_verticalState == Entity::VerticalState::Up)
+                {
+                    if(_entity->nbrJump() > 0)
+                    {
+                        switchState(Movement::Special | Movement::Up | _mvt.direction());
+                    }
+                }
+                else if(_entity->_verticalState == Entity::VerticalState::Down)
+                {
+                    switchState(Movement::Special | Movement::Down | _mvt.direction());
+                }
             }
+
         }
 
         void Falling::onGround(const Event & e)

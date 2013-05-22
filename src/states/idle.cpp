@@ -34,10 +34,12 @@ namespace EUSDAB
             //std::cout << "Idle : OnUp" << std::endl;
             if (e.edge == Event::RisingEdge)
             {
-                //std::cout << "Canjump : " << entity()->canJump() << " | jumpPossible : " << entity()->jumpPossible() << std::endl;
-                if (entity()->canJump() && entity()->jumpPossible())
+                if(e.ratio > Constants::OnRunRatio)
                 {
-                    switchState(Movement::Jump | _mvt.direction());
+                    if (entity()->canJump() && entity()->jumpPossible())
+                    {
+                        switchState(Movement::Jump | _mvt.direction());
+                    }
                 }
             }
 
@@ -60,7 +62,10 @@ namespace EUSDAB
             State::onDown(e);
             if (e.edge == Event::RisingEdge)
             {
-                switchState(Movement::Crouch | _mvt.direction());
+                if(e.ratio > Constants::OnRunRatio)
+                {
+                    switchState(Movement::Crouch | _mvt.direction());
+                }
             }
         }
 
@@ -137,7 +142,7 @@ namespace EUSDAB
                     {
                         std::cout << "" << std::endl;
                         s->transformation().velocity().y =  -100.0;
-                        _entity->physics().acceleration().y =  -0.60;
+                        //_entity->physics().acceleration().y =  -0.30;
                         std::cout << "Idle : onB | onUp  velocity = " << _entity->physics().velocity().y << std::endl;
                     }
                     switchState(Movement::Special | Movement::Up | _mvt.direction());
