@@ -59,9 +59,10 @@ namespace EUSDAB
         State * s = state(mvt);
         if (s == nullptr)
         {
-            throw std::runtime_error("No state defined for given movement");
+            //throw std::runtime_error("No state defined for given movement");
         }
-        setState(s);
+        else
+            setState(s);
     }
 
     void Entity::setName(const std::string & name)
@@ -95,9 +96,10 @@ namespace EUSDAB
         std::cout << "###State of movement : " << state->movement().debug() << std::endl;
         if (_states.insert(state).second == false)
         {
-            throw std::runtime_error("Entity's states should be unique");
+            //throw std::runtime_error("Entity's states should be unique");
         }
-        state->setEntity(this);
+        else
+            state->setEntity(this);
     }
 
     const Physics::Vector2 & Entity::position() const
