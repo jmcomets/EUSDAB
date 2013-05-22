@@ -235,7 +235,7 @@ namespace EUSDAB
                         else if (action == "falling") { flag |= Movement::Falling; }
                         else if (action == "special") { flag |= Movement::Special; }
                         else if (action == "aerial_attack") { flag |= Movement::AerialAttack; }
-                        else { throw std::runtime_error("Unrecognized action"); }
+                        else { }//throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");
                     for (auto p : directions)
@@ -245,7 +245,7 @@ namespace EUSDAB
                         else if (direction == "down") { flag |= Movement::Down; }
                         else if (direction == "left") { flag |= Movement::Left; }
                         else if (direction == "right") { flag |= Movement::Right; }
-                        else { throw std::runtime_error("Unrecognized direction"); }
+                        else { }//throw std::runtime_error("Unrecognized direction"); }
                     }
 
                     Movement movement(flag);
@@ -323,7 +323,7 @@ namespace EUSDAB
                         else if(stateId == "crouch") { state = new States::Crouch(movement);}
                         else if(stateId == "aerial_dodge") { state = new States::AerialDodge(movement);}
                         else if(stateId == "dodge") { state = new States::Dodge(movement);}
-                        else { throw std::runtime_error("Undefined state id"); }
+                        else { }//throw std::runtime_error("Undefined state id"); }
                     }
 
                     // Attack
