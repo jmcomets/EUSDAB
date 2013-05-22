@@ -35,9 +35,9 @@ namespace EUSDAB
             if (sf::Joystick::isConnected(id) == false) { return; }
 
             // Check assertions
-            assert(0 <= id);
-            assert(static_cast<std::size_t>(id) < _mappings.size());
-            assert(static_cast<std::size_t>(id) < _mappings.size());
+            if ( (0 <= id || static_cast<std::size_t>(id) < _mappings.size()
+                    || static_cast<std::size_t>(id) < _mappings.size()) == false)
+                { return; }
 
             if (e.type == sf::Event::JoystickMoved)
             {

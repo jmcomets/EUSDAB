@@ -18,14 +18,14 @@ namespace EUSDAB
         void Idle::onEnter()
         {
             State::onEnter();
-            //std::cout << "Idle : onEnter" << std::endl;
+            std::cout << "Idle : onEnter" << std::endl;
             _entity->physics().velocity().x = 0;
         }
 
         void Idle::onLeave()
         {
             State::onLeave();
-            //std::cout << "Idle : onLeave" << std::endl;
+            std::cout << "Idle : onLeave" << std::endl;
         }
 
         void Idle::onUp(const Event & e)
@@ -58,9 +58,9 @@ namespace EUSDAB
         {
             //std::cout << "Idle : onDown" << std::endl;
             State::onDown(e);
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
-                //switchState(Movement::Crouch | _mvt.direction());
+                switchState(Movement::Crouch | _mvt.direction());
             }
         }
 
@@ -132,13 +132,20 @@ namespace EUSDAB
                 }
                 else if(_entity->_verticalState == Entity::VerticalState::Up)
                 {
+                    auto s = _entity->state();
+                    if(s != nullptr)
+                    {
+                        std::cout << "" << std::endl;
+                        s->transformation().velocity().y =  -100.0;
+                        _entity->physics().acceleration().y =  -0.60;
+                        std::cout << "Idle : onB | onUp  velocity = " << _entity->physics().velocity().y << std::endl;
+                    }
                     switchState(Movement::Special | Movement::Up | _mvt.direction());
                 }
                 else if(_entity->_verticalState == Entity::VerticalState::Down)
                 {
                     switchState(Movement::Special | Movement::Down | _mvt.direction());
                 }
-                //switchState(Movement::Special | Movement::Idle | _mvt.direction());
             }
         }
 

@@ -143,6 +143,11 @@ namespace EUSDAB
         return _gravitable;
     }
 
+    void Entity::setGravitable(bool gravitable)
+    {
+        _gravitable = gravitable;
+    }
+
     void Entity::setLife(Life * life)
     {
         _life = life;

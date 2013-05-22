@@ -75,11 +75,22 @@ namespace EUSDAB
             _velocity=value;      
         }
         
+        void Dodge::onLeave()
+        {
+            State::onLeave();
+            _entity->_shieldValue-=static_cast<unsigned int> (trunc(_entity->_shieldMaxValue/5));
+            if (_entity->_shieldValue<0)
+            {
+                _entity->_shieldValue=0;
+            }
+            _entity->_shieldLeaveTime=_entity->_globalTime;
+        }
+        
         void Dodge::onAnimationEnd()
         {
             State::onAnimationEnd();
             Movement newMvt(_mvt);
-            newMvt.setAction(Movement::Idle);
+            newMvt.setAction(Movement::Shield);
             switchState(newMvt & ~Movement::Up & ~Movement::Down);
         }
     }
