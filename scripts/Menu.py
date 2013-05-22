@@ -276,6 +276,9 @@ def play_game(map_, player_dict):
         player_list.append(character)
     window = get_window()
     call_list = [_exec_name] + [map_] + player_list
+    if len(sys.argv) > 1:
+        call_list += ["psyche"]
+    print call_list
     window.Show(False)
     subprocess.call(call_list)
     window.Show(True)

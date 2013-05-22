@@ -24,7 +24,8 @@ namespace EUSDAB
                     std::string const & player1,
                     std::string const & player2,
                     std::string const & player3,
-                    std::string const & player4);
+                    std::string const & player4,
+                    bool);
             ~MyApplication();
 
             typedef std::vector<Entity *> EntityList;
