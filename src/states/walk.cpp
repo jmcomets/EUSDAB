@@ -7,7 +7,7 @@ namespace EUSDAB
     namespace States
     {
         Walk::Walk(Movement const & m):
-            State(m)
+            Motion(m)
         {
         }
 
@@ -20,19 +20,11 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (e.edge == Event::RisingEdge)
+                if (_entity->canJump() && _entity->jumpPossible())
                 {
-                    if (entity()->canJump()&&entity()->jumpPossible())
-                    {
-                        switchState(Movement::Jump | _mvt.direction());
-                    }
+                    switchState(Movement::Jump | _mvt.direction());
                 }
             }
-        }
-
-        void Walk::onDown(const Event & e)
-        {
-            State::onDown(e);
         }
 
         void Walk::onLeft(const Event & e)
@@ -40,18 +32,17 @@ namespace EUSDAB
             State::onLeft(e);
             if (e.edge == Event::RisingEdge)
             {
-                if(_mvt.flag() & Movement::Right)
+                if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Walk | Movement::Left);
                 }
-                else if((_mvt.flag() & Movement::Left) && e.ratio > Constants::OnRunRatio)
+                else if ((_mvt.flag() & Movement::Left) && e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Left);
                 }
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
-                std::cout << "<Walk::onLeft> : Movement::Left | FallingEdge" << std::endl;
                 switchState(Movement::Idle | Movement::Left);
             }
         }
@@ -59,73 +50,30 @@ namespace EUSDAB
         void Walk::onRight(const Event & e)
         {
             State::onRight(e);
-           
+
             if (e.edge == Event::RisingEdge)
             {
-                if(_mvt.flag() & Movement::Left)
+                if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Walk | Movement::Right);
-                    std::cout << "<Walk::onRight> : Movement::Left" << std::endl;
                 }
-                else if((_mvt.flag() & Movement::Right) && e.ratio > Constants::OnRunRatio)
+                else if ((_mvt.flag() & Movement::Right) && e.ratio > Constants::OnRunRatio)
                 {
                     switchState(Movement::Run | Movement::Right);
-                    std::cout << "<Walk::onRight> : Movement::Right" << std::endl;
                 }
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
-                std::cout << "<Walk::onRight> : Movement::Right | FallingEdge" << std::endl;
                 switchState(Movement::Idle | Movement::Right);
-            }
-        }
-        
-        void Walk::onA(const Event & e)
-        {
-            State::onA(e);
-            if ((e.edge == Event::RisingEdge))
-            {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Attack | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Attack | Movement::Right);
-                }
-                else
-                {
-                    //switchState(Movement::Attack | Movement::Left);
-                }
-            }
-        }
-        
-        void Walk::onB(const Event & e)
-        {
-            State::onB(e);
-            if (e.edge == Event::RisingEdge)
-            {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Special | Movement::Left);
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Special | Movement::Right);
-                }
-                else
-                {
-                    //switchState(Movement::Attack | Movement::Left);
-                }
             }
         }
 
         void Walk::onNextFrame()
         {
             State::onNextFrame();
-            if(_entity->physics().velocity().y > 0)
+            if (_entity->physics().velocity().y > 0)
             {
-                switchState(Movement::Falling | _mvt.direction());
+                switchStateWithVelocity(Movement::Falling | _mvt.direction());
             }
         }
 
@@ -133,20 +81,11 @@ namespace EUSDAB
         {
             State::onEnter();
 
+            _transform.velocity() = _velocity;
             if (_mvt.flag() & Movement::Left)
             {
-                _transform.velocity() = _velocity;
-                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+                //_transform.velocity().x *= static_cast<Physics::Unit>(-1);
             }
-            else if (_mvt.flag() & Movement::Right)
-            {
-                _transform.velocity() = _velocity;
-            }
-        }
-        
-        void Walk::setVelocity(const  Physics::Vector2 & value)
-        {
-            _velocity=value;      
         }
     }
 }

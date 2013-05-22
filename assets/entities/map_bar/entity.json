@@ -1,14 +1,15 @@
 {
-    "name": "Forever Alone", 
-    "start": "idle", 
+    "name": "Bar", 
+    "start": "base", 
     "states": [
         {
-            "animation": "forever_alone", 
+            "animation": "map_bar", 
             "movement": {
                 "action": [], 
                 "direction": []
             }, 
-            "type": "idle"
+            "type": "base"
         }
-    ]
+    ], 
+    "type": "map"
 }
