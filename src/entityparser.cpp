@@ -74,12 +74,19 @@ namespace EUSDAB
                                 if(aabb.max().y > max_y)
                                     max_y = aabb.max().y;
                             }
-                            left += min_x * (max_y - min_y);
-                            right += max_x * (max_y - min_y);
-                            top += min_y * (max_x - min_x);
-                            bottom += max_y * (max_x - min_x);
-                            nbr_x += max_y - min_y;
-                            nbr_y += max_x - min_x;
+
+                            Physics::Unit factor_x = (max_x - min_x);
+                            Physics::Unit factor_y = (max_y - min_y);
+                            if(hb.semantic() & Physics::Hitbox::Foot)
+                            {
+                                factor_y *= 8.0;
+                            }
+                            left += min_x * factor_x;
+                            right += max_x * factor_x;
+                            top += min_y * factor_y;
+                            bottom += max_y * factor_y;
+                            nbr_x += factor_x;
+                            nbr_y += factor_y;
                         }
                     }
                 }

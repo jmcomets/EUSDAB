@@ -68,7 +68,7 @@ namespace EUSDAB
                     rect.setOutlineColor(color);
                     rect.setOutlineThickness(1.0f);
                     rect.setFillColor(sf::Color::Transparent);
-                    _target.draw(rect);
+                    //_target.draw(rect);
                 }
             };
 
@@ -161,14 +161,20 @@ namespace EUSDAB
             view.zoom(std::max(bboxSize.x / viewSize.x,
                         bboxSize.y / viewSize.y));
 
-            // rect.left = std::max(rect.left, _world->aabb().min().x);
-            // rect.top = std::max(rect.top, _world->aabb().min().y);
-            // if(rect.left + rect.width > _world->aabb().max().x)
-            //     rect.left -= rect.width - _world->aabb().max().x;
-            // if(rect.top + rect.height > _world->aabb().max().y)
-            //     rect.top = _world->aabb().max().y - rect.height;
-            // view.setCenter(rect.left + rect.width / 2.0f,
-            //         rect.top + rect.height / 2.0f);
+            sf::FloatRect rect(view.getCenter() - view.getSize() / 2.0f, view.getSize());
+            rect.left = std::max(rect.left, _world->aabb().min().x);
+            rect.top = std::max(rect.top, _world->aabb().min().y);
+            if(rect.left + rect.width > _world->aabb().max().x)
+                rect.left = std::min(rect.left + rect.width, _world->aabb().max().x) - rect.width;
+            if(rect.top + rect.height > _world->aabb().max().y)
+                rect.top = std::min(rect.top + rect.height, _world->aabb().max().y) - rect.height;
+            view.setCenter(rect.left + rect.width / 2.0f,
+                    rect.top + rect.height / 2.0f);
+            std::cout << rect.left
+                << " ; " << rect.left + rect.width
+                << " | " << rect.top
+                << " ; " << rect.top + rect.height
+                << " | " << std::endl;
 
             // HUD
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
