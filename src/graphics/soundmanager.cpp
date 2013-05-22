@@ -1,5 +1,6 @@
 #include <graphics/soundmanager.h>
 #include <stdexcept>
+#include <thread>
 
 namespace EUSDAB
 {
@@ -45,6 +46,22 @@ namespace EUSDAB
             {
                 return it->second;
             }
+        }
+
+        void SoundManager::playAsynchronous(SoundPtr const & s)
+        {
+            static auto f_play = [](SoundManager::SoundPtr const & s)
+            {
+                sf::Sound sound(*s);
+                sound.play();
+                while(sound.getStatus() == sf::Sound::Playing) {
+                    std::this_thread::sleep_for(
+                            std::chrono::milliseconds(100));
+                }
+            };
+
+            std::thread t(f_play, std::ref(s));
+            t.detach();
         }
     }
 }

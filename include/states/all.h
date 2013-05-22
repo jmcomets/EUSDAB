@@ -21,6 +21,7 @@
 #include <states/aerialDodge.h>
 #include <states/haul.h>
 #include <states/grab.h>
+#include <states/shieldBreak.h>
 
 
 #endif

@@ -173,9 +173,7 @@ namespace EUSDAB
 
         if(_soundBuffer != nullptr)
         {
-            std::cout << "Playing sound" << std::endl;
-            sf::Sound s(*_soundBuffer);
-            s.play();
+            Graphics::SoundManager::playAsynchronous(_soundBuffer);
         }
 
         if (_animation != nullptr)

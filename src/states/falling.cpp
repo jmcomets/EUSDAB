@@ -1,4 +1,5 @@
 #include <states/falling.h>
+#include <constants.h>
 
 namespace EUSDAB
 {
@@ -28,7 +29,6 @@ namespace EUSDAB
         void Falling::onDown(const Event & e)
         {
             State::onDown(e);
-            if(std::abs(e.ratio()) > Constants::
         }
 
         void Falling::onLeft(const Event & e)

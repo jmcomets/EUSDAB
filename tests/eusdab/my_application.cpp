@@ -45,7 +45,7 @@ namespace EUSDAB
 
         // Physics
         using namespace Physics;
-        Physics::World * world = new World(AABB(0, 0, 600, 480), Vector2(0, 0.35f));
+        Physics::World * world = new World(AABB(700, 200, 2300, 1200), Vector2(0, 0.35f));
         _physics = new Physics::Controller(*_input, world);
         _physics->addEntity(_entityList.begin(), _entityList.end());
         _physics->addPlayer(_players.begin(), _players.end());
@@ -59,7 +59,7 @@ namespace EUSDAB
         if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
             throw std::runtime_error("Map's music wasn't loaded");
         _music.setLoop(true);
-        _music.play();
+        //_music.play();
     }
 
     MyApplication::~MyApplication()

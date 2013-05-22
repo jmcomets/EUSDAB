@@ -74,12 +74,19 @@ namespace EUSDAB
                                 if(aabb.max().y > max_y)
                                     max_y = aabb.max().y;
                             }
-                            left += min_x * (max_y - min_y);
-                            right += max_x * (max_y - min_y);
-                            top += min_y * (max_x - min_x);
-                            bottom += max_y * (max_x - min_x);
-                            nbr_x += max_y - min_y;
-                            nbr_y += max_x - min_x;
+
+                            Physics::Unit factor_x = (max_x - min_x);
+                            Physics::Unit factor_y = (max_y - min_y);
+                            if(hb.semantic() & Physics::Hitbox::Foot)
+                            {
+                                factor_y *= 8.0;
+                            }
+                            left += min_x * factor_x;
+                            right += max_x * factor_x;
+                            top += min_y * factor_y;
+                            bottom += max_y * factor_y;
+                            nbr_x += factor_x;
+                            nbr_y += factor_y;
                         }
                     }
                 }
@@ -221,6 +228,7 @@ namespace EUSDAB
                         else if (action == "guard") { flag |= Movement::Guard; }
                         else if (action == "crouch") { flag |= Movement::Crouch; }
                         else if (action == "stunned") { flag |= Movement::Stunned; }
+                        else if (action == "shield_break") { flag |= Movement::ShieldBreak; }
                         //else if (action == "grab") { flag |= Movement::Grab; }
                         //else if (action == "haul") { flag |= Movement::Haul; }
                         else if (action == "stand") { flag |= Movement::Stand; }
@@ -314,6 +322,7 @@ namespace EUSDAB
                         else if(stateId == "crouch") { state = new States::Crouch(movement);}
                         else if(stateId == "stand") { state = new States::Stand(movement);}
                         else if(stateId == "stunned") { state = new States::Stunned(movement);}
+                        else if(stateId == "shield_break") { state = new States::ShieldBreak(movement);}
                         //else if(stateId == "grab") { state = new States::Grab(movement);}
                         //else if(stateId == "haul") { state = new States::Haul(movement);}
                         else if(stateId == "dodge") { state = new States::Dodge(movement);}

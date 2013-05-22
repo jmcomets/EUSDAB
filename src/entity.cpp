@@ -16,10 +16,10 @@ namespace EUSDAB
         _jumpPossible(true),
         _hb_collision(Physics::Hitbox::Collision),
         _verticalState(VerticalState::Middle),
-		_globalTime(0),
-		_shieldValue(1000),
-		_shieldMaxValue(1000),
-		_shieldLeaveTime(0)
+        _globalTime(0),
+        _shieldValue(1000),
+        _shieldMaxValue(1000),
+        _shieldLeaveTime(0)
     {
     }
 
@@ -188,13 +188,13 @@ namespace EUSDAB
             std::cerr << "You fail to attack.. Loser." << std::endl;
         }
     }
-    
+
     bool Entity::canJump()
     {
         std::cout << "jumpLeft : " << _nbrJumpLeft << std::endl;
         return _nbrJumpLeft > 0;
     }
-    
+
     Entity::NbJumps Entity::nbrJump()
     {
         return _nbrJumpLeft;
@@ -203,17 +203,17 @@ namespace EUSDAB
     {
         return _nbrJumpMax;
     }
-    
+
     void Entity::setNbrJump(Entity::NbJumps nbr)
     {
         _nbrJumpLeft = nbr;
     }
-    
+
     bool Entity::jumpPossible()
     {
         return _jumpPossible;
     }
-            
+
     void Entity::setJumpPossible(bool value)
     {
         _jumpPossible = value;
