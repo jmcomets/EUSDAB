@@ -123,7 +123,7 @@ namespace EUSDAB
             State::onEnter();
             if (_mvt.flag() & Movement::Up)
             {
-                _entity->physics().velocity().y = -5;
+                _entity->physics().velocity().y = -4;
                 _entity->setGravitable(false);
             }
         }
