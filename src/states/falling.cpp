@@ -26,23 +26,17 @@ namespace EUSDAB
             }
         }
 
-        void Falling::onDown(const Event & e)
-        {
-            State::onDown(e);
-        }
-
         void Falling::onLeft(const Event & e)
         {
             State::onLeft(e);
             if (e.edge == Event::RisingEdge)
             {
-                _entity->physics().velocity().x = -3;
-                onChangeSide(Movement::Falling | Movement::Left);
+                _transform.velocity().x = _velocity.x;
+                switchState(Movement::Falling | Movement::Left);
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
-                _entity->physics().velocity().x = 0;
-                //switchState(Movement::Falling | Movement::Idle | Movement::Left);
+                _transform.velocity().x = 0;
             }
         }
 
@@ -51,21 +45,19 @@ namespace EUSDAB
             State::onRight(e);
             if (e.edge == Event::RisingEdge)
             {
-                _entity->physics().velocity().x = 3;
-                onChangeSide(Movement::Falling | Movement::Right);
+                _transform.velocity().x = _velocity.x;
+                switchState(Movement::Falling | Movement::Right);
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
-                _entity->physics().velocity().x = 0;
-                //switchState(Movement::FallingIdle | Movement::Right);
+                _transform.velocity().x = 0;
             }
         }
 
         void Falling::onA(const Event & e)
         {
             State::onA(e);
-            std::cout << "Falling : A" << std::endl;
-            if ((e.edge == Event::RisingEdge))
+            if (e.edge == Event::RisingEdge)
             {
                 if (_mvt.flag() & Movement::Left)
                 {
@@ -84,23 +76,22 @@ namespace EUSDAB
 
         void Falling::onB(const Event & e)
         {
-            std::cout << "Falling : B" << std::endl;
             State::onB(e);
 
             if (e.edge == Event::RisingEdge)
             {
-                if(_entity->_verticalState == Entity::VerticalState::Middle)
+                if (_entity->_verticalState == Entity::VerticalState::Middle)
                 {
                     switchState(Movement::Special | Movement::Idle | _mvt.direction());
                 }
-                else if(_entity->_verticalState == Entity::VerticalState::Up)
+                else if (_entity->_verticalState == Entity::VerticalState::Up)
                 {
-                    if(_entity->nbrJump() > 0)
+                    if (_entity->nbrJump() > 0)
                     {
                         switchState(Movement::Special | Movement::Up | _mvt.direction());
                     }
                 }
-                else if(_entity->_verticalState == Entity::VerticalState::Down)
+                else if (_entity->_verticalState == Entity::VerticalState::Down)
                 {
                     switchState(Movement::Special | Movement::Down | _mvt.direction());
                 }
@@ -114,57 +105,7 @@ namespace EUSDAB
             if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
             {
                 switchState(Movement::Idle | _mvt.direction());
-                entity()->setNbrJump(entity()->nbrJumpMax());
-            }
-        }
-
-
-
-        void Falling::onNextFrame()
-        {
-            State::onNextFrame();
-        }
-        
-        void Falling::onEnter()
-        {
-            // TODO add vertical impulse
-
-            std::cout << "Falling : onEnter" << std::endl;
-            _animation->setPaused(false);
-            
-            
-            if(_mvt.flag() & Movement::Left)
-            {
-                //_transform.velocity() = _velocity;
-                //_transform.velocity().x *= static_cast<Physics::Unit>(-1);
-            }
-            if(_mvt.flag() & Movement::Right)
-            {
-                //_transform.velocity() = _velocity;
-            }
-        }
-        
-        void Falling::onLeave()
-        {
-            State::onLeave();
-            std::cout << "Falling : onLeave" << std::endl;
-        }
-        
-        void Falling::onChangeSide(const Movement & mvt)
-        {
-            State::onChangeSide(mvt);
-             State * s = _entity->state();
-             
-            if(_mvt.flag() & Movement::Left)
-            {
-                //s->transformation().velocity() = _velocity;
-                //s->transformation().velocity().x *= static_cast<Physics::Unit>(-1);
-                //s->transformation().velocity().y=_transform.velocity().y;
-            }
-            if(_mvt.flag() & Movement::Right)
-            {
-                //s->transformation().velocity() = _velocity;
-                //s->transformation().velocity().y=_transform.velocity().y;
+                _entity->setNbrJump(_entity->nbrJumpMax());
             }
         }
         
@@ -181,7 +122,7 @@ namespace EUSDAB
         
         void Falling::setVelocity(const  Physics::Vector2 & value)
         {
-            _velocity=value;      
+            _velocity = value;      
         }
         
     }

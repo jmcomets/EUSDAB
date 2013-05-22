@@ -406,6 +406,9 @@ class Startup(MenuState):
     def Enter(self):
         self.eusdab_sound.Play()
 
+    def Leave(self):
+        self.eusdab_sound.Stop()
+
     def Update(self):
         if self.moving_index < len(self.startup_sprites):
             current = self.startup_sprites[self.moving_index]
@@ -459,7 +462,7 @@ class CharacterSelection(MenuState):
         target.Draw(self.banner_sprite)
         target.Draw(self.players_interface)
 
-_maps = ['map_bazar']
+_maps = ['map_bazar', 'map_bar']
 _map_dir = os.path.join(_base_image_dir, 'maps')
 _map_images = [load_image('{}.png'.format(x), _map_dir) \
         for x in _maps]

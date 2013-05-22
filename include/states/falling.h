@@ -18,7 +18,6 @@ namespace EUSDAB
                 virtual ~Falling();
 
                 void onUp(const Event &);
-                void onDown(const Event &);
                 void onLeft(const Event &);
                 void onRight(const Event &);
 
@@ -29,31 +28,20 @@ namespace EUSDAB
                 //void onZ(const Event &);
                 //void onTrigger(const Event &);
 
-                void onNextFrame();
 
                 //void onAttack(const Event &);
                 //void onDamage(const Event &);
 
                 void onGround(const Event &);
 
-                void onEnter();
-                void onLeave();
-                
-                void onChangeSide(const Movement & mvt);
-                
-                
-                
-            void setVelocity(const  Physics::Vector2 & );
-                
-            private:
-            
-                Physics::Vector2 _velocity;
+                void setVelocity(const  Physics::Vector2 & );
 
             protected:
                 // Explicit helper method :)
                 void setNextStateAnimationFrameToCurrentFrame() const;
                 
-                
+            private:
+                Physics::Vector2 _velocity;
         };
     }
 }

@@ -1,13 +1,13 @@
 #ifndef STATES_WALK_H
 #define STATES_WALK_H
 
-#include <state.h>
+#include <states/motion.h>
 
 namespace EUSDAB
 {
     namespace States
     {
-        class Walk: public State
+        class Walk: public Motion
         {
             public:
                 Walk(Walk &&) = default;
@@ -18,32 +18,12 @@ namespace EUSDAB
                 virtual ~Walk();
 
                 void onUp(const Event &);
-                void onDown(const Event &);
                 void onLeft(const Event &);
                 void onRight(const Event &);
 
-                void onA(const Event &);
-                void onB(const Event &);
-                //void onX(const Event &);
-                //void onY(const Event &);
-                //void onZ(const Event &);
-                //void onTrigger(const Event &);
-
                 void onNextFrame();
 
-                //void onAttack(const Event &);
-                //void onDamage(const Event &);
-
-                //void onGround(const Event &);
-
                 void onEnter();
-                //void onLeave();
-                
-                void setVelocity(const  Physics::Vector2 & );
-                
-            private:
-            
-                Physics::Vector2 _velocity;
         };
     }
 }
