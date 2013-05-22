@@ -79,7 +79,7 @@ namespace EUSDAB
                             Physics::Unit factor_y = (max_y - min_y);
                             if(hb.semantic() & Physics::Hitbox::Foot)
                             {
-                                factor_y *= 8.0;
+                                factor_y *= static_cast<Physics::Unit>(8);
                             }
                             left += min_x * factor_x;
                             right += max_x * factor_x;

@@ -171,7 +171,7 @@ namespace EUSDAB
     {
         Listener::onEnter();
 
-        if(_soundBuffer != nullptr)
+        if (_soundBuffer != nullptr)
         {
             Graphics::SoundManager::playAsynchronous(_soundBuffer);
         }

@@ -24,22 +24,11 @@ namespace EUSDAB
 
                 void onA(const Event &);
                 void onB(const Event &);
-                //void onX(const Event &);
-                //void onY(const Event &);
-                //void onZ(const Event &);
                 void onTrigger(const Event &);
 
                 void onNextFrame();
 
-                //void onAttack(const Event &);
-                //void onDamage(const Event &);
-
-                //void onGround(const Event &);
-
-                void onEnter();
-                void onLeave();
-
-                void setSlidingRatio(Physics::Unit);
+                void setSlidingRatio(const Physics::Unit &);
 
             private:
 

@@ -40,7 +40,7 @@ namespace EUSDAB
                 switchState(Movement::Dodge | Movement::Right);
             }
         }
-        
+
         void Guard::onTrigger(const Event & e)
         {
             State::onTrigger(e);
@@ -49,7 +49,7 @@ namespace EUSDAB
                 switchState(Movement::Idle | _mvt.direction());
             }
         }
-        
+
         void Guard::onAnimationEnd()
         {
             State::onAnimationEnd();

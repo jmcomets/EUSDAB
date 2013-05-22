@@ -20,12 +20,9 @@ namespace EUSDAB
             State::onUp(e);
             if (e.edge == Event::RisingEdge)
             {
-                if (e.edge == Event::RisingEdge)
+                if (_entity->canJump() && _entity->jumpPossible())
                 {
-                    if (_entity->canJump() && _entity->jumpPossible())
-                    {
-                        switchState(Movement::Jump | _mvt.direction());
-                    }
+                    switchState(Movement::Jump | _mvt.direction());
                 }
             }
         }
@@ -53,7 +50,7 @@ namespace EUSDAB
         void Walk::onRight(const Event & e)
         {
             State::onRight(e);
-           
+
             if (e.edge == Event::RisingEdge)
             {
                 if (_mvt.flag() & Movement::Left)
@@ -65,13 +62,12 @@ namespace EUSDAB
                     switchState(Movement::Run | Movement::Right);
                 }
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
-                std::cout << "<Walk::onRight> : Movement::Right | FallingEdge" << std::endl;
                 switchState(Movement::Idle | Movement::Right);
             }
         }
-        
+
         void Walk::onNextFrame()
         {
             State::onNextFrame();
@@ -85,14 +81,10 @@ namespace EUSDAB
         {
             State::onEnter();
 
+            _transform.velocity() = _velocity;
             if (_mvt.flag() & Movement::Left)
             {
-                _transform.velocity() = _velocity;
-                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
-            }
-            else if (_mvt.flag() & Movement::Right)
-            {
-                _transform.velocity() = _velocity;
+                //_transform.velocity().x *= static_cast<Physics::Unit>(-1);
             }
         }
     }
