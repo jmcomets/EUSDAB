@@ -46,7 +46,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif()
 
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
-set(SFML_LIBS sfml-graphics sfml-window sfml-system sfml-audio)
+set(SFML_LIBS sfml-graphics sfml-window sfml-audio sfml-system)
 include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/${SFML_ARCH}")
 
