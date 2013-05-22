@@ -22,6 +22,7 @@
 #include <states/haul.h>
 #include <states/grab.h>
 #include <states/shieldBreak.h>
+#include <states/motion.h>
 
 
 #endif
