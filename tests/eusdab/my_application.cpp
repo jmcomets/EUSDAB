@@ -17,7 +17,8 @@ namespace EUSDAB
             std::string const & player1,
             std::string const & player2,
             std::string const & player3,
-            std::string const & player4):
+            std::string const & player4,
+            bool psyche):
         Application(window), _entityList(), _music()
     {
         std::cout << map_name << std::endl;
@@ -53,7 +54,7 @@ namespace EUSDAB
         // Graphics
         EntityList::iterator playersBegin = _entityList.begin() + (_entityList.size() - _players.size());
         _graphics = new Graphics::Controller(_window,
-                playersBegin, _entityList.end(), world);
+                playersBegin, _entityList.end(), world, psyche);
         _graphics->addEntity(_entityList.begin(), playersBegin);
 
         if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
