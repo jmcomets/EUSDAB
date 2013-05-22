@@ -91,7 +91,7 @@ namespace EUSDAB
             }
             else
             {
-                switchState(Movement::Stunned | _mvt.direction());
+                switchState(Movement::ShieldBreak | _mvt.direction());
                 _curValue= static_cast<unsigned int> (trunc(_maxValue/2));
             }
             
