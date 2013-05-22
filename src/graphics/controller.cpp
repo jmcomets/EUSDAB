@@ -22,8 +22,10 @@ namespace EUSDAB
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
                 
-                 //_target.draw(sp, _shader_rainbow);
-                _target.draw(sp);
+                if(_psyche)
+                    _target.draw(sp, _shader_rainbow);
+                else
+                    _target.draw(sp);
             };
 
             // Bounding box
@@ -153,7 +155,7 @@ namespace EUSDAB
             cameraRect.setFillColor(sf::Color::Transparent);
             cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
             cameraRect.setPosition(sfBarycenter);
-            _target.draw(cameraRect);
+            //_target.draw(cameraRect);
 
             // Zoom camera
             bboxSize += sf::Vector2f(50, 50);

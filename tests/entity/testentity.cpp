@@ -146,7 +146,7 @@ std::vector<Entity *> players;
         // Graphics
         auto playersBegin = _entityList.begin() + nbNonPlayers;
         _graphics = new Graphics::Controller(_window,
-                playersBegin, _entityList.end(), world);
+                playersBegin, _entityList.end(), world, false);
         _graphics->addEntity(_entityList.begin(), playersBegin);
 
         if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
