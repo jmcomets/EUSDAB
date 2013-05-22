@@ -95,6 +95,7 @@
         }, 
         {
             "animation": "jump_right", 
+            "sound": "charlie_jump.ogg",
             "movement": {
                 "action": [
                     "jump"
@@ -111,6 +112,7 @@
         }, 
         {
             "animation": "jump_left", 
+            "sound": "charlie_jump.ogg",
             "movement": {
                 "action": [
                     "jump"
@@ -159,6 +161,7 @@
         }, 
         {
             "animation": "sideA_right", 
+            "sound": "charlie_sideA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -179,6 +182,7 @@
         }, 
         {
             "animation": "sideA_left", 
+            "sound": "charlie_sideA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -199,6 +203,7 @@
         }, 
         {
             "animation": "sideB_left", 
+            "sound": "charlie_sideB.ogg",
             "attack": {
                 "damage": 15, 
                 "direction": {
@@ -218,6 +223,7 @@
         }, 
         {
             "animation": "sideB_right", 
+            "sound": "charlie_sideB.ogg",
             "attack": {
                 "damage": 15, 
                 "direction": {
@@ -237,6 +243,7 @@
         }, 
         {
             "animation": "botB_left", 
+            "sound": "charlie_botB.ogg",
             "attack": {
                 "damage": 20, 
                 "direction": {
@@ -257,7 +264,29 @@
             "type": "special"
         }, 
         {
+            "animation": "botB_left", 
+            "sound": "charlie_botB.ogg",
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": 5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+                    "down"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
             "animation": "botB_right", 
+            "sound": "charlie_botB.ogg",
             "attack": {
                 "damage": 20, 
                 "direction": {
@@ -278,7 +307,29 @@
             "type": "special"
         },
         {
+            "animation": "botB_right", 
+            "sound": "charlie_botB.ogg",
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": -5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+                    "down"
+                ]
+            }, 
+            "type": "special"
+        },
+        {
             "animation": "pain_left", 
+            "sound": "charlie_pain.ogg",
             "movement": {
                 "action": [
                     "onhit"
@@ -292,6 +343,7 @@
         },
         {
             "animation": "pain_right", 
+            "sound": "charlie_pain.ogg",
             "movement": {
                 "action": [
                     "onhit"
@@ -369,7 +421,64 @@
             "type": "dodge"
         },
         {
+            "animation": "air_dodge_left", 
+            "movement": {
+                "action": [
+                    "dodge",
+                    "jump"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "air_dodge_left", 
+            "movement": {
+                "action": [
+                    "dodge",
+                    "falling"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "air_dodge_right", 
+            "movement": {
+                "action": [
+                    "dodge",
+                    "jump"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "air_dodge_right", 
+            "movement": {
+                "action": [
+                    "dodge",
+                    "falling"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
             "animation": "upA_right", 
+            "sound": "charlie_upA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -391,6 +500,7 @@
         }, 
         {
             "animation": "upA_left", 
+            "sound": "charlie_upA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -412,6 +522,7 @@
         },
         {
             "animation": "upB_right", 
+            "sound": "charlie_upB.ogg",
             "attack": {
                 "damage": 10, 
                 "direction": {
@@ -433,6 +544,7 @@
         }, 
         {
             "animation": "botA_right", 
+            "sound": "charlie_botA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -454,6 +566,7 @@
         }, 
         {
             "animation": "botA_left", 
+            "sound": "charlie_botA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -475,6 +588,7 @@
         }, 
         {
             "animation": "upB_left", 
+            "sound": "charlie_upB.ogg",
             "attack": {
                 "damage": 10, 
                 "direction": {
@@ -613,6 +727,48 @@
             "sliding_ratio": 1.05, 
             "type": "stunned"
         },
+		{
+            "animation": "air_botA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "left",
+                    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        }, 
+		{
+            "animation": "air_botA_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "right",
+                    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        }, 
 		{
             "animation": "air_A_right", 
             "attack": {
