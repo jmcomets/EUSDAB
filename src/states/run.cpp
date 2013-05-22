@@ -82,7 +82,7 @@ namespace EUSDAB
             if (_mvt.flag() & Movement::Left)
             {
                 _transform.velocity() = _velocity;
-                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+                // _transform.velocity().x *= static_cast<Physics::Unit>(-1);
             }
             else if (_mvt.flag() & Movement::Right)
             {

@@ -229,8 +229,6 @@ namespace EUSDAB
                         else if (action == "crouch") { flag |= Movement::Crouch; }
                         else if (action == "stunned") { flag |= Movement::Stunned; }
                         else if (action == "shield_break") { flag |= Movement::ShieldBreak; }
-                        //else if (action == "grab") { flag |= Movement::Grab; }
-                        //else if (action == "haul") { flag |= Movement::Haul; }
                         else if (action == "stand") { flag |= Movement::Stand; }
                         else if (action == "shield") { flag |= Movement::Shield; }
                         else if (action == "onhit") { flag |= Movement::OnHit; }
@@ -240,23 +238,19 @@ namespace EUSDAB
                         else { throw std::runtime_error("Unrecognized action"); }
                     }
                     const ptree & directions = mvtPt.get_child("direction");
-                    int i = 0;
                     for (auto p : directions)
                     {
-                        i++;
                         const std::string & direction = p.second.data();
                         if (direction == "up") { flag |= Movement::Up; }
                         else if (direction == "down") { flag |= Movement::Down; }
                         else if (direction == "left") { flag |= Movement::Left; }
                         else if (direction == "right") { flag |= Movement::Right; }
                         else { throw std::runtime_error("Unrecognized direction"); }
-                        std::cout << "directions : " << i  << " | flag : " << flag << std::endl;
                     }
 
                     Movement movement(flag);
 
                     // Underlying state
-                    // TODO finish
                     const std::string & stateId = statePt.get<std::string>("type");
                     {
                         if (stateId == "base")
@@ -328,8 +322,6 @@ namespace EUSDAB
                         else if(stateId == "shield") { state = new States::Shield(movement);}
                         else if(stateId == "crouch") { state = new States::Crouch(movement);}
                         else if(stateId == "aerial_dodge") { state = new States::AerialDodge(movement);}
-                        //else if(stateId == "grab") { state = new States::Grab(movement);}
-                        //else if(stateId == "haul") { state = new States::Haul(movement);}
                         else if(stateId == "dodge") { state = new States::Dodge(movement);}
                         else { throw std::runtime_error("Undefined state id"); }
                     }
