@@ -1,5 +1,5 @@
 {
-    "name": "Pedro Panda", 
+    "name": "Pedro panda", 
     "start": "idle", 
     "states": [
         {
@@ -158,26 +158,6 @@
             }
         }, 
         {
-            "animation": "sideA_left", 
-            "attack": {
-                "damage": 5, 
-                "direction": {
-                    "x": -10, 
-                    "y": 0
-                }
-            }, 
-            "movement": {
-                "action": [
-                    "attack"
-                ], 
-                "direction": [
-                    "left"
-                ]
-            }, 
-            "sliding_ratio": 1.05, 
-            "type": "attack"
-        }, 
-        {
             "animation": "sideA_right", 
             "attack": {
                 "damage": 5, 
@@ -192,6 +172,26 @@
                 ], 
                 "direction": [
                     "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": -10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left"
                 ]
             }, 
             "sliding_ratio": 1.05, 
@@ -236,26 +236,6 @@
             "type": "special"
         }, 
         {
-            "animation": "botB_right", 
-            "attack": {
-                "damage": 20, 
-                "direction": {
-                    "x": 5, 
-                    "y": 2
-                }
-            }, 
-            "movement": {
-                "action": [
-                    "special", 
-                    "idle"
-                ], 
-                "direction": [
-                    "right"
-                ]
-            }, 
-            "type": "special"
-        }, 
-        {
             "animation": "botB_left", 
             "attack": {
                 "damage": 20, 
@@ -271,6 +251,26 @@
                 ], 
                 "direction": [
                     "left"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "botB_right", 
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": 5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special", 
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
                 ]
             }, 
             "type": "special"
@@ -300,6 +300,356 @@
             }, 
             "sliding_ratio": 1.05, 
             "type": "onhit"
-        }
+        },
+        {
+            "animation": "guard_right", 
+            "movement": {
+                "action": [
+                    "guard"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "guard"
+        }, 
+        {
+            "animation": "guard_left", 
+            "movement": {
+                "action": [
+                    "guard"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "guard"
+        }, 
+        {
+            "animation": "shield_right", 
+            "movement": {
+                "action": [
+                    "shield"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield"
+        },
+        {
+            "animation": "shield_left", 
+            "movement": {
+                "action": [
+                    "shield"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield"
+        },
+        {
+            "animation": "sidedodge_right", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "upA_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": -10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "upA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": -5
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        },
+        {
+            "animation": "upB_right", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": -5
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        }, 
+        {
+            "animation": "botA_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": 10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "botA_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": 10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "upB_left", 
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": -10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        },
+        {
+            "animation": "sidedodge_left", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "botdodge_right", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "right",
+                    "down"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "botdodge_left", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "left",
+                    "down"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "crouch_right", 
+            "movement": {
+                "action": [
+                    "crouch"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "crouch"
+        },
+        {
+            "animation": "crouch_left", 
+            "movement": {
+                "action": [
+                    "crouch"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "crouch"
+        },
+        {
+            "animation": "stand_right", 
+            "movement": {
+                "action": [
+                    "stand"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stand"
+        },
+        {
+            "animation": "stand_left", 
+            "movement": {
+                "action": [
+                    "stand"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stand"
+        },
+        {
+            "animation": "shield_break_right", 
+            "movement": {
+                "action": [
+                    "stunned"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stunned"
+        },
+        {
+            "animation": "shield_break_left", 
+            "movement": {
+                "action": [
+                    "stunned"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stunned"
+        },
+		{
+            "animation": "air_A_right", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        }, 
+        {
+            "animation": "air_A_left", 
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        }          
     ]
 }
