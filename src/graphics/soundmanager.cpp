@@ -30,8 +30,11 @@ namespace EUSDAB
             auto it = inst->_sounds.find(filename);
             if(it == inst->_sounds.end()) // New sound
             {
-                sf::SoundBuffer * tx = new sf::SoundBuffer();
-                if(tx->loadFromFile(filename))
+                //sf::SoundBuffer * tx = new sf::SoundBuffer();
+                sf::Music * tx = new sf::Music();
+                tx->setVolume(100);
+                //if(tx->loadFromFile(filename))
+                if(tx->openFromFile(filename))
                 {
                     SoundPtr ptr(tx);
                     inst->_sounds.insert(std::make_pair(filename, ptr));
@@ -50,18 +53,20 @@ namespace EUSDAB
 
         void SoundManager::playAsynchronous(SoundPtr const & s)
         {
-            auto f_play = [](sf::SoundBuffer const & s)
+            auto f_play = [](SoundPtr const & s)
             {
-                sf::Sound sound(s);
-                sound.play();
-                while(sound.getStatus() == sf::Sound::Playing) {
+                s->play();
+                //sf::Sound sound(s);
+                //sound.play();
+                while(s->getStatus() == sf::Sound::Playing) {
                     std::this_thread::sleep_for(
                             std::chrono::milliseconds(100));
                 }
             };
 
-            std::thread t(f_play, std::ref(*s));
-            t.detach();
+            s->play();
+            //std::thread t(f_play, std::ref(s));
+            //t.detach();
         }
     }
 }

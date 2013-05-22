@@ -60,6 +60,7 @@ namespace EUSDAB
         if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
             throw std::runtime_error("Map's music wasn't loaded");
         _music.setLoop(true);
+        _music.setVolume(50);
         _music.play();
     }
 
