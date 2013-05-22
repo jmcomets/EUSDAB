@@ -170,7 +170,7 @@ _characters = {
 
 _entity_dir = os.path.join(_assets_dir, 'entities')
 _character_folders = _characters.values()
-_min_to_start = 1
+_min_to_start = 2
 
 _character_sounds = [load_sound('sound_{}.ogg'.format(x)) \
         for x in _characters]
@@ -481,8 +481,12 @@ class MapSelection(MenuState):
                 img = m.GetImage()
                 w, h = img.GetWidth(), img.GetHeight()
                 x, y = m.GetPosition()
-                p = (window_size[0] - 2*_map_padding - N*w) / (N - 1)
-                x = _map_padding + w / 2. + i*w + (i - 1)*p
+                # FIXME
+                # MEGA SALE
+                if i == 0:
+                    x = 400
+                elif i == 1:
+                    x = 800
                 m.SetPosition(x, y)
 
         self.bg_sprite = make_sprite('Background.png')
