@@ -24,8 +24,8 @@ namespace EUSDAB
                 if (e.edge == Event::RisingEdge)
                 {
                     _transform.velocity().x = -3;
-                    switchState(Movement::Special | Movement::Up | Movement::Left);
-                    setNextStateAnimationFrameToCurrentFrame();
+                    //switchState(Movement::Special | Movement::Up | Movement::Left);
+                    //setNextStateAnimationFrameToCurrentFrame();
                 }
                 else if (e.edge == Event::FallingEdge)
                 {
@@ -43,8 +43,8 @@ namespace EUSDAB
                 if (e.edge == Event::RisingEdge)
                 {
                     _transform.velocity().x = 3;
-                    switchState(Movement::Special | Movement::Up | Movement::Right);
-                    setNextStateAnimationFrameToCurrentFrame();
+                    //switchState(Movement::Special | Movement::Up | Movement::Right);
+                    //setNextStateAnimationFrameToCurrentFrame();
                 }
                 else if (e.edge == Event::FallingEdge)
                 {
