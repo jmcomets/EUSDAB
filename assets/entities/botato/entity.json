@@ -1,0 +1,741 @@
+{
+    "name": "Rick Hard", 
+    "start": "idle", 
+    "states": [
+        {
+            "animation": "idle_right",
+            "movement": {
+                "action": [
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "idle"
+        }, 
+        {
+            "animation": "walk_right", 
+            "movement": {
+                "action": [
+                    "walk"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "walk", 
+            "velocity": {
+                "x": 6.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "run_right", 
+            "movement": {
+                "action": [
+                    "run"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "run", 
+            "velocity": {
+                "x": 10.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "idle_left", 
+            "movement": {
+                "action": [
+                    "idle"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "idle"
+        }, 
+        {
+            "animation": "walk_left", 
+            "movement": {
+                "action": [
+                    "walk"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "walk", 
+            "velocity": {
+                "x": 6.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "run_left", 
+            "movement": {
+                "action": [
+                    "run"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "run", 
+            "velocity": {
+                "x": 10.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "jump_right", 
+            "movement": {
+                "action": [
+                    "jump"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "jump", 
+            "velocity": {
+                "x": 0.0, 
+                "y": 10.0
+            }
+        }, 
+        {
+            "animation": "jump_left", 
+            "movement": {
+                "action": [
+                    "jump"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "jump", 
+            "velocity": {
+                "x": 0.0, 
+                "y": 10.0
+            }
+        }, 
+        {
+            "animation": "falling_right", 
+            "movement": {
+                "action": [
+                    "falling"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "falling", 
+            "velocity": {
+                "x": 4.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "falling_left", 
+            "movement": {
+                "action": [
+                    "falling"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "falling", 
+            "velocity": {
+                "x": 4.0, 
+                "y": 0.0
+            }
+        }, 
+        {
+            "animation": "sideA_left", 
+            "sound": "rickhard_sideA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": -10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideA_right", 
+            "sound": "rickhard_sideA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "sideB_left", 
+            "sound": "rickhard_sideB.ogg",
+            "attack": {
+                "damage": 15, 
+                "direction": {
+                    "x": -20, 
+                    "y": -2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "sideB_right", 
+            "sound": "rickhard_sideB.ogg",
+            "attack": {
+                "damage": 15, 
+                "direction": {
+                    "x": 20, 
+                    "y": -2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "vomit_right", 
+            "sound": "rickhard_vomit.ogg",
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": 5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special", 
+                    "idle"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "vomit_left", 
+            "sound": "rickhard_vomit.ogg",
+            "attack": {
+                "damage": 20, 
+                "direction": {
+                    "x": -5, 
+                    "y": 2
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special", 
+                    "idle"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "type": "special"
+        }, 
+        {
+            "animation": "air_A_right", 
+            "sound": "rickhard_air_botA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        }, 
+        {
+            "animation": "air_A_left", 
+            "sound": "rickhard_air_botA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": -10, 
+                    "y": 0
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "aerial_attack"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "aerial_attack"
+        },
+        {
+            "animation": "pain_left", 
+            "sound": "rickhard_pain.ogg",
+            "movement": {
+                "action": [
+                    "onhit"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "onhit"
+        },
+        {
+            "animation": "pain_right", 
+            "sound": "rickhard_pain.ogg",
+            "movement": {
+                "action": [
+                    "onhit"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "onhit"
+        }, 
+        {
+            "animation": "upA_right", 
+            "sound": "rickhard_upA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": -10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "upA_left", 
+            "sound": "rickhard_upA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": -10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        },
+        {
+            "animation": "botA_right", 
+            "sound": "rickhard_botA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": 10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "right",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "botA_left", 
+            "sound": "rickhard_botA.ogg",
+            "attack": {
+                "damage": 5, 
+                "direction": {
+                    "x": 0, 
+                    "y": 10
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "attack"
+                ], 
+                "direction": [
+                    "left",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "attack"
+        }, 
+        {
+            "animation": "upB_right", 
+            "sound": "rickhard_upB.ogg",
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": -20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        }, 
+        {
+            "animation": "upB_left", 
+            "sound": "rickhard_upB.ogg",
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": -20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+		    "up"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        },
+        {
+            "animation": "botB_right", 
+            "sound": "rickhard_botB.ogg",
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": 20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "right",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        }, 
+        {
+            "animation": "botB_left", 
+            "sound": "rickhard_botB.ogg",
+            "attack": {
+                "damage": 10, 
+                "direction": {
+                    "x": 0, 
+                    "y": 20
+                }
+            }, 
+            "movement": {
+                "action": [
+                    "special"
+                ], 
+                "direction": [
+                    "left",
+		    "down"
+                ]
+            }, 
+            "sliding_ratio": 1.05, 
+            "type": "special"
+        },
+        {
+            "animation": "guard_right", 
+            "movement": {
+                "action": [
+                    "guard"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "guard"
+        }, 
+        {
+            "animation": "guard_left", 
+            "movement": {
+                "action": [
+                    "guard"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "guard"
+        }, 
+        {
+            "animation": "shield_right", 
+            "movement": {
+                "action": [
+                    "shield"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield"
+        },
+        {
+            "animation": "shield_left", 
+            "movement": {
+                "action": [
+                    "shield"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield"
+        },
+        {
+            "animation": "sidedodge_right", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "sidedodge_left", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "botdodge_right", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "right",
+                    "down"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "botdodge_left", 
+            "movement": {
+                "action": [
+                    "dodge"
+                ], 
+                "direction": [
+                    "left",
+                    "down"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "dodge"
+        },
+        {
+            "animation": "crouch_right", 
+            "movement": {
+                "action": [
+                    "crouch"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "crouch"
+        },
+        {
+            "animation": "crouch_left", 
+            "movement": {
+                "action": [
+                    "crouch"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "crouch"
+        },
+        {
+            "animation": "stand_right", 
+            "movement": {
+                "action": [
+                    "stand"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stand"
+        },
+        {
+            "animation": "stand_left", 
+            "movement": {
+                "action": [
+                    "stand"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stand"
+        },
+        {
+            "animation": "shield_break_right", 
+            "movement": {
+                "action": [
+                    "stunned"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stunned"
+        },
+        {
+            "animation": "shield_break_left", 
+            "movement": {
+                "action": [
+                    "stunned"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "stunned"
+        },
+        {
+            "animation": "shield_break_right", 
+            "movement": {
+                "action": [
+                    "shield_break"
+                ], 
+                "direction": [
+                    "right"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield_break"
+        },
+        {
+            "animation": "shield_break_left", 
+            "movement": {
+                "action": [
+                    "shield_break"
+                ], 
+                "direction": [
+                    "left"
+                ]
+            },
+            "sliding_ratio": 1.05, 
+            "type": "shield_break"
+        }
+    ]
+}
