@@ -18,7 +18,8 @@ namespace EUSDAB
         _verticalState(VerticalState::Middle),
 		_globalTime(0),
 		_shieldValue(1000),
-		_shieldMaxValue(1000)
+		_shieldMaxValue(1000),
+		_shieldLeaveTime(0)
     {
     }
 
@@ -140,6 +141,11 @@ namespace EUSDAB
     bool & Entity::gravitable()
     {
         return _gravitable;
+    }
+
+    void Entity::setGravitable(bool gravitable)
+    {
+        _gravitable = gravitable;
     }
 
     void Entity::setLife(Life * life)

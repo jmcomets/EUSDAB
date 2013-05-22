@@ -41,6 +41,8 @@ namespace EUSDAB
                 void onEnter();
                 void onLeave();
 
+
+                void setNextStateAnimationFrameToCurrentFrame() const;
         };
     }
 }

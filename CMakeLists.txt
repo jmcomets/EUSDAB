@@ -51,10 +51,10 @@ include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/${SFML_ARCH}")
 
 # EUSDAB main executable
-set(EUSDAB_EXE_NAME "EUSDAB")
-add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
-target_link_libraries(${EUSDAB_EXE_NAME} ${SFML_LIBS})
-target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
+#set(EUSDAB_EXE_NAME "EUSDAB")
+#add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
+#target_link_libraries(${EUSDAB_EXE_NAME} ${SFML_LIBS})
+#target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
 
 # CTags target
 set(CTAGS_TARGET_NAME "tags")

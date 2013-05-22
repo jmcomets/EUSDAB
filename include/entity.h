@@ -55,6 +55,8 @@ namespace EUSDAB
             // ...non-const version
             bool & gravitable();
 
+            void setGravitable(bool gravitable);
+
             // Attack module
 
             // Actually attack another entity
@@ -121,6 +123,7 @@ namespace EUSDAB
 
 			unsigned int _shieldValue; 
 			unsigned int _shieldMaxValue;
+			time_t _shieldLeaveTime;
 
         protected:
             // General
