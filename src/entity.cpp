@@ -19,7 +19,8 @@ namespace EUSDAB
         _globalTime(0),
         _shieldValue(1000),
         _shieldMaxValue(1000),
-        _shieldLeaveTime(0)
+        _shieldLeaveTime(0),
+        _attackable(true)
     {
     }
 
@@ -168,6 +169,16 @@ namespace EUSDAB
         return _zIndex;
     }
 
+    void Entity::setAttackable(bool a)
+    {
+        _attackable = a;
+    }
+
+    bool Entity::attackable() const
+    {
+        return _attackable;
+    }
+
     void Entity::attack(Entity * entity)
     {
         assert(entity != nullptr);
@@ -176,6 +187,9 @@ namespace EUSDAB
         assert(entity != this);
 
         Attack * attack = _current->attack();
+
+        if(!entity->attackable())
+            return;
 
         if(attack != nullptr)
         {

@@ -15,12 +15,12 @@ namespace EUSDAB
                 Hit & operator=(const Hit &) = delete;
 
                 Hit(Movement const &);
-                virtual ~Hit();
+                virtual ~Hit() = default;
 
-                void onUp(const Event &);
-                void onDown(const Event &);
-                void onLeft(const Event &);
-                void onRight(const Event &);
+                //void onUp(const Event &);
+                //void onDown(const Event &);
+                //void onLeft(const Event &);
+                //void onRight(const Event &);
 
                 //void onA(const Event &);
                 //void onB(const Event &);
@@ -36,8 +36,8 @@ namespace EUSDAB
 
                 //void onGround(const Event &);
 
-                //void onEnter();
-                //void onLeave();
+                void onEnter();
+                void onLeave();
 
                 void onAnimationEnd();
         };
