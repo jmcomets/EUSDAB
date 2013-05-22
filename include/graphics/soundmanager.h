@@ -21,6 +21,8 @@ namespace EUSDAB
 
                 static SoundPtr loadSound(const std::string &);
 
+                static void playAsynchronous(SoundPtr const &);
+
             private:
                 SoundManager();
                 static SoundManager * instance();
