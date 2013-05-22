@@ -315,14 +315,19 @@ namespace EUSDAB
                                 state = runState;
                             }
                         }
+                        else if (stateId == "stand" || stateId == "stunned" || stateId == "shield_break")
+                        {
+                            Movement nextMovement(movement);
+                            nextMovement.setAction(Movement::Idle);
+                            state = new States::Wait(movement, nextMovement);
+                        }
+                                
                         else if (stateId == "special") { state = new States::Special(movement);}
                         else if(stateId == "aerial_attack") { state = new States::AerialAttack(movement);}
                         else if(stateId == "guard") { state = new States::Guard(movement);}
                         else if(stateId == "shield") { state = new States::Shield(movement);}
                         else if(stateId == "crouch") { state = new States::Crouch(movement);}
-                        else if(stateId == "stand") { state = new States::Stand(movement);}
-                        else if(stateId == "stunned") { state = new States::Stunned(movement);}
-                        else if(stateId == "shield_break") { state = new States::ShieldBreak(movement);}
+                        else if(stateId == "aerial_dodge") { state = new States::AerialDodge(movement);}
                         //else if(stateId == "grab") { state = new States::Grab(movement);}
                         //else if(stateId == "haul") { state = new States::Haul(movement);}
                         else if(stateId == "dodge") { state = new States::Dodge(movement);}
