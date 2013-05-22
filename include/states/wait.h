@@ -7,7 +7,7 @@ namespace EUSDAB
 {
     namespace States
     {
-        class Wait
+        class Wait : public State
         {
             public:
                 Wait(Wait &&) = default;

@@ -4,7 +4,7 @@ namespace EUSDAB
 {
     namespace States
     {
-        Wait::Wait(Movement const & m, Movement & const nextState):
+        Wait::Wait(Movement const & m, Movement const & nextState):
             State(m), _nextState(nextState)
         {
         }

@@ -18,8 +18,6 @@
 #include <states/dodge.h>
 #include <states/aerialDodge.h>
 #include <states/haul.h>
-#include <states/shieldBreak.h>
 #include <states/motion.h>
-
 
 #endif
