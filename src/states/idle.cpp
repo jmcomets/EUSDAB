@@ -21,7 +21,7 @@ namespace EUSDAB
             {
                 if (e.ratio > Constants::OnRunRatio)
                 {
-                    if (entity()->canJump() && entity()->jumpPossible())
+                    if (_entity->canJump() && _entity->jumpPossible())
                     {
                         switchState(Movement::Jump | _mvt.direction());
                     }

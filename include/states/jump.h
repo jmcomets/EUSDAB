@@ -46,8 +46,6 @@ namespace EUSDAB
 
                 void onChangeSide(const Movement & mvt);
 
-
-
                 void setVelocity(const  Physics::Vector2 & );
 
             private:

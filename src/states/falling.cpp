@@ -102,7 +102,7 @@ namespace EUSDAB
         void Falling::onGround(const Event & e)
         {
             State::onGround(e);
-            if (e.edge == Event::RisingEdge || e.edge == Event::ContinuousEdge)
+            if (e.edge == Event::RisingEdge)
             {
                 switchState(Movement::Idle | _mvt.direction());
                 _entity->setNbrJump(_entity->nbrJumpMax());

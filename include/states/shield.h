@@ -1,5 +1,5 @@
-#ifndef STATES_SHIELD_H
-#define STATES_SHIELD_H
+#ifndef STATES_SHIELD_H_
+#define STATES_SHIELD_H_
 
 #include <state.h>
 
@@ -17,41 +17,28 @@ namespace EUSDAB
                 Shield(Movement const &);
                 virtual ~Shield();
 
-                void onUp(const Event &);
                 void onDown(const Event &);
                 void onLeft(const Event &);
                 void onRight(const Event &);
 
-                void onA(const Event &);
-                void onB(const Event &);
-                //void onX(const Event &);
-                //void onY(const Event &);
-                //void onZ(const Event &);
                 void onTrigger(const Event &);
 
                 void onNextFrame();
 
-                //void onAttack(const Event &);
-                //void onDamage(const Event &);
-
-                //void onGround(const Event &);
-
                 void onEnter();
                 void onLeave();
-                
+
                 void calcShieldValue();
-                
+
                 void changeImage();
-                
+
                 void setCurValue(unsigned int);
                 void setMaxValue(unsigned int);
                 void setNbrShieldstate(unsigned int);
                 void setRegenSpeed(unsigned int);
                 void setDecreaseSpeed(unsigned int);
-                
-                
-                private:
-                
+
+            private:
                 unsigned int _curValue;
                 unsigned int _maxValue;
                 unsigned int _nbrShieldstate;
@@ -63,5 +50,3 @@ namespace EUSDAB
 }
 
 #endif
-
-

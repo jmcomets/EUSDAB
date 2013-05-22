@@ -200,7 +200,6 @@ namespace EUSDAB
 
         void Jump::onChangeSide(const Movement & mvt)
         {
-            State::onChangeSide(mvt);
             State * s = _entity->state();
 
             if(_mvt.flag() & Movement::Left)

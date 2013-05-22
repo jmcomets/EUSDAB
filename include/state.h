@@ -37,9 +37,8 @@ namespace EUSDAB
             // ...shortcut version
             void onChangeSide(Movement::Flag const &);
 
-            // Get/Set the state's movement
+            // Get the state's movement
             Movement movement() const;
-            // void setMovement(const Movement &);
 
             // Get/Set the state's transformation
             Transform const & transformation() const;
@@ -73,9 +72,6 @@ namespace EUSDAB
             // onEnter -> used to reset animation at the start of a state
             //and other thing now :)
             virtual void onEnter();
-
-            // onLeave -> used when there is smth to to when leaving a state
-            virtual void onLeave();
 
             virtual void onGround(Event const &);
 

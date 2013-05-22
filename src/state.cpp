@@ -38,7 +38,6 @@ namespace EUSDAB
 
     void State::switchState(const Movement & mvt)
     {
-        //std::cout << "mvt.flag()" << mvt.flag() << std::endl;
         onLeave();
         State * s = _entity->state(mvt);
         if (s == nullptr)
@@ -61,31 +60,10 @@ namespace EUSDAB
         switchState(Movement(f));
     }
 
-    void State::onChangeSide(const Movement & mvt)
-    {
-
-        State * s = _entity->state(mvt);
-        if (s == nullptr)
-        {
-            throw std::runtime_error("Undefined State");
-        }
-        _entity->setState(s);
-    }
-
-    void State::onChangeSide(Movement::Flag const & f)
-    {
-        onChangeSide(Movement(f));
-    }
-
     Movement State::movement() const
     {
         return _mvt;
     }
-
-    // void State::setMovement(const Movement & mvt)
-    // {
-    //     _mvt = mvt;
-    // }
 
     Physics::Transform const & State::transformation() const
     {
@@ -181,11 +159,6 @@ namespace EUSDAB
             _animation->reset();
         }
         _transform = Transform();
-    }
-
-    void State::onLeave()
-    {
-        Listener::onLeave();
     }
 
     void State::onGround(Event const & e)
