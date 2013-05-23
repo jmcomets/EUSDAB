@@ -170,7 +170,7 @@ _characters = {
 
 _entity_dir = os.path.join(_assets_dir, 'entities')
 _character_folders = _characters.values()
-_min_to_start = 2
+_min_to_start = 1
 
 _character_sounds = [load_sound('sound_{}.ogg'.format(x)) \
         for x in _characters]
@@ -289,6 +289,14 @@ _button_mapping = {
         7 : 'start'
         }
 
+_key_mapping = {
+        sf.Key.Left : 'left',
+        sf.Key.Right : 'right',
+        sf.Key.A : 'a',
+        sf.Key.B : 'b',
+        sf.Key.Return : 'start'
+        }
+
 _axis_mapping = {
         sf.Joy.AxisX : 'x',
         sf.Joy.AxisY : 'y'
@@ -354,7 +362,17 @@ class StatesManager:
                     button = event.JoyButton.Button
                     if button in _button_mapping:
                         action = _button_mapping[button]
-                        self.current.JoystickButtonReleased(id_, button)
+                        self.current.JoystickButtonReleased(id_, action)
+                elif event.Type == sf.Event.KeyPressed:
+                    key = event.Key.Code
+                    if key in _key_mapping:
+                        action = _key_mapping[key]
+                        self.current.KeyPressed(action)
+                elif event.Type == sf.Event.KeyReleased:
+                    key = event.Key.Code
+                    if key in _key_mapping:
+                        action = _key_mapping[key]
+                        self.current.KeyReleased(action)
             self.current.Update()
             if not self.current.alive:
                 self.SwitchState(self.current.next_state)
@@ -362,7 +380,7 @@ class StatesManager:
             self.current.RenderTo(self.window)
             self.window.Display()
 
-class MenuState:
+class BaseState:
     def __init__(self):
         self.alive = True
         self.next_state = None
@@ -376,8 +394,22 @@ class MenuState:
     def Leave(self): pass
     def RenderTo(self, target): pass
     def JoystickMoved(self, id_, axis, position): pass
-    def JoystickButtonPressed(self, id_, button): pass
-    def JoystickButtonReleased(self, id_, button): pass
+    def JoystickButtonPressed(self, id_, action): pass
+    def JoystickButtonReleased(self, id_, action): pass
+    def KeyPressed(self, key): pass
+    def KeyReleased(self, key): pass
+
+class MenuState(BaseState):
+    def KeyPressed(self, key):
+        if key == 'left':
+            self.JoystickMoved(0, 'x', -100)
+        elif key == 'right':
+            self.JoystickMoved(0, 'x', 100)
+        else:
+            self.JoystickButtonPressed(0, key)
+
+    def KeyReleased(self, key):
+        self.JoystickButtonReleased(0, key)
 
 _maps_id = 'maps'
 _startup_id = 'startup'
@@ -429,8 +461,8 @@ class Startup(MenuState):
         for sp in sorted(self.startup_sprites):
             target.Draw(sp)
 
-    def JoystickButtonPressed(self, id_, button):
-        if button == 'start':
+    def JoystickButtonPressed(self, id_, action):
+        if action == 'start':
             self.SwitchState(_characters_id)
 
 class CharacterSelection(MenuState):
@@ -450,12 +482,12 @@ class CharacterSelection(MenuState):
             delta = position / abs(position)
             self.players_interface.MoveSelection(id_, delta)
 
-    def JoystickButtonPressed(self, id_, button):
-        if button == 'a':
+    def JoystickButtonPressed(self, id_, action):
+        if action == 'a':
             self.players_interface.ChooseSelection(id_)
-        elif button == 'b':
+        elif action == 'b':
             self.players_interface.UnChoose(id_)
-        elif button == 'start':
+        elif action == 'start':
             if self.players_interface.CanStart():
                 players = self.players_interface.chosen
                 self.SwitchState(_maps_id)
@@ -521,8 +553,8 @@ class MapSelection(MenuState):
                 self.selected = (self.selected + 1) % len(self.maps)
         elif axis == 'y': pass # TODO
 
-    def JoystickButtonPressed(self, id_, button):
-        if button == 'start' or button == 'a':
+    def JoystickButtonPressed(self, id_, action):
+        if action == 'start' or action == 'a':
             if self.selected is None:
                 chosen = random.choice(range(len(_maps)))
             else:
@@ -530,7 +562,7 @@ class MapSelection(MenuState):
             players = get_player_interface().chosen
             play_game(_maps[chosen], players)
             self.SwitchState(_characters_id)
-        elif button == 'b':
+        elif action == 'b':
             self.SwitchState(_characters_id)
 
 class MenuStatesManager(StatesManager):
