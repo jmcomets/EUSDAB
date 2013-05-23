@@ -13,7 +13,8 @@ namespace EUSDAB
         class SoundManager
         {
             public:
-                typedef std::shared_ptr<sf::SoundBuffer> SoundPtr;
+                //typedef std::shared_ptr<sf::SoundBuffer> SoundPtr;
+                typedef std::shared_ptr<sf::Music> SoundPtr;
                 SoundManager(SoundManager &&) = delete;
                 SoundManager(const SoundManager &) = delete;
                 ~SoundManager() = default;

@@ -46,10 +46,8 @@ namespace EUSDAB
 
         // Physics
         using namespace Physics;
-        Unit w, h;
-        Unit x, y;
-
-        if (map_name == "map_bazar")
+        Unit w, h, x, y;
+        if(map_name == "map_bazar")
         {
             x = 700;
             y = 200;
@@ -79,9 +77,18 @@ namespace EUSDAB
                 playersBegin, _entityList.end(), world, psyche);
         _graphics->addEntity(_entityList.begin(), playersBegin);
 
-        if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
-            throw std::runtime_error("Map's music wasn't loaded");
+        if(psyche == false)
+        {
+            if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
+                throw std::runtime_error("Map's music wasn't loaded");
+        }
+        else
+        {
+            if (!_music.openFromFile("../../assets/audio/musics/harlem.ogg"))
+                throw std::runtime_error("Map's music wasn't loaded");
+        }
         _music.setLoop(true);
+        _music.setVolume(50);
         _music.play();
     }
 
