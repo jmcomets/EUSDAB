@@ -539,7 +539,6 @@ class MenuStatesManager(StatesManager):
         self.AddState(_maps_id, MapSelection())
         self.AddState(_characters_id, CharacterSelection())
         self.SetState(_startup_id)
-        #self.SetState(_maps_id)
 
 if __name__ == '__main__':
     msm = MenuStatesManager()
