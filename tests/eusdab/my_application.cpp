@@ -7,8 +7,8 @@
 #include <physics/world.h>
 #include <percentageLife.h>
 #include <infiniteLife.h>
-
 #include <iostream>
+#include <cassert>
 
 namespace EUSDAB
 {
@@ -46,7 +46,6 @@ namespace EUSDAB
 
         // Physics
         using namespace Physics;
-
         Unit w, h, x, y;
         if(map_name == "map_bazar")
         {
@@ -55,15 +54,20 @@ namespace EUSDAB
             w = 2300;
             h = 1200;
         }
-        else
+        else if (map_name == "map_bar")
         {
             x = 700;
             y = 250;
             w = 2500;
             h = 1500;
         }
-        Physics::World * world = new World(AABB(x, y, w, h), Vector2(0, 0.35f));
-        _physics = new Physics::Controller(*_input, world);
+        else
+        {
+            throw std::runtime_error("Mauvais nom de map");
+        }
+
+        World * world = new World(AABB(x, y, w, h), Vector2(0, 0.35f));
+        _physics = new Controller(*_input, world);
         _physics->addEntity(_entityList.begin(), _entityList.end());
         _physics->addPlayer(_players.begin(), _players.end());
 
