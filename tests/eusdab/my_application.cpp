@@ -73,8 +73,16 @@ namespace EUSDAB
                 playersBegin, _entityList.end(), world, psyche);
         _graphics->addEntity(_entityList.begin(), playersBegin);
 
-        if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
-            throw std::runtime_error("Map's music wasn't loaded");
+        if(psyche == false)
+        {
+            if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
+                throw std::runtime_error("Map's music wasn't loaded");
+        }
+        else
+        {
+            if (!_music.openFromFile("../../assets/audio/musics/harlem.ogg"))
+                throw std::runtime_error("Map's music wasn't loaded");
+        }
         _music.setLoop(true);
         _music.setVolume(50);
         _music.play();
