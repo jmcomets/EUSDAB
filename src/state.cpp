@@ -49,10 +49,13 @@ namespace EUSDAB
             msg += " current state movement is ";
             msg += _entity->state()->movement().debug();
 #endif
-            throw std::runtime_error(msg);
+            //throw std::runtime_error(msg);
         }
-        _entity->setState(s);
-        s->onEnter();
+        else
+        {
+            _entity->setState(s);
+            s->onEnter();
+        }
     }
 
     void State::switchState(Movement::Flag const & f)

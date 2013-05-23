@@ -46,7 +46,23 @@ namespace EUSDAB
 
         // Physics
         using namespace Physics;
-        Physics::World * world = new World(AABB(700, 200, 2300, 1200), Vector2(0, 0.35f));
+
+        Unit w, h, x, y;
+        if(map_name == "map_bazar")
+        {
+            x = 700;
+            y = 200;
+            w = 2300;
+            h = 1200;
+        }
+        else
+        {
+            x = 700;
+            y = 250;
+            w = 2500;
+            h = 1500;
+        }
+        Physics::World * world = new World(AABB(x, y, w, h), Vector2(0, 0.35f));
         _physics = new Physics::Controller(*_input, world);
         _physics->addEntity(_entityList.begin(), _entityList.end());
         _physics->addPlayer(_players.begin(), _players.end());
