@@ -3,12 +3,11 @@ The Epic Ultimate Showdown of Doom for Awesome Badassness
 
 Platform-Fighting Game in 2D written in C++11
 
-TODO List
----------
+Known issues
+------------
 
-* <del>Fix state creation</del>
-* Write complete Attack module
-* <del>Cleanup *parsing* module</del>
-* <del>Implement different State classes and write JSON representation
-    specification</del>
-* <del>Add assertions __everywhere__</del>
+* knockback not balanced (too low)
+* death not possible
+* Pedro Panda's hitbox is too big
+* Pedro Panda's UpB and DownB not handled
+* Poney's DownA not handled
