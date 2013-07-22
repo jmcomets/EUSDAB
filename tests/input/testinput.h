@@ -41,7 +41,7 @@ namespace EUSDAB
             InputTestState(const InputTestState &) = delete;
             InputTestState & operator=(const InputTestState &) = delete;
 
-            InputTestState();
+            InputTestState(const Movement &);
             ~InputTestState();
 
             void onUp(const Event &);

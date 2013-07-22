@@ -77,10 +77,6 @@ namespace EUSDAB
 
     State * Entity::state(const Movement & mvt) const
     {
-        for(auto it : _states)
-        {
-            //std::cout << "State of movement : " << it->movement().debug() << std::endl;
-        }
         State s(mvt);
         auto it = _states.find(&s);
         return it != _states.end() ? *it : nullptr;
@@ -93,13 +89,14 @@ namespace EUSDAB
 
     void Entity::addState(State * state)
     {
-        std::cout << "###State of movement : " << state->movement().debug() << std::endl;
         if (_states.insert(state).second == false)
         {
             //throw std::runtime_error("Entity's states should be unique");
         }
         else
+        {
             state->setEntity(this);
+        }
     }
 
     const Physics::Vector2 & Entity::position() const

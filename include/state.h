@@ -6,7 +6,7 @@
 #include <entity.h>
 #include <movement.h>
 #include <animation.h>
-#include <graphics/soundmanager.h>
+#include <soundmanager.h>
 
 namespace EUSDAB
 {

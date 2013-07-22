@@ -33,11 +33,7 @@ add_library(${EUSDAB_LIB} ${EUSDAB_SOURCES})
 # Boost
 set(Boost_MIN_VERSION "1.41.0")
 find_package(Boost ${Boost_MIN_VERSION} REQUIRED)
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-else()
-    message(FATAL_ERROR "Boost ${Boost_MIN_VERSION} required")
-endif()
+include_directories(${Boost_INCLUDE_DIRS})
 
 # SFML
 set(SFML_ARCH "lib32")
@@ -46,23 +42,9 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif()
 
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0-rc")
-set(SFML_LIBS sfml-graphics sfml-window sfml-audio sfml-system)
+set(SFML_LIBS sfml-graphics sfml-audio sfml-window sfml-system)
 include_directories("${SFML_DIR}/include")
 link_directories("${SFML_DIR}/${SFML_ARCH}")
-
-# EUSDAB main executable
-#set(EUSDAB_EXE_NAME "EUSDAB")
-#add_executable(${EUSDAB_EXE_NAME} ${EUSDAB_SOURCE_DIR}/src/main.cpp)
-#target_link_libraries(${EUSDAB_EXE_NAME} ${SFML_LIBS})
-#target_link_libraries(${EUSDAB_EXE_NAME} ${EUSDAB_LIB})
-
-# CTags target
-set(CTAGS_TARGET_NAME "tags")
-set(CTAGS_SCRIPT "ctags.sh")
-set(CTAGS_CMD ${CMAKE_CURRENT_SOURCE_DIR}/${CTAGS_SCRIPT})
-add_custom_target(
-    ${CTAGS_TARGET_NAME}
-    COMMAND ${CTAGS_CMD})
 
 # Tests
 add_subdirectory("tests")

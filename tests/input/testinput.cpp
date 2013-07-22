@@ -27,10 +27,8 @@ namespace EUSDAB
 
         // InputTestState state bundle
         Movement testMovement(Movement::Idle | Movement::Left);
-        InputTestState * player1testState = new InputTestState();
-        player1testState->setMovement(testMovement);
-        InputTestState * player2testState = new InputTestState();
-        player2testState->setMovement(testMovement);
+        InputTestState * player1testState = new InputTestState(testMovement);
+        InputTestState * player2testState = new InputTestState(testMovement);
 
         // Adding player states
         player1->addState(player1testState);
@@ -101,8 +99,8 @@ namespace EUSDAB
         _input->update();
     }
 
-    InputTestState::InputTestState():
-        State(),
+    InputTestState::InputTestState(const Movement & mvt):
+        State(mvt),
         _x(0), _y(0),
         _id(Priv::uniqueId())
     {

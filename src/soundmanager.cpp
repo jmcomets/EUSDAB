@@ -1,4 +1,4 @@
-#include <graphics/soundmanager.h>
+#include <soundmanager.h>
 #include <stdexcept>
 #include <thread>
 
