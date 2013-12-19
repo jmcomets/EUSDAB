@@ -46,12 +46,12 @@ on SFML's requirements.
 Building
 --------
 
-    ```bash
-    cd /path/to/eusdab
-    cmake . # for a basic build (adds temp CMake files in the project tree)
-    mkdir build && cd build && cmake .. # for an out-of-source build
-    make eusdab # or just "make" if you want to build all the tests
-    ```
+```bash
+cd /path/to/eusdab
+cmake . # for a basic build (adds temp CMake files in the project tree)
+mkdir build && cd build && cmake .. # for an out-of-source build
+make eusdab # or just "make" if you want to build all the tests
+```
 
 [1]: http://www.cmake.org/
 [2]: http://www.sfml-dev.org/tutorials/2.0/compile-with-cmake.php
