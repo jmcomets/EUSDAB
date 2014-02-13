@@ -7,8 +7,8 @@
 #include <physics/world.h>
 #include <percentageLife.h>
 #include <infiniteLife.h>
-
 #include <iostream>
+#include <cassert>
 
 namespace EUSDAB
 {
@@ -17,7 +17,8 @@ namespace EUSDAB
             std::string const & player1,
             std::string const & player2,
             std::string const & player3,
-            std::string const & player4):
+            std::string const & player4,
+            bool psyche):
         Application(window), _entityList(), _music()
     {
         std::cout << map_name << std::endl;
@@ -45,21 +46,50 @@ namespace EUSDAB
 
         // Physics
         using namespace Physics;
-        Physics::World * world = new World(AABB(700, 200, 2300, 1200), Vector2(0, 0.35f));
-        _physics = new Physics::Controller(*_input, world);
+        Unit w, h, x, y;
+        if(map_name == "map_bazar")
+        {
+            x = 700;
+            y = 200;
+            w = 2300;
+            h = 1200;
+        }
+        else if (map_name == "map_bar")
+        {
+            x = 700;
+            y = 250;
+            w = 2500;
+            h = 1500;
+        }
+        else
+        {
+            throw std::runtime_error("Mauvais nom de map");
+        }
+
+        World * world = new World(AABB(x, y, w, h), Vector2(0, 0.35f));
+        _physics = new Controller(*_input, world);
         _physics->addEntity(_entityList.begin(), _entityList.end());
         _physics->addPlayer(_players.begin(), _players.end());
 
         // Graphics
         EntityList::iterator playersBegin = _entityList.begin() + (_entityList.size() - _players.size());
         _graphics = new Graphics::Controller(_window,
-                playersBegin, _entityList.end(), world);
+                playersBegin, _entityList.end(), world, psyche);
         _graphics->addEntity(_entityList.begin(), playersBegin);
 
-        if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
-            throw std::runtime_error("Map's music wasn't loaded");
+        if(psyche == false)
+        {
+            if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
+                throw std::runtime_error("Map's music wasn't loaded");
+        }
+        else
+        {
+            if (!_music.openFromFile("../../assets/audio/musics/harlem.ogg"))
+                throw std::runtime_error("Map's music wasn't loaded");
+        }
         _music.setLoop(true);
-        //_music.play();
+        _music.setVolume(50);
+        _music.play();
     }
 
     MyApplication::~MyApplication()

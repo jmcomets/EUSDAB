@@ -1,0 +1,15 @@
+{
+    "name": "Bar", 
+    "start": "base", 
+    "states": [
+        {
+            "animation": "map_bar", 
+            "movement": {
+                "action": [], 
+                "direction": []
+            }, 
+            "type": "base"
+        }
+    ], 
+    "type": "map"
+}

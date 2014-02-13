@@ -15,32 +15,21 @@ namespace EUSDAB
         {
         }
 
-        void Special::onUp(const Event & e)
-        {
-            State::onUp(e);
-        }
-
-        void Special::onDown(const Event & e)
-        {
-            State::onDown(e);
-        }
-
         void Special::onLeft(const Event & e)
         {
             State::onLeft(e);
 
-            if(_mvt.flag() & Movement::Up)
+            if (_mvt.flag() & Movement::Up)
             {
                 if (e.edge == Event::RisingEdge)
                 {
-                    std::cout << "Jump : onLeft" << std::endl;
-                    _entity->physics().velocity().x = -3;
-                    onChangeSide(Movement::Special | Movement::Up | Movement::Left);
-                    setNextStateAnimationFrameToCurrentFrame();
+                    _transform.velocity().x = -3;
+                    //switchState(Movement::Special | Movement::Up | Movement::Left);
+                    //setNextStateAnimationFrameToCurrentFrame();
                 }
-                else if(e.edge == Event::FallingEdge)
+                else if (e.edge == Event::FallingEdge)
                 {
-                    _entity->physics().velocity().x = 0;
+                    _transform.velocity().x = 0;
                 }
             }
 
@@ -49,18 +38,17 @@ namespace EUSDAB
         void Special::onRight(const Event & e)
         {
             State::onRight(e);
-            if(_mvt.flag() & Movement::Up)
+            if (_mvt.flag() & Movement::Up)
             {
                 if (e.edge == Event::RisingEdge)
                 {
-                    std::cout << "Special : onRight" << std::endl;
-                    _entity->physics().velocity().x = 3;
-                    onChangeSide(Movement::Special | Movement::Up | Movement::Right);
-                    setNextStateAnimationFrameToCurrentFrame();
+                    _transform.velocity().x = 3;
+                    //switchState(Movement::Special | Movement::Up | Movement::Right);
+                    //setNextStateAnimationFrameToCurrentFrame();
                 }
-                else if(e.edge == Event::FallingEdge)
+                else if (e.edge == Event::FallingEdge)
                 {
-                    _entity->physics().velocity().x = 0;
+                    _transform.velocity().x = 0;
                 }
             }
         }
@@ -116,7 +104,7 @@ namespace EUSDAB
             {
                 _transform.velocity().y = trajectoryY(_time);
             }
-            if(_mvt.flag() & Movement::Up)
+            if (_mvt.flag() & Movement::Up)
             {
                 //_entity->physics().acceleration().y *= 0.85;
             }
@@ -127,38 +115,25 @@ namespace EUSDAB
             State::onAnimationEnd();
             Movement newMvt(_mvt);
             newMvt.setAction(Movement::Falling);
-            //switchState(newMvt);
-            //Reset acceleration of upB
-            _entity->physics().acceleration().y =  0;
-            _entity->setGravitable(true);
             switchState(newMvt & ~Movement::Up & ~Movement::Down);
         }
 
-        void Special::onGround(const Event & e)
-        {
-            State::onGround(e);
-        }
-        
         void Special::onEnter()
         {
             State::onEnter();
-            //_entity->physics().velocity().y = 0.1;
-            std::cout << "Special : onEnter velocity = " << _entity->physics().velocity().y << std::endl;
-            if(_mvt.flag() & Movement::Up)
+            if (_mvt.flag() & Movement::Up)
             {
-                _entity->physics().velocity().y = -5;
-                 //_entity->physics().acceleration().y = 0;
-                 _entity->setGravitable(false);
+                _entity->physics().velocity().y = -4;
+                _entity->setGravitable(false);
             }
         }
-        
+
         void Special::onLeave()
         {
             State::onLeave();
             _attack->reset();
             _entity->setNbrJump(0);
+            _entity->setGravitable(true);
         }
-        
-      
     }
 }

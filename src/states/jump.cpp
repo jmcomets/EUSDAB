@@ -36,7 +36,7 @@ namespace EUSDAB
             State::onDown(e);
             if (e.edge == Event::RisingEdge)
             {
-                if(abs(e.ratio) > Constants::OnRunRatio)
+                if(std::abs(e.ratio) > Constants::OnRunRatio)
                 {
                     std::cout << "Jump : onDown" << std::endl;
                     _entity->physics().velocity().y = 0.1;
@@ -69,8 +69,8 @@ namespace EUSDAB
             {
                 std::cout << "Jump : onLeft" << std::endl;
                 _entity->physics().velocity().x = -3;
-                onChangeSide(Movement::Jump | Movement::Left);
-                setNextStateAnimationFrameToCurrentFrame();
+                //onChangeSide(Movement::Jump | Movement::Left);
+                //setNextStateAnimationFrameToCurrentFrame();
             }
             else if(e.edge == Event::FallingEdge)
             {
@@ -86,8 +86,8 @@ namespace EUSDAB
             {
                 std::cout << "Jump : onRight" << std::endl;
                 _entity->physics().velocity().x = 3;
-                onChangeSide(Movement::Jump | Movement::Right);
-                setNextStateAnimationFrameToCurrentFrame();
+                //onChangeSide(Movement::Jump | Movement::Right);
+                //setNextStateAnimationFrameToCurrentFrame();
             }
             else if(e.edge == Event::FallingEdge)
             {
@@ -200,7 +200,6 @@ namespace EUSDAB
 
         void Jump::onChangeSide(const Movement & mvt)
         {
-            State::onChangeSide(mvt);
             State * s = _entity->state();
 
             if(_mvt.flag() & Movement::Left)

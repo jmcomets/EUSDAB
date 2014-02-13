@@ -25,7 +25,8 @@ namespace EUSDAB
                 template <typename InputIter>
                     Controller(sf::RenderTarget & target,
                             InputIter begin, InputIter end,
-                            const Physics::World * world):
+                            const Physics::World * world,
+                            bool psyche):
                         _target(target), _entityList(),
                             _playerList(begin, end),
                             _world(world),
@@ -34,7 +35,8 @@ namespace EUSDAB
                             _texCharlie(new sf::Texture()),
                             _texPedroPanda(new sf::Texture()),
                             _shader_rainbow(new sf::Shader()),
-                            _shader_filter(new sf::Shader())
+                            _shader_filter(new sf::Shader()),
+                            _psyche(psyche)
                 {
                     assert(_world != nullptr);
 
@@ -107,6 +109,8 @@ namespace EUSDAB
                 sf::Texture * _texPedroPanda;
                 sf::Shader * _shader_rainbow;
                 sf::Shader * _shader_filter;
+
+                bool _psyche;
         };
     }
 }

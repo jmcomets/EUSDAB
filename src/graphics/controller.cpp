@@ -22,8 +22,10 @@ namespace EUSDAB
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
                 
-                 //_target.draw(sp, _shader_rainbow);
-                _target.draw(sp);
+                if(_psyche)
+                    _target.draw(sp, _shader_rainbow);
+                else
+                    _target.draw(sp);
             };
 
             // Bounding box
@@ -153,7 +155,7 @@ namespace EUSDAB
             cameraRect.setFillColor(sf::Color::Transparent);
             cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
             cameraRect.setPosition(sfBarycenter);
-            _target.draw(cameraRect);
+            //_target.draw(cameraRect);
 
             // Zoom camera
             bboxSize += sf::Vector2f(50, 50);
@@ -170,11 +172,11 @@ namespace EUSDAB
                 rect.top = std::min(rect.top + rect.height, _world->aabb().max().y) - rect.height;
             view.setCenter(rect.left + rect.width / 2.0f,
                     rect.top + rect.height / 2.0f);
-            std::cout << rect.left
-                << " ; " << rect.left + rect.width
-                << " | " << rect.top
-                << " ; " << rect.top + rect.height
-                << " | " << std::endl;
+            // std::cout << rect.left
+            //     << " ; " << rect.left + rect.width
+            //     << " | " << rect.top
+            //     << " ; " << rect.top + rect.height
+            //     << " | " << std::endl;
 
             // HUD
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
@@ -217,26 +219,26 @@ namespace EUSDAB
                 return _texRickHard;
             };
 
-/*            std::size_t i = 0;*/
-            //for(Entity * p : _playerList)
-            //{
-                //sf::Sprite spr(*getTex(p));
-                //if(i >= 4)
-                    //break;
-                //if(i == 0)
-                    //spr.setPosition(10.0, 10.0);
-                //if(i == 1)
-                    //spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
-                //if(i == 2)
-                    //spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
-                //if(i == 3)
-                    //spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+            std::size_t i = 0;
+            for(Entity * p : _playerList)
+            {
+                sf::Sprite spr(*getTex(p));
+                if(i >= 4)
+                    break;
+                if(i == 0)
+                    spr.setPosition(10.0, 10.0);
+                if(i == 1)
+                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
+                if(i == 2)
+                    spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                if(i == 3)
+                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
 
-                //_target.draw(spr);
-                //// TODO
-                //draw_number(p->life()->amount(), spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
-                //i++;
-            /*}*/
+                _target.draw(spr);
+                // TODO
+                draw_number(p->life()->amount(), spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
+                i++;
+            }
             // Set final view
             _target.setView(view);
 

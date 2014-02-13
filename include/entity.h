@@ -61,6 +61,8 @@ namespace EUSDAB
 
             // Actually attack another entity
             void attack(Entity *); // FIXME const ? 
+            void setAttackable(bool);
+            bool attackable() const;
 
             // State module
 
@@ -85,22 +87,22 @@ namespace EUSDAB
             std::set<State *, std::less_ptr<State>> const & states() const;
 
             void setLife(Life * life);
-            
+
             Life * life() const;
 
             void setZIndex(ZIndex const & zIndex);
-            
+
             ZIndex const & zIndex() const;
-            
+
             //return a boolean value telling if a jump is possible
             bool canJump();
-            
+
             //les getters et les setters pr le nbr de jump et le nbr max
             typedef int NbJumps;
             NbJumps nbrJump();
             NbJumps nbrJumpMax(); 
             void setNbrJump(int);
-            
+
             //getter et setter pour jump possible
             bool jumpPossible();
             void setJumpPossible(bool);
@@ -117,13 +119,13 @@ namespace EUSDAB
             };
 
             VerticalState _verticalState;
-			
-			//general time of entity since creation of the univrse !!!!!!!!!!!!!!!!!!§!!!!!!!
-			time_t _globalTime;
 
-			unsigned int _shieldValue; 
-			unsigned int _shieldMaxValue;
-			time_t _shieldLeaveTime;
+            //general time of entity since creation of the univrse !!!!!!!!!!!!!!!!!!§!!!!!!!
+            time_t _globalTime;
+
+            unsigned int _shieldValue; 
+            unsigned int _shieldMaxValue;
+            time_t _shieldLeaveTime;
 
         protected:
             // General
@@ -136,20 +138,20 @@ namespace EUSDAB
             // State
             State * _current;
             std::set<State *, std::less_ptr<State>> _states;
-            
+
             // Life
             Life * _life;
 
             //Z-Index
             ZIndex _zIndex;
-            
+
             // Infomartion for the jumps
             NbJumps _nbrJumpLeft, _nbrJumpMax;
             bool _jumpPossible;
 
             // Hitbox de collision
             Physics::Hitbox _hb_collision;
-			
+            bool _attackable;
     };
 }
 

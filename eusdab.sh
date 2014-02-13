@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-(cd "tests/eusdab"
+script_path=`readlink -f $0`
+script_dir=`dirname $script_path`
+(cd "$script_dir/tests/eusdab"
 if [ "$?" -eq "0" ]; then
-    ../../build/tests/EUSDAB_eusdab $*
+    ../../build/tests/eusdab $*
     if [ "$?" -ne "0" ]; then
         echo "Failed with exit code $?"
     fi

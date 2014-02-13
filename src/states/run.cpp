@@ -7,7 +7,7 @@ namespace EUSDAB
     namespace States
     {
         Run::Run(Movement const & m):
-            State(m)
+            Motion(m)
         {
         }
 
@@ -22,7 +22,6 @@ namespace EUSDAB
             {
                 if (entity()->canJump()&&entity()->jumpPossible())
                 {
-            std::cout << "Velocity : " << _velocity.x << " | transform : " << _entity->physics().velocity().y << std::endl;
                     switchState(Movement::Jump | _mvt.direction());
                 }
             }
@@ -38,16 +37,16 @@ namespace EUSDAB
             State::onLeft(e);
             if (e.edge == Event::RisingEdge)
             {
-                if(_mvt.flag() & Movement::Right)
+                if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Walk | Movement::Left);
                 }
-                else if(_mvt.flag() & Movement::Left)
+                else if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Run | Movement::Left);
                 }
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
                 switchState(Movement::Idle | Movement::Left);
             }
@@ -59,94 +58,20 @@ namespace EUSDAB
            
             if (e.edge == Event::RisingEdge)
             {
-                if(_mvt.flag() & Movement::Left)
+                if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Walk | Movement::Right);
                     std::cout << "<Run::onRight> : Movement::Left" << std::endl;
                 }
-                else if(_mvt.flag() & Movement::Right)
+                else if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Run| Movement::Right);
                     std::cout << "<Run::onRight> : Movement::Right" << std::endl;
                 }
             }
-            else if(e.edge == Event::FallingEdge)
+            else if (e.edge == Event::FallingEdge)
             {
                 switchState(Movement::Idle | Movement::Right);
-            }
-        }
-        
-        void Run::onA(const Event & e)
-        {
-            State::onA(e);
-            if ((e.edge == Event::RisingEdge))
-            {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Attack | Movement::Left);
-                    auto s = _entity->state();
-                    if(s != nullptr)
-                    {
-                        s->transformation().velocity() = Physics::Vector2(-6.0 , 0);
-                    }
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Attack | Movement::Right);
-                    auto s = _entity->state();
-                    if(s != nullptr)
-                    {
-                        s->transformation().velocity() = Physics::Vector2(6.0 , 0);
-                    }
-                }
-                else
-                {
-                    //switchState(Movement::Attack | Movement::Left);
-                }
-            }
-        }
-        
-        void Run::onB(const Event & e)
-        {
-            State::onB(e);
-            if ((e.edge == Event::RisingEdge))
-            {
-                if (_mvt.flag() & Movement::Left)
-                {
-                    switchState(Movement::Special | Movement::Left);
-                    auto s = _entity->state();
-                    if(s != nullptr)
-                    {
-                        s->transformation().velocity() = Physics::Vector2(-10.0 , 0);
-                    }
-                }
-                else if (_mvt.flag() & Movement::Right)
-                {
-                    switchState(Movement::Special | Movement::Right);
-                    auto s = _entity->state();
-                    if(s != nullptr)
-                    {
-                        s->transformation().velocity() = Physics::Vector2(10.0 , 0);
-                    }
-                }
-                else
-                {
-                    //switchState(Movement::Attack | Movement::Left);
-                }
-            }
-        }
-
-        void Run::onNextFrame()
-        {
-            Listener::onNextFrame();
-            if (_animation != nullptr)
-            {
-                _animation->advance();
-            }
-
-            if(_entity->physics().velocity().y > 0)
-            {
-                switchState(Movement::Falling | _mvt.direction());
             }
         }
 
@@ -157,17 +82,12 @@ namespace EUSDAB
             if (_mvt.flag() & Movement::Left)
             {
                 _transform.velocity() = _velocity;
-                _transform.velocity().x *= static_cast<Physics::Unit>(-1);
+                // _transform.velocity().x *= static_cast<Physics::Unit>(-1);
             }
             else if (_mvt.flag() & Movement::Right)
             {
                 _transform.velocity() = _velocity;
             }
-        }
-        
-        void Run::setVelocity(const  Physics::Vector2 & value)
-        {
-            _velocity=value;      
         }
     }
 }

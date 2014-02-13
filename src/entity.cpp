@@ -19,7 +19,8 @@ namespace EUSDAB
         _globalTime(0),
         _shieldValue(1000),
         _shieldMaxValue(1000),
-        _shieldLeaveTime(0)
+        _shieldLeaveTime(0),
+        _attackable(true)
     {
     }
 
@@ -58,9 +59,10 @@ namespace EUSDAB
         State * s = state(mvt);
         if (s == nullptr)
         {
-            throw std::runtime_error("No state defined for given movement");
+            //throw std::runtime_error("No state defined for given movement");
         }
-        setState(s);
+        else
+            setState(s);
     }
 
     void Entity::setName(const std::string & name)
@@ -75,10 +77,6 @@ namespace EUSDAB
 
     State * Entity::state(const Movement & mvt) const
     {
-        for(auto it : _states)
-        {
-            //std::cout << "State of movement : " << it->movement().debug() << std::endl;
-        }
         State s(mvt);
         auto it = _states.find(&s);
         return it != _states.end() ? *it : nullptr;
@@ -91,12 +89,14 @@ namespace EUSDAB
 
     void Entity::addState(State * state)
     {
-        std::cout << "###State of movement : " << state->movement().debug() << std::endl;
         if (_states.insert(state).second == false)
         {
-            throw std::runtime_error("Entity's states should be unique");
+            //throw std::runtime_error("Entity's states should be unique");
         }
-        state->setEntity(this);
+        else
+        {
+            state->setEntity(this);
+        }
     }
 
     const Physics::Vector2 & Entity::position() const
@@ -168,6 +168,16 @@ namespace EUSDAB
         return _zIndex;
     }
 
+    void Entity::setAttackable(bool a)
+    {
+        _attackable = a;
+    }
+
+    bool Entity::attackable() const
+    {
+        return _attackable;
+    }
+
     void Entity::attack(Entity * entity)
     {
         assert(entity != nullptr);
@@ -176,6 +186,9 @@ namespace EUSDAB
         assert(entity != this);
 
         Attack * attack = _current->attack();
+
+        if(!entity->attackable())
+            return;
 
         if(attack != nullptr)
         {

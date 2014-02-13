@@ -4,7 +4,6 @@
     "states": [
         {
             "animation": "idle_right",
-            "sound": "test.ogg",
             "movement": {
                 "action": [
                     "idle"
@@ -74,7 +73,7 @@
             }, 
             "type": "walk", 
             "velocity": {
-                "x": 6.0, 
+                "x": -6.0, 
                 "y": 0.0
             }
         }, 
@@ -90,7 +89,7 @@
             }, 
             "type": "run", 
             "velocity": {
-                "x": 10.0, 
+                "x": -10.0, 
                 "y": 0.0
             }
         }, 
@@ -154,12 +153,13 @@
             }, 
             "type": "falling", 
             "velocity": {
-                "x": 4.0, 
+                "x": -4.0, 
                 "y": 0.0
             }
         }, 
         {
             "animation": "sideA_left", 
+            "sound": "rickhard_sideA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -180,6 +180,7 @@
         }, 
         {
             "animation": "sideA_right", 
+            "sound": "rickhard_sideA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -200,6 +201,7 @@
         }, 
         {
             "animation": "sideB_left", 
+            "sound": "rickhard_sideB.ogg",
             "attack": {
                 "damage": 15, 
                 "direction": {
@@ -219,6 +221,7 @@
         }, 
         {
             "animation": "sideB_right", 
+            "sound": "rickhard_sideB.ogg",
             "attack": {
                 "damage": 15, 
                 "direction": {
@@ -238,6 +241,7 @@
         }, 
         {
             "animation": "vomit_right", 
+            "sound": "rickhard_vomit.ogg",
             "attack": {
                 "damage": 20, 
                 "direction": {
@@ -258,6 +262,7 @@
         }, 
         {
             "animation": "vomit_left", 
+            "sound": "rickhard_vomit.ogg",
             "attack": {
                 "damage": 20, 
                 "direction": {
@@ -278,6 +283,7 @@
         }, 
         {
             "animation": "air_A_right", 
+            "sound": "rickhard_air_botA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -298,6 +304,7 @@
         }, 
         {
             "animation": "air_A_left", 
+            "sound": "rickhard_air_botA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -318,6 +325,7 @@
         },
         {
             "animation": "pain_left", 
+            "sound": "rickhard_pain.ogg",
             "movement": {
                 "action": [
                     "onhit"
@@ -331,6 +339,7 @@
         },
         {
             "animation": "pain_right", 
+            "sound": "rickhard_pain.ogg",
             "movement": {
                 "action": [
                     "onhit"
@@ -344,6 +353,7 @@
         }, 
         {
             "animation": "upA_right", 
+            "sound": "rickhard_upA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -365,6 +375,7 @@
         }, 
         {
             "animation": "upA_left", 
+            "sound": "rickhard_upA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -386,6 +397,7 @@
         },
         {
             "animation": "botA_right", 
+            "sound": "rickhard_botA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -407,6 +419,7 @@
         }, 
         {
             "animation": "botA_left", 
+            "sound": "rickhard_botA.ogg",
             "attack": {
                 "damage": 5, 
                 "direction": {
@@ -428,6 +441,7 @@
         }, 
         {
             "animation": "upB_right", 
+            "sound": "rickhard_upB.ogg",
             "attack": {
                 "damage": 10, 
                 "direction": {
@@ -449,6 +463,7 @@
         }, 
         {
             "animation": "upB_left", 
+            "sound": "rickhard_upB.ogg",
             "attack": {
                 "damage": 10, 
                 "direction": {
@@ -470,6 +485,7 @@
         },
         {
             "animation": "botB_right", 
+            "sound": "rickhard_botB.ogg",
             "attack": {
                 "damage": 10, 
                 "direction": {
@@ -491,6 +507,7 @@
         }, 
         {
             "animation": "botB_left", 
+            "sound": "rickhard_botB.ogg",
             "attack": {
                 "damage": 10, 
                 "direction": {
@@ -719,6 +736,6 @@
             },
             "sliding_ratio": 1.05, 
             "type": "shield_break"
-        }          
+        }
     ]
 }

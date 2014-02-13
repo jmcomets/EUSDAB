@@ -32,9 +32,9 @@ namespace EUSDAB
         void Crouch::onLeft(const Event & e)
         {
             State::onLeft(e);
-            if ((e.edge == Event::RisingEdge))
+            if (e.edge == Event::RisingEdge)
             {
-                onChangeSide(Movement::Crouch | Movement::Left);
+                switchState(Movement::Crouch | Movement::Left);
                 setNextStateAnimationFrameToCurrentFrame();
             }
         }
@@ -44,7 +44,7 @@ namespace EUSDAB
             State::onRight(e);
             if (e.edge == Event::RisingEdge)
             {
-                onChangeSide(Movement::Crouch | Movement::Right);
+                switchState(Movement::Crouch | Movement::Right);
                 setNextStateAnimationFrameToCurrentFrame();
             }
         }

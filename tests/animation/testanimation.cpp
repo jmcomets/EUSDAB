@@ -9,7 +9,7 @@
 namespace EUSDAB
 {
     AnimationTest::AnimationTest(sf::RenderWindow & window):
-        Application(window), _animParser(), _animation(nullptr)
+        Application(window), _animParser("."), _animation(nullptr)
     {
         _animation = _animParser.loadAnimation("nyan_cat");
         if (_animation == nullptr)
