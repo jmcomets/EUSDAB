@@ -26,7 +26,7 @@ namespace EUSDAB
         void AerialAttack::onLeave()
         {
             State::onLeave();
-            _entity->physics().velocity().y = 0.1;
+            _entity->physics().velocity().y = 0.1f;
         }
     }
 }

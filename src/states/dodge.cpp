@@ -20,7 +20,7 @@ namespace EUSDAB
             State::onUp(e);
 
         }
-        
+
         void Dodge::onTrigger(const Event & e)
         {
             State::onTrigger(e);
@@ -39,14 +39,14 @@ namespace EUSDAB
         void Dodge::onRight(const Event & e)
         {
             State::onRight(e);
-            
+
         }
-        
+
         void Dodge::onA(const Event & e)
         {
             State::onA(e);
         }
-        
+
         void Dodge::onB(const Event & e)
         {
             State::onB(e);
@@ -69,23 +69,19 @@ namespace EUSDAB
                 //_transform.velocity().x = static_cast<Unit>(0);
             /*}*/
         }
-        
+
         void Dodge::setVelocity(const  Physics::Vector2 & value)
         {
-            _velocity=value;      
+            _velocity=value;
         }
-        
+
         void Dodge::onLeave()
         {
             State::onLeave();
-            _entity->_shieldValue-=static_cast<unsigned int> (trunc(_entity->_shieldMaxValue/5));
-            if (_entity->_shieldValue<0)
-            {
-                _entity->_shieldValue=0;
-            }
-            _entity->_shieldLeaveTime=_entity->_globalTime;
+            unsigned int shieldVal = static_cast<unsigned int>(trunc(_entity->_shieldMaxValue/5));
+            _entity->_shieldValue = _entity->_shieldValue < shieldVal ? 0 : _entity->_shieldValue - shieldVal;
         }
-        
+
         void Dodge::onAnimationEnd()
         {
             State::onAnimationEnd();

@@ -39,7 +39,7 @@ namespace EUSDAB
                 if(std::abs(e.ratio) > Constants::OnRunRatio)
                 {
                     std::cout << "Jump : onDown" << std::endl;
-                    _entity->physics().velocity().y = 0.1;
+                    _entity->physics().velocity().y = 0.1f;
                     switchState(Movement::Falling | _mvt.direction());
                     entity()->setJumpPossible(true);
                 }
@@ -198,9 +198,9 @@ namespace EUSDAB
             _entity->setJumpPossible(true);
         }
 
-        void Jump::onChangeSide(const Movement & mvt)
+        void Jump::onChangeSide(const Movement &)
         {
-            State * s = _entity->state();
+            //State * s = _entity->state();
 
             if(_mvt.flag() & Movement::Left)
             {

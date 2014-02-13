@@ -53,7 +53,7 @@ namespace EUSDAB
 
         void SoundManager::playAsynchronous(SoundPtr const & s)
         {
-            auto f_play = [](SoundPtr const & s)
+            /*auto f_play = [](SoundPtr const & s)
             {
                 s->play();
                 //sf::Sound sound(s);
@@ -62,7 +62,7 @@ namespace EUSDAB
                     std::this_thread::sleep_for(
                             std::chrono::milliseconds(100));
                 }
-            };
+            };*/
 
             s->play();
             //std::thread t(f_play, std::ref(s));

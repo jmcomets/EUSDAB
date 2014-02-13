@@ -4,11 +4,8 @@
 
 namespace EUSDAB
 {
-    HPLife::HPLife(const HPLife::Amount & min,
-            const HPLife::Amount & max):
-        Life(),
-        _min(min), _max(max),
-        _hp(max)
+    HPLife::HPLife(const HPLife::Amount & min, const HPLife::Amount & max):
+        Life(), _hp(max), _min(min), _max(max)
     {
         assert(_min <= _max);
     }
@@ -20,17 +17,13 @@ namespace EUSDAB
 
     Life::Ratio HPLife::receiveDamage(const HPLife::Amount & dmg)
     {
-        static constexpr Life::Ratio factor = 1.0;
-
-        assert(dmg >= 0);
         _hp = std::max(_hp - dmg, _min);
-        return 1.0 * static_cast<Life::Ratio>(_hp)
+        return 1.f * static_cast<Life::Ratio>(_hp)
             / static_cast<Life::Ratio>(_max);
     }
 
     void HPLife::healDamage(const HPLife::Amount & heal)
     {
-        assert(heal >= 0);
         _hp = std::min(_hp + heal, _max);
     }
 

@@ -91,7 +91,7 @@ namespace EUSDAB
                     e1->physics().velocity().y = 0;
                     e1->physics().acceleration().y = 0;
                 }
-                if(e1->physics().velocity().y == 0
+                if(std::abs(e1->physics().velocity().y) < std::numeric_limits<float>::epsilon()
                         || (e1->physics().velocity().y > 0 && canMoveY == false))
                 {
                     //std::cout << "Physics controller : " << e1->physics() << std::endl;

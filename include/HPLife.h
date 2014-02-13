@@ -23,7 +23,9 @@ namespace EUSDAB
             virtual Life::Amount amount() const;
 
         private:
-            Amount _min, _hp, _max;
+            Amount _hp;
+            Amount _min;
+            Amount _max;
     };
 }
 

@@ -14,14 +14,14 @@ namespace EUSDAB
             time++;
 
             _shader_rainbow->setParameter("wave_amplitude", 15, 15);
-            _shader_rainbow->setParameter("wave_phase", time / 50.0f);
-            _shader_rainbow->setParameter("ratio", ((time % 25) / 25.0f));
+            _shader_rainbow->setParameter("wave_phase", static_cast<float>(time) / 50.0f);
+            _shader_rainbow->setParameter("ratio", ((static_cast<float>(time % 25)) / 25.0f));
             auto drawSpriteAt = [&](sf::Sprite & sp,
                     const Physics::Vector2 & p)
             {
                 sp.setPosition(p.x, p.y);
                 // Fat ligne
-                
+
                 if(_psyche)
                     _target.draw(sp, _shader_rainbow);
                 else
@@ -88,7 +88,7 @@ namespace EUSDAB
             {
                 Map * map = dynamic_cast<Map *>(e);
                 if (map == nullptr)
-                { 
+                {
                     std::cerr << "map " << e << " is null" << std::endl;
                     continue;
                 }
@@ -117,7 +117,7 @@ namespace EUSDAB
                 doHitboxes(a, p);
                 doHitbox(e->hitbox(), p);
             }
-            
+
             // Barycenter of the entities
             Physics::Vector2 barycenter;
 
@@ -182,7 +182,7 @@ namespace EUSDAB
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
             {
                 constexpr float dx = -45.0f;
-                _shader_filter->setParameter("percent", (number % 1000) / 300.0);
+                _shader_filter->setParameter("percent", static_cast<float>(number % 1000) / 300.f);
 
                 sf::Sprite spr(lsChar[10]);
                 spr.setScale(0.5f, 0.5f);
@@ -226,13 +226,14 @@ namespace EUSDAB
                 if(i >= 4)
                     break;
                 if(i == 0)
-                    spr.setPosition(10.0, 10.0);
+                    spr.setPosition(10.f, 10.f);
                 if(i == 1)
-                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, 10.0);
+                    spr.setPosition(static_cast<float>(_target.getSize().x - spr.getTexture()->getSize().x) - 10.f, 10.f);
                 if(i == 2)
-                    spr.setPosition(10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                    spr.setPosition(10.f, static_cast<float>(_target.getSize().y - spr.getTexture()->getSize().y) - 10.f);
                 if(i == 3)
-                    spr.setPosition(_target.getSize().x - spr.getTexture()->getSize().x - 10.0, _target.getSize().y - spr.getTexture()->getSize().y - 10.0);
+                    spr.setPosition(static_cast<float>(_target.getSize().x - spr.getTexture()->getSize().x) - 10.f,
+                        static_cast<float>(_target.getSize().y - spr.getTexture()->getSize().y) - 10.f);
 
                 _target.draw(spr);
                 // TODO
