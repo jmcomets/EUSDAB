@@ -9,6 +9,9 @@
 #include <infiniteLife.h>
 #include <iostream>
 #include <cassert>
+#include <thread>
+
+static std::string const ROOT_DIR = "../../";
 
 namespace EUSDAB
 {
@@ -30,15 +33,24 @@ namespace EUSDAB
         // Map
         loadMap(map_name);
 
+        std::cout << "Map loaded" << std::endl;
+
+        std::vector<std::thread> loaderThreads;
+
         // // Players
         if(player1 != "none")
-            loadPlayer(player1, 0);
+            loaderThreads.push_back(std::thread([this, &player1]() { this->loadPlayer(player1, 0); }));
         if(player2 != "none")
-            loadPlayer(player2, 1);
+            loaderThreads.push_back(std::thread([this, &player2]() { this->loadPlayer(player2, 1); }));
         if(player3 != "none")
-            loadPlayer(player3, 2);
+            loaderThreads.push_back(std::thread([this, &player3]() { this->loadPlayer(player3, 2); }));
         if(player4 != "none")
-            loadPlayer(player4, 3);
+            loaderThreads.push_back(std::thread([this, &player4]() { this->loadPlayer(player4, 3); }));
+
+        for(auto & t : loaderThreads)
+        {
+            t.join();
+        }
 
         // Input
         Input::Mapping * mapping = new Input::JoystickMapping(_players.begin(), _players.end());
@@ -63,7 +75,7 @@ namespace EUSDAB
         }
         else
         {
-            throw std::runtime_error("Mauvais nom de map");
+            throw std::runtime_error("Wrong map name");
         }
 
         World * world = new World(AABB(x, y, w, h), Vector2(0, 0.35f));
@@ -73,18 +85,20 @@ namespace EUSDAB
 
         // Graphics
         EntityList::iterator playersBegin = _entityList.begin() + (_entityList.size() - _players.size());
+
         _graphics = new Graphics::Controller(_window,
-                playersBegin, _entityList.end(), world, psyche);
+                playersBegin, _entityList.end(), world, psyche, ROOT_DIR);
+
         _graphics->addEntity(_entityList.begin(), playersBegin);
 
         if(psyche == false)
         {
-            if (!_music.openFromFile("../../assets/audio/musics/bazar.ogg"))
+            if (!_music.openFromFile(ROOT_DIR + "assets/audio/musics/bazar.ogg"))
                 throw std::runtime_error("Map's music wasn't loaded");
         }
         else
         {
-            if (!_music.openFromFile("../../assets/audio/musics/harlem.ogg"))
+            if (!_music.openFromFile(ROOT_DIR + "assets/audio/musics/harlem.ogg"))
                 throw std::runtime_error("Map's music wasn't loaded");
         }
         _music.setLoop(true);
@@ -105,18 +119,20 @@ namespace EUSDAB
 
     void MyApplication::loadPlayer(std::string const & name, unsigned int id)
     {
-        static EntityParser entityParser("../../assets/entities");
+        static EntityParser entityParser(ROOT_DIR + "assets/entities");
 
         Entity * e = entityParser.loadEntity(name, false);
+
         if (e == nullptr)
             throw std::runtime_error(name + " entity wasn't loaded");
 
         typedef unsigned int Size;
-        static auto h = [](const Size & v)
+        static auto const h = [](const Size & v)
         {
             return static_cast<Physics::Unit>(v)
                 / static_cast<Physics::Unit>(2);
         };
+
         e->position() = Physics::Vector2(h(500 + id * 500), h(0));
         e->setName(e->name());
         e->setLife(new PercentageLife(0, 999));
@@ -127,7 +143,7 @@ namespace EUSDAB
 
     void MyApplication::loadMap(std::string const & name)
     {
-        EntityParser entityParser("../../assets/entities");
+        EntityParser entityParser(ROOT_DIR + "assets/entities");
 
         Entity * map = entityParser.loadEntity(name, true);
         if (map == nullptr)
@@ -150,7 +166,7 @@ namespace EUSDAB
         // Map is not gravitable
         map->gravitable() = false;
 
-        //Map f***** life
+        //Map life
         map->setLife(new InfiniteLife());
 
         _entityList.push_back(map);
@@ -159,11 +175,17 @@ namespace EUSDAB
     void MyApplication::event()
     {
         sf::Event e;
+        _window.clear(sf::Color::Black);
         while (_window.pollEvent(e))
         {
             if (e.type == sf::Event::Closed)
             {
                 _window.close();
+            }
+            else if(e.type == sf::Event::KeyPressed)
+            {
+                if(e.key.code == sf::Keyboard::Escape)
+                    _window.close();
             }
             else
             {
