@@ -5,7 +5,7 @@
 int main(int argc, char * argv[])
 {
     if(argc != 6 && argc != 7)
-        throw std::runtime_error("Apprend à bien passer des arguments connard");
+        throw std::runtime_error("Wrong number of arguments: ./eusdab map_name player1 player2 player3 player4 [psyche]");
 
     bool psyche = false;
     if(argc == 7)
