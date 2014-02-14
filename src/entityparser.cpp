@@ -8,8 +8,16 @@
 #include <states/all.h>
 #include <util/filename.h>
 #include <map.h>
+#include <mutex>
 
 using namespace boost::property_tree;
+
+namespace {
+    std::mutex s_animationLoaderMutex;
+    std::mutex s_animationParserMutex;
+    std::mutex s_soundLoaderMutex;
+    std::mutex s_textureLoaderMutex;
+}
 
 namespace EUSDAB
 {
@@ -173,8 +181,14 @@ namespace EUSDAB
                     const ptree & bgPt = bg.second;
                     const std::string & txFile = bgPt.get<std::string>("texture");
                     using Graphics::TextureManager;
+
+                    s_textureLoaderMutex.lock();
+
                     TextureManager::TexturePtr tx = TextureManager::loadTexture(
                         Filename::join(_baseDirectory, entityDir, "backgrounds", txFile));
+
+                    s_textureLoaderMutex.unlock();
+
                     m->addAnimatedBackground(tx, parseVector2(bgPt.get_child("velocity")));
                 }
                 entity = m;
@@ -198,8 +212,13 @@ namespace EUSDAB
 
         // Entity's own animation parser
         std::string animDir(Filename::join(_baseDirectory, entityDir, "animations"));
+
+        s_animationParserMutex.lock();
+
         AnimationParser & animParser = _animationParsers.insert(
                 std::make_pair(animDir, AnimationParser(animDir))).first->second;
+
+        s_animationParserMutex.unlock();
 
         std::string soundDir(Filename::join(_baseDirectory, entityDir, "sounds"));
 
@@ -361,13 +380,24 @@ namespace EUSDAB
                             << Filename::join(soundDir, sound)
                             << std::endl;
 
+                        s_soundLoaderMutex.lock();
+
                         Graphics::SoundManager::SoundPtr s = Graphics::SoundManager::loadSound(Filename::join(soundDir, sound));
+
+                        s_soundLoaderMutex.unlock();
+
                         state->setSound(s);
                     }
 
                     // Animation file (physics/hitbox)
                     const std::string & animName = statePt.get<std::string>("animation");
+
+                    s_animationLoaderMutex.lock();
+
                     Animation * animation = animParser.loadAnimation(animName);
+
+                    s_animationLoaderMutex.unlock();
+
                     if (animation == nullptr)
                     {
                         throw std::runtime_error("`" + Filename::join("/",
