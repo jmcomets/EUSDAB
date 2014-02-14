@@ -23,42 +23,8 @@ namespace EUSDAB
                 Controller & operator=(const Controller &) = default;
 
                 template <typename InputIter>
-                    Controller(sf::RenderTarget & target,
-                            InputIter begin, InputIter end,
-                            const Physics::World * world,
-                            bool psyche):
-                        _target(target), _entityList(),
-                            _playerList(begin, end),
-                            _world(world),
-                            _lsChar(),
-                            _texRickHard(new sf::Texture()),
-                            _texCharlie(new sf::Texture()),
-                            _texPedroPanda(new sf::Texture()),
-                            _shader_rainbow(new sf::Shader()),
-                            _shader_filter(new sf::Shader()),
-                            _psyche(psyche)
-                {
-                    assert(_world != nullptr);
-
-                    _lsChar[0].loadFromFile("../../assets/hud/number_0.png");
-                    _lsChar[1].loadFromFile("../../assets/hud/number_1.png");
-                    _lsChar[2].loadFromFile("../../assets/hud/number_2.png");
-                    _lsChar[3].loadFromFile("../../assets/hud/number_3.png");
-                    _lsChar[4].loadFromFile("../../assets/hud/number_4.png");
-                    _lsChar[5].loadFromFile("../../assets/hud/number_5.png");
-                    _lsChar[6].loadFromFile("../../assets/hud/number_6.png");
-                    _lsChar[7].loadFromFile("../../assets/hud/number_7.png");
-                    _lsChar[8].loadFromFile("../../assets/hud/number_8.png");
-                    _lsChar[9].loadFromFile("../../assets/hud/number_9.png");
-                    _lsChar[10].loadFromFile("../../assets/hud/percent.png");
-
-                    _texRickHard->loadFromFile("../../assets/hud/jauge_rickhard.png");
-                    _texCharlie->loadFromFile("../../assets/hud/jauge_charlie.png");
-                    _texPedroPanda->loadFromFile("../../assets/hud/jauge_pedropanda.png");
-
-                    _shader_rainbow->loadFromFile("../../assets/shader/wave.vert", sf::Shader::Vertex);
-                    _shader_filter->loadFromFile("../../assets/shader/filter.vert", sf::Shader::Vertex);
-                }
+                Controller(sf::RenderTarget & target, InputIter begin, InputIter end,
+                        const Physics::World * world, bool psyche, std::string const & rootDir);
 
                 // Draw the Controller to its currently set target
                 void draw();
@@ -68,13 +34,7 @@ namespace EUSDAB
 
                 // ...range version
                 template <typename InputIter>
-                    void addEntity(InputIter begin, InputIter end)
-                    {
-                        for (; begin != end ; begin++)
-                        {
-                            addEntity(*begin);
-                        }
-                    }
+                void addEntity(InputIter begin, InputIter end);
 
                 // Remove an Entity from the Controller
                 void removeEntity(Entity * entity);
@@ -112,6 +72,8 @@ namespace EUSDAB
 
                 bool _psyche;
         };
+
+        #include "controller.inl"
     }
 }
 
