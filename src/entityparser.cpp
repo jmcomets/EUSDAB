@@ -33,6 +33,12 @@ namespace EUSDAB
         {
             entity = readEntity(entityFile, entityDir);
         }
+        else
+        {
+            throw std::runtime_error("Wrong entity file " + absEntityDir);
+        }
+
+        assert(entity != nullptr);
 
         // Calcul the global hitbox
         if(ent_static == false) {
@@ -100,6 +106,7 @@ namespace EUSDAB
         {
             for(State * const & s : entity->states())
             {
+                assert(s != nullptr);
                 for(Frame & frame : s->animation()->frame_list())
                 {
                     for(Physics::Hitbox const & hb : frame.hitboxList())
@@ -315,7 +322,7 @@ namespace EUSDAB
                             nextMovement.setAction(Movement::Idle);
                             state = new States::Wait(movement, nextMovement);
                         }
-                                
+
                         else if (stateId == "special") { state = new States::Special(movement);}
                         else if(stateId == "aerial_attack") { state = new States::AerialAttack(movement);}
                         else if(stateId == "guard") { state = new States::Guard(movement);}
@@ -399,6 +406,7 @@ namespace EUSDAB
             entity = nullptr;
             throw;
         }
+        assert(entity != nullptr);
         return entity;
     }
 
