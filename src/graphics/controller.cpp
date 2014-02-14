@@ -89,7 +89,7 @@ namespace EUSDAB
                 Map * map = dynamic_cast<Map *>(e);
                 if (map == nullptr)
                 {
-                    std::cerr << "map " << e << " is null" << std::endl;
+                    //std::cerr << "map " << e << " is null" << std::endl;
                     continue;
                 }
 
