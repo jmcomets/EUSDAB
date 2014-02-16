@@ -206,6 +206,6 @@ namespace EUSDAB
 
     void State::onExitWorld()
     {
-        // TODO
+        _entity->reset();
     }
 }
