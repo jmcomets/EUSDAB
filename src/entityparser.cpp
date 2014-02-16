@@ -48,6 +48,8 @@ namespace EUSDAB
 
         assert(entity != nullptr);
 
+        std::cout << ">>> Loading hitboxes of " << entity->name() << "..." << std::endl;
+
         // Calcul the global hitbox
         if(ent_static == false) {
             Physics::Unit left = 0;
@@ -207,6 +209,8 @@ namespace EUSDAB
         const std::string & name = entityPt.get<std::string>("name");
         entity->setName(name);
 
+        std::cout << ">> Loading entity: \"" << entity->name() << "\"" << std::endl;
+
         // Entity's start state
         const std::string & entityStartStateId = entityPt.get<std::string>("start");
 
@@ -222,6 +226,8 @@ namespace EUSDAB
 
         std::string soundDir(Filename::join(_baseDirectory, entityDir, "sounds"));
 
+
+        std::cout << ">>> Loading states..." << std::endl;
         // Entity's states
         const ptree & statesPt = entityPt.get_child("states");
         try
@@ -374,6 +380,10 @@ namespace EUSDAB
                     }
 
                     const std::string & sound = statePt.get<std::string>("sound", "");
+
+                    if(!sound.empty())
+                        std::cout << ">>> Loading sound: " << entity->name() << "::" << sound << "..." << std::endl;
+
                     if(sound != "")
                     {
                         std::cout << "Adding sound : "
@@ -389,8 +399,11 @@ namespace EUSDAB
                         state->setSound(s);
                     }
 
-                    // Animation file (physics/hitbox)
+                    //Animation file (physics/hitbox)
                     const std::string & animName = statePt.get<std::string>("animation");
+
+                    if(!animName.empty())
+                        std::cout << ">>> Loading animation: " << entity->name() << "::" << animName << "..." << std::endl;
 
                     s_animationLoaderMutex.lock();
 
