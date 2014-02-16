@@ -32,7 +32,7 @@ namespace EUSDAB
 
         void Attack::onRight(const Event & e)
         {
-            State::onRight(e); 
+            State::onRight(e);
         }
 
         void Attack::onNextFrame()
@@ -56,9 +56,7 @@ namespace EUSDAB
         void Attack::onAnimationEnd()
         {
             State::onAnimationEnd();
-            std::cout << "mvt.flag() before : " << _mvt.flag() << std::endl;
-            // _mvt.setFlag(_mvt.flag() & ~Movement::Up & ~Movement::Down);
-            std::cout << "mvt.flag() after : " << _mvt.flag() << std::endl;
+             //_mvt.setFlag(_mvt.flag() & ~Movement::Up & ~Movement::Down);
             Movement newMvt(_mvt);
             newMvt.setAction(Movement::Idle);
             switchState(newMvt & ~Movement::Up & ~Movement::Down);
