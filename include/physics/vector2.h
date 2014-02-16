@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -11,7 +12,7 @@ namespace EUSDAB
         template <typename T>
             struct Vector2T
         {
-            // Access corresponding types from within 
+            // Access corresponding types from within
             //  class instanciation (don't use extra templates).
             typedef T Unit;
 
@@ -133,6 +134,12 @@ namespace EUSDAB
             Vector2T<Unit> perp() const
             {
                 return Vector2T<Unit>(y, -x);
+            }
+
+            friend std::ostream & operator<<(std::ostream & os, const Vector2T & vec)
+            {
+                os << "Vector2 = (" << vec.x << ", " << vec.y << ")";
+                return os;
             }
 
             Unit x, y;
