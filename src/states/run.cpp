@@ -22,7 +22,8 @@ namespace EUSDAB
             {
                 if (entity()->canJump()&&entity()->jumpPossible())
                 {
-                    switchState(Movement::Jump | _mvt.direction());
+                    //switchState(Movement::Jump | _mvt.direction());
+                    switchStateWithVelocity(Movement::Jump | _mvt.direction());
                 }
             }
         }
@@ -55,18 +56,16 @@ namespace EUSDAB
         void Run::onRight(const Event & e)
         {
             State::onRight(e);
-           
+
             if (e.edge == Event::RisingEdge)
             {
                 if (_mvt.flag() & Movement::Left)
                 {
                     switchState(Movement::Walk | Movement::Right);
-                    std::cout << "<Run::onRight> : Movement::Left" << std::endl;
                 }
                 else if (_mvt.flag() & Movement::Right)
                 {
                     switchState(Movement::Run| Movement::Right);
-                    std::cout << "<Run::onRight> : Movement::Right" << std::endl;
                 }
             }
             else if (e.edge == Event::FallingEdge)
@@ -88,6 +87,11 @@ namespace EUSDAB
             {
                 _transform.velocity() = _velocity;
             }
+        }
+
+        void Run::onLeave()
+        {
+            State::onLeave();
         }
     }
 }

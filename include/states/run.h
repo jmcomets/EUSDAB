@@ -23,6 +23,7 @@ namespace EUSDAB
                 void onRight(const Event &);
 
                 void onEnter();
+                void onLeave();
         };
     }
 }

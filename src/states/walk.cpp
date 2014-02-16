@@ -22,7 +22,8 @@ namespace EUSDAB
             {
                 if (_entity->canJump() && _entity->jumpPossible())
                 {
-                    switchState(Movement::Jump | _mvt.direction());
+                    //switchState(Movement::Jump | _mvt.direction());
+                    switchStateWithVelocity(Movement::Jump | _mvt.direction());
                 }
             }
         }
