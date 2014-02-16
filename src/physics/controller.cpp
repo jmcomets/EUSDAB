@@ -70,6 +70,7 @@ namespace EUSDAB
                     if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+
                     if(s & Hitbox::Collision)
                     {
                         _input.pushEvent(e1, Event(Event::Collide));
@@ -115,6 +116,7 @@ namespace EUSDAB
                     if (e1 == e2) { continue; }
 
                     Hitbox::Semantic_type s = handleEntityCollision(e1, e2);
+
                     if(s & Hitbox::Collision)
                     {
                         _input.pushEvent(e1, Event(Event::Collide));
@@ -130,6 +132,8 @@ namespace EUSDAB
                         _input.pushEvent(e1, Event(Event::Grab));
                     }
                 }
+
+
                 if(canMoveX == false)
                 {
                     e1->physics() = oldTrans;
@@ -137,7 +141,10 @@ namespace EUSDAB
                     e1->physics().acceleration().x = 0;
                 }
 
+
                 //handleEntityMovement(e1);
+
+                //e1->hitbox().set(e1->position());
             }
         }
 
@@ -270,6 +277,7 @@ namespace EUSDAB
                     }
                 }
             }
+
             return flag;
         }
 
@@ -302,23 +310,33 @@ namespace EUSDAB
                 Animation * a = s->animation();
                 if (a != nullptr)
                 {
-                    // Instanciation of lambda for containment-check
-                    //  for all physical entities
-                    auto notContainedInWorld = [&](const Hitbox & hb)
+                    // Dirty hack
+                    if(e->position().y > _world->aabb().max().y + 150 ||
+                        e->position().x < _world->aabb().min().x - 50 ||
+                        e->position().x > _world->aabb().max().x + 50)
                     {
-                        return _world->contains(hb) == false;
-                    };
-
-                    // If the entity isn't contained in the world,
-                    //  ie : all of its hitboxes aren't in the world
-                    //  fire a onExitWorld call on its State
-                    const Animation::HitboxList & hitboxList = a->hitboxList();
-                    if (std::all_of(hitboxList.begin(), hitboxList.end(),
-                                notContainedInWorld))
-                    {
-                        // TODO does not work !
+                        std::cout << "DEAAAAAAATTTTHHHH" << std::endl;
                         s->onExitWorld();
+                        return;
                     }
+
+                    /*// Instanciation of lambda for containment-check*/
+                    ////  for all physical entities
+                    //auto notContainedInWorld = [&](const Hitbox & hb)
+                    //{
+                        //return _world->contains(hb) == false;
+                    //};
+
+                    //// If the entity isn't contained in the world,
+                    ////  ie : all of its hitboxes aren't in the world
+                    ////  fire a onExitWorld call on its State
+                    //const Animation::HitboxList & hitboxList = a->hitboxList();
+                    //if (std::all_of(hitboxList.begin(), hitboxList.end(),
+                                //notContainedInWorld))
+                    //{
+                        //// TODO does not work !
+                        //s->onExitWorld();
+                    /*}*/
                 }
             }
         }
