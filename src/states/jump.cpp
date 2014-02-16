@@ -153,14 +153,12 @@ namespace EUSDAB
 
             if (_entity->physics().velocity().y > 0)
             {
-                std::cout << "Jump : OnNext < 0" << std::endl;
                 switchState(Movement::Falling | _mvt.direction());
                 //entity()->setJumpPossible(true);
             }
 
         else if (!_entity->jumpPossible() && std::abs(_entity->physics().velocity().y) < std::abs(_velocity.y / 2))
             {
-                std::cout << "Jump : OnNext y < /2" << std::endl;
                 _entity->setJumpPossible(true);
             }
         }
@@ -171,8 +169,10 @@ namespace EUSDAB
         {
             // TODO add vertical impulse
 
-            std::cout << "Jump : onEnter " << std::endl;
+            State::onEnter();
+
             _velocity.y = 12;
+            _velocity.x /= 2;
             _animation->setPaused(false);
             _entity->setJumpPossible(false);
             _entity->setNbrJump(entity()->nbrJump()-1);
@@ -188,13 +188,14 @@ namespace EUSDAB
                 _entity->physics().velocity().y = _velocity.y;
                 _entity->physics().velocity().y *= static_cast<Physics::Unit>(-1);
             }
-            std::cout << "Velocity : " << _velocity.x << " | transform : " << _entity->physics().velocity().y << std::endl;
+
+            _entity->physics().velocity().x = _velocity.x;
         }
 
         void Jump::onLeave()
         {
             State::onLeave();
-            std::cout << "Jump : onLeave" << std::endl;
+
             _entity->setJumpPossible(true);
         }
 
