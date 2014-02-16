@@ -21,12 +21,12 @@ namespace EUSDAB
         void Crouch::onDown(const Event & e)
         {
             State::onDown(e);
-            
+
             if (e.edge == Event::FallingEdge)
             {
                 switchState(Movement::Stand | _mvt.direction());
             }
-            
+
         }
 
         void Crouch::onLeft(const Event & e)
@@ -53,13 +53,13 @@ namespace EUSDAB
         {
             State::onNextFrame();
         }
-        
+
         void Crouch::onAnimationEnd()
         {
             _animation->setPaused();
             _animation->explicitAdvance(-1);
         }
-        
+
         void Crouch::setNextStateAnimationFrameToCurrentFrame() const
         {
             // Continue animation from current frame in next state
@@ -70,19 +70,17 @@ namespace EUSDAB
             if (a == nullptr) { return; }
             a->setCurrentFrame(_animation->currentFrame());
         }
-        
+
         void Crouch::onEnter()
         {
             State::onEnter();
             _animation->setPaused(false);
             _animation->reset();
-            std::cout << "Crouch : onEnter" << std::endl;
         }
-        
+
         void Crouch::onLeave()
         {
             State::onLeave();
-            std::cout << "Crouch : onLeave" << std::endl;
         }
     }
 }
