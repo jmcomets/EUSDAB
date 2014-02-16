@@ -204,8 +204,8 @@ namespace EUSDAB
         if(attack != nullptr)
         {
             attack->applyTo(entity);
-            std::cout << "<Attack> " << _name << " : " << _physics << std::endl;
-            std::cout << "<Attack> " << entity->_name << " : " << entity->_physics << std::endl;
+            //std::cout << "<Attack> " << _name << " : " << _physics << std::endl;
+            //std::cout << "<Attack> " << entity->_name << " : " << entity->_physics << std::endl;
         }
         else
         {
@@ -215,7 +215,6 @@ namespace EUSDAB
 
     bool Entity::canJump()
     {
-        std::cout << "jumpLeft : " << _nbrJumpLeft << std::endl;
         return _nbrJumpLeft > 0;
     }
 
