@@ -134,6 +134,7 @@ namespace EUSDAB
         };
 
         e->position() = Physics::Vector2(h(500 + id * 500), h(0));
+        e->setInitialPosition(e->position());
         e->setName(e->name());
         e->setLife(new PercentageLife(0, 999));
 
