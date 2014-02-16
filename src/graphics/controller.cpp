@@ -13,14 +13,16 @@ namespace EUSDAB
             static std::time_t time = 0;
             time++;
 
-            _shader_rainbow->setParameter("wave_amplitude", 15, 15);
-            _shader_rainbow->setParameter("wave_phase", static_cast<float>(time) / 50.0f);
-            _shader_rainbow->setParameter("ratio", ((static_cast<float>(time % 25)) / 25.0f));
-            auto drawSpriteAt = [&](sf::Sprite & sp,
-                    const Physics::Vector2 & p)
+            if(_psyche)
+            {
+                _shader_rainbow->setParameter("wave_amplitude", 15, 15);
+                _shader_rainbow->setParameter("wave_phase", static_cast<float>(time) / 50.0f);
+                _shader_rainbow->setParameter("ratio", ((static_cast<float>(time % 25)) / 25.0f));
+            }
+
+            auto drawSpriteAt = [&](sf::Sprite & sp, const Physics::Vector2 & p)
             {
                 sp.setPosition(p.x, p.y);
-                // Fat ligne
 
                 if(_psyche)
                     _target.draw(sp, _shader_rainbow);
