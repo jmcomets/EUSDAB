@@ -3,6 +3,7 @@
 
 #include <physics/vector2.h>
 #include <cassert>
+#include <iostream>
 
 namespace EUSDAB
 {
@@ -51,6 +52,13 @@ namespace EUSDAB
                 Unit x() const
                 {
                     return _x;
+                }
+
+                AABBT<Unit> & set(const Vector2 & v)
+                {
+                    _x = v.x;
+                    _y = v.y;
+                    return *this;
                 }
 
                 AABBT<Unit> & setX(const Unit & x)
@@ -198,6 +206,13 @@ namespace EUSDAB
                 {
                     return Vector2(_x + _w / static_cast<Unit>(2),
                             _y + _h / static_cast<Unit>(2));
+                }
+
+                friend std::ostream & operator<<(std::ostream & os, AABBT const & aabb)
+                {
+                    os << "AABB = (" << aabb.x() << ", " << aabb.y() << ", "
+                       << aabb.width() << ", " << aabb.height() << ")";
+                    return os;
                 }
 
             private:
