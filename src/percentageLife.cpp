@@ -19,11 +19,9 @@ namespace EUSDAB
     Life::Ratio PercentageLife::receiveDamage(const PercentageLife::Amount & dmg)
     {
         static constexpr Life::Ratio max = 300;
-        static constexpr Life::Ratio factor = 4;
+        static constexpr Life::Ratio factor = 3;
 
         _percentage = std::min(_percentage + dmg, _max);
-
-        std::cout << "Life : " << _percentage << "%" << std::endl;
 
         return factor * static_cast<Life::Ratio>(_percentage)
             / static_cast<Life::Ratio>(max);
