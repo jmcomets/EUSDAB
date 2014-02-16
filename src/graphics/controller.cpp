@@ -136,7 +136,8 @@ namespace EUSDAB
             {
                 // Check that entity's state is non-nil
                 State * s = e->state();
-                assert(s != nullptr);
+                //assert(s != nullptr);
+                if(s == nullptr) continue;
 
                 // Check that state's animation is non-nil
                 Animation * a = s->animation();
