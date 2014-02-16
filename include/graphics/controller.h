@@ -19,7 +19,7 @@ namespace EUSDAB
 
                 Controller(Controller &&) = default;
                 Controller(const Controller &) = default;
-                ~Controller() = default;
+                ~Controller();
                 Controller & operator=(const Controller &) = default;
 
                 template <typename InputIter>
@@ -67,6 +67,7 @@ namespace EUSDAB
                 sf::Texture * _texRickHard;
                 sf::Texture * _texCharlie;
                 sf::Texture * _texPedroPanda;
+                sf::Texture * _texBotato;
                 sf::Shader * _shader_rainbow;
                 sf::Shader * _shader_filter;
 

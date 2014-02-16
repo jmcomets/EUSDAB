@@ -10,6 +10,7 @@ Controller::Controller(sf::RenderTarget & target,
         _texRickHard(new sf::Texture()),
         _texCharlie(new sf::Texture()),
         _texPedroPanda(new sf::Texture()),
+        _texBotato(new sf::Texture()),
         _shader_rainbow(new sf::Shader()),
         _shader_filter(new sf::Shader()),
         _psyche(psyche)
@@ -31,6 +32,7 @@ Controller::Controller(sf::RenderTarget & target,
     _texRickHard->loadFromFile(rootDir + "assets/hud/jauge_rickhard.png");
     _texCharlie->loadFromFile(rootDir + "assets/hud/jauge_charlie.png");
     _texPedroPanda->loadFromFile(rootDir + "assets/hud/jauge_pedropanda.png");
+    _texBotato->loadFromFile(rootDir + "assets/hud/jauge_botato.png");
 
     _shader_rainbow->loadFromFile(rootDir + "assets/shader/wave.vert", sf::Shader::Vertex);
     _shader_filter->loadFromFile(rootDir + "assets/shader/filter.vert", sf::Shader::Vertex);
