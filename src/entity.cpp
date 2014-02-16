@@ -13,7 +13,7 @@ namespace EUSDAB
         _shieldMaxValue(1000),
         _shieldLeaveTime(0),
         _name(),
-        _physics(), _gravitable(true),
+        _physics(), _initialPosition(), _gravitable(true),
         _current(nullptr),
         _states(),
         _life(nullptr),
@@ -110,6 +110,11 @@ namespace EUSDAB
         return _physics.position();
     }
 
+    const Physics::Vector2 & Entity::initialPosition() const
+    {
+        return _initialPosition;
+    }
+
     const Physics::Transform & Entity::physics() const
     {
         return _physics;
@@ -132,6 +137,11 @@ namespace EUSDAB
         _physics.position().y = tr.position().y;
         _physics.velocity().y = tr.velocity().y;
         _physics.acceleration().y = tr.acceleration().y;
+    }
+
+    void Entity::setInitialPosition(const Physics::Vector2 & initialPosition)
+    {
+        _initialPosition = initialPosition;
     }
 
     bool Entity::gravitable() const
@@ -231,6 +241,22 @@ namespace EUSDAB
     void Entity::setJumpPossible(bool value)
     {
         _jumpPossible = value;
+    }
+
+    void Entity::reset()
+    {
+        _shieldValue = 1000;
+        _shieldMaxValue = 1000;
+        _shieldLeaveTime = 0;
+        _gravitable = true;
+        _current = nullptr;
+        _life->reset();
+        _zIndex = 0;
+        _nbrJumpLeft = 2;
+        _nbrJumpMax = 2;
+        _jumpPossible = true;
+        _attackable = true;
+        _physics = Physics::Transform(_initialPosition, {0, 0}, {0, 0});
     }
 }
 

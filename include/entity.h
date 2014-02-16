@@ -7,6 +7,7 @@
 #include <input/speaker.h>
 #include <physics/config.h>
 #include <physics/transform.h>
+#include <physics/vector2.h>
 #include <movement.h>
 #include <life.h>
 #include <attack.h>
@@ -42,6 +43,8 @@ namespace EUSDAB
             // ...non-const version
             Physics::Vector2 & position();
 
+            const Physics::Vector2 & initialPosition() const;
+
             // Get the Entity's physical transform
             const Physics::Transform & physics() const;
             // ...non-const version
@@ -49,6 +52,8 @@ namespace EUSDAB
 
             void setPhysicsX(Physics::Transform const & tr);
             void setPhysicsY(Physics::Transform const & tr);
+
+            void setInitialPosition(const Physics::Vector2 & initialPosition);
 
             // get if the entity is gravitable
             bool gravitable() const;
@@ -60,7 +65,7 @@ namespace EUSDAB
             // Attack module
 
             // Actually attack another entity
-            void attack(Entity *); // FIXME const ? 
+            void attack(Entity *); // FIXME const ?
             void setAttackable(bool);
             bool attackable() const;
 
@@ -73,9 +78,9 @@ namespace EUSDAB
 
             // Set the Entity's state directly
             void setState(State *);
-            // ...or by lookup by movement (throws an 
-            //   std::runtime_error if the given ID 
-            //   isn't defined by an associated state). 
+            // ...or by lookup by movement (throws an
+            //   std::runtime_error if the given ID
+            //   isn't defined by an associated state).
             void setState(const Movement &);
 
             // Add a new state to the Entity, identified
@@ -100,7 +105,7 @@ namespace EUSDAB
             //les getters et les setters pr le nbr de jump et le nbr max
             typedef int NbJumps;
             NbJumps nbrJump();
-            NbJumps nbrJumpMax(); 
+            NbJumps nbrJumpMax();
             void setNbrJump(int);
 
             //getter et setter pour jump possible
@@ -109,6 +114,9 @@ namespace EUSDAB
 
             Physics::Hitbox const & hitbox() const;
             Physics::Hitbox & hitbox();
+
+            // Reset entity
+            void reset();
 
             //Inclinaison vertical du joystick
             enum VerticalState
@@ -123,7 +131,7 @@ namespace EUSDAB
             //general time of entity since creation of the univrse !!!!!!!!!!!!!!!!!!§!!!!!!!
             time_t _globalTime;
 
-            unsigned int _shieldValue; 
+            unsigned int _shieldValue;
             unsigned int _shieldMaxValue;
             time_t _shieldLeaveTime;
 
@@ -133,6 +141,7 @@ namespace EUSDAB
 
             // Physics : positioning and physics transform
             Physics::Transform _physics;
+            Physics::Vector2 _initialPosition;
             bool _gravitable;
 
             // State
