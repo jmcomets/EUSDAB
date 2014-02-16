@@ -30,6 +30,10 @@ namespace EUSDAB
                     _target.draw(sp);
             };
 
+            //==================================================================
+            //                              Hitboxes
+            //==================================================================
+
             // Bounding box
             Physics::AABB bbox;
 
@@ -72,7 +76,7 @@ namespace EUSDAB
                     rect.setOutlineColor(color);
                     rect.setOutlineThickness(1.0f);
                     rect.setFillColor(sf::Color::Transparent);
-                    //_target.draw(rect);
+                    _target.draw(rect);
                 }
             };
 
@@ -85,15 +89,15 @@ namespace EUSDAB
                 }
             };
 
+            //==================================================================
+            //                            Entities
+            //==================================================================
 
+            // Place map
             for (Entity * e : _entityList)
             {
                 Map * map = dynamic_cast<Map *>(e);
-                if (map == nullptr)
-                {
-                    //std::cerr << "map " << e << " is null" << std::endl;
-                    continue;
-                }
+                if (map == nullptr) continue;
 
                 for (sf::Sprite & s : map->getSprites())
                 {
@@ -120,9 +124,14 @@ namespace EUSDAB
                 doHitbox(e->hitbox(), p);
             }
 
+            //==================================================================
+            //                            Camera
+            //==================================================================
+
             // Barycenter of the entities
             Physics::Vector2 barycenter;
 
+            auto count = 0u;
             for (Entity * e : _playerList)
             {
                 // Check that entity's state is non-nil
@@ -139,13 +148,14 @@ namespace EUSDAB
 
                 // Add position vector to barycenter
                 barycenter += p;
+                ++count;
 
                 doHitboxes(a, p);
                 doHitbox(e->hitbox(), p);
             }
 
             // Convert to barycenter by dividing by number of entities
-            barycenter /= static_cast<Physics::Unit>(_playerList.size());
+            barycenter /= static_cast<Physics::Unit>(count);
             sf::Vector2f sfBarycenter(barycenter.x, barycenter.y);
             sf::View view = _target.getView();
             view.move(sfBarycenter - view.getCenter());
@@ -180,7 +190,10 @@ namespace EUSDAB
             //     << " ; " << rect.top + rect.height
             //     << " | " << std::endl;
 
-            // HUD
+            //==================================================================
+            //                            HUD
+            //==================================================================
+
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
             {
                 constexpr float dx = -45.0f;
@@ -242,6 +255,7 @@ namespace EUSDAB
                 draw_number(p->life()->amount(), spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
                 i++;
             }
+
             // Set final view
             _target.setView(view);
 
