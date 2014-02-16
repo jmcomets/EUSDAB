@@ -17,12 +17,11 @@ namespace EUSDAB
             typedef T Unit;
 
             // Value constructor, set (x, y)
-            Vector2T(const Unit & x, const Unit & y):
+            Vector2T(const Unit & x = 0, const Unit & y = 0):
                 x(x), y(y)
             {
             }
 
-            Vector2T() = default;
             Vector2T(Vector2T<Unit> &&) = default;
             Vector2T(const Vector2T<Unit> &) = default;
             ~Vector2T() = default;
