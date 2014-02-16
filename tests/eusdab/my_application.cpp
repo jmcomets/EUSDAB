@@ -24,16 +24,17 @@ namespace EUSDAB
             bool psyche):
         Application(window), _entityList(), _music()
     {
-        std::cout << map_name << std::endl;
-        std::cout << player1 << std::endl;
-        std::cout << player2 << std::endl;
-        std::cout << player3 << std::endl;
-        std::cout << player4 << std::endl;
+        std::cout << "Map: " << map_name << std::endl;
+
+        std::cout << "Player 1:" << player1 << std::endl;
+        std::cout << "Player 2:" << player2 << std::endl;
+        std::cout << "Player 3:" << player3 << std::endl;
+        std::cout << "Player 4:" << player4 << std::endl;
+
+        std::cout << ">> Loading map..." << std::endl;
 
         // Map
         loadMap(map_name);
-
-        std::cout << "Map loaded" << std::endl;
 
         std::vector<std::thread> loaderThreads;
 
