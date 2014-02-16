@@ -8,6 +8,16 @@ namespace EUSDAB
 {
     namespace Graphics
     {
+        Controller::~Controller()
+        {
+            delete _texRickHard;
+            delete _texCharlie;
+            delete _texPedroPanda;
+            delete _texBotato;
+            delete _shader_rainbow;
+            delete _shader_filter;
+        }
+
         void Controller::draw()
         {
             static std::time_t time = 0;
@@ -232,6 +242,8 @@ namespace EUSDAB
                     return _texCharlie;
                 if(e->name() == "Pedro Panda")
                     return _texPedroPanda;
+                if(e->name() == "Botato")
+                    return _texBotato;
                 return _texRickHard;
             };
 
