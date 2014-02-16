@@ -315,7 +315,7 @@ namespace EUSDAB
                         e->position().x < _world->aabb().min().x - 50 ||
                         e->position().x > _world->aabb().max().x + 50)
                     {
-                        std::cout << "DEAAAAAAATTTTHHHH" << std::endl;
+                        std::cout << "DEATH OF " << e->name() << std::endl;
                         s->onExitWorld();
                         return;
                     }
