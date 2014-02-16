@@ -22,7 +22,6 @@ namespace EUSDAB
             {
                 if(e.ratio > Constants::OnRunRatio)
                 {
-                    std::cout << "Jump : onUp" << std::endl;
                     if (entity()->canJump() && entity()->jumpPossible())
                     {
                         switchState(Movement::Jump | _mvt.direction());
@@ -38,7 +37,6 @@ namespace EUSDAB
             {
                 if(std::abs(e.ratio) > Constants::OnRunRatio)
                 {
-                    std::cout << "Jump : onDown" << std::endl;
                     _entity->physics().velocity().y = 0.1f;
                     switchState(Movement::Falling | _mvt.direction());
                     entity()->setJumpPossible(true);
@@ -51,7 +49,6 @@ namespace EUSDAB
             State::onGround(e);
             if(_entity->physics().velocity().y > 0)
             {
-                std::cout << "Jump : OnGround" << std::endl;
                 if (e.edge == Event::RisingEdge)
                 {
                     switchState(Movement::Idle | _mvt.direction());
@@ -67,7 +64,6 @@ namespace EUSDAB
 
             if (e.edge == Event::RisingEdge)
             {
-                std::cout << "Jump : onLeft" << std::endl;
                 _entity->physics().velocity().x = -3;
                 //onChangeSide(Movement::Jump | Movement::Left);
                 //setNextStateAnimationFrameToCurrentFrame();
@@ -84,7 +80,6 @@ namespace EUSDAB
             State::onRight(e);
             if (e.edge == Event::RisingEdge)
             {
-                std::cout << "Jump : onRight" << std::endl;
                 _entity->physics().velocity().x = 3;
                 //onChangeSide(Movement::Jump | Movement::Right);
                 //setNextStateAnimationFrameToCurrentFrame();
@@ -99,7 +94,6 @@ namespace EUSDAB
         void Jump::onA(const Event & e)
         {
             State::onA(e);
-            std::cout << "Jump : A" << std::endl;
             if ((e.edge == Event::RisingEdge))
             {
                 if (_mvt.flag() & Movement::Left)
@@ -119,7 +113,6 @@ namespace EUSDAB
 
         void Jump::onB(const Event & e)
         {
-            std::cout << "Jump : B" << std::endl;
             State::onB(e);
 
             if (e.edge == Event::RisingEdge)
@@ -145,8 +138,6 @@ namespace EUSDAB
         {
             State::onNextFrame();
 
-            //std::cout << _entity->physics() << std::endl;
-            //std::cout << "_velocity : " << _velocity.y << " | transform : " << _entity->physics().velocity().y << std::endl;
             //FIXME
             // Shorten code !
             using Physics::Unit;
