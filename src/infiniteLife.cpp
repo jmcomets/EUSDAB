@@ -29,4 +29,9 @@ namespace EUSDAB
     {
         return 42;
     }
+
+    void InfiniteLife::reset()
+    {
+
+    }
 }

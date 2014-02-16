@@ -38,4 +38,9 @@ namespace EUSDAB
     {
         return _percentage;
     }
+
+    void PercentageLife::reset()
+    {
+        _percentage = _min;
+    }
 }

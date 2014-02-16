@@ -31,4 +31,9 @@ namespace EUSDAB
     {
         return _hp;
     }
+
+    void HPLife::reset()
+    {
+        _hp = _max;
+    }
 }

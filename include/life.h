@@ -30,6 +30,9 @@ namespace EUSDAB
             virtual void healDamage(const Amount &) = 0;
 
             virtual Amount amount() const = 0;
+
+            // Restore all the life
+            virtual void reset() = 0;
     };
 }
 

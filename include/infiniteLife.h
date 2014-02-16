@@ -19,6 +19,7 @@ namespace EUSDAB
             Life::Ratio receiveDamage(const Life::Amount &);
             void healDamage(const Life::Amount &);
             virtual Life::Amount amount() const;
+            virtual void reset();
     };
 }
 
