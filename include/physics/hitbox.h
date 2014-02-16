@@ -17,7 +17,7 @@ namespace EUSDAB
             class HitboxT
         {
             public:
-                // Access corresponding types from within 
+                // Access corresponding types from within
                 //  class instanciation (don't use extra templates).
                 typedef T Unit;
                 typedef AABBT<Unit> AABB;
@@ -140,7 +140,7 @@ namespace EUSDAB
                 }
 
                 // Translate the Hitbox (takes AABB::Unit)
-                void translate(typename AABB::Unit const & x, 
+                void translate(typename AABB::Unit const & x,
                         typename AABB::Unit const & y)
                 {
                     _aabbGlobal.translate(x, y);
@@ -154,6 +154,16 @@ namespace EUSDAB
                 {
                     translate(v.x, v.y);
                 }
+
+                void set(typename AABB::Vector2 const & v)
+                {
+                    _aabbGlobal.set(v);
+                    for (AABB & aabb : _aabbList)
+                    {
+                        aabb.set(v);
+                    }
+                }
+
 
                 // Get/Set the Hitbox's semantic
                 Semantic semantic() const
@@ -199,8 +209,8 @@ namespace EUSDAB
 
 namespace std
 {
-    template <>
-        template <class T> struct hash<EUSDAB::Physics::HitboxT<T>>
+    template <typename T>
+    struct hash<EUSDAB::Physics::HitboxT<T>>
     {
         size_t operator()(const EUSDAB::Physics::HitboxT<T> & x) const
         {
