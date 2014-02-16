@@ -77,7 +77,7 @@ namespace EUSDAB
                     Event event(it->second, Event::Full, Event::RisingEdge);
                     _mappings[id]->player->push(event);
                 }
-                               
+
             }
             else if (e.type == sf::Event::JoystickButtonReleased)
             {
@@ -117,7 +117,7 @@ namespace EUSDAB
                 }
             }
         }
-        
+
         void JoystickMapping::initMappings()
         {
             for (unsigned int i = 0; i < _playerList.size(); i++)
@@ -128,7 +128,7 @@ namespace EUSDAB
 
                 _mappings[i]->btnMapping[Button::A] = Event::A;
                 _mappings[i]->btnMapping[Button::B] = Event::B;
-                _mappings[i]->btnMapping[Button::X] = Event::X;
+                _mappings[i]->btnMapping[Button::X] = Event::A; //FIXME
                 _mappings[i]->btnMapping[Button::Y] = Event::Up;
                 _mappings[i]->btnMapping[Button::Start] = Event::Ground;
 
@@ -208,7 +208,7 @@ namespace EUSDAB
                 case DPadLeft: case DPadRight:
                     return false;
 
-                case LStickUp: case LStickLeft: 
+                case LStickUp: case LStickLeft:
                 case LStickDown: case LStickRight:
                 case RStickUp: case RStickLeft:
                 case RStickDown: case RStickRight:
