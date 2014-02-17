@@ -164,7 +164,7 @@
                 "damage": 5,
                 "direction": {
                     "x": -10,
-                    "y": -5
+                    "y": -2
                 }
             },
             "movement": {
@@ -185,7 +185,7 @@
                 "damage": 5,
                 "direction": {
                     "x": 10,
-                    "y": -5
+                    "y": -2
                 }
             },
             "movement": {
@@ -205,8 +205,8 @@
             "attack": {
                 "damage": 15,
                 "direction": {
-                    "x": -20,
-                    "y": -10
+                    "x": -4,
+                    "y": -8
                 }
             },
             "movement": {
@@ -217,6 +217,7 @@
                     "left"
                 ]
             },
+            "sliding_ratio": 0.55,
             "type": "special"
         },
         {
@@ -225,8 +226,8 @@
             "attack": {
                 "damage": 15,
                 "direction": {
-                    "x": 20,
-                    "y": -10
+                    "x": 4,
+                    "y": -8
                 }
             },
             "movement": {
@@ -237,6 +238,7 @@
                     "right"
                 ]
             },
+            "sliding_ratio": 0.55,
             "type": "special"
         },
         {

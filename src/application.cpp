@@ -1,6 +1,8 @@
 #include <application.h>
 #include <SFML/Window/Event.hpp>
 
+#include <iostream>
+
 namespace EUSDAB
 {
     Application::Application(sf::RenderWindow & window):
@@ -12,6 +14,16 @@ namespace EUSDAB
         _window.setFramerateLimit(60);
         _window.setTitle("EUSDAB");
         _window.setVerticalSyncEnabled(true);
+
+        sf::Image icon;
+        if(icon.loadFromFile("../../assets/icon.png"))
+        {
+            _window.setIcon(32, 32, icon.getPixelsPtr());
+        }
+        else
+        {
+            std::cout << "FFAIIIILLLL" << std::endl;
+        }
     }
 
     Application::~Application()
