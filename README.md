@@ -29,6 +29,7 @@ Requirements
 EUSDAB is build with [CMake][1]
 
 * Boost 1.4+
+* SFML 2.0+
 * SFML dependencies :
     - pthread
     - opengl

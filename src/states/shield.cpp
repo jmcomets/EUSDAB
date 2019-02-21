@@ -88,7 +88,7 @@ namespace EUSDAB
 
         void Shield::changeImage()
         { 
-            unsigned int num_img = static_cast<unsigned int>(std::trunc(std::abs(_curValue / (_maxValue / _nbrShieldstate))));
+            unsigned int num_img = _nbrShieldstate * _curValue / _maxValue;
             _animation->setCurrentFrame(num_img);
         }
 

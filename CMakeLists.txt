@@ -1,10 +1,5 @@
-# The name of our project is "EUSDAB". CMakeLists files in this project can
-# refer to the root source directory of the project as ${EUSDAB_SOURCE_DIR} and
-# to the root binary directory of the project as ${EUSDAB_BINARY_DIR}.
-# minimum version of CMake needed (used version).
 cmake_minimum_required(VERSION 2.6)
 
-# Our project name: EUSDAB
 project(EUSDAB)
 
 # Enable debug symbols by default
@@ -21,30 +16,80 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
 endif()
 
-# EUSDAB include directory
-include_directories("include")
-
-# EUSDAB sources
-file(GLOB_RECURSE EUSDAB_SOURCES ${EUSDAB_SOURCE_DIR}/src/*.cpp)
-list(REMOVE_ITEM EUSDAB_SOURCES ${EUSDAB_SOURCE_DIR}/src/main.cpp)
-set(EUSDAB_LIB "EUSDAB_lib")
-add_library(${EUSDAB_LIB} ${EUSDAB_SOURCES})
-
 # Boost
 set(Boost_MIN_VERSION "1.41.0")
 find_package(Boost ${Boost_MIN_VERSION} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-# SFML
-set(SFML_ARCH "lib32")
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set(SFML_ARCH "lib64")
-endif()
-
-set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.0")
+set(SRC src)
+set(SFML_MIN_VERSION "2.0.0")
+set(SFML_COMPONENTS graphics audio window system)
 set(SFML_LIBS sfml-graphics sfml-audio sfml-window sfml-system)
-include_directories("${SFML_DIR}/include")
-link_directories("${SFML_DIR}/${SFML_ARCH}")
+find_package(SFML ${SFML_MIN_VERSION} COMPONENTS ${SFML_COMPONENTS} REQUIRED)
+include_directories(${SFML_INCLUDE_DIRS})
+
+# EUSDAB include directory
+include_directories("include")
+
+# EUSDAB library
+set(EUSDAB_LIB "eusdab")
+add_library(${EUSDAB_LIB}
+    ${SRC}/animation.cpp
+    ${SRC}/animationparser.cpp
+    ${SRC}/application.cpp
+    ${SRC}/attack.cpp
+    ${SRC}/entity.cpp
+    ${SRC}/entitycontroller.cpp
+    ${SRC}/entityparser.cpp
+    ${SRC}/graphics/controller.cpp
+    ${SRC}/graphics/texturemanager.cpp
+    ${SRC}/infiniteLife.cpp
+    ${SRC}/input/controller.cpp
+    ${SRC}/input/event.cpp
+    ${SRC}/input/joystickmapping.cpp
+    ${SRC}/input/keyboardmapping.cpp
+    ${SRC}/input/listener.cpp
+    ${SRC}/input/speaker.cpp
+    ${SRC}/life.cpp
+    ${SRC}/map.cpp
+    ${SRC}/movement.cpp
+    ${SRC}/percentageLife.cpp
+    ${SRC}/physics/controller.cpp
+    ${SRC}/physics/transform.cpp
+    ${SRC}/physics/world.cpp
+    ${SRC}/soundmanager.cpp
+    ${SRC}/state.cpp
+    ${SRC}/states/aerialAttack.cpp
+    ${SRC}/states/aerialDodge.cpp
+    ${SRC}/states/aerialHit.cpp
+    ${SRC}/states/attack.cpp
+    ${SRC}/states/crouch.cpp
+    ${SRC}/states/dodge.cpp
+    ${SRC}/states/falling.cpp
+    ${SRC}/states/guard.cpp
+    ${SRC}/states/haul.cpp
+    ${SRC}/states/hit.cpp
+    ${SRC}/states/idle.cpp
+    ${SRC}/states/jump.cpp
+    ${SRC}/states/motion.cpp
+    ${SRC}/states/run.cpp
+    ${SRC}/states/shield.cpp
+    ${SRC}/states/special.cpp
+    ${SRC}/states/wait.cpp
+    ${SRC}/states/walk.cpp
+    ${SRC}/util/filename.cpp
+    ${SRC}/util/string.cpp
+    ${SRC}/HPLife.cpp
+    )
+
+# Main
+set(EUSDAB_MAIN "eusdab-main")
+add_executable(${EUSDAB_MAIN}
+    ${SRC}/main/main.cpp
+    ${SRC}/main/my_application.cpp
+    )
+target_link_libraries(${EUSDAB_MAIN} ${SFML_LIBS} pthread)
+target_link_libraries(${EUSDAB_MAIN} ${EUSDAB_LIB})
 
 # Tests
-add_subdirectory("tests")
+#add_subdirectory("tests")

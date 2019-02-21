@@ -20,3 +20,4 @@ tags
 
 # YCM vim completion
 .ycm_*
+/build/
