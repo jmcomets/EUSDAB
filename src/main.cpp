@@ -1,4 +1,4 @@
-#include "my_application.h"
+#include <main_application.h>
 #include <stdexcept>
 #include <iostream>
 
@@ -13,7 +13,7 @@ int main(int argc, char * argv[])
 
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(),
             "EUSDAB", sf::Style::Close | sf::Style::Resize);
-    EUSDAB::Application * app = new EUSDAB::MyApplication(window,
+    EUSDAB::Application * app = new EUSDAB::MainApplication(window,
             std::string(argv[1]),
             std::string(argv[2]),
             std::string(argv[3]),

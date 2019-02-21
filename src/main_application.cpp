@@ -1,4 +1,4 @@
-#include "my_application.h"
+#include <main_application.h>
 #include <string>
 #include <stdexcept>
 #include <entityparser.h>
@@ -15,7 +15,7 @@ static std::string const ROOT_DIR = "../../";
 
 namespace EUSDAB
 {
-    MyApplication::MyApplication(sf::RenderWindow & window,
+    MainApplication::MainApplication(sf::RenderWindow & window,
             std::string const & map_name,
             std::string const & player1,
             std::string const & player2,
@@ -107,7 +107,7 @@ namespace EUSDAB
         _music.play();
     }
 
-    MyApplication::~MyApplication()
+    MainApplication::~MainApplication()
     {
         delete _input;
         delete _physics;
@@ -118,7 +118,7 @@ namespace EUSDAB
         }
     }
 
-    void MyApplication::loadPlayer(std::string const & name, unsigned int id)
+    void MainApplication::loadPlayer(std::string const & name, unsigned int id)
     {
         static EntityParser entityParser(ROOT_DIR + "assets/entities");
 
@@ -143,7 +143,7 @@ namespace EUSDAB
         _players.push_back(e);
     }
 
-    void MyApplication::loadMap(std::string const & name)
+    void MainApplication::loadMap(std::string const & name)
     {
         EntityParser entityParser(ROOT_DIR + "assets/entities");
 
@@ -174,7 +174,7 @@ namespace EUSDAB
         _entityList.push_back(map);
     }
 
-    void MyApplication::event()
+    void MainApplication::event()
     {
         sf::Event e;
         _window.clear(sf::Color::Black);
@@ -197,13 +197,13 @@ namespace EUSDAB
         _input->nextFrame();
     }
 
-    void MyApplication::update()
+    void MainApplication::update()
     {
         _physics->update();
         _input->update();
     }
 
-    void MyApplication::render()
+    void MainApplication::render()
     {
         _graphics->draw();
     }

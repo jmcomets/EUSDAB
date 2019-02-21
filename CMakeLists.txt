@@ -85,8 +85,8 @@ add_library(${EUSDAB_LIB}
 # Main
 set(EUSDAB_MAIN "eusdab-main")
 add_executable(${EUSDAB_MAIN}
-    ${SRC}/main/main.cpp
-    ${SRC}/main/my_application.cpp
+    ${SRC}/main.cpp
+    ${SRC}/main_application.cpp
     )
 target_link_libraries(${EUSDAB_MAIN} ${SFML_LIBS} pthread)
 target_link_libraries(${EUSDAB_MAIN} ${EUSDAB_LIB})

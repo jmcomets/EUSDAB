@@ -1,5 +1,5 @@
-#ifndef MY_APPLICATION_H_
-#define MY_APPLICATION_H_
+#ifndef MAIN_APPLICATION_H_
+#define MAIN_APPLICATION_H_
 
 #include <vector>
 #include <application.h>
@@ -11,22 +11,22 @@
 
 namespace EUSDAB
 {
-    class MyApplication: public Application
+    class MainApplication: public Application
     {
         public:
-            MyApplication() = delete;
-            MyApplication(MyApplication &&) = delete;
-            MyApplication(const MyApplication &) = delete;
-            MyApplication & operator=(const MyApplication &) = delete;
+            MainApplication() = delete;
+            MainApplication(MainApplication &&) = delete;
+            MainApplication(const MainApplication &) = delete;
+            MainApplication & operator=(const MainApplication &) = delete;
 
-            MyApplication(sf::RenderWindow & window,
+            MainApplication(sf::RenderWindow & window,
                     std::string const & map_name,
                     std::string const & player1,
                     std::string const & player2,
                     std::string const & player3,
                     std::string const & player4,
                     bool);
-            ~MyApplication();
+            ~MainApplication();
 
             typedef std::vector<Entity *> EntityList;
 
@@ -40,8 +40,8 @@ namespace EUSDAB
             void loadMap(std::string const &);
 
             // List of entities to control
-            MyApplication::EntityList _entityList;
-            MyApplication::EntityList _players;
+            MainApplication::EntityList _entityList;
+            MainApplication::EntityList _players;
 
             // Input
             Input::Controller * _input;
