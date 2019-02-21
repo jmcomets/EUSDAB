@@ -18,9 +18,30 @@
 
 #include <SFML/Audio.hpp>
 
-static std::string const ROOT_DIR = "../../";
+static std::string const ROOT_DIR = "./";
 
 namespace EUSDAB {
+
+void Scene::enter()
+{
+}
+
+void Scene::leave()
+{
+}
+
+boost::optional<SceneId> Scene::update()
+{
+    return SceneId { "game" };
+}
+
+void Scene::handleEvent(const sf::Event&)
+{
+}
+
+void Scene::renderTo(sf::RenderTarget&)
+{
+}
 
 MainApplication::MainApplication(sf::RenderWindow& window, Scenes scenes, SceneId initialScene):
     Application(window),
@@ -54,7 +75,8 @@ void MainApplication::switchTo(const SceneId& sceneId)
     if (findIt == _scenes.end())
         throw std::runtime_error("Unknown scene \"" + sceneId + "\"");
 
-    _currentScene->leave();
+    if (_currentScene)
+        _currentScene->leave();
     _currentScene = findIt->second.get();
     _currentScene->enter();
 }

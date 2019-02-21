@@ -24,14 +24,19 @@ int main(int argc, char * argv[])
 
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "EUSDAB", sf::Style::Close | sf::Style::Resize);
 
+    MainApplication::Scenes scenes;
+
+    // game state
     auto windowSize = window.getSize();
     Physics::Vector2 mapCenter(static_cast<float>(windowSize.x) / 2.0f, static_cast<float>(windowSize.y) / 2.0f);
     std::unique_ptr<Scene> gameScene(new GameScene(mapName, mapCenter, player1, player2, player3, player4, psyche));
-
-    MainApplication::Scenes scenes;
     scenes.emplace("game", std::move(gameScene));
 
-    std::unique_ptr<Application> app(new EUSDAB::MainApplication(window, std::move(scenes), "game"));
+    // menu state
+    std::unique_ptr<Scene> menuScene(new MenuScene());
+    scenes.emplace("menu", std::move(menuScene));
+
+    std::unique_ptr<Application> app(new EUSDAB::MainApplication(window, std::move(scenes), "menu"));
     app->run();
 
     return EXIT_SUCCESS;

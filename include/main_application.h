@@ -16,20 +16,20 @@
 
 #include <SFML/Audio.hpp>
 
-namespace EUSDAB
-{
+namespace EUSDAB {
+
 typedef std::string SceneId;
 
 class Scene
 {
 public:
-    virtual void enter() = 0;
-    virtual void leave() = 0;
+    virtual void enter();
+    virtual void leave();
 
-    virtual boost::optional<SceneId> update() = 0;
+    virtual boost::optional<SceneId> update();
 
-    virtual void handleEvent(const sf::Event& event) = 0;
-    virtual void renderTo(sf::RenderTarget& target) = 0;
+    virtual void handleEvent(const sf::Event& event);
+    virtual void renderTo(sf::RenderTarget& target);
 };
 
 class MainApplication : public Application
@@ -57,6 +57,8 @@ private:
 
 class MenuScene : public Scene
 {
+public:
+
 };
 
 class GameScene : public Scene
