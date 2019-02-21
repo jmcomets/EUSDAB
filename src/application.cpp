@@ -3,46 +3,37 @@
 
 #include <iostream>
 
-namespace EUSDAB
+namespace EUSDAB {
+
+Application::Application(sf::RenderWindow & window):
+    _window(window)
 {
-    Application::Application(sf::RenderWindow & window):
-        _window(window)
+    // Window's config
+    _window.setKeyRepeatEnabled(false);
+    _window.setMouseCursorVisible(false);
+    _window.setFramerateLimit(60);
+    _window.setTitle("EUSDAB");
+    _window.setVerticalSyncEnabled(true);
+
+    sf::Image icon;
+    if(icon.loadFromFile("../../assets/icon.png"))
     {
-        // Window's config
-        _window.setKeyRepeatEnabled(false);
-        _window.setMouseCursorVisible(false);
-        _window.setFramerateLimit(60);
-        _window.setTitle("EUSDAB");
-        _window.setVerticalSyncEnabled(true);
-
-        sf::Image icon;
-        if(icon.loadFromFile("../../assets/icon.png"))
-        {
-            _window.setIcon(32, 32, icon.getPixelsPtr());
-        }
-        else
-        {
-            std::cout << "FFAIIIILLLL" << std::endl;
-        }
+        _window.setIcon(32, 32, icon.getPixelsPtr());
     }
-
-    Application::~Application()
+    else
     {
+        std::cout << "FFAIIIILLLL" << std::endl;
     }
+}
 
-    void Application::run()
-    {
-        while (_window.isOpen())
-        {
-            event();
-            update();
-            _window.clear();
-            render();
-            _window.display();
-        }
-    }
+Application::~Application()
+{
+}
 
-    void Application::event()
+void Application::run()
+{
+    _window.clear(sf::Color::Black);
+    while (_window.isOpen())
     {
         sf::Event e;
         while (_window.pollEvent(e))
@@ -51,14 +42,34 @@ namespace EUSDAB
             {
                 _window.close();
             }
+            else if(e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+            {
+                _window.close();
+            }
+            else
+            {
+                handleEvent(e);
+            }
         }
-    }
 
-    void Application::update()
-    {
-    }
+        update();
 
-    void Application::render()
-    {
+        _window.clear();
+        renderTo(_window);
+        _window.display();
     }
 }
+
+void Application::handleEvent(const sf::Event&)
+{
+}
+
+void Application::update()
+{
+}
+
+void Application::renderTo(sf::RenderTarget&)
+{
+}
+
+} // namespace EUSDAB

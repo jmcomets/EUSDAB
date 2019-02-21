@@ -1,59 +1,115 @@
 #ifndef MAIN_APPLICATION_H_
 #define MAIN_APPLICATION_H_
 
-#include <vector>
 #include <application.h>
+
+#include <boost/optional.hpp>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <memory>
+
+#include <entity.h>
+#include <graphics/controller.h>
 #include <input/controller.h>
 #include <physics/controller.h>
-#include <graphics/controller.h>
-#include <entity.h>
+
 #include <SFML/Audio.hpp>
 
 namespace EUSDAB
 {
-    class MainApplication: public Application
-    {
-        public:
-            MainApplication() = delete;
-            MainApplication(MainApplication &&) = delete;
-            MainApplication(const MainApplication &) = delete;
-            MainApplication & operator=(const MainApplication &) = delete;
+typedef std::string SceneId;
 
-            MainApplication(sf::RenderWindow & window,
-                    std::string const & map_name,
-                    std::string const & player1,
-                    std::string const & player2,
-                    std::string const & player3,
-                    std::string const & player4,
-                    bool);
-            ~MainApplication();
+class Scene
+{
+public:
+    virtual void enter() = 0;
+    virtual void leave() = 0;
 
-            typedef std::vector<Entity *> EntityList;
+    virtual boost::optional<SceneId> update() = 0;
 
-        protected:
-            void update();
-            void render();
-            void event();
+    virtual void handleEvent(const sf::Event& event) = 0;
+    virtual void renderTo(sf::RenderTarget& target) = 0;
+};
 
-        private:
-            void loadPlayer(std::string const &, unsigned int);
-            void loadMap(std::string const &);
+class MainApplication : public Application
+{
+public:
+    typedef std::unordered_map<SceneId, std::unique_ptr<Scene>> Scenes;
 
-            // List of entities to control
-            MainApplication::EntityList _entityList;
-            MainApplication::EntityList _players;
+    MainApplication(sf::RenderWindow& window, Scenes scenes, SceneId initialScene);
 
-            // Input
-            Input::Controller * _input;
+    MainApplication(const MainApplication&) = delete;
+    MainApplication& operator=(const MainApplication&) = delete;
 
-            // Physics
-            Physics::Controller * _physics;
+protected:
+    void update() override final;
+    void renderTo(sf::RenderTarget& target) override final;
+    void handleEvent(const sf::Event& e) override final;
 
-            // Graphics
-            Graphics::Controller * _graphics;
+private:
+    void switchTo(const SceneId& sceneId);
 
-            sf::Music _music;
-    };
+private:
+    Scenes _scenes;
+    Scene* _currentScene;
+};
+
+class MenuScene : public Scene
+{
+};
+
+class GameScene : public Scene
+{
+    typedef std::vector<Entity*> EntityList;
+
+public:
+    GameScene(const std::string& mapName,
+            Physics::Vector2 mapCenter,
+            const std::string& player1,
+            const std::string& player2,
+            const std::string& player3,
+            const std::string& player4,
+            bool psyche);
+
+    GameScene(const MainApplication&) = delete;
+    GameScene& operator=(const MainApplication&) = delete;
+
+    ~GameScene();
+
+protected:
+    void enter() override final;
+
+    void leave() override final;
+
+    boost::optional<SceneId> update() override final;
+
+    void handleEvent(const sf::Event& event) override final;
+    void renderTo(sf::RenderTarget& target) override final;
+
+private:
+    void loadPlayer(std::string const &, unsigned int);
+    void loadMap(std::string const &);
+
+private:
+    // Initial map position
+    Physics::Vector2 _initialMapPosition;
+
+    // List of entities to control
+    EntityList _entityList;
+    EntityList _players;
+
+    // Input
+    Input::Controller * _input;
+
+    // Physics
+    Physics::Controller * _physics;
+
+    // Graphics
+    Graphics::Controller * _graphics;
+
+    sf::Music _music;
+};
 }
 
 #endif

@@ -18,7 +18,7 @@ namespace EUSDAB
             delete _shader_filter;
         }
 
-        void Controller::draw()
+        void Controller::draw(sf::RenderTarget& target)
         {
             static std::time_t time = 0;
             time++;
@@ -35,9 +35,9 @@ namespace EUSDAB
                 sp.setPosition(p.x, p.y);
 
                 if(_psyche)
-                    _target.draw(sp, _shader_rainbow);
+                    target.draw(sp, _shader_rainbow);
                 else
-                    _target.draw(sp);
+                    target.draw(sp);
             };
 
             //==================================================================
@@ -86,7 +86,7 @@ namespace EUSDAB
                     rect.setOutlineColor(color);
                     rect.setOutlineThickness(1.0f);
                     rect.setFillColor(sf::Color::Transparent);
-                    _target.draw(rect);
+                    target.draw(rect);
                 }
             };
 
@@ -112,7 +112,7 @@ namespace EUSDAB
                 for (sf::Sprite & s : map->getSprites())
                 {
                     s.setPosition(-500, -500);
-                    _target.draw(s);
+                    target.draw(s);
                 }
             }
 
@@ -168,7 +168,7 @@ namespace EUSDAB
             // Convert to barycenter by dividing by number of entities
             barycenter /= static_cast<Physics::Unit>(count);
             sf::Vector2f sfBarycenter(barycenter.x, barycenter.y);
-            sf::View view = _target.getView();
+            sf::View view = target.getView();
             view.move(sfBarycenter - view.getCenter());
 
             sf::Vector2f bboxSize(bbox.width(), bbox.height());
@@ -178,7 +178,7 @@ namespace EUSDAB
             cameraRect.setFillColor(sf::Color::Transparent);
             cameraRect.setOrigin(bboxSize.x / 2.0f, bboxSize.y / 2.0f);
             cameraRect.setPosition(sfBarycenter);
-            //_target.draw(cameraRect);
+            //target.draw(cameraRect);
 
             // Zoom camera
             bboxSize += sf::Vector2f(50, 50);
@@ -213,27 +213,27 @@ namespace EUSDAB
                 sf::Sprite spr(lsChar[10]);
                 spr.setScale(0.5f, 0.5f);
                 spr.setPosition(dpos.x + dx, dpos.y);
-                _target.draw(spr, _shader_filter);
-                //_target.draw(spr);
+                target.draw(spr, _shader_filter);
+                //target.draw(spr);
                 if(number == 0)
                 {
                     spr.setTexture(lsChar[0]);
                     spr.setPosition(spr.getPosition().x + dx, spr.getPosition().y);
-                    _target.draw(spr, _shader_filter);
-                    //_target.draw(spr);
+                    target.draw(spr, _shader_filter);
+                    //target.draw(spr);
                 }
                 while(number != 0)
                 {
                     unsigned int n = number % 10;
                     spr.setTexture(lsChar[n]);
                     spr.setPosition(spr.getPosition().x + dx, spr.getPosition().y);
-                    _target.draw(spr, _shader_filter);
-                    //_target.draw(spr);
+                    target.draw(spr, _shader_filter);
+                    //target.draw(spr);
                     number /= 10;
                 }
             };
 
-            _target.setView(_target.getDefaultView());
+            target.setView(target.getDefaultView());
 
             auto getTex = [&] (Entity * e) {
                 if(e->name() == "Rick Hard")
@@ -256,21 +256,21 @@ namespace EUSDAB
                 if(i == 0)
                     spr.setPosition(10.f, 10.f);
                 if(i == 1)
-                    spr.setPosition(static_cast<float>(_target.getSize().x - spr.getTexture()->getSize().x) - 10.f, 10.f);
+                    spr.setPosition(static_cast<float>(target.getSize().x - spr.getTexture()->getSize().x) - 10.f, 10.f);
                 if(i == 2)
-                    spr.setPosition(10.f, static_cast<float>(_target.getSize().y - spr.getTexture()->getSize().y) - 10.f);
+                    spr.setPosition(10.f, static_cast<float>(target.getSize().y - spr.getTexture()->getSize().y) - 10.f);
                 if(i == 3)
-                    spr.setPosition(static_cast<float>(_target.getSize().x - spr.getTexture()->getSize().x) - 10.f,
-                        static_cast<float>(_target.getSize().y - spr.getTexture()->getSize().y) - 10.f);
+                    spr.setPosition(static_cast<float>(target.getSize().x - spr.getTexture()->getSize().x) - 10.f,
+                        static_cast<float>(target.getSize().y - spr.getTexture()->getSize().y) - 10.f);
 
-                _target.draw(spr);
+                target.draw(spr);
                 // TODO
                 draw_number(p->life()->amount(), spr.getPosition() + sf::Vector2f(280.0f, 25.0f), _lsChar);
                 i++;
             }
 
             // Set final view
-            _target.setView(view);
+            target.setView(view);
 
         }
 

@@ -1,9 +1,8 @@
 template <typename InputIter>
-Controller::Controller(sf::RenderTarget & target,
-        InputIter begin, InputIter end,
+Controller::Controller(InputIter begin, InputIter end,
         const Physics::World * world,
         bool psyche, std::string const & rootDir):
-    _target(target), _entityList(),
+    _entityList(),
         _playerList(begin, end),
         _world(world),
         _lsChar(),

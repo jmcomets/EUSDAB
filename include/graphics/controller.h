@@ -23,11 +23,11 @@ namespace EUSDAB
                 Controller & operator=(const Controller &) = default;
 
                 template <typename InputIter>
-                Controller(sf::RenderTarget & target, InputIter begin, InputIter end,
+                Controller(InputIter begin, InputIter end,
                         const Physics::World * world, bool psyche, std::string const & rootDir);
 
                 // Draw the Controller to its currently set target
-                void draw();
+                void draw(sf::RenderTarget& target);
 
                 // Add an Entity to the Controller
                 void addEntity(Entity * entity);
@@ -50,9 +50,6 @@ namespace EUSDAB
 
                 // Entity list
                 typedef std::multiset<Entity *, CompareByZIndex> EntityList;
-
-                // Rendering target
-                sf::RenderTarget & _target;
 
                 // List of entities
                 EntityList _entityList;
