@@ -25,9 +25,9 @@ namespace EUSDAB
 
             if(_psyche)
             {
-                _shader_rainbow->setParameter("wave_amplitude", 15, 15);
-                _shader_rainbow->setParameter("wave_phase", static_cast<float>(time) / 50.0f);
-                _shader_rainbow->setParameter("ratio", ((static_cast<float>(time % 25)) / 25.0f));
+                _shader_rainbow->setUniform("wave_amplitude", sf::Glsl::Vec2(15, 15));
+                _shader_rainbow->setUniform("wave_phase", static_cast<float>(time) / 50.0f);
+                _shader_rainbow->setUniform("ratio", static_cast<float>(time % 25) / 25.0f);
             }
 
             auto drawSpriteAt = [&](sf::Sprite & sp, const Physics::Vector2 & p)
@@ -208,7 +208,7 @@ namespace EUSDAB
             static auto draw_number = [&] (unsigned int number, sf::Vector2f const & dpos, std::array<sf::Texture, 11> const & lsChar)
             {
                 constexpr float dx = -45.0f;
-                _shader_filter->setParameter("percent", static_cast<float>(number % 1000) / 300.f);
+                _shader_filter->setUniform("percent", static_cast<float>(number % 1000) / 300.f);
 
                 sf::Sprite spr(lsChar[10]);
                 spr.setScale(0.5f, 0.5f);

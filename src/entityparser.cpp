@@ -154,7 +154,7 @@ namespace EUSDAB
         {
             read_json(is, entityPt);
         }
-        catch (ptree_error)
+        catch (const ptree_error&)
         {
             std::cerr << "Entity " << entityDir << " JSON file invalid" << std::endl;
             return nullptr;
@@ -200,7 +200,7 @@ namespace EUSDAB
                 entity = new Entity();
             }
         }
-        catch (ptree_error)
+        catch (const ptree_error&)
         {
             entity = new Entity();
         }
@@ -370,12 +370,12 @@ namespace EUSDAB
                             attack->setDamage(attackPt.get<Life::Amount>("damage"));
                             state->setAttack(attack);
                         }
-                        catch (ptree_error)
+                        catch (const ptree_error&)
                         {
                             delete attack;
                         }
                     }
-                    catch (ptree_error)
+                    catch (const ptree_error&)
                     {
                     }
 
@@ -426,24 +426,24 @@ namespace EUSDAB
                         entity->setState(state);
                     }
                 }
-                catch (ptree_error)
+                catch (const ptree_error&)
                 {
                     delete state;
                     throw;
                 }
-                catch (std::runtime_error)
+                catch (const std::runtime_error&)
                 {
                     delete state;
                     throw;
                 }
             }
         }
-        catch (ptree_error)
+        catch (const ptree_error&)
         {
             delete entity;
             entity = nullptr;
         }
-        catch (std::runtime_error)
+        catch (const std::runtime_error&)
         {
             delete entity;
             entity = nullptr;

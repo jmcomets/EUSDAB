@@ -57,7 +57,7 @@ namespace EUSDAB
         {
             read_json(is, animationPt);
         }
-        catch (ptree_error)
+        catch (const ptree_error&)
         {
             std::cerr << "Animation JSON file invalid" << std::endl;
             return nullptr;
@@ -79,7 +79,7 @@ namespace EUSDAB
                 return a;
             }
         }
-        catch (ptree_error)
+        catch (const ptree_error&)
         {
             // Nothing to do...
         }
@@ -158,7 +158,7 @@ namespace EUSDAB
                             frameHitboxes.end()));
             }
         }
-        catch (ptree_error)
+        catch (const ptree_error&)
         {
             return nullptr;
         }
