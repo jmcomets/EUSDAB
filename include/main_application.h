@@ -55,10 +55,16 @@ private:
     Scene* _currentScene;
 };
 
-class MenuScene : public Scene
+class StartupScene : public Scene
 {
-public:
+};
 
+class MapSelectionScene : public Scene
+{
+};
+
+class CharacterSelectionScene : public Scene
+{
 };
 
 class GameScene : public Scene
@@ -112,6 +118,7 @@ private:
 
     sf::Music _music;
 };
-}
+
+} // namespace EUSDAB
 
 #endif

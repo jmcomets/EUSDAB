@@ -48,6 +48,16 @@ MainApplication::MainApplication(sf::RenderWindow& window, Scenes scenes, SceneI
     _scenes(std::move(scenes)),
     _currentScene(nullptr)
 {
+    sf::Image icon;
+    if (icon.loadFromFile(ROOT_DIR + "assets/icon.png"))
+    {
+        window.setIcon(32, 32, icon.getPixelsPtr());
+    }
+    else
+    {
+        std::cerr << "Fail to load application icon" << std::endl;
+    }
+
     switchTo(initialScene);
 }
 

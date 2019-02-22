@@ -26,17 +26,25 @@ int main(int argc, char * argv[])
 
     MainApplication::Scenes scenes;
 
-    // game state
+    // startup
+    std::unique_ptr<Scene> startupScene(new StartupScene());
+    scenes.emplace("startup", std::move(startupScene));
+
+    // map selection
+    std::unique_ptr<Scene> mapSelectionScene(new MapSelectionScene());
+    scenes.emplace("map_selection", std::move(mapSelectionScene));
+
+    // character selection
+    std::unique_ptr<Scene> characterSelectionScene(new CharacterSelectionScene());
+    scenes.emplace("character_selection", std::move(characterSelectionScene));
+
+    // game
     auto windowSize = window.getSize();
     Physics::Vector2 mapCenter(static_cast<float>(windowSize.x) / 2.0f, static_cast<float>(windowSize.y) / 2.0f);
     std::unique_ptr<Scene> gameScene(new GameScene(mapName, mapCenter, player1, player2, player3, player4, psyche));
     scenes.emplace("game", std::move(gameScene));
 
-    // menu state
-    std::unique_ptr<Scene> menuScene(new MenuScene());
-    scenes.emplace("menu", std::move(menuScene));
-
-    std::unique_ptr<Application> app(new EUSDAB::MainApplication(window, std::move(scenes), "menu"));
+    std::unique_ptr<Application> app(new EUSDAB::MainApplication(window, std::move(scenes), "startup"));
     app->run();
 
     return EXIT_SUCCESS;
